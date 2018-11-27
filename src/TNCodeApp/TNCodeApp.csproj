@@ -44,6 +44,9 @@
     <Reference Include="Gemini, Version=0.7.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\GeminiWpf.0.7.0\lib\net45\Gemini.dll</HintPath>
     </Reference>
+    <Reference Include="Gemini.Modules.PropertyGrid, Version=0.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Gemini.Modules.PropertyGrid.0.7.0\lib\net45\Gemini.Modules.PropertyGrid.dll</HintPath>
+    </Reference>
     <Reference Include="Gu.Localization, Version=6.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Gu.Localization.6.1.0.0\lib\net45\Gu.Localization.dll</HintPath>
     </Reference>
@@ -54,6 +57,7 @@
       <HintPath>..\..\packages\MahApps.Metro.1.2.4.0\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MahApps.Metro.1.2.4.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -97,20 +101,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\ViewModels\DataSetsViewModel.cs" />
+    <Compile Include="Data\Views\DataSetsView.xaml.cs">
+      <DependentUpon>DataSetsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -136,6 +137,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Data\Views\DataSetsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -9,7 +9,7 @@ namespace TNCode.Core.Data
 {
     public class Variable : IVariable
     {
-        private bool _trimNans = true;
+        private bool trimNans = true;
 
         public int Length { get; }
 
@@ -22,7 +22,7 @@ namespace TNCode.Core.Data
         public Variable(object[] rawData)
         {
             Name = FormatName(rawData[0].ToString());
-            Data = ConvertArray(rawData, _trimNans);
+            Data = ConvertArray(rawData, trimNans);
 
             if (CanConvertObjectArrayToDoubleArray(rawData))
             {
@@ -34,7 +34,7 @@ namespace TNCode.Core.Data
                 if (DateTime.TryParseExact(rawData[1].ToString(), "dd/MM/yyyy hh:mm:ss",
                     CultureInfo.InvariantCulture, DateTimeStyles.None, out dateResult))
                 {
-                    Data = ConvertDoubleToDateTime(rawData, _trimNans);
+                    Data = ConvertDoubleToDateTime(rawData, trimNans);
                     VariableType = VariableValue.DateTime;
                 }
 

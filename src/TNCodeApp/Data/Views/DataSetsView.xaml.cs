@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TNCodeApp
+namespace TNCodeApp.Data.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for DataSetsView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class DataSetsView : UserControl
     {
-        public MainWindow()
+        public DataSetsView()
         {
             InitializeComponent();
         }
