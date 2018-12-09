@@ -1,0 +1,71 @@
+﻿<UserControl 
+    x:Class="TNCodeApp.Menu.Views.MenuView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    prism:ViewModelLocator.AutoWireViewModel="True">
+    <Grid>
+        <Ribbon>
+            <!--<Ribbon.ApplicationMenu>
+                <RibbonApplicationMenu>
+                    <RibbonApplicationMenuItem  Header="New" />
+                    <RibbonApplicationMenuItem  Header="Open ..." />
+                    <RibbonApplicationSplitMenuItem Header="Save">
+                        <RibbonApplicationMenuItem  Header="Save As ..." />
+                        <RibbonApplicationMenuItem Header="Save a Copy ..." />
+                    </RibbonApplicationSplitMenuItem>
+
+                    <RibbonApplicationMenuItem Header="Close" Command="{Binding Path=CloseCommand}"/>
+                    <RibbonSeparator />
+                    <RibbonApplicationMenuItem Header="Settings" />
+                    <RibbonApplicationMenuItem  Header="About" />
+
+                </RibbonApplicationMenu>
+            </Ribbon.ApplicationMenu>-->
+            <RibbonTab 
+                Header="Home">
+
+                <RibbonGroup
+                    Header="Data">
+                    <RibbonButton
+                        AutomationProperties.AutomationId="RbBtnLoadData"
+                        Label="Load Data"
+                        Command="{Binding DataCommand}"
+                        CommandParameter="Load">
+                    </RibbonButton>
+
+                    <RibbonButton
+                        AutomationProperties.AutomationId="RbBtnTestData"
+                        Label="Test Data"
+                        Command="{Binding DataCommand}"
+                        CommandParameter="Iris">
+                    </RibbonButton>
+
+                </RibbonGroup>
+
+                <!--<RibbonGroup
+                    Header="Tests">
+                    <RibbonButton
+                        AutomationProperties.AutomationId="RbBtnChart"
+                        Label="Chart Builder"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="ChartBuilderView">
+                    </RibbonButton>
+
+                    <RibbonButton
+                        AutomationProperties.AutomationId="RbBtnFunction"
+                        Label="Functions"
+                        Command="{Binding NavigateCommand}"
+                        CommandParameter="FunctionView">
+                    </RibbonButton>
+                </RibbonGroup>-->
+
+
+
+
+
+            </RibbonTab>
+
+        </Ribbon>
+    </Grid>
+</UserControl>
