@@ -1,7 +1,10 @@
-﻿using Prism.Ioc;
+﻿using CommonServiceLocator;
+using Prism.Ioc;
+using Prism.Regions;
 using Prism.Unity;
 using System.Windows;
-using TNCodeApp.Data.Views;
+using TNCodeApp.Docking;
+using Xceed.Wpf.AvalonDock;
 
 namespace TNCodeApp
 {
@@ -20,5 +23,12 @@ namespace TNCodeApp
 
         }
 
+        protected override void ConfigureRegionAdapterMappings(RegionAdapterMappings regionAdapterMappings)
+        {
+           
+            regionAdapterMappings.RegisterMapping(typeof(DockingManager), new DockingRegionAdapter(ServiceLocator.Current.GetInstance<IRegionBehaviorFactory>()));
+
+            base.ConfigureRegionAdapterMappings(regionAdapterMappings);
+        }
     }
 }

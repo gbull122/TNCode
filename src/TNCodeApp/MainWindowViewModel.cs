@@ -2,6 +2,7 @@
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
+using TNCodeApp.Data.Views;
 using TNCodeApp.Menu.Views;
 using Unity;
 
@@ -15,25 +16,22 @@ namespace TNCodeApp
         private IUnityContainer container;
         private string title = "TNCode";
 
+        public string Title
+        {
+            get { return title; }
+            set { SetProperty(ref title, value); }
+        }
+
         public MainWindowViewModel(IUnityContainer contain, IRegionManager regManager)
         {
             container = contain;
             regionManager = regManager;
 
             eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
-            //container.RegisterType<IGgplotRibbon, GgplotRibbon>(new ContainerControlledLifetimeManager());
-
-            //container.RegisterType<IDataService, DataService>(new ContainerControlledLifetimeManager());
-
-
 
             regionManager.RegisterViewWithRegion("MenuRegion", typeof(MenuView));
-            //regionManager.RegisterViewWithRegion("DataRegion", typeof(DataView));
+            regionManager.RegisterViewWithRegion("MainRegion", typeof(DataSetsView));
 
-            ////regionManager.RegisterViewWithRegion("ChartRegion", typeof(ChartBuilderView));
-
-            //eventAggregator = Microsoft.Practices.ServiceLocation.ServiceLocator.Current.GetInstance<IEventAggregator>();
-            //eventAggregator.GetEvent<DataSelectedEvent>().Subscribe(DataSelected);
         }
     }
 }

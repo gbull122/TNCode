@@ -1,3 +1,3 @@
 # TNCode
 
-Experimental data analysis platform using [Gemini] (https://github.com/tgjones/gemini)
+Experimental data analysis platform using WPF Prism and AvalonDock
