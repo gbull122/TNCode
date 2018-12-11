@@ -75,8 +75,15 @@ namespace TNCodeApp.Docking
                     // Get the LayoutDocumentPane from the 
                     // LayoutDocumentPaneControl and add the 
                     //new document to it.
+                    var documentPane = dockingManager.Layout.Descendents().OfType<LayoutDocumentPaneControl>();
 
-                    var layoutPanel = dockingManager.Layout.Children.OfType<LayoutPanel>().FirstOrDefault();
+
+
+                    //var layoutDocumentPaneControl
+                    //       = dockingManager
+                    //       .FindVisualChildren<LayoutDocumentPaneControl>()
+                    //       .First();
+                    //var layoutDocumentPane = (LayoutDocumentPane)layoutDocumentPaneControl.Model;
 
                     //var layoutDocumentPaneControl= dockingManager.Layout
                     //    .Children<LayoutDocumentPaneControl>()
@@ -103,8 +110,11 @@ namespace TNCodeApp.Docking
                         // and set the LayoutAnchorable control as the 
                         // dockingManager's active content.
                         layoutAnchorable.Content = newItem;
-                        layoutPanel.Children.Add(layoutAnchorable);
-                        dockingManager.ActiveContent = layoutAnchorable;
+                    layoutAnchorable.Title = "Test";
+                    
+                    layoutAnchorable.AddToLayout(dockingManager, AnchorableShowStrategy.Left);
+                    //documentPane.Append(layoutAnchorable);
+                        //dockingManager.ActiveContent = layoutAnchorable;
                     //}
                 }
             }

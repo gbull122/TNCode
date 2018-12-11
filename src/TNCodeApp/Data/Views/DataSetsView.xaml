@@ -5,9 +5,46 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:local="clr-namespace:TNCodeApp.Data.Views">
-    
+
     <Grid>
-        <Button
-            Content="TEST"/>
+        <GroupBox
+           Header="DataSets">
+            <DataGrid 
+                Margin="2" 
+                ItemsSource="{Binding Path=DataSets}" 
+                ScrollViewer.VerticalScrollBarVisibility="Visible"
+                SelectedItem="{Binding Path=SelectedDataSet,UpdateSourceTrigger=PropertyChanged}"
+                AutoGenerateColumns="False"
+                Width="Auto"
+                ToolTip="Use to select a data set.">
+
+                <DataGrid.Columns>
+
+                    <DataGridTextColumn
+                        Header="Name"
+                        Binding="{Binding Path=Name}" 
+                        Width="*"/>
+
+                    <DataGridTemplateColumn
+                        Header="Property"
+                        Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=Property,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                </DataGrid.Columns>
+
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem 
+                            Header="Delete" />
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+
+            </DataGrid>
+        </GroupBox>
     </Grid>
 </UserControl>

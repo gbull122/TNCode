@@ -164,6 +164,11 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.Data\Core.Data.csproj">
+      <Project>{2107AA65-B7B1-4498-858F-C878FFCD2375}</Project>
+      <Name>Core.Data</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
