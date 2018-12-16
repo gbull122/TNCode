@@ -2,6 +2,7 @@
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
+using TNCodeApp.Data.Events;
 
 namespace TNCodeApp.Menu.ViewModels
 {
@@ -21,12 +22,18 @@ namespace TNCodeApp.Menu.ViewModels
             this.eventAggregator = eventAggregator;
 
             NavigateCommand = new DelegateCommand<string>(Navigate);
+            DataCommand = new DelegateCommand<string>(Data);
         }
 
         private void Navigate(string navigatePath)
         {
             if (navigatePath != null)
                 regionManager.RequestNavigate("MainRegion", navigatePath);
+        }
+
+        private void Data(string action)
+        {
+            eventAggregator.GetEvent<TestDataEvent>().Publish("Mpg");
         }
     }
 }

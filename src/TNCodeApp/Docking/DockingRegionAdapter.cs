@@ -1,17 +1,4 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="DockingManagerRegionAdapter.cs" company="Development In Progress Ltd">
-//     Copyright © 2012. All rights reserved.
-// </copyright>
-// <author>Grant Colley</author>
-//-----------------------------------------------------------------------
-
-
-using Prism.Regions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Prism.Regions;
 using Xceed.Wpf.AvalonDock;
 
 namespace TNCodeApp.Docking
@@ -24,16 +11,6 @@ namespace TNCodeApp.Docking
         }
 
         protected override void Adapt(IRegion region, DockingManager regionTarget)
-        {
-            
-        }
-
-        protected override IRegion CreateRegion()
-        {
-            return new Region();
-        }
-
-        protected override void AttachBehaviors(IRegion region, DockingManager regionTarget)
         {
             if (region == null)
             {
@@ -48,5 +25,11 @@ namespace TNCodeApp.Docking
 
             base.AttachBehaviors(region, regionTarget);
         }
+
+        protected override IRegion CreateRegion()
+        {
+            return new SingleActiveRegion();
+        }
+
     }
 }

@@ -3,13 +3,16 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-    xmlns:local="clr-namespace:TNCodeApp.Data.Views">
+    xmlns:local="clr-namespace:TNCodeApp.Data.Views"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:ie="http://schemas.microsoft.com/expression/2010/interactivity"
+    prism:ViewModelLocator.AutoWireViewModel="True">
 
     <Grid>
         <GroupBox
            Header="DataSets">
             <DataGrid 
+                x:Name="DataSetsList"
                 Margin="2" 
                 ItemsSource="{Binding Path=DataSets}" 
                 ScrollViewer.VerticalScrollBarVisibility="Visible"
@@ -17,6 +20,13 @@
                 AutoGenerateColumns="False"
                 Width="Auto"
                 ToolTip="Use to select a data set.">
+
+                <ie:Interaction.Triggers>
+                    <ie:EventTrigger EventName="SelectionChanged">
+                        <ie:InvokeCommandAction Command="{Binding SelectedItemChangedCommand}"  CommandParameter="{Binding ElementName=DataSetsList, Path=SelectedItem}"/>
+                    </ie:EventTrigger>
+                </ie:Interaction.Triggers>
+
 
                 <DataGrid.Columns>
 

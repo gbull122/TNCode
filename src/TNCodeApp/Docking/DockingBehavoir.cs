@@ -1,11 +1,4 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="DockingManagerBehavior.cs" company="Development In Progress Ltd">
-//     Copyright © 2012. All rights reserved.
-// </copyright>
-// <author>Grant Colley</author>
-//-----------------------------------------------------------------------
-
-using Prism.Regions;
+﻿using Prism.Regions;
 using Prism.Regions.Behaviors;
 using System;
 using System.Collections.Specialized;
@@ -75,14 +68,17 @@ namespace TNCodeApp.Docking
                     // Get the LayoutDocumentPane from the 
                     // LayoutDocumentPaneControl and add the 
                     //new document to it.
-                    var documentPane = dockingManager.Layout.Descendents().OfType<LayoutDocumentPaneControl>();
+                    //var documentPane = dockingManager.Layout.Descendents().OfType<LayoutDocumentPaneControl>();
 
 
 
-                    //var layoutDocumentPaneControl
-                    //       = dockingManager
-                    //       .FindVisualChildren<LayoutDocumentPaneControl>()
-                    //       .First();
+                    var layoutDocumentPaneControl
+                           = dockingManager
+                           .FindVisualChildren<LayoutDocumentPaneControl>()
+                           .FirstOrDefault();
+
+                    var thing = dockingManager.IsInitialized;
+
                     //var layoutDocumentPane = (LayoutDocumentPane)layoutDocumentPaneControl.Model;
 
                     //var layoutDocumentPaneControl= dockingManager.Layout
@@ -95,26 +91,30 @@ namespace TNCodeApp.Docking
                     // Create an AvalonDock LayoutAnchorable object and set it as the HostControl of the 
                     // documentViewBase. Through the HostControl property of the DocumentViewBase we are
                     // able to access properties on the AvalonDock LayoutAnchorable control such as IsActive.
+                    //var thing = new LayoutDocument();
                     var layoutAnchorable = new LayoutAnchorable();
-                        layoutAnchorable.Closed += LayoutAnchorableClosed;
-                        //documentViewBase.HostControl = layoutAnchorable;
+                    layoutAnchorable.Closed += LayoutAnchorableClosed;
+                    //documentViewBase.HostControl = layoutAnchorable;
 
-                        // Create a DocumentView object passing the documentViewBase into its 
-                        // constructor, where it gets set as the main content of the DocumentView.  
-                        //var documentView = new DocumentViewHost(documentViewBase);
+                    // Create a DocumentView object passing the documentViewBase into its 
+                    // constructor, where it gets set as the main content of the DocumentView.  
+                    //var documentView = new DocumentViewHost(documentViewBase);
 
-                        // Then set the documentView as the content
-                        // of the AvalonDock LayoutAnchorable control
-                        // and add the LayoutAnchorable control to the 
-                        // LayoutDocumentPane's childrens's collection,
-                        // and set the LayoutAnchorable control as the 
-                        // dockingManager's active content.
-                        layoutAnchorable.Content = newItem;
-                    layoutAnchorable.Title = "Test";
-                    
+                    // Then set the documentView as the content
+                    // of the AvalonDock LayoutAnchorable control
+                    // and add the LayoutAnchorable control to the 
+                    // LayoutDocumentPane's childrens's collection,
+                    // and set the LayoutAnchorable control as the 
+                    // dockingManager's active content.
+                    layoutAnchorable.Content = newItem;
+                    //layoutAnchorable.Title = "Test";
+                    layoutAnchorable.IsActive = true;
+                    //layoutAnchorable.DockAsDocument();
+
                     layoutAnchorable.AddToLayout(dockingManager, AnchorableShowStrategy.Left);
                     //documentPane.Append(layoutAnchorable);
-                        //dockingManager.ActiveContent = layoutAnchorable;
+                    dockingManager.ActiveContent = layoutAnchorable;
+                    //dockingManager.
                     //}
                 }
             }

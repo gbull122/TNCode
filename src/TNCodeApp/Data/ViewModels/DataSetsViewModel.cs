@@ -1,15 +1,26 @@
-﻿
-
+﻿using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
+using Prism.Regions;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using TNCode.Core.Data;
+using TNCodeApp.Data.Events;
+using TNCodeApp.Docking;
 
 namespace TNCodeApp.Data.ViewModels
 {
-    public class DataSetsViewModel : BindableBase
+    public class DataSetsViewModel : BindableBase, ITnPanel, INavigationAware
     {
         private ObservableCollection<IDataSet> dataSets;
         private IDataSet selectedDataSet;
+        private IEventAggregator eventAggregator;
+        private IRegionManager regionManager;
+
+        public string Title { get => "Data Sets"; }
+
+        public DelegateCommand<DataSet> SelectedItemChangedCommand { get; private set; }
 
         public ObservableCollection<IDataSet> DataSets
         {
@@ -31,9 +42,52 @@ namespace TNCodeApp.Data.ViewModels
             }
         }
 
-        public DataSetsViewModel()
+
+        public DataSetsViewModel(IEventAggregator eventAggregator, IRegionManager regionManager)
         {
             dataSets = new ObservableCollection<IDataSet>();
+
+            this.eventAggregator = eventAggregator;
+            this.regionManager = regionManager;
+
+            SelectedItemChangedCommand = new DelegateCommand<DataSet>(SelectedItemChanged);
+
+            eventAggregator.GetEvent<TestDataEvent>().Subscribe(TestData, ThreadOption.UIThread);
+        }
+
+        private void SelectedItemChanged(DataSet obj)
+        {
+            var navigationParameters = new NavigationParameters();
+            navigationParameters.Add("Name", obj.Name);
+            regionManager.RequestNavigate("MainRegion",
+                new Uri("DataView" + navigationParameters.ToString(), UriKind.Relative));
+        }
+
+        private void TestData(string obj)
+        {
+            var mpgData = new MpgDataSet();
+
+            var dataList = new List<object[,]>() { mpgData.Data };
+
+            var testData = new DataSet(dataList, "Mpg");
+            dataSets.Add(testData);
+
+            eventAggregator.GetEvent<DataSetSelectedEvent>().Publish(testData);
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

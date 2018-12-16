@@ -102,9 +102,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Events\DataSetSelectedEvent.cs" />
+    <Compile Include="Data\Events\TestDataEvent.cs" />
+    <Compile Include="Data\MpgDataSet.cs" />
     <Compile Include="Data\ViewModels\DataSetsViewModel.cs" />
+    <Compile Include="Data\ViewModels\DataViewModel.cs" />
     <Compile Include="Data\Views\DataSetsView.xaml.cs">
       <DependentUpon>DataSetsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Views\DataView.xaml.cs">
+      <DependentUpon>DataView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Docking\DockingBehavoir.cs" />
     <Compile Include="Docking\DockingRegionAdapter.cs" />
@@ -112,6 +119,7 @@
       <DependentUpon>DocumentViewHost.xaml</DependentUpon>
     </Compile>
     <Compile Include="Docking\DocumentViewModel.cs" />
+    <Compile Include="Docking\ITnPanel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -148,6 +156,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Data\Views\DataSetsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Data\Views\DataView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

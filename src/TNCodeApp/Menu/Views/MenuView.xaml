@@ -38,7 +38,7 @@
                         AutomationProperties.AutomationId="RbBtnTestData"
                         Label="Test Data"
                         Command="{Binding DataCommand}"
-                        CommandParameter="Iris">
+                        CommandParameter="Mpg">
                     </RibbonButton>
 
                 </RibbonGroup>

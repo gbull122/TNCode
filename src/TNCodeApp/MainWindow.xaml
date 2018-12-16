@@ -7,6 +7,65 @@
     prism:ViewModelLocator.AutoWireViewModel="True"
     Title="{Binding Title}"
     WindowState="Maximized">
+
+    <Window.Resources>
+        <DataTemplate 
+            x:Key="DocumentTitleTemplate">
+            <DockPanel>
+                <TextBlock 
+                    Text="Document: "
+                     TextTrimming="CharacterEllipsis" />
+                <TextBlock 
+                    Text="{Binding Path=Content.DataContext.Title}"
+                    DockPanel.Dock="Left"
+                    TextTrimming="CharacterEllipsis" />
+            </DockPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="AnchorableTitleTemplate">
+            <DockPanel>
+                <TextBlock 
+                    Text="Anchorable: "
+                    TextTrimming="CharacterEllipsis" />
+                <TextBlock 
+                    Text="{Binding Path=Content.DataContext.Title}"
+                    DockPanel.Dock="Left"
+                    TextTrimming="CharacterEllipsis" />
+            </DockPanel>
+        </DataTemplate>
+
+        <DataTemplate 
+            x:Key="DocumentHeaderTemplate">
+            <DockPanel>
+                <TextBlock 
+                    Text="{Binding Path=Content.DataContext.Title}"
+                    MaxWidth="125"
+                    TextTrimming="CharacterEllipsis" />
+            </DockPanel>
+        </DataTemplate>
+
+        <DataTemplate 
+            x:Key="AnchorableHeaderTemplate">
+            <StackPanel 
+                Orientation="Horizontal">
+                <TextBlock 
+                    Text="{Binding Path=Content.DataContext.Title}"
+                    MaxWidth="125"
+                    TextTrimming="CharacterEllipsis" />
+            </StackPanel>
+        </DataTemplate>
+
+        <ControlTemplate
+            x:Key="AnchorablePaneTemplate"
+            >
+            <avalonDock:AnchorablePaneTabPanel
+                MinWidth="250">
+                
+            </avalonDock:AnchorablePaneTabPanel>
+            
+        </ControlTemplate>
+    
+    </Window.Resources>
     
     <Grid>
         <Grid.RowDefinitions>
@@ -21,14 +80,14 @@
         <avalonDock:DockingManager 
             x:Name="dockingManager" 
             Grid.Row="1" 
-            prism:RegionManager.RegionName="MainRegion">
+            prism:RegionManager.RegionName="MainRegion"
 
-            <avalonDock:LayoutRoot>
-                <avalonDock:LayoutPanel 
-                    Orientation="Horizontal">
-
-                </avalonDock:LayoutPanel>
-            </avalonDock:LayoutRoot>
+            DocumentTitleTemplate="{StaticResource DocumentTitleTemplate}"
+            AnchorableTitleTemplate="{StaticResource AnchorableTitleTemplate}"
+            DocumentHeaderTemplate="{StaticResource DocumentHeaderTemplate}"
+            AnchorableHeaderTemplate="{StaticResource AnchorableHeaderTemplate}"
+            DocumentPaneMenuItemHeaderTemplate="{StaticResource DocumentHeaderTemplate}"
+            AnchorablePaneTemplate="{StaticResource AnchorablePaneTemplate}">
         </avalonDock:DockingManager>
 
     </Grid>
