@@ -12,11 +12,6 @@ namespace TNCodeApp.Docking
 
         protected override void Adapt(IRegion region, DockingManager regionTarget)
         {
-            if (region == null)
-            {
-                throw new System.ArgumentNullException("region");
-            }
-
             region.Behaviors.Add(DockingBehavior.BehaviorKey,
                 new DockingBehavior()
                 {

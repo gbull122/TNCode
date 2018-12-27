@@ -6,7 +6,7 @@ using TNCodeApp.Data.Events;
 
 namespace TNCodeApp.Menu.ViewModels
 {
-    public class MenuViewModel : BindableBase
+    public class MenuViewModel : BindableBase, ITnRibbon
     {
 
         private IRegionManager regionManager;
@@ -15,6 +15,8 @@ namespace TNCodeApp.Menu.ViewModels
         public DelegateCommand<string> NavigateCommand { get; private set; }
 
         public DelegateCommand<string> DataCommand { get; private set; }
+
+        public bool IsMainRibbon => true;
 
         public MenuViewModel(IRegionManager regionManager, IEventAggregator eventAggregator)
         {

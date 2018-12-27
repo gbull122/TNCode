@@ -55,15 +55,6 @@
             </StackPanel>
         </DataTemplate>
 
-        <ControlTemplate
-            x:Key="AnchorablePaneTemplate"
-            >
-            <avalonDock:AnchorablePaneTabPanel
-                MinWidth="250">
-                
-            </avalonDock:AnchorablePaneTabPanel>
-            
-        </ControlTemplate>
     
     </Window.Resources>
     
@@ -73,7 +64,8 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <ContentControl 
+        <Ribbon
+            x:Name="ribbon"
             Grid.Row="0"
             prism:RegionManager.RegionName="MenuRegion" />
 
@@ -81,13 +73,28 @@
             x:Name="dockingManager" 
             Grid.Row="1" 
             prism:RegionManager.RegionName="MainRegion"
+             
 
             DocumentTitleTemplate="{StaticResource DocumentTitleTemplate}"
             AnchorableTitleTemplate="{StaticResource AnchorableTitleTemplate}"
             DocumentHeaderTemplate="{StaticResource DocumentHeaderTemplate}"
             AnchorableHeaderTemplate="{StaticResource AnchorableHeaderTemplate}"
-            DocumentPaneMenuItemHeaderTemplate="{StaticResource DocumentHeaderTemplate}"
-            AnchorablePaneTemplate="{StaticResource AnchorablePaneTemplate}">
+            DocumentPaneMenuItemHeaderTemplate="{StaticResource DocumentHeaderTemplate}">
+
+            <avalonDock:DockingManager.Resources>
+                <Style 
+                    TargetType="{x:Type avalonDock:AnchorablePaneTabPanel}">
+                    <Setter 
+                        Property="DockPanel.MinWidth" 
+                        Value="320" />
+                </Style>
+
+            </avalonDock:DockingManager.Resources>
+            <avalonDock:DockingManager.Theme>
+                <avalonDock:AeroTheme/>
+            </avalonDock:DockingManager.Theme>
+
+            
         </avalonDock:DockingManager>
 
     </Grid>

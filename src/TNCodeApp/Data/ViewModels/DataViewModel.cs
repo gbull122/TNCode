@@ -8,7 +8,10 @@ namespace TNCodeApp.Data.ViewModels
 {
     public class DataViewModel : BindableBase, ITnPanel, INavigationAware
     {
-        public string Title => displayedSet.DataSetName;
+        public string Title => "Test";
+
+        public DockingMethod Docking { get => DockingMethod.Document; }
+
         public DataSet displayedSet;
 
         public DataSet DisplayedSet

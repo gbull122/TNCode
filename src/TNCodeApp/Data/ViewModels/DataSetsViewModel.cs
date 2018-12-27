@@ -20,6 +20,8 @@ namespace TNCodeApp.Data.ViewModels
 
         public string Title { get => "Data Sets"; }
 
+        public DockingMethod Docking { get => DockingMethod.Left; }
+
         public DelegateCommand<DataSet> SelectedItemChangedCommand { get; private set; }
 
         public ObservableCollection<IDataSet> DataSets
@@ -58,7 +60,7 @@ namespace TNCodeApp.Data.ViewModels
         private void SelectedItemChanged(DataSet obj)
         {
             var navigationParameters = new NavigationParameters();
-            navigationParameters.Add("Name", obj.Name);
+            navigationParameters.Add(obj.Name, obj);
             regionManager.RequestNavigate("MainRegion",
                 new Uri("DataView" + navigationParameters.ToString(), UriKind.Relative));
         }

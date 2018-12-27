@@ -1,5 +1,6 @@
 ﻿using CommonServiceLocator;
 using Prism.Events;
+using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Regions;
 using TNCodeApp.Data.Views;
@@ -31,7 +32,6 @@ namespace TNCodeApp
 
             regionManager.RegisterViewWithRegion("MenuRegion", typeof(MenuView));
             regionManager.RegisterViewWithRegion("MainRegion", typeof(DataSetsView));
-
         }
     }
 }

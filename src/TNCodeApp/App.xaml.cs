@@ -1,9 +1,13 @@
 ﻿using CommonServiceLocator;
 using Prism.Ioc;
+using Prism.Modularity;
 using Prism.Regions;
 using Prism.Unity;
 using System.Windows;
+using System.Windows.Controls.Ribbon;
+using TNCodeApp.Data.Views;
 using TNCodeApp.Docking;
+using TNCodeApp.Menu;
 using Xceed.Wpf.AvalonDock;
 
 namespace TNCodeApp
@@ -20,7 +24,7 @@ namespace TNCodeApp
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-
+            containerRegistry.RegisterForNavigation<DataView>();
         }
 
         protected override void ConfigureRegionAdapterMappings(RegionAdapterMappings regionAdapterMappings)
@@ -28,7 +32,14 @@ namespace TNCodeApp
            
             regionAdapterMappings.RegisterMapping(typeof(DockingManager), new DockingRegionAdapter(ServiceLocator.Current.GetInstance<IRegionBehaviorFactory>()));
 
+            regionAdapterMappings.RegisterMapping(typeof(Ribbon), new MenuRegionAdapter(ServiceLocator.Current.GetInstance<IRegionBehaviorFactory>()));
+
             base.ConfigureRegionAdapterMappings(regionAdapterMappings);
+        }
+
+        protected override IModuleCatalog CreateModuleCatalog()
+        {
+            return new ConfigurationModuleCatalog();
         }
     }
 }

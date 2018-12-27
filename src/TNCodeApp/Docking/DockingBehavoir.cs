@@ -47,7 +47,7 @@ namespace TNCodeApp.Docking
         {
             Region.ActiveViews.CollectionChanged += ActiveViewsCollectionChanged;
             Region.Views.CollectionChanged += ViewsCollectionChanged;
-            //ModulesNavigationView.ModuleSelected += ModuleSelected;
+           
         }
 
         /// <summary>
@@ -58,10 +58,12 @@ namespace TNCodeApp.Docking
         /// <param name="e">Event arguments.</param>
         private void ViewsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
                 foreach (object newItem in e.NewItems)
                 {
+                    var thingy = (ITnPanel)GetDataContext(newItem) as ITnPanel;
                     //var documentViewBase = newItem as DocumentViewBase;
                     //if (documentViewBase != null)
                     //{
@@ -69,17 +71,24 @@ namespace TNCodeApp.Docking
                     // LayoutDocumentPaneControl and add the 
                     //new document to it.
                     //var documentPane = dockingManager.Layout.Descendents().OfType<LayoutDocumentPaneControl>();
-
-
-
                     var layoutDocumentPaneControl
                            = dockingManager
                            .FindVisualChildren<LayoutDocumentPaneControl>()
                            .FirstOrDefault();
 
-                    var thing = dockingManager.IsInitialized;
+                    if(layoutDocumentPaneControl!=null && thingy.Docking==DockingMethod.Document)
+                    {
+                        var layoutDocumentPane = (LayoutDocumentPane)layoutDocumentPaneControl.Model;
+                        var layoutAnchorable1 = new LayoutAnchorable();
+                        layoutAnchorable1.Closed += LayoutAnchorableClosed;
+                        //documentViewBase.HostControl = layoutAnchorable;
+                        layoutAnchorable1.Content = newItem;
+                        layoutDocumentPane.Children.Add(layoutAnchorable1);
+                        dockingManager.ActiveContent = layoutAnchorable1;
+                        dockingManager.InvalidateArrange();
+                        return;
+                    }
 
-                    //var layoutDocumentPane = (LayoutDocumentPane)layoutDocumentPaneControl.Model;
 
                     //var layoutDocumentPaneControl= dockingManager.Layout
                     //    .Children<LayoutDocumentPaneControl>()
@@ -109,13 +118,15 @@ namespace TNCodeApp.Docking
                     layoutAnchorable.Content = newItem;
                     //layoutAnchorable.Title = "Test";
                     layoutAnchorable.IsActive = true;
-                    //layoutAnchorable.DockAsDocument();
-
+                    layoutAnchorable.FloatingWidth = 300;
+                    layoutAnchorable.AutoHideMinWidth = 300;
                     layoutAnchorable.AddToLayout(dockingManager, AnchorableShowStrategy.Left);
+                    
                     //documentPane.Append(layoutAnchorable);
                     dockingManager.ActiveContent = layoutAnchorable;
                     //dockingManager.
                     //}
+                    
                 }
             }
         }
@@ -166,6 +177,12 @@ namespace TNCodeApp.Docking
             {
                 dockingManager.ActiveContent = null;
             }
+        }
+
+        private object GetDataContext(object item)
+        {
+            var frameworkElement = item as FrameworkElement;
+            return frameworkElement == null ? item : frameworkElement.DataContext;
         }
 
         /// <summary>
