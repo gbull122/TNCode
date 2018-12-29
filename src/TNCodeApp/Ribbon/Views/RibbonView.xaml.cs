@@ -5,9 +5,9 @@ namespace TNCodeApp.Menu.Views
     /// <summary>
     /// Interaction logic for MenuView.xaml
     /// </summary>
-    public partial class MenuView : Ribbon
+    public partial class RibbonView : Ribbon
     {
-        public MenuView()
+        public RibbonView()
         {
             InitializeComponent();
         }

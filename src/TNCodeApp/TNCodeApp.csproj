@@ -106,8 +106,12 @@
     <Compile Include="Data\Events\DataSetSelectedEvent.cs" />
     <Compile Include="Data\Events\TestDataEvent.cs" />
     <Compile Include="Data\MpgDataSet.cs" />
+    <Compile Include="Data\ViewModels\DataRibbonViewModel.cs" />
     <Compile Include="Data\ViewModels\DataSetsViewModel.cs" />
     <Compile Include="Data\ViewModels\DataViewModel.cs" />
+    <Compile Include="Data\Views\DataRibbonView.xaml.cs">
+      <DependentUpon>DataRibbonView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Data\Views\DataSetsView.xaml.cs">
       <DependentUpon>DataSetsView.xaml</DependentUpon>
     </Compile>
@@ -126,12 +130,12 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindowViewModel.cs" />
-    <Compile Include="Menu\ITnRibbon.cs" />
-    <Compile Include="Menu\MenuBehavior.cs" />
-    <Compile Include="Menu\MenuRegionAdapter.cs" />
-    <Compile Include="Menu\ViewModels\MenuViewModel.cs" />
-    <Compile Include="Menu\Views\MenuView.xaml.cs">
-      <DependentUpon>MenuView.xaml</DependentUpon>
+    <Compile Include="Ribbon\ITnRibbon.cs" />
+    <Compile Include="Ribbon\RibbonBehavior.cs" />
+    <Compile Include="Ribbon\RibbonRegionAdapter.cs" />
+    <Compile Include="Ribbon\ViewModels\RibbonViewModel.cs" />
+    <Compile Include="Ribbon\Views\RibbonView.xaml.cs">
+      <DependentUpon>RibbonView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -162,6 +166,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Data\Views\DataRibbonView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Data\Views\DataSetsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -178,7 +186,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Menu\Views\MenuView.xaml">
+    <Page Include="Ribbon\Views\RibbonView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

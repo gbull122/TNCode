@@ -1,31 +1,32 @@
 ﻿<RibbonTab
-    x:Class="ModuleR.Views.RibbonRView"
+    x:Class="TNCodeApp.Data.Views.DataRibbonView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-    xmlns:local="clr-namespace:ModuleR.Views"
+    xmlns:local="clr-namespace:TNCodeApp.Data.Views"
     xmlns:prism="http://prismlibrary.com/"
     prism:ViewModelLocator.AutoWireViewModel="True"
-    Header="R Stuff">
+    Header="Home">
 
     <RibbonGroup
         x:Name="ModuleGroup"
-        Header="R">
+        Header="Data">
         <RibbonButton
-                AutomationProperties.AutomationId="RbBtnRConnect"
-                Label="Connect"
-                Command="{Binding RCommand}"
-                CommandParameter="Connect">
+            AutomationProperties.AutomationId="RbBtnLoadData"
+            Label="Load Data"
+            Command="{Binding DataCommand}"
+            CommandParameter="Load">
         </RibbonButton>
 
         <RibbonButton
-                AutomationProperties.AutomationId="RbBtnRDetails"
-                Label="Details"
-                Command="{Binding RCommand}"
-                CommandParameter="Details">
+            AutomationProperties.AutomationId="RbBtnTestData"
+            Label="Test Data"
+            Command="{Binding DataCommand}"
+            CommandParameter="Mpg">
         </RibbonButton>
 
     </RibbonGroup>
 
-</RibbonTab>
+    </RibbonTab>
+

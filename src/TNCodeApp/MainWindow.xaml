@@ -67,7 +67,7 @@
         <Ribbon
             x:Name="ribbon"
             Grid.Row="0"
-            prism:RegionManager.RegionName="MenuRegion" />
+            prism:RegionManager.RegionName="RibbonRegion" />
 
         <avalonDock:DockingManager 
             x:Name="dockingManager" 

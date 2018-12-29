@@ -14,7 +14,7 @@ namespace ModuleR
         {
             regionManager = rManager;
 
-            regionManager.RegisterViewWithRegion("MenuRegion", typeof(RibbonRView));
+            regionManager.RegisterViewWithRegion("RibbonRegion", typeof(RibbonRView));
         }
 
         public void OnInitialized(IContainerProvider containerProvider)

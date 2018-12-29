@@ -30,7 +30,8 @@ namespace TNCodeApp
 
             eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
 
-            regionManager.RegisterViewWithRegion("MenuRegion", typeof(MenuView));
+            regionManager.RegisterViewWithRegion("RibbonRegion", typeof(RibbonView));
+            regionManager.RegisterViewWithRegion("RibbonRegion", typeof(DataRibbonView));
             regionManager.RegisterViewWithRegion("MainRegion", typeof(DataSetsView));
         }
     }

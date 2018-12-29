@@ -8,20 +8,20 @@ using System.Windows.Controls.Ribbon;
 
 namespace TNCodeApp.Menu
 {
-    public class MenuRegionAdapter : RegionAdapterBase<Ribbon>
+    public class RibbonRegionAdapter : RegionAdapterBase<Ribbon>
     {
 
-        public MenuRegionAdapter(IRegionBehaviorFactory regionBehaviorFactory)
+        public RibbonRegionAdapter(IRegionBehaviorFactory regionBehaviorFactory)
           : base(regionBehaviorFactory)
         {
         }
 
         protected override void Adapt(IRegion region, Ribbon regionTarget)
         {
-            region.Behaviors.Add(MenuBehavior.BehaviorKey,
-                 new MenuBehavior()
+            region.Behaviors.Add(RibbonBehavior.BehaviorKey,
+                 new RibbonBehavior()
                  {
-                     MenuRibbon = regionTarget
+                     MainRibbon = regionTarget
                  });
 
             base.AttachBehaviors(region, regionTarget);

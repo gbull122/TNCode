@@ -6,7 +6,7 @@ using TNCodeApp.Data.Events;
 
 namespace TNCodeApp.Menu.ViewModels
 {
-    public class MenuViewModel : BindableBase, ITnRibbon
+    public class RibbonViewModel : BindableBase, ITnRibbon
     {
 
         private IRegionManager regionManager;
@@ -14,17 +14,14 @@ namespace TNCodeApp.Menu.ViewModels
 
         public DelegateCommand<string> NavigateCommand { get; private set; }
 
-        public DelegateCommand<string> DataCommand { get; private set; }
-
         public bool IsMainRibbon => true;
 
-        public MenuViewModel(IRegionManager regionManager, IEventAggregator eventAggregator)
+        public RibbonViewModel(IRegionManager regionManager, IEventAggregator eventAggregator)
         {
             this.regionManager = regionManager;
             this.eventAggregator = eventAggregator;
 
             NavigateCommand = new DelegateCommand<string>(Navigate);
-            DataCommand = new DelegateCommand<string>(Data);
         }
 
         private void Navigate(string navigatePath)
@@ -33,9 +30,5 @@ namespace TNCodeApp.Menu.ViewModels
                 regionManager.RequestNavigate("MainRegion", navigatePath);
         }
 
-        private void Data(string action)
-        {
-            eventAggregator.GetEvent<TestDataEvent>().Publish("Mpg");
-        }
     }
 }

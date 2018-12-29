@@ -7,16 +7,16 @@ using TNCodeApp.Menu.Views;
 
 namespace TNCodeApp.Menu
 {
-    public class MenuBehavior : RegionBehavior
+    public class RibbonBehavior : RegionBehavior
     {
         public static readonly string BehaviorKey = "MenuManagerBehavior";
 
-        private Ribbon menuRibbon;
+        private Ribbon mainRibbon;
 
-        public Ribbon MenuRibbon
+        public Ribbon MainRibbon
         {
-            get { return menuRibbon; }
-            set { menuRibbon = value; }
+            get { return mainRibbon; }
+            set { mainRibbon = value; }
         }
 
         protected override void OnAttach()
@@ -31,18 +31,32 @@ namespace TNCodeApp.Menu
             {
                 foreach (object newItem in e.NewItems)
                 {
-                    var menuView =  newItem as MenuView;
+                    var ribbonView =  newItem as RibbonView;
 
-                    if (menuView!=null)
+                    if (ribbonView!=null)
                     {
-                        RemoveFromParent(menuView.MainApplicationMenu);
-                        menuRibbon.ApplicationMenu = menuView.MainApplicationMenu;
+                        RemoveFromParent(ribbonView.MainApplicationMenu);
+                        mainRibbon.ApplicationMenu = ribbonView.MainApplicationMenu;
 
-                        RemoveFromParent(menuView.HomeTab);
-                        menuRibbon.Items.Add(menuView.HomeTab);
+                        RemoveFromParent(ribbonView.HomeTab);
+                        mainRibbon.Items.Add(ribbonView.HomeTab);
                         return;
                     }
-                    //menuRibbon.Items.Add(menuView);
+                    var newTab = newItem as RibbonTab;
+
+                    mainRibbon.Items.Add(newTab);
+                    //if (newTab.Header.Equals("Home"))
+                    //{
+                    //    var ribbonGroups = newTab.Items;
+                    //    //foreach(FrameworkElement group in ribbonGroups)
+                    //    //{
+                    //    var thing = (FrameworkElement)ribbonGroups[0];
+                    //        RemoveFromParent(thing);
+                    //        mainRibbon.Items.Add(thing);
+                    //    //}
+                    //    return;
+                    //}
+                    
                 }
             }
         }

@@ -1,0 +1,32 @@
+﻿<Ribbon
+    x:Class="TNCodeApp.Menu.Views.RibbonView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    prism:ViewModelLocator.AutoWireViewModel="True">
+
+        <Ribbon.ApplicationMenu>
+            <RibbonApplicationMenu
+                x:Name="MainApplicationMenu">
+                <RibbonApplicationMenuItem  Header="New" />
+                <RibbonApplicationMenuItem  Header="Open ..." />
+                <RibbonApplicationSplitMenuItem Header="Save">
+                    <RibbonApplicationMenuItem  Header="Save As ..." />
+                    <RibbonApplicationMenuItem Header="Save a Copy ..." />
+                </RibbonApplicationSplitMenuItem>
+
+                <RibbonApplicationMenuItem Header="Close" Command="{Binding Path=CloseCommand}"/>
+                <RibbonSeparator />
+                <RibbonApplicationMenuItem Header="Settings" />
+                <RibbonApplicationMenuItem  Header="About" />
+
+            </RibbonApplicationMenu>
+        </Ribbon.ApplicationMenu>
+
+    <RibbonTab
+        x:Name="HomeTab"
+        Header="Home">
+
+
+    </RibbonTab>
+</Ribbon>
