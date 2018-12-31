@@ -31,9 +31,9 @@ namespace TNCodeApp.Menu
             {
                 foreach (object newItem in e.NewItems)
                 {
-                    var ribbonView =  newItem as RibbonView;
+                    var ribbonView = newItem as RibbonView;
 
-                    if (ribbonView!=null)
+                    if (ribbonView != null)
                     {
                         RemoveFromParent(ribbonView.MainApplicationMenu);
                         mainRibbon.ApplicationMenu = ribbonView.MainApplicationMenu;
@@ -44,19 +44,22 @@ namespace TNCodeApp.Menu
                     }
                     var newTab = newItem as RibbonTab;
 
+                   
+                    if (newTab.Header.Equals("Home"))
+                    {
+                        RibbonGroup group = (RibbonGroup)newTab.Items[0];
+
+                        RemoveFromParent(group);
+                        group.DataContext = newTab.DataContext;
+
+                        var homeTab = (RibbonTab)mainRibbon.Items.GetItemAt(0);
+
+                        homeTab.Items.Insert(0, group);
+
+                        return;
+                    }
+
                     mainRibbon.Items.Add(newTab);
-                    //if (newTab.Header.Equals("Home"))
-                    //{
-                    //    var ribbonGroups = newTab.Items;
-                    //    //foreach(FrameworkElement group in ribbonGroups)
-                    //    //{
-                    //    var thing = (FrameworkElement)ribbonGroups[0];
-                    //        RemoveFromParent(thing);
-                    //        mainRibbon.Items.Add(thing);
-                    //    //}
-                    //    return;
-                    //}
-                    
                 }
             }
         }
@@ -75,7 +78,7 @@ namespace TNCodeApp.Menu
 
         private void ActiveViews_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            
+
         }
     }
 }
