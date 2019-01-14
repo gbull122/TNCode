@@ -23,7 +23,8 @@
         </DataTemplate>
 
         <DataTemplate x:Key="AnchorableTitleTemplate">
-            <DockPanel>
+            <DockPanel
+                MinWidth="300">
                 <TextBlock 
                     Text="Anchorable: "
                     TextTrimming="CharacterEllipsis" />
@@ -55,7 +56,16 @@
             </StackPanel>
         </DataTemplate>
 
-    
+        <ControlTemplate
+            x:Key="PaneTemplate">
+            <avalonDock:AnchorablePaneTabPanel>
+                <DockPanel
+                    MinWidth="500">
+                    
+                </DockPanel>
+            </avalonDock:AnchorablePaneTabPanel>
+        </ControlTemplate>
+        
     </Window.Resources>
     
     <Grid>
@@ -73,7 +83,6 @@
             x:Name="dockingManager" 
             Grid.Row="1" 
             prism:RegionManager.RegionName="MainRegion"
-             
 
             DocumentTitleTemplate="{StaticResource DocumentTitleTemplate}"
             AnchorableTitleTemplate="{StaticResource AnchorableTitleTemplate}"
@@ -81,15 +90,48 @@
             AnchorableHeaderTemplate="{StaticResource AnchorableHeaderTemplate}"
             DocumentPaneMenuItemHeaderTemplate="{StaticResource DocumentHeaderTemplate}">
 
-            <avalonDock:DockingManager.Resources>
+            <avalonDock:LayoutRoot>
+                <avalonDock:LayoutPanel 
+                    x:Name="VerticalPanel" 
+                    Orientation="Vertical">
+                    <avalonDock:LayoutDocumentPaneGroup
+                       x:Name="DocumentGroup">
+
+                    </avalonDock:LayoutDocumentPaneGroup>
+                    <avalonDock:LayoutAnchorablePaneGroup
+                        x:Name="AnchorableGroup"
+                        DockMinWidth="600"
+                        >
+
+                    </avalonDock:LayoutAnchorablePaneGroup>
+          
+                </avalonDock:LayoutPanel>
+            </avalonDock:LayoutRoot>
+                    
+            <!--AnchorablePaneTemplate="{StaticResource PaneTemplate}"-->
+
+            <!--<avalonDock:LayoutRoot>
+                <avalonDock:LayoutPanel>
+                    <avalonDock:LayoutAnchorablePaneGroup
+                        x:Name="PaneGroup"
+                        Orientation="Horizontal"
+                        DockMinWidth="300"
+                        >
+                        
+                    </avalonDock:LayoutAnchorablePaneGroup>
+                </avalonDock:LayoutPanel>
+            </avalonDock:LayoutRoot>-->
+            <!--<avalonDock:DockingManager.Resources>
                 <Style 
-                    TargetType="{x:Type avalonDock:AnchorablePaneTabPanel}">
+                    TargetType="{x:Type avalonDock:LayoutAnchorablePaneGroup}">
                     <Setter 
                         Property="DockPanel.MinWidth" 
                         Value="320" />
                 </Style>
 
-            </avalonDock:DockingManager.Resources>
+            </avalonDock:DockingManager.Resources>-->
+            
+          
             <avalonDock:DockingManager.Theme>
                 <avalonDock:AeroTheme/>
             </avalonDock:DockingManager.Theme>
