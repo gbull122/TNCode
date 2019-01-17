@@ -93,8 +93,21 @@
             <avalonDock:LayoutRoot>
                 <avalonDock:LayoutPanel 
                     x:Name="VerticalPanel" 
-                    Orientation="Vertical">
-                    <avalonDock:LayoutDocumentPaneGroup
+                    Orientation="Horizontal">
+
+                    <avalonDock:LayoutAnchorablePane
+                        x:Name="ControlPanel">
+     
+
+                    </avalonDock:LayoutAnchorablePane>
+                    
+                    <avalonDock:LayoutPanel
+                        x:Name="DocumentPanel"
+                        Orientation="Horizontal">
+                        <avalonDock:LayoutDocumentPane/>
+
+                    </avalonDock:LayoutPanel>
+                    <!--<avalonDock:LayoutDocumentPaneGroup
                        x:Name="DocumentGroup">
 
                     </avalonDock:LayoutDocumentPaneGroup>
@@ -103,7 +116,7 @@
                         DockMinWidth="600"
                         >
 
-                    </avalonDock:LayoutAnchorablePaneGroup>
+                    </avalonDock:LayoutAnchorablePaneGroup>-->
           
                 </avalonDock:LayoutPanel>
             </avalonDock:LayoutRoot>

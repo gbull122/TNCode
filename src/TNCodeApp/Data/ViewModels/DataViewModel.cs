@@ -1,14 +1,22 @@
 ﻿using Prism.Mvvm;
 using Prism.Regions;
 using System;
-using System.Data;
+using TNCode.Core.Data;
 using TNCodeApp.Docking;
+using System.Linq;
+
 
 namespace TNCodeApp.Data.ViewModels
 {
     public class DataViewModel : BindableBase, ITnPanel, INavigationAware
     {
-        public string Title => "Test";
+        public string title;
+
+        public string Title
+        {
+           get => title;
+            set => title=value;
+        }
 
         public DockingMethod Docking { get => DockingMethod.Document; }
 
@@ -29,7 +37,10 @@ namespace TNCodeApp.Data.ViewModels
             if (navigationContext == null)
                 return;
 
+            var datasetName = navigationContext.Parameters.Keys.ElementAt(0);
 
+            Title = datasetName;
+            DisplayedSet = navigationContext.Parameters[datasetName] as DataSet;
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

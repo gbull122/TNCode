@@ -59,38 +59,40 @@ namespace TNCodeApp.Docking
         /// <param name="e">Event arguments.</param>
         private void ViewsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            //    if (e.Action == NotifyCollectionChangedAction.Add)
-            //    {
-
-            //        foreach (FrameworkElement item in e.NewItems)
-            //        {
-            //            UIElement view = item as UIElement;
-
-            //            if (view != null)
-            //            {
-
-            //            }
-            //        }
-            //    }
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
                 foreach (object newItem in e.NewItems)
                 {
                     var tnPanel = (ITnPanel)GetDataContext(newItem) as ITnPanel;
 
-                    var layoutAnchorable = new LayoutAnchorable();
-                    layoutAnchorable.Closed += LayoutAnchorableClosed;
 
-                    layoutAnchorable.Content = newItem;
+                    var layoutDocumentPaneControl
+                           = dockingManager
+                           .FindVisualChildren<LayoutDocumentPaneControl>()
+                           .FirstOrDefault();
 
-                    if ( tnPanel.Docking == DockingMethod.Document)
+                    var thing = dockingManager.FindName("ControlPanel") as LayoutAnchorablePane;
+
+                    if (layoutDocumentPaneControl != null)
                     {
-                        layoutAnchorable.AddToLayout(dockingManager, AnchorableShowStrategy.Most);
+                        var layoutAnchorable = new LayoutAnchorable();
+                        layoutAnchorable.Closed += LayoutAnchorableClosed;
+
+                        layoutAnchorable.Content = newItem;
+
+                        var layoutDocumentPane = (LayoutDocumentPane)layoutDocumentPaneControl.Model;
+
+                        layoutDocumentPane.Children.Add(layoutAnchorable);
                         return;
                     }
 
+                    var layoutAnchorable1 = new LayoutAnchorable();
+                    layoutAnchorable1.Closed += LayoutAnchorableClosed;
 
-                    layoutAnchorable.AddToLayout(dockingManager, AnchorableShowStrategy.Left);
+                    layoutAnchorable1.Content = newItem;
+
+                    thing.Children.Add(layoutAnchorable1);
+                    thing.DockMinWidth = 300;
                 }
             }
         }
