@@ -18,14 +18,14 @@ namespace Core.Data_Tests
             var expectedVariableType = VariableValue.Text;
 
             List<object> rawData = new List<object>() { "Name", "A", "B", "C", "NaN", "NaN" };
-            var dataColumn = new Variable(rawData.ToArray());
+            var variable = new Variable(rawData.ToArray());
 
-            var actualCount = dataColumn.Data.Count;
-            var actualElement = dataColumn.Data.ElementAt(2);
+            var actualCount = variable.Length;
+            var actualElement = variable.Data.ElementAt(2);
 
             actualCount.Should().Be(expectedCount);
             actualElement.Should().Be(expectedElement);
-            dataColumn.VariableType.Should().Be(expectedVariableType);
+            variable.VariableType.Should().Be(expectedVariableType);
         }
 
         [TestMethod]
@@ -36,14 +36,14 @@ namespace Core.Data_Tests
             var expectedVariableType = VariableValue.Numeric;
 
             List<object> rawData = new List<object>() { "Name", 1.1, 2.2, 3.3, 4.4, double.NaN };
-            var dataColumn = new Variable(rawData.ToArray());
+            var variable = new Variable(rawData.ToArray());
 
-            var actualCount = dataColumn.Data.Count;
-            var actualElement = dataColumn.Data.ElementAt(1);
+            var actualCount = variable.Length;
+            var actualElement = variable.Data.ElementAt(1);
 
             actualCount.Should().Be(expectedCount);
             actualElement.Should().Be(expectedElement);
-            dataColumn.VariableType.Should().Be(expectedVariableType);
+            variable.VariableType.Should().Be(expectedVariableType);
         }
 
         [TestMethod]
@@ -54,14 +54,14 @@ namespace Core.Data_Tests
             var expectedVariableType = VariableValue.Numeric;
 
             List<object> rawData = new List<object>() { "Name", 1.0, 2.0, 3.0 };
-            var dataColumn = new Variable(rawData.ToArray());
+            var variable = new Variable(rawData.ToArray());
 
-            var actualCount = dataColumn.Data.Count;
-            var actualElement = dataColumn.Data.ElementAt(0);
+            var actualCount = variable.Length;
+            var actualElement = variable.Data.ElementAt(0);
 
             actualCount.Should().Be(expectedCount);
             actualElement.Should().Be(expectedElement);
-            dataColumn.VariableType.Should().Be(expectedVariableType);
+            variable.VariableType.Should().Be(expectedVariableType);
         }
 
         [TestMethod]
@@ -89,9 +89,9 @@ namespace Core.Data_Tests
             var expectedName = "Variable1";
 
             List<object> rawData = new List<object>() { "Variable1", "A", "B", "C", "NaN", "NaN" };
-            var dataColumn = new Variable(rawData.ToArray());
+            var variable = new Variable(rawData.ToArray());
 
-            var actualName = dataColumn.Name;
+            var actualName = variable.Name;
 
             actualName.Should().Be(expectedName);
         }
@@ -102,9 +102,9 @@ namespace Core.Data_Tests
             var expectedName = "V_1Variable";
 
             List<object> rawData = new List<object>() { "1Variable", "A", "B", "C", "NaN", "NaN" };
-            var dataColumn = new Variable(rawData.ToArray());
+            var variable = new Variable(rawData.ToArray());
 
-            var actualName = dataColumn.Name;
+            var actualName = variable.Name;
 
             actualName.Should().Be(expectedName);
         }
@@ -115,9 +115,9 @@ namespace Core.Data_Tests
             var expectedName = "V_1";
 
             List<object> rawData = new List<object>() { "1", "A", "B", "C", "NaN", "NaN" };
-            var dataColumn = new Variable(rawData.ToArray());
+            var variable = new Variable(rawData.ToArray());
 
-            var actualName = dataColumn.Name;
+            var actualName = variable.Name;
 
             actualName.Should().Be(expectedName);
         }
@@ -128,9 +128,9 @@ namespace Core.Data_Tests
             var expectedName = "V_2a_variable";
 
             List<object> rawData = new List<object>() { "2a variable", "A", "B", "C", "NaN", "NaN" };
-            var dataColumn = new Variable(rawData.ToArray());
+            var variable = new Variable(rawData.ToArray());
 
-            var actualName = dataColumn.Name;
+            var actualName = variable.Name;
 
             actualName.Should().Be(expectedName);
         }

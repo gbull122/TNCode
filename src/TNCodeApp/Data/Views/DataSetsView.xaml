@@ -8,10 +8,16 @@
     xmlns:ie="http://schemas.microsoft.com/expression/2010/interactivity"
     prism:ViewModelLocator.AutoWireViewModel="True">
 
-    <Grid
-        MinWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
         <GroupBox
-           Header="DataSets">
+            Grid.Row="0"
+            Header="DataSets">
             <DataGrid 
                 x:Name="DataSetsList"
                 Margin="2" 
@@ -55,6 +61,44 @@
                     </ContextMenu>
                 </DataGrid.ContextMenu>
 
+            </DataGrid>
+        </GroupBox>
+
+        <GridSplitter
+            Grid.Row="1"/>
+
+        <GroupBox
+            Grid.Row="2"
+            Header="Details"
+            ToolTip="Data set summary">
+
+            <DataGrid
+                x:Name="Variables"
+                Margin="2" 
+                ItemsSource="{Binding Path=SelectedDataSet.Variables}" 
+                ScrollViewer.VerticalScrollBarVisibility="Visible"
+                SelectedItem="{Binding Path=SelectedVariable,UpdateSourceTrigger=PropertyChanged}"
+                ToolTip="Use to select variables."
+                AutoGenerateColumns="False">
+
+                <DataGrid.Columns>
+
+                    <DataGridTextColumn
+                        Header="Name"
+                        Binding="{Binding Path=Name}" 
+                        Width="*"/>
+
+                    <DataGridTextColumn
+                        Header="Data Type"
+                        Binding="{Binding Path=VariableType}" 
+                        Width="*"/>
+
+                    <DataGridTextColumn
+                        Header="Length"
+                        Binding="{Binding Path=Length}" 
+                        Width="*"/>
+                    
+                </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
     </Grid>

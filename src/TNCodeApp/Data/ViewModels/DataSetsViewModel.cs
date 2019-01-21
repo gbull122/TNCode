@@ -17,6 +17,7 @@ namespace TNCodeApp.Data.ViewModels
         private IDataSet selectedDataSet;
         private IEventAggregator eventAggregator;
         private IRegionManager regionManager;
+        private IVariable selectedVariable;
 
         public string Title { get => "Data Sets"; }
 
@@ -40,10 +41,19 @@ namespace TNCodeApp.Data.ViewModels
             set
             {
                 selectedDataSet = value;
-                RaisePropertyChanged("ActiveDataSet");
+                RaisePropertyChanged("SelectedDataSet");
             }
         }
 
+        public IVariable SelectedVariable
+        {
+            get { return selectedVariable; }
+            set
+            {
+                selectedVariable = value;
+                RaisePropertyChanged("SelectedVariable");
+            }
+        }
 
         public DataSetsViewModel(IEventAggregator eventAggregator, IRegionManager regionManager)
         {
@@ -55,6 +65,8 @@ namespace TNCodeApp.Data.ViewModels
             SelectedItemChangedCommand = new DelegateCommand<DataSet>(SelectedItemChanged);
 
             eventAggregator.GetEvent<TestDataEvent>().Subscribe(TestData, ThreadOption.UIThread);
+
+            
         }
 
         private void SelectedItemChanged(DataSet obj)

@@ -44,6 +44,7 @@ namespace TNCode.Core.Data
                     VariableType = VariableValue.Text;
                 }
             }
+            Length = Data.Count;
         }
 
         public IReadOnlyCollection<object> ConvertArray(object[] dataArray, bool trimNans)
