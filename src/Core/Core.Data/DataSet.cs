@@ -38,6 +38,38 @@ namespace TNCode.Core.Data
             }
         }
 
+        public DataSet(List<string[]> rawData, string name)
+        {
+            Name = name;
+
+            var numberOfColumns = rawData[0].Count();
+
+            List<string[]> things = new List<string[]>();
+
+            for (int row = 0; row < rawData.Count; row++)
+            {
+                for (int col = 0; col <numberOfColumns; col++)
+                {
+                    if (things.Count<col+1)
+                    {
+                        string[] newCol = new string[rawData.Count];
+                        things.Add(newCol);
+                    }
+                    var aCol = things[col];
+                    aCol[row] = rawData[row][col];
+
+                }
+            }
+
+            for (int column = 0; column <numberOfColumns; column++)
+            {
+                var dColumn = new Variable(things[column]);
+                variables.Add(dColumn);
+                variableNames.Add(dColumn.Name);
+            }
+        }
+
+
         public object[] GetAColumn(object[,] rawData, int col)
         {
             object[] result = new object[rowCount];

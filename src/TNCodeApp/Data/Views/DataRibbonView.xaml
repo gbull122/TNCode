@@ -15,8 +15,7 @@
         <RibbonButton
             AutomationProperties.AutomationId="RbBtnLoadData"
             Label="Load Data"
-            Command="{Binding DataCommand}"
-            CommandParameter="Load">
+            Command="{Binding LoadCommand}">
         </RibbonButton>
 
         <RibbonButton

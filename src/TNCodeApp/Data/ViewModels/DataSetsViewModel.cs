@@ -65,8 +65,16 @@ namespace TNCodeApp.Data.ViewModels
             SelectedItemChangedCommand = new DelegateCommand<DataSet>(SelectedItemChanged);
 
             eventAggregator.GetEvent<TestDataEvent>().Subscribe(TestData, ThreadOption.UIThread);
+            eventAggregator.GetEvent<DataLoadedEvent>().Subscribe(LoadData, ThreadOption.UIThread);
 
-            
+
+        }
+
+        private void LoadData(DataSet obj)
+        {
+            dataSets.Add(obj);
+
+            eventAggregator.GetEvent<DataSetSelectedEvent>().Publish(obj);
         }
 
         private void SelectedItemChanged(DataSet obj)
