@@ -7,7 +7,7 @@
     xmlns:local="clr-namespace:ModuleR.Views"
     xmlns:prism="http://prismlibrary.com/"
     prism:ViewModelLocator.AutoWireViewModel="True"
-    Header="R Stuff">
+    Header="Home">
 
     <RibbonGroup
         x:Name="ModuleGroup"
@@ -26,6 +26,13 @@
                 CommandParameter="Details">
         </RibbonButton>
 
+        <RibbonButton
+                AutomationProperties.AutomationId="RbBtnRCharts"
+                Label="Chart"
+                Command="{Binding ChartCommand}">
+        </RibbonButton>
     </RibbonGroup>
 
+   
+    
 </RibbonTab>

@@ -1,13 +1,10 @@
 ﻿using Microsoft.R.Host.Client;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ModuleR.R
 {
-    public class RManager
+    public class RManager : IRManager
     {
         private IRHostSession rSession;
         private RHostSessionCallback rHostSessionCallback;

@@ -86,8 +86,13 @@
   <ItemGroup>
     <Compile Include="ModuleRModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="R\IRManager.cs" />
     <Compile Include="R\RManager.cs" />
+    <Compile Include="ViewModels\GgplotViewModel.cs" />
     <Compile Include="ViewModels\RibbonRViewModel.cs" />
+    <Compile Include="Views\GgplotView.xaml.cs">
+      <DependentUpon>GgplotView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\RibbonRView.xaml.cs">
       <DependentUpon>RibbonRView.xaml</DependentUpon>
     </Compile>
@@ -96,6 +101,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\GgplotView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\RibbonRView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

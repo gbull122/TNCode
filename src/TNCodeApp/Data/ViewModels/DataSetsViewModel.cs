@@ -79,10 +79,7 @@ namespace TNCodeApp.Data.ViewModels
 
         private void SelectedItemChanged(DataSet obj)
         {
-            var navigationParameters = new NavigationParameters();
-            navigationParameters.Add(obj.Name, obj);
-            regionManager.RequestNavigate("MainRegion",
-                new Uri("DataView" + navigationParameters.ToString(), UriKind.Relative));
+            eventAggregator.GetEvent<DataSetSelectedEvent>().Publish(obj);
         }
 
         private void TestData(string obj)

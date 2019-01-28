@@ -9,6 +9,12 @@
     WindowState="Maximized">
 
     <Window.Resources>
+        <ResourceDictionary>
+            
+            <ResourceDictionary.MergedDictionaries>
+
+            </ResourceDictionary.MergedDictionaries>
+
         <DataTemplate 
             x:Key="DocumentTitleTemplate">
             <DockPanel>
@@ -65,7 +71,7 @@
                 </DockPanel>
             </avalonDock:AnchorablePaneTabPanel>
         </ControlTemplate>
-        
+        </ResourceDictionary>
     </Window.Resources>
     
     <Grid>

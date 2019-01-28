@@ -1,4 +1,5 @@
-﻿using ModuleR.Views;
+﻿using ModuleR.R;
+using ModuleR.Views;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
@@ -10,12 +11,16 @@ namespace ModuleR
     {
         IRegionManager regionManager;
 
-        public ModuleRModule(IRegionManager rManager)
+        public ModuleRModule(IRegionManager regManager)
         {
-            regionManager = rManager;
+            regionManager = regManager;
 
             regionManager.RegisterViewWithRegion("RibbonRegion", typeof(RibbonRView));
+
+           
         }
+
+        
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
@@ -24,7 +29,8 @@ namespace ModuleR
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            
+            containerRegistry.RegisterSingleton<IRManager,RManager>();
+            containerRegistry.RegisterForNavigation<GgplotView>();
         }
     }
 }
