@@ -1,5 +1,9 @@
 ﻿using Microsoft.R.Host.Client;
+using Prism.Logging;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ModuleR.R
@@ -8,10 +12,20 @@ namespace ModuleR.R
     {
         private IRHostSession rSession;
         private RHostSessionCallback rHostSessionCallback;
+        private ILoggerFacade logger;
 
-        public RManager()
+        public bool IsRRunning
         {
+            get
+            {
+                return rSession != null && rSession.IsHostRunning;
+            }
+        }
 
+        public RManager(ILoggerFacade logger)
+        {
+            this.logger = logger;
+            rHostSessionCallback = new RHostSessionCallback();
         }
 
         public async Task<bool> InitialiseAsync()
@@ -24,9 +38,159 @@ namespace ModuleR.R
             }
             catch (Exception ex)
             {
-
+                logger.Log(ex.Message, Category.Exception, Priority.High);
                 return false;
             }
+            return true;
+        }
+
+        public async Task DeleteVariablesAsync(List<string> names)
+        {
+            foreach (string name in names)
+            {
+                await rSession.ExecuteAsync("rm(" + name + ")");
+            }
+        }
+
+        public async Task<object[,]> GetDataFrameAsync(string name)
+        {
+            object[,] result = null;
+            try
+            {
+                DataFrame myFrame = await rSession.GetDataFrameAsync(name);
+                if (myFrame != null)
+                {
+                    //An extra row to allow for column names
+                    result = new object[myFrame.RowNames.Count + 1, myFrame.ColumnNames.Count];
+                    var myVectors = myFrame.Data;
+                    string[] col = myFrame.ColumnNames.ToArray();
+                    for (int i = 0; i < col.Count(); i++)
+                    {
+                        result[0, i] = col[i];
+                    }
+                    int rowCount = 1;
+                    int columnCount = 0;
+                    foreach (var dVector in myVectors)
+                    {
+                        foreach (object value in dVector)
+                        {
+                            result[rowCount, columnCount] = value.ToString();
+                            rowCount++;
+                        }
+                        columnCount++;
+                        rowCount = 1;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return result;
+        }
+
+        public async Task<object[,]> GetRListAsync(string name)
+        {
+            object[,] result = null;
+            var listNames = await rSession.ExecuteAndOutputAsync("names(" + name + ")");
+            var names = listNames.Output.Replace("\"", "");
+            var thing = names.Split(' ');
+            thing = thing.Skip(1).ToArray();
+            List<List<object>> data = new List<List<object>>();
+            for (int i = 0; i < thing.Count(); i++)
+            {
+
+                var rlist = await rSession.GetListAsync(name + "$" + thing[i]);
+                data.Add(rlist);
+
+            }
+            result = ListOfVectorsToObject(data, thing);
+            return result;
+        }
+
+        public object[,] ListOfVectorsToObject(List<List<object>> data, string[] names)
+        {
+            //Get the maximum length in case we are dealing with a list.
+            int maxLength = 0;
+            foreach (var myVector in data)
+            {
+                if (myVector.Count > maxLength)
+                {
+                    maxLength = myVector.Count;
+                }
+            }
+            //
+            object[,] result;
+            int startRow = 0;
+            if (names != null)
+            {
+                result = new object[maxLength + 1, data.Count];
+                startRow = 1;
+                for (int s = 0; s < names.Length; s++)
+                {
+                    result[0, s] = names[s];
+                }
+            }
+            else
+            {
+                result = new object[maxLength, data.Count];
+            }
+
+
+            for (int column = 0; column < data.Count; column++)
+            {
+                for (int row = startRow; row < data[column].Count + startRow; row++)
+                {
+                    result[row, column] = data[column][row - startRow];
+                }
+            }
+            return result;
+        }
+
+        public async Task<string> RunRCommnadAsync(string code)
+        {
+            if (!rSession.IsHostRunning)
+                return string.Empty;
+
+            return await rSession.EvaluateAsync<string>(code);
+        }
+
+        public async Task<string> RHomeFromConnectedRAsync()
+        {
+            return await RunRCommnadAsync("R.home()");
+        }
+
+        public async Task<string> RPlatformFromConnectedRAsync()
+        {
+            return await RunRCommnadAsync("version$platform");
+        }
+
+        public async Task<string> RMinorVersionFromConnectedRAsync()
+        {
+            return await RunRCommnadAsync("R.version$minor");
+        }
+
+        public async Task<string> RVersionFromConnectedRAsync()
+        {
+            return await RunRCommnadAsync("R.version$version.string");
+        }
+
+        public async Task<bool> DataFrameToRAsync(List<IReadOnlyCollection<object>> selectedData, string name, string[] headers)
+        {
+            var rowLength = selectedData[0].Cast<object>().ToList().Count;
+            var rows = Enumerable.Range(1, rowLength);
+
+            List<string> rowNames = ((IEnumerable)rows)
+                                .Cast<object>()
+                                .Select(x => x.ToString())
+                                .ToList();
+
+
+            DataFrame df = new DataFrame(rowNames.AsReadOnly(), headers.ToList().AsReadOnly(), selectedData);
+
+            await rSession.CreateDataFrameAsync(name, df);
+
             return true;
         }
     }

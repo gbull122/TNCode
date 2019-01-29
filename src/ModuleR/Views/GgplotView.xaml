@@ -26,6 +26,7 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
@@ -84,9 +85,29 @@
                     </DataGrid.ContextMenu>
 
                 </DataGrid>
-                
+
+                <ScrollViewer 
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    HorizontalScrollBarVisibility="Disabled" 
+                    VerticalScrollBarVisibility="Auto">
+                    <ContentControl 
+                        prism:RegionManager.RegionName="LayerRegion"/>
+                    <!--<ContentPresenter
+                        Content="{Binding Path=SelectedLayer}">
+                        <ContentPresenter.ContentTemplate>
+                            <DataTemplate
+                                DataType="{x:Type viewModels:LayerViewModel}">
+                                <views:LayerView/>
+                            </DataTemplate>
+                        </ContentPresenter.ContentTemplate>
+                    </ContentPresenter>-->
+                </ScrollViewer>
+
             </Grid>
 
+          
+            
         </GroupBox>
         
         <GroupBox
