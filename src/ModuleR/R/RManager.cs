@@ -10,31 +10,32 @@ namespace ModuleR.R
 {
     public class RManager : IRManager
     {
-        private IRHostSession rSession;
-        private RHostSessionCallback rHostSessionCallback;
+        private IROperations rOperations;
+        private IRHostSessionCallback rHostSessionCallback;
         private ILoggerFacade logger;
 
         public bool IsRRunning
         {
             get
             {
-                return rSession != null && rSession.IsHostRunning;
+                return rOperations != null && rOperations.IsHostRunning();
             }
         }
 
-        public RManager(ILoggerFacade logger)
+        public RManager(IRHostSessionCallback rhostSession, ILoggerFacade logger)
         {
             this.logger = logger;
-            rHostSessionCallback = new RHostSessionCallback();
+            rHostSessionCallback = rhostSession;
         }
 
         public async Task<bool> InitialiseAsync()
         {
             try
             {
-                rSession = RHostSession.Create("TNCode");
+                var rHostSession = RHostSession.Create("TNCode");
+                rOperations = new ROperations(rHostSession);
 
-                await rSession.StartHostAsync(rHostSessionCallback);
+                await rOperations.StartHostAsync(rHostSessionCallback);
             }
             catch (Exception ex)
             {
@@ -48,7 +49,7 @@ namespace ModuleR.R
         {
             foreach (string name in names)
             {
-                await rSession.ExecuteAsync("rm(" + name + ")");
+                await rOperations.ExecuteAsync("rm(" + name + ")");
             }
         }
 
@@ -57,7 +58,7 @@ namespace ModuleR.R
             object[,] result = null;
             try
             {
-                DataFrame myFrame = await rSession.GetDataFrameAsync(name);
+                DataFrame myFrame = await rOperations.GetDataFrameAsync(name);
                 if (myFrame != null)
                 {
                     //An extra row to allow for column names
@@ -93,7 +94,7 @@ namespace ModuleR.R
         public async Task<object[,]> GetRListAsync(string name)
         {
             object[,] result = null;
-            var listNames = await rSession.ExecuteAndOutputAsync("names(" + name + ")");
+            var listNames = await rOperations.ExecuteAndOutputAsync("names(" + name + ")");
             var names = listNames.Output.Replace("\"", "");
             var thing = names.Split(' ');
             thing = thing.Skip(1).ToArray();
@@ -101,7 +102,7 @@ namespace ModuleR.R
             for (int i = 0; i < thing.Count(); i++)
             {
 
-                var rlist = await rSession.GetListAsync(name + "$" + thing[i]);
+                var rlist = await rOperations.GetListAsync(name + "$" + thing[i]);
                 data.Add(rlist);
 
             }
@@ -150,10 +151,10 @@ namespace ModuleR.R
 
         public async Task<string> RunRCommnadAsync(string code)
         {
-            if (!rSession.IsHostRunning)
+            if (!rOperations.IsHostRunning())
                 return string.Empty;
 
-            return await rSession.EvaluateAsync<string>(code);
+            return await rOperations.EvaluateAsync<string>(code);
         }
 
         public async Task<string> RHomeFromConnectedRAsync()
@@ -189,7 +190,7 @@ namespace ModuleR.R
 
             DataFrame df = new DataFrame(rowNames.AsReadOnly(), headers.ToList().AsReadOnly(), selectedData);
 
-            await rSession.CreateDataFrameAsync(name, df);
+            await rOperations.CreateDataFrameAsync(name, df);
 
             return true;
         }

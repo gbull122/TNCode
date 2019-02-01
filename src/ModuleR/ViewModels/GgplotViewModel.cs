@@ -17,7 +17,7 @@ namespace ModuleR.ViewModels
 
         public GgplotViewModel(IEventAggregator eventAggregator, IRManager rMngr)
         {
-            //rManager = rMngr;
+            rManager = rMngr;
             this.eventAggregator = eventAggregator;
         }
 

@@ -1,4 +1,5 @@
-﻿using ModuleR.R;
+﻿using Microsoft.R.Host.Client;
+using ModuleR.R;
 using ModuleR.Views;
 using Prism.Ioc;
 using Prism.Modularity;
@@ -20,8 +21,6 @@ namespace ModuleR
            
         }
 
-        
-
         public void OnInitialized(IContainerProvider containerProvider)
         {
             
@@ -29,6 +28,7 @@ namespace ModuleR
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.Register<IRHostSessionCallback,RHostSessionCallback>();
             containerRegistry.RegisterSingleton<IRManager,RManager>();
             containerRegistry.RegisterForNavigation<GgplotView>();
         }
