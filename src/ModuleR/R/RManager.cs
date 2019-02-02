@@ -11,7 +11,7 @@ namespace ModuleR.R
     public class RManager : IRManager
     {
         private IROperations rOperations;
-        private IRHostSessionCallback rHostSessionCallback;
+        private readonly IRHostSessionCallback rHostSessionCallback;
         private ILoggerFacade logger;
 
         public bool IsRRunning
@@ -26,6 +26,13 @@ namespace ModuleR.R
         {
             this.logger = logger;
             rHostSessionCallback = rhostSession;
+        }
+
+        public RManager(IRHostSessionCallback rhostSession, ILoggerFacade loggerFacade, IROperations rOps)
+        {
+            logger = loggerFacade;
+            rHostSessionCallback = rhostSession;
+            rOperations = rOps;
         }
 
         public async Task<bool> InitialiseAsync()
@@ -101,10 +108,8 @@ namespace ModuleR.R
             List<List<object>> data = new List<List<object>>();
             for (int i = 0; i < thing.Count(); i++)
             {
-
                 var rlist = await rOperations.GetListAsync(name + "$" + thing[i]);
                 data.Add(rlist);
-
             }
             result = ListOfVectorsToObject(data, thing);
             return result;
@@ -112,16 +117,8 @@ namespace ModuleR.R
 
         public object[,] ListOfVectorsToObject(List<List<object>> data, string[] names)
         {
-            //Get the maximum length in case we are dealing with a list.
-            int maxLength = 0;
-            foreach (var myVector in data)
-            {
-                if (myVector.Count > maxLength)
-                {
-                    maxLength = myVector.Count;
-                }
-            }
-            //
+            var maxLength = MaximumLengthOfList(data);
+
             object[,] result;
             int startRow = 0;
             if (names != null)
@@ -149,6 +146,19 @@ namespace ModuleR.R
             return result;
         }
 
+        public int MaximumLengthOfList(List<List<object>> data)
+        {
+            int maxLength = 0;
+            foreach (var myVector in data)
+            {
+                if (myVector.Count > maxLength)
+                {
+                    maxLength = myVector.Count;
+                }
+            }
+            return maxLength;
+        }
+         
         public async Task<string> RunRCommnadAsync(string code)
         {
             if (!rOperations.IsHostRunning())
