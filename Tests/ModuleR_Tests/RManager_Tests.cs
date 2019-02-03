@@ -61,6 +61,10 @@ namespace ModuleR_Tests
 
             var rManager = new RManager(rHostSessionCallback, logger, rOperations);
 
+            await rManager.GetDataFrameAsync("test");
+
+            A.CallTo(() => rOperations.GetDataFrameAsync("test")).MustHaveHappened();
+
             var rowNames = new List<string>() { "A","B" };
             var headers = new List<string>() { "HA", "HB" };
 

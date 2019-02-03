@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace TNCode.Core.Data
@@ -7,13 +6,10 @@ namespace TNCode.Core.Data
     public class DataSet : IDataSet
     {
         private List<IVariable> variables = new List<IVariable>();
-        private List<string> variableNames = new List<string>();
         private List<string> observationNames = new List<string>();
         private int rowCount;
 
         public string Name { get; }
-
-        public List<string> VariableNames => variableNames;
 
         public List<string> ObservationNames => observationNames;
 
@@ -33,7 +29,6 @@ namespace TNCode.Core.Data
                 {
                     var dColumn = new Variable(GetAColumn(area, col));
                     variables.Add(dColumn);
-                    variableNames.Add(dColumn.Name);
                 }
             }
         }
@@ -42,33 +37,26 @@ namespace TNCode.Core.Data
         {
             Name = name;
 
-            var numberOfColumns = rawData[0].Count();
-
-            List<string[]> things = new List<string[]>();
-
-            for (int row = 0; row < rawData.Count; row++)
+            foreach(var col in rawData)
             {
-                for (int col = 0; col <numberOfColumns; col++)
-                {
-                    if (things.Count<col+1)
-                    {
-                        string[] newCol = new string[rawData.Count];
-                        things.Add(newCol);
-                    }
-                    var aCol = things[col];
-                    aCol[row] = rawData[row][col];
-
-                }
-            }
-
-            for (int column = 0; column <numberOfColumns; column++)
-            {
-                var dColumn = new Variable(things[column]);
+                var dColumn = new Variable(col);
                 variables.Add(dColumn);
-                variableNames.Add(dColumn.Name);
             }
         }
 
+        public DataSet(IReadOnlyList<IReadOnlyList<object>> data, IReadOnlyList<string> columnNames,string name)
+        {
+            Name = name;
+
+            for(int variable=0;variable<data.Count;variable++)
+            {
+                var thing = new List<object>(data[variable]);
+                thing.Insert(0, columnNames[variable]);
+
+                var dColumn = new Variable(thing.ToArray());
+                variables.Add(dColumn);
+            }
+        }
 
         public object[] GetAColumn(object[,] rawData, int col)
         {
@@ -99,5 +87,19 @@ namespace TNCode.Core.Data
 
             return test.Count() == Variables.Count;
         }
+
+        public List<string> VariableNames()
+        {
+            var names = new List<string>();
+            {
+                foreach(var variable in variables)
+                {
+                    names.Add(variable.Name);
+                }
+            }
+            return names;
+        }
+
+
     }
 }

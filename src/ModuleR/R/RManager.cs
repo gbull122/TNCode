@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TNCode.Core.Data;
 
 namespace ModuleR.R
 {
@@ -22,9 +23,9 @@ namespace ModuleR.R
             }
         }
 
-        public RManager(IRHostSessionCallback rhostSession, ILoggerFacade logger)
+        public RManager(IRHostSessionCallback rhostSession, ILoggerFacade loggerFacade)
         {
-            this.logger = logger;
+            logger = loggerFacade;
             rHostSessionCallback = rhostSession;
         }
 
@@ -60,43 +61,42 @@ namespace ModuleR.R
             }
         }
 
-        public async Task<object[,]> GetDataFrameAsync(string name)
+        public async Task<DataFrame> GetDataFrameAsync(string name)
         {
-            object[,] result = null;
+            DataFrame result = null;
             try
             {
-                DataFrame myFrame = await rOperations.GetDataFrameAsync(name);
-                if (myFrame != null)
-                {
-                    //An extra row to allow for column names
-                    result = new object[myFrame.RowNames.Count + 1, myFrame.ColumnNames.Count];
-                    var myVectors = myFrame.Data;
-                    string[] col = myFrame.ColumnNames.ToArray();
-                    for (int i = 0; i < col.Count(); i++)
-                    {
-                        result[0, i] = col[i];
-                    }
-                    int rowCount = 1;
-                    int columnCount = 0;
-                    foreach (var dVector in myVectors)
-                    {
-                        foreach (object value in dVector)
-                        {
-                            result[rowCount, columnCount] = value.ToString();
-                            rowCount++;
-                        }
-                        columnCount++;
-                        rowCount = 1;
-                    }
-                }
+                result = await rOperations.GetDataFrameAsync(name);
             }
             catch (Exception ex)
             {
-
+                logger.Log(ex.Message, Category.Exception, Priority.High);
             }
+            return result;
+        }
+
+        public async Task<DataSet> GetDataFrameAsDataSetAsync(string name)
+        {
+            var dataFrame = await GetDataFrameAsync(name);
+
+            var dataSet = ConvertDataFrameToDataSet(dataFrame, name);
+
+            return dataSet;
+        }
+
+        public DataSet ConvertDataFrameToDataSet(DataFrame data, string name)
+        {
+            DataSet result = null;
+
+            result = new DataSet(data.Data, data.ColumnNames, name);
 
             return result;
         }
+
+        //public async Task<DataSet> ConvertListToDataSet(RSessionOutput data)
+        //{
+
+        //}
 
         public async Task<object[,]> GetRListAsync(string name)
         {
@@ -158,7 +158,7 @@ namespace ModuleR.R
             }
             return maxLength;
         }
-         
+
         public async Task<string> RunRCommnadAsync(string code)
         {
             if (!rOperations.IsHostRunning())
@@ -187,18 +187,18 @@ namespace ModuleR.R
             return await RunRCommnadAsync("R.version$version.string");
         }
 
-        public async Task<bool> DataFrameToRAsync(List<IReadOnlyCollection<object>> selectedData, string name, string[] headers)
+        public async Task<bool> DataSetToRAsDataFrameAsync(DataSet data,List<IReadOnlyCollection<object>> selectedData, string name, string[] headers)
         {
-            var rowLength = selectedData[0].Cast<object>().ToList().Count;
-            var rows = Enumerable.Range(1, rowLength);
+            //var rowLength = selectedData[0].Cast<object>().ToList().Count;
+            //var rows = Enumerable.Range(1, rowLength);
 
-            List<string> rowNames = ((IEnumerable)rows)
-                                .Cast<object>()
-                                .Select(x => x.ToString())
-                                .ToList();
+            //List<string> rowNames = ((IEnumerable)rows)
+            //                    .Cast<object>()
+            //                    .Select(x => x.ToString())
+            //                    .ToList();
 
 
-            DataFrame df = new DataFrame(rowNames.AsReadOnly(), headers.ToList().AsReadOnly(), selectedData);
+            DataFrame df = new DataFrame(data.ObservationNames.AsReadOnly(), data.VariableNames().AsReadOnly(), data.);
 
             await rOperations.CreateDataFrameAsync(name, df);
 

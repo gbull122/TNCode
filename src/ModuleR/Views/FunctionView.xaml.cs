@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace ModuleR.Views
 {
     /// <summary>
-    /// Interaction logic for GgplotView.xaml
+    /// Interaction logic for FunctionView.xaml
     /// </summary>
-    public partial class GgplotView : UserControl
+    public partial class FunctionView : UserControl
     {
-        public GgplotView()
+        public FunctionView()
         {
             InitializeComponent();
         }

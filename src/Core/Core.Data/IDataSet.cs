@@ -9,7 +9,7 @@ namespace TNCode.Core.Data
     public interface IDataSet
     {
         string Name { get; }
-        List<string> VariableNames { get; }
+        List<string> VariableNames();
         List<string> ObservationNames { get; }
         List<IVariable> Variables { get; }
         bool AllColumnsEqual();

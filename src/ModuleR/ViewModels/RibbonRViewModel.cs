@@ -29,7 +29,7 @@ namespace ModuleR.ViewModels
             var navigationParameters = new NavigationParameters();
 
             regionManager.RequestNavigate("MainRegion",
-                new Uri("GgplotView" + navigationParameters.ToString(), UriKind.Relative));
+                new Uri("ChartBuilderView" + navigationParameters.ToString(), UriKind.Relative));
         }
     }
 }

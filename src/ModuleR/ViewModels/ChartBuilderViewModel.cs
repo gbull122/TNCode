@@ -6,7 +6,7 @@ using TNCodeApp.Docking;
 
 namespace ModuleR.ViewModels
 {
-    public class GgplotViewModel : BindableBase, ITnPanel, INavigationAware
+    public class ChartBuilderViewModel : BindableBase, ITnPanel, INavigationAware
     {
         private IRManager rManager;
         private IEventAggregator eventAggregator;
@@ -15,7 +15,7 @@ namespace ModuleR.ViewModels
 
         public DockingMethod Docking => DockingMethod.Document;
 
-        public GgplotViewModel(IEventAggregator eventAggregator, IRManager rMngr)
+        public ChartBuilderViewModel(IEventAggregator eventAggregator, IRManager rMngr)
         {
             rManager = rMngr;
             this.eventAggregator = eventAggregator;

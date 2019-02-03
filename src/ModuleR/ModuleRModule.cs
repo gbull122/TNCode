@@ -30,7 +30,7 @@ namespace ModuleR
         {
             containerRegistry.Register<IRHostSessionCallback,RHostSessionCallback>();
             containerRegistry.RegisterSingleton<IRManager,RManager>();
-            containerRegistry.RegisterForNavigation<GgplotView>();
+            containerRegistry.RegisterForNavigation<ChartBuilderView>();
         }
     }
 }

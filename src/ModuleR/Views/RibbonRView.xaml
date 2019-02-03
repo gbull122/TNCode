@@ -28,7 +28,7 @@
 
         <RibbonButton
                 AutomationProperties.AutomationId="RbBtnRCharts"
-                Label="Chart"
+                Label="Chart Builder"
                 Command="{Binding ChartCommand}">
         </RibbonButton>
     </RibbonGroup>

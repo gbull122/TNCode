@@ -33,17 +33,18 @@ namespace Core.Data_Tests
             var expectedName = "test";
             var expectedVariableCount = 2;
             var expectedVariableLength = 3;
+            var expectedNames = new List<string>() { "A", "B" };
 
             List<string[]> rawData = new List<string[]>() {
-                new string[]{"A", "B" },
-                new string[] { "3", "4" },
-                new string[]{"5","6" },
-                new string[]{"7","8" } };
+                new string[]{"A", "3","5","7" },
+                new string[]{ "B", "4" ,"6","7"}};
 
             var dataSet = new DataSet(rawData, "test");
 
             dataSet.Variables.Count.Should().Be(expectedVariableCount);
             dataSet.Variables[1].Length.Should().Be(expectedVariableLength);
+            dataSet.VariableNames()[0].Should().Be(expectedNames[0]);
+            dataSet.VariableNames()[1].Should().Be(expectedNames[1]);
             dataSet.Name.Should().Be(expectedName);
 
         }
