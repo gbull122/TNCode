@@ -198,9 +198,9 @@ namespace ModuleR.R
             //                    .ToList();
 
 
-            DataFrame df = new DataFrame(data.ObservationNames.AsReadOnly(), data.VariableNames().AsReadOnly(), data.);
+            //DataFrame df = new DataFrame(data.ObservationNames.AsReadOnly(), data.VariableNames().AsReadOnly(), data.);
 
-            await rOperations.CreateDataFrameAsync(name, df);
+            //await rOperations.CreateDataFrameAsync(name, df);
 
             return true;
         }

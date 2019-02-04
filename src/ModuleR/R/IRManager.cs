@@ -5,5 +5,7 @@ namespace ModuleR.R
     public interface IRManager
     {
         Task<bool> InitialiseAsync();
+
+        bool IsRRunning { get; }
     }
 }

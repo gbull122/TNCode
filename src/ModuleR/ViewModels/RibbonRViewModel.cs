@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading.Tasks;
+using ModuleR.R;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -11,17 +13,40 @@ namespace ModuleR.ViewModels
     {
         private IEventAggregator eventAggregator;
         private IRegionManager regionManager;
+        private IRManager rManager;
 
         public bool IsMainRibbon => false;
 
-        public DelegateCommand ChartCommand { get; private set; }
+        public DelegateCommand ChartBuilderCommand { get; private set; }
+        public DelegateCommand RStartCommand { get; private set; }
+        public DelegateCommand RDetailsCommand { get; private set; }
 
-        public RibbonRViewModel(IEventAggregator eventAggregator, IRegionManager regionManager)
+        public RibbonRViewModel(IEventAggregator eventAggr, IRegionManager regionMgr, IRManager rMgr)
         {
-            this.eventAggregator = eventAggregator;
-            this.regionManager = regionManager;
+            eventAggregator = eventAggr;
+            regionManager = regionMgr;
+            rManager = rMgr;
 
-            ChartCommand = new DelegateCommand(CreateChart);
+            ChartBuilderCommand = new DelegateCommand(CreateChart, CanExecuteR);
+            RStartCommand = new DelegateCommand(StartR);
+            RDetailsCommand = new DelegateCommand(ShowRDetails, CanExecuteR);
+        }
+
+        private void ShowRDetails()
+        {
+            throw new NotImplementedException();
+        }
+
+        private async void StartR()
+        {
+            await rManager.InitialiseAsync();
+            
+            RaisePropertyChanged();
+        }
+
+        private bool CanExecuteR()
+        {
+            return rManager.IsRRunning;
         }
 
         private void CreateChart()

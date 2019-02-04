@@ -15,21 +15,21 @@
         <RibbonButton
                 AutomationProperties.AutomationId="RbBtnRConnect"
                 Label="Connect"
-                Command="{Binding RCommand}"
+                Command="{Binding RStartCommand}"
                 CommandParameter="Connect">
         </RibbonButton>
 
         <RibbonButton
                 AutomationProperties.AutomationId="RbBtnRDetails"
                 Label="Details"
-                Command="{Binding RCommand}"
+                Command="{Binding RDetailsCommand}"
                 CommandParameter="Details">
         </RibbonButton>
 
         <RibbonButton
                 AutomationProperties.AutomationId="RbBtnRCharts"
                 Label="Chart Builder"
-                Command="{Binding ChartCommand}">
+                Command="{Binding ChartBuilderCommand}">
         </RibbonButton>
     </RibbonGroup>
 

@@ -2,6 +2,7 @@
 using ModuleR.R;
 using ModuleR.Views;
 using Prism.Ioc;
+using Prism.Logging;
 using Prism.Modularity;
 using Prism.Regions;
 using System;
@@ -11,26 +12,30 @@ namespace ModuleR
     public class ModuleRModule : IModule
     {
         IRegionManager regionManager;
+        IContainerProvider containerProvider;
+        IRManager rManager;
 
-        public ModuleRModule(IRegionManager regManager)
+        public ModuleRModule(IRegionManager regManager, ILoggerFacade loggerFacade)
         {
             regionManager = regManager;
-
-            regionManager.RegisterViewWithRegion("RibbonRegion", typeof(RibbonRView));
-
+            rManager = new RManager(new RHostSessionCallback(), loggerFacade);
+           
+            
            
         }
 
-        public void OnInitialized(IContainerProvider containerProvider)
+        public void OnInitialized(IContainerProvider containerPvdr)
         {
-            
+            containerProvider = containerPvdr;
+           
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.Register<IRHostSessionCallback,RHostSessionCallback>();
-            containerRegistry.RegisterSingleton<IRManager,RManager>();
+            containerRegistry.RegisterInstance<IRManager>(rManager);
             containerRegistry.RegisterForNavigation<ChartBuilderView>();
+            regionManager.RegisterViewWithRegion("RibbonRegion", typeof(RibbonRView));
         }
     }
 }
