@@ -17,9 +17,21 @@ namespace ModuleR.ViewModels
 
         public bool IsMainRibbon => false;
 
+        public bool isRRunning = false;
+
         public DelegateCommand ChartBuilderCommand { get; private set; }
         public DelegateCommand RStartCommand { get; private set; }
         public DelegateCommand RDetailsCommand { get; private set; }
+
+        public bool IsRRunning
+        {
+            get => isRRunning;
+            set
+            {
+                isRRunning = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public RibbonRViewModel(IEventAggregator eventAggr, IRegionManager regionMgr, IRManager rMgr)
         {
@@ -27,9 +39,9 @@ namespace ModuleR.ViewModels
             regionManager = regionMgr;
             rManager = rMgr;
 
-            ChartBuilderCommand = new DelegateCommand(CreateChart, CanExecuteR);
+            ChartBuilderCommand = new DelegateCommand(CreateChart).ObservesCanExecute(() => IsRRunning);
             RStartCommand = new DelegateCommand(StartR);
-            RDetailsCommand = new DelegateCommand(ShowRDetails, CanExecuteR);
+            RDetailsCommand = new DelegateCommand(ShowRDetails).ObservesCanExecute(()=>IsRRunning);
         }
 
         private void ShowRDetails()
@@ -40,13 +52,8 @@ namespace ModuleR.ViewModels
         private async void StartR()
         {
             await rManager.InitialiseAsync();
-            
-            RaisePropertyChanged();
-        }
 
-        private bool CanExecuteR()
-        {
-            return rManager.IsRRunning;
+            IsRRunning = rManager.IsRRunning;
         }
 
         private void CreateChart()

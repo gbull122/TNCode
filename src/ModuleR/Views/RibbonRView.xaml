@@ -15,15 +15,13 @@
         <RibbonButton
                 AutomationProperties.AutomationId="RbBtnRConnect"
                 Label="Connect"
-                Command="{Binding RStartCommand}"
-                CommandParameter="Connect">
+                Command="{Binding RStartCommand}">
         </RibbonButton>
 
         <RibbonButton
                 AutomationProperties.AutomationId="RbBtnRDetails"
                 Label="Details"
-                Command="{Binding RDetailsCommand}"
-                CommandParameter="Details">
+                Command="{Binding RDetailsCommand}">
         </RibbonButton>
 
         <RibbonButton
