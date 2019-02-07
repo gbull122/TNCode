@@ -84,7 +84,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Charts\Ggplot\Enums\Geoms.cs" />
+    <Compile Include="Charts\Ggplot\Enums\Positions.cs" />
+    <Compile Include="Charts\Ggplot\Enums\Stats.cs" />
     <Compile Include="Charts\Ggplot\Ggplot.cs" />
+    <Compile Include="Charts\Ggplot\Layer\Aesthetic.cs" />
+    <Compile Include="Charts\Ggplot\Layer\AestheticValue.cs" />
     <Compile Include="Charts\Ggplot\Layer\ILayer.cs" />
     <Compile Include="Charts\Ggplot\Layer\Layer.cs" />
     <Compile Include="Charts\IChart.cs" />
@@ -96,12 +101,16 @@
     <Compile Include="R\ROperations.cs" />
     <Compile Include="ViewModels\FunctionViewModel.cs" />
     <Compile Include="ViewModels\ChartBuilderViewModel.cs" />
+    <Compile Include="ViewModels\LayerViewModel.cs" />
     <Compile Include="ViewModels\RibbonRViewModel.cs" />
     <Compile Include="Views\FunctionView.xaml.cs">
       <DependentUpon>FunctionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ChartBuilderView.xaml.cs">
       <DependentUpon>ChartBuilderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LayerView.xaml.cs">
+      <DependentUpon>LayerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RibbonRView.xaml.cs">
       <DependentUpon>RibbonRView.xaml</DependentUpon>
@@ -116,6 +125,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ChartBuilderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LayerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -136,6 +149,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Functions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Charts\Ggplot\Definitions\Geoms\point.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.R.Host.Client.API.1.1.1\build\Microsoft.R.Host.Client.API.targets" Condition="Exists('..\packages\Microsoft.R.Host.Client.API.1.1.1\build\Microsoft.R.Host.Client.API.targets')" />

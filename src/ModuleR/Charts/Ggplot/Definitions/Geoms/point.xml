@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<LayerProperties Name="point">
+  <AestheticValues>
+    <AestheticValue Name="XVariable" Required="true"/>
+    <AestheticValue Name="YVariable" Required="true"/>
+    <AestheticValue Name="Alpha"/>
+    <AestheticValue Name="Colour"/>
+    <AestheticValue Name="Fill"/>
+    <AestheticValue Name="Group"/>
+    <AestheticValue Name="Shape"/>
+    <AestheticValue Name="Size"/>
+    <AestheticValue Name="Stroke"/>
+  </AestheticValues>
+  <Stat>Identity</Stat>
+  <Position>Identity</Position>
+</LayerProperties>

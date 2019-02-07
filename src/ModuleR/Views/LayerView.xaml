@@ -1,0 +1,55 @@
+﻿<UserControl 
+    x:Class="ModuleR.Views.LayerView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:ModuleR.Views"
+    xmlns:prism="http://prismlibrary.com/"
+    prism:ViewModelLocator.AutoWireViewModel="True">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Button
+            Grid.Row="0"
+            Grid.Column="0"
+            Content="Geom"
+            Margin="2"
+            Command="{Binding NavigateCommand}"
+            CommandParameter="Geom"/>
+
+        <Button
+            Grid.Row="0"
+            Grid.Column="1"
+            Content="Stat"
+            Margin="2"
+            Command="{Binding NavigateCommand}"
+            CommandParameter="Stat"/>
+
+        <Button
+            Grid.Row="0"
+            Grid.Column="2"
+            Content="Position"
+            Margin="2"
+            Command="{Binding NavigateCommand}"
+            CommandParameter="Position"/>
+
+        <ContentControl
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Grid.Row="1"
+            Margin="2"
+            prism:RegionManager.RegionName="ContentRegion"/>
+
+    </Grid>
+
+</UserControl>

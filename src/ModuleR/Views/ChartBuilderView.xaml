@@ -11,9 +11,10 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <!--Controls-->
         <GroupBox
             Grid.Row="0"
             Header="Controls">
@@ -26,23 +27,24 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
+                <!--Buttons-->
                 <StackPanel
                         Grid.Row="1"
                         Grid.Column="0">
                     <Button 
                         Content="New Layer"
                         Margin="2"
-                        Command="{Binding LayerButtonCommand}"
+                        Command="{Binding NewLayerCommand}"
                         ToolTip="Add a new layer to the plot."/>
 
                     <Button 
                         Content="Clear Layers"
                         Margin="2"
-                        Command="{Binding ClearButtonCommand}"
+                        Command="{Binding ClearLayersCommand}"
                         ToolTip="Clear all the layers from the plot."/>
                 </StackPanel>
 
@@ -86,6 +88,7 @@
 
                 </DataGrid>
 
+                <!--Dynamic controls-->
                 <ScrollViewer 
                     Grid.Row="1"
                     Grid.Column="2"
@@ -93,7 +96,7 @@
                     VerticalScrollBarVisibility="Auto">
                     <ContentControl 
                         prism:RegionManager.RegionName="LayerRegion"/>
-                    <!--<ContentPresenter
+                    <ContentPresenter
                         Content="{Binding Path=SelectedLayer}">
                         <ContentPresenter.ContentTemplate>
                             <DataTemplate
@@ -101,7 +104,7 @@
                                 <views:LayerView/>
                             </DataTemplate>
                         </ContentPresenter.ContentTemplate>
-                    </ContentPresenter>-->
+                    </ContentPresenter>
                 </ScrollViewer>
 
             </Grid>
@@ -110,6 +113,7 @@
             
         </GroupBox>
         
+        <!--Chart-->
         <GroupBox
             Grid.Row="1"
             Header="Chart">
