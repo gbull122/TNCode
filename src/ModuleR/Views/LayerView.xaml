@@ -12,43 +12,57 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
 
-        <Button
+        <GroupBox
             Grid.Row="0"
-            Grid.Column="0"
-            Content="Geom"
-            Margin="2"
-            Command="{Binding NavigateCommand}"
-            CommandParameter="Geom"/>
+            Header="Geom"
+            Margin="2">
 
-        <Button
-            Grid.Row="0"
-            Grid.Column="1"
-            Content="Stat"
-            Margin="2"
-            Command="{Binding NavigateCommand}"
-            CommandParameter="Stat"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-        <Button
-            Grid.Row="0"
-            Grid.Column="2"
-            Content="Position"
-            Margin="2"
-            Command="{Binding NavigateCommand}"
-            CommandParameter="Position"/>
+                <ComboBox
+                    Grid.Row="0"
+                    Margin="2"
+                    ItemsSource="{Binding Geoms}"
+                    SelectedItem="{Binding SelectedGeom,UpdateSourceTrigger=PropertyChanged}"/>
 
-        <ContentControl
-            Grid.Column="0"
-            Grid.ColumnSpan="3"
+                <ScrollViewer 
+                    Grid.Row="1"
+                    VerticalScrollBarVisibility="Auto">
+                    <ItemsControl 
+                        ItemsSource="{Binding VariableControls}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </ScrollViewer>
+
+
+            </Grid>
+            
+
+        </GroupBox>
+
+        <Expander
             Grid.Row="1"
-            Margin="2"
-            prism:RegionManager.RegionName="ContentRegion"/>
+            Header="Statistic"
+            Margin="2">
+        </Expander>
+
+        <Expander
+            Grid.Row="2"
+            Header="Position"
+            Margin="2">
+        </Expander>
+
 
     </Grid>
 

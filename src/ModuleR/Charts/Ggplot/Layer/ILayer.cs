@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ModuleR.Charts.Ggplot.Layer
+﻿namespace ModuleR.Charts.Ggplot.Layer
 {
     public interface ILayer
     {
+        string Geom { get; set; }
         string Command();
+        Aesthetic Aes { get; set; }
     }
 }

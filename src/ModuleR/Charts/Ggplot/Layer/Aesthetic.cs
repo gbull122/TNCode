@@ -13,8 +13,6 @@ namespace ModuleR.Charts.Ggplot.Layer
     [XmlRoot("Aesthetic")]
     public class Aesthetic
     {
-        private List<AestheticValue> aestheticValues;
-
         [XmlArray("AestheticValues")]
         [XmlArrayItem("AestheticValue")]
         public List<AestheticValue> AestheticValues
@@ -23,13 +21,19 @@ namespace ModuleR.Charts.Ggplot.Layer
             set;
         } = new List<AestheticValue>();
 
+        [XmlElement("DefaultStat")]
+        public string DefaultStat { get; set; }
+
+        [XmlElement("DefaultPosition")]
+        public string DefaultPosition { get; set; }
+
         public string Command()
         {
             var command = new StringBuilder();
             command.Append("aes(");
            
             var aesCommands = new List<string>();
-            foreach (var aes in aestheticValues)
+            foreach (var aes in AestheticValues)
             {
                 aesCommands.Add(aes.ReadValue());
             }

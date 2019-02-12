@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<LayerProperties Name="point">
+<Aesthetic Name="point">
   <AestheticValues>
     <AestheticValue Name="XVariable" Required="true"/>
     <AestheticValue Name="YVariable" Required="true"/>
@@ -11,6 +11,6 @@
     <AestheticValue Name="Size"/>
     <AestheticValue Name="Stroke"/>
   </AestheticValues>
-  <Stat>Identity</Stat>
-  <Position>Identity</Position>
-</LayerProperties>
+  <DefaultStat>Identity</DefaultStat>
+  <DefaultPosition>Identity</DefaultPosition>
+</Aesthetic>

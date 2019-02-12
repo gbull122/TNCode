@@ -3,23 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace ModuleR.Charts.Ggplot.Layer
 {
+    [Serializable]
+    [XmlRoot("AestheticValue")]
     public class AestheticValue
     {
-        public string Value { get; set; }
+        [XmlAttribute("Name")]
+        public string Name { get; set; }
         public string IgnoreCase { get; set; }
         public string FormatString { get; set; }
         public bool? UseLowerCase { get; set; }
         public bool? IsFactor { get; set; }
+        [XmlAttribute("Required")]
         public bool Required { get; set; }
         public string Entry { get; set; }
 
-        public AestheticValue(string value, bool required)
+        public AestheticValue()
         {
-            FormatString = "{0}";
-            Required = required;
+            //FormatString = "{0}";
+            //Required = required;
         }
 
         public string ReadValue()
@@ -34,7 +39,7 @@ namespace ModuleR.Charts.Ggplot.Layer
             if (IsFactor.HasValue && IsFactor.Value)
                 entryAsString = "as.factor(" + entryAsString + ")";
 
-            return Value + "=" + entryAsString;
+            return Name + "=" + entryAsString;
         }
     }
 }

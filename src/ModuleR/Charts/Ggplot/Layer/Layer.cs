@@ -23,6 +23,11 @@ namespace ModuleR.Charts.Ggplot.Layer
             get; set;
         }
 
+        public Layer(string geom)
+        {
+            Geom = geom;
+        }
+
         public string Command()
         {
             var command = new StringBuilder();

@@ -7,7 +7,7 @@
     xmlns:local="clr-namespace:ModuleR.Views"
     xmlns:prism="http://prismlibrary.com/"
     prism:ViewModelLocator.AutoWireViewModel="True">
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -28,7 +28,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
                 <!--Buttons-->
@@ -52,18 +52,23 @@
                         Grid.Row="1" 
                         Grid.Column="1"
                         Margin="2" 
-                        MaxHeight="100"
                         ItemsSource="{Binding Path=Layers}" 
                         ScrollViewer.VerticalScrollBarVisibility="Visible"
                         SelectedItem="{Binding Path=SelectedLayer,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                         AutoGenerateColumns="False"
                         Width="Auto"
                         ToolTip="Use to select a layer to edit or determine if it should be shown in the current plot.">
+                    
                     <DataGrid.Columns>
 
                         <DataGridTextColumn
-                                Header="Layer"
-                                Binding="{Binding Path=Name,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                Header="Data"
+                                Binding="{Binding Path=Data,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                Width="*"/>
+                        
+                        <DataGridTextColumn
+                                Header="Geom"
+                                Binding="{Binding Path=geom,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
                                 Width="*"/>
 
                         <DataGridCheckBoxColumn
@@ -81,8 +86,8 @@
                     <DataGrid.ContextMenu>
                         <ContextMenu>
                             <MenuItem 
-                                    Header="Delete Layer" 
-                                    Command="{Binding DeleteMenuItemCommand}"/>
+                                Header="Delete Layer" 
+                                Command="{Binding DeleteMenuItemCommand}"/>
                         </ContextMenu>
                     </DataGrid.ContextMenu>
 
@@ -95,31 +100,33 @@
                     HorizontalScrollBarVisibility="Disabled" 
                     VerticalScrollBarVisibility="Auto">
                     <ContentControl 
-                        prism:RegionManager.RegionName="LayerRegion"/>
-                    <ContentPresenter
-                        Content="{Binding Path=SelectedLayer}">
-                        <ContentPresenter.ContentTemplate>
-                            <DataTemplate
-                                DataType="{x:Type viewModels:LayerViewModel}">
-                                <views:LayerView/>
-                            </DataTemplate>
-                        </ContentPresenter.ContentTemplate>
-                    </ContentPresenter>
+                        prism:RegionManager.RegionName="LayerRegion">
+
+                        <!--<ContentPresenter
+                            Content="{Binding Path=SelectedLayer}">
+                            --><!--<ContentPresenter.ContentTemplate>
+                                <DataTemplate
+                                    DataType="{x:Type viewModels:LayerViewModel}">
+                                    <views:LayerView/>
+                                </DataTemplate>
+                            </ContentPresenter.ContentTemplate>--><!--
+                        </ContentPresenter>-->
+                    </ContentControl>
                 </ScrollViewer>
 
             </Grid>
 
-          
-            
+
+
         </GroupBox>
-        
+
         <!--Chart-->
         <GroupBox
             Grid.Row="1"
             Header="Chart">
-            
-            
+
+
         </GroupBox>
     </Grid>
-    
+
 </UserControl>

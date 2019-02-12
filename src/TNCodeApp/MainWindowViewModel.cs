@@ -3,6 +3,7 @@ using Prism.Events;
 using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Regions;
+using TNCode.Core.Data;
 using TNCodeApp.Data.Views;
 using TNCodeApp.Menu.Views;
 using Unity;
@@ -33,6 +34,8 @@ namespace TNCodeApp
             regionManager.RegisterViewWithRegion("RibbonRegion", typeof(RibbonView));
             regionManager.RegisterViewWithRegion("RibbonRegion", typeof(DataRibbonView));
             regionManager.RegisterViewWithRegion("MainRegion", typeof(DataSetsView));
+
+            container.RegisterType<IXmlConverter, XmlConverter>();
         }
     }
 }
