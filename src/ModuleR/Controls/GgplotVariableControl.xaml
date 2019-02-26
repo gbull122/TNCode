@@ -7,6 +7,7 @@
     xmlns:local="clr-namespace:ModuleR.Controls">
 
     <Border
+        x:Name="MainBorder"
         BorderBrush="Black"
         BorderThickness="1"
         Margin="1">
@@ -34,7 +35,7 @@
                 <TextBlock 
                     Grid.Column="0"
                     Margin="2" 
-                    Text="{Binding Name}"
+                    Text="{Binding PropertyName}"
                     VerticalAlignment="Center"/>
 
                 <CheckBox 
@@ -42,7 +43,7 @@
                     Margin="2"
                     IsChecked="{Binding Factor, UpdateSourceTrigger=PropertyChanged}"
                     VerticalAlignment="Center">
-                    <CheckBox.Style>
+                    <!--<CheckBox.Style>
                         <Style
                             TargetType="CheckBox"
                             BasedOn="{StaticResource {x:Type CheckBox}}">
@@ -56,7 +57,7 @@
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
-                    </CheckBox.Style>
+                    </CheckBox.Style>-->
                 </CheckBox>
 
             </Grid>
@@ -67,8 +68,8 @@
                 Margin="2" 
                 MinWidth="75"
                 ItemsSource="{Binding Path=Variables}"
-                IsSynchronizedWithCurrentItem="False"
-                SelectedItem="{Binding Path=Variable ,UpdateSourceTrigger=PropertyChanged}"/>
+                SelectedItem="{Binding Path=SelectedVariable ,UpdateSourceTrigger=PropertyChanged}"
+                IsSynchronizedWithCurrentItem="False"/>
 
             <Button 
                 Name="ActionButton"
@@ -78,5 +79,5 @@
                 MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"/>
 
         </Grid>
-    </Border>
+   </Border>
 </UserControl>

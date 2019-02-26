@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using ModuleR.Charts.Ggplot.Enums;
 using ModuleR.Charts.Ggplot.Layer;
+using ModuleR.Controls;
 using ModuleR.R;
-using ModuleR.Views;
 using Prism.Commands;
 using Prism.Events;
-using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Regions;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using TNCode.Core.Data;
 using TNCodeApp.Data.Events;
 using TNCodeApp.Docking;
@@ -17,13 +18,29 @@ namespace ModuleR.ViewModels
 {
     public class ChartBuilderViewModel : BindableBase, ITnPanel, INavigationAware
     {
-        private IRManager rManager;
+        private readonly IRManager rManager;
         private IEventAggregator eventAggregator;
         private IRegionManager regionManager;
         private List<string> currentVariables;
         private string currentData;
+        private IXmlConverter xmlConverter;
 
+        public List<string> Geoms { get; }
         public DelegateCommand NewLayerCommand { get; private set; }
+        public DelegateCommand ClearLayersCommand { get; private set; }
+        public DelegateCommand<ILayer> LayerSelectedCommand { get; private set; }
+
+        private ObservableCollection<VariableControl> variableControls;
+
+        public ObservableCollection<VariableControl> VariableControls
+        {
+            get { return variableControls; }
+            set
+            {
+                variableControls = value;
+                RaisePropertyChanged("ExtraControls");
+            }
+        }
 
         public string Title => "Plot";
 
@@ -38,7 +55,16 @@ namespace ModuleR.ViewModels
             {
                 selectedLayer = value;
                 RaisePropertyChanged("SelectedLayer");
-                UpdateLayer();
+            }
+        }
+
+        public string SelectedGeom
+        {
+            get { return SelectedLayer == null ? "point" : SelectedLayer.Geom; }
+            set
+            {
+                SelectedLayer.Geom = value;
+                RaisePropertyChanged("SelectedGeom");
             }
         }
 
@@ -54,8 +80,9 @@ namespace ModuleR.ViewModels
             }
         }
 
-        public ChartBuilderViewModel(IEventAggregator eventAggr,IRegionManager regMngr,IRManager rMngr)
+        public ChartBuilderViewModel(IEventAggregator eventAggr,IRegionManager regMngr,IRManager rMngr, IXmlConverter converter)
         {
+            xmlConverter = converter;
             rManager = rMngr;
             eventAggregator = eventAggr;
             regionManager = regMngr;
@@ -63,46 +90,91 @@ namespace ModuleR.ViewModels
             eventAggregator.GetEvent<DataSetSelectedEvent>().Subscribe(DataSetSelected, ThreadOption.UIThread);
 
             layers = new ObservableCollection<ILayer>();
+            variableControls = new ObservableCollection<VariableControl>();
 
-            NewLayerCommand = new DelegateCommand(NewLayer);
+            Geoms = Enum.GetNames(typeof(Geoms)).ToList();
+            Geoms.Remove("tile");
+
+            NewLayerCommand = new DelegateCommand(NewLayer,CanNewLayer);
+            ClearLayersCommand = new DelegateCommand(ClearLayers, CanClearLayers);
+            LayerSelectedCommand = new DelegateCommand<ILayer>(LayerSelected);
+            currentVariables = new List<string>();
+            currentData = string.Empty;
         }
 
-        private void UpdateLayer()
+        private void LayerSelected(ILayer layer)
         {
-            var parameters = new NavigationParameters();
-            parameters.Add("layer", selectedLayer);
+            SelectedGeom = layer.Geom;
+            var aestheticXml = Properties.Resources.ResourceManager.GetObject("geom_" + layer.Geom);
+            var aesthetic = xmlConverter.ToObject<Aesthetic>(aestheticXml.ToString());
+            MergeAesthetics(aesthetic);
+            variableControls.Clear();
+            foreach (var aValue in aesthetic.AestheticValues)
+            {
+                var gControl = new VariableControl(aValue, currentVariables);
+                variableControls.Add(gControl);
+            }
+            RaisePropertyChanged("VariableControls");
+        }
 
-            regionManager.RequestNavigate("LayerRegion", "LayerView", parameters);
+        private void MergeAesthetics(Aesthetic aestheticFromFile)
+        {
+            if (SelectedLayer.Aes == null)
+                return;
+
+            foreach (var aesValue in aestheticFromFile.AestheticValues)
+            {
+                if(!selectedLayer.Aes.DoesAestheticContainValue(aesValue.Name))
+                {
+                    selectedLayer.Aes.RemoveAestheticValue(aesValue.Name);
+                }
+            }
+            RaisePropertyChanged("");
+        }
+
+        private bool CanClearLayers()
+        {
+            return layers.Count > 0;
+        }
+
+        private void ClearLayers()
+        {
+            Layers.Clear();
+        }
+
+        private bool CanNewLayer()
+        {
+            if ((currentVariables != null || currentVariables.Count > 0)&& !string.IsNullOrEmpty(currentData))
+                return true;
+
+            return false;
         }
 
         private void NewLayer()
         {
             var newLayer = new Layer("point");
 
-            SelectedLayer = newLayer;
             newLayer.Data = currentData;
 
             layers.Add(newLayer);
 
-            var parameters = new NavigationParameters();
-            parameters.Add("layer", newLayer);
-            parameters.Add("variables", currentVariables);
+            SelectedLayer = newLayer;
 
-            regionManager.RequestNavigate("LayerRegion", "LayerView",parameters);
+            ClearLayersCommand.RaiseCanExecuteChanged();
         }
 
         private void DataSetSelected(DataSet dataSet)
         {
             currentVariables = dataSet.VariableNames();
             currentData = dataSet.Name;
+
+            NewLayerCommand.RaiseCanExecuteChanged();
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             if (navigationContext == null)
                return;
-
-            NewLayer();
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

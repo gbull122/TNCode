@@ -33,8 +33,9 @@ namespace ModuleR
             containerRegistry.Register<IRHostSessionCallback,RHostSessionCallback>();
             containerRegistry.RegisterInstance<IRManager>(rManager);
             containerRegistry.RegisterForNavigation<ChartBuilderView>();
-            containerRegistry.RegisterForNavigation<LayerView>();
+
             regionManager.RegisterViewWithRegion("RibbonRegion", typeof(RibbonRView));
+
         }
     }
 }

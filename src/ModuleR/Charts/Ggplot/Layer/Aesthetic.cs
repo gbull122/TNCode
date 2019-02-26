@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace ModuleR.Charts.Ggplot.Layer
@@ -40,6 +36,35 @@ namespace ModuleR.Charts.Ggplot.Layer
             command.Append(string.Join(",", aesCommands.ToArray()));
             command.Append(")");
             return command.ToString();
+        }
+
+        public AestheticValue GetAestheticValueByName(string name)
+        {
+            foreach(var aesValue in AestheticValues)
+            {
+                if (aesValue.Name.Equals(name))
+                    return aesValue;
+            }
+            return null;
+        }
+
+        public bool DoesAestheticContainValue(string name)
+        {
+            foreach (var aesValue in AestheticValues)
+            {
+                if (aesValue.Name.Equals(name))
+                    return true;
+            }
+            return false;
+        }
+
+        public void RemoveAestheticValue(string name)
+        {
+            foreach (var aesValue in AestheticValues)
+            {
+                if (aesValue.Name.Equals(name))
+                    AestheticValues.Remove(aesValue);
+            }
         }
     }
 }

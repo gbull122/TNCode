@@ -1,14 +1,14 @@
 ﻿using ModuleR.Charts.Ggplot.Layer;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Windows.Controls;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace ModuleR.Controls
 {
-    /// <summary>
-    /// Interaction logic for GgplotVariableControl.xaml
-    /// </summary>
-    public partial class GgplotVariableControl : UserControl, INotifyPropertyChanged
+    public class VariableControl : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -21,9 +21,9 @@ namespace ModuleR.Controls
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public GgplotVariableControl()
+        public VariableControl()
         {
-            DataContext = this;
+
         }
 
         public string PropertyName
@@ -49,7 +49,7 @@ namespace ModuleR.Controls
             }
         }
 
-        private string SelectedVariable
+        public string SelectedVariable
         {
             get { return aestheticValue.Entry; }
             set
@@ -61,16 +61,15 @@ namespace ModuleR.Controls
 
         public bool? Factor
         {
-            get { return aestheticValue.IsFactor; }
+            get { return aestheticValue.IsFactor==null ? false: aestheticValue.IsFactor; }
             set { aestheticValue.IsFactor = value; }
         }
 
-        public GgplotVariableControl(AestheticValue aesValue, List<string> variableNames)
+        public VariableControl(AestheticValue aesValue, List<string> variableNames)
         {
             aestheticValue = aesValue;
             variables = variableNames;
-            InitializeComponent();
         }
-
     }
 }
+

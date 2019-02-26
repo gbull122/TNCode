@@ -1,22 +1,58 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Text;
 
 namespace ModuleR.Charts.Ggplot.Layer
 {
-    public class Layer:ILayer
+    public class Layer : ILayer, INotifyPropertyChanged
     {
-        public string Data { get; set; }
+        private string data;
+        private string geom;
+        private bool showLegend;
 
-        public string Geom { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public Aesthetic Aes {get;set;}
+        protected void OnPropertyChanged(string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        } 
+
+        public string Data
+        {
+            get { return data; }
+            set
+            {
+                data = value;
+                OnPropertyChanged("Data");
+            }
+        }
+
+        public string Geom
+        {
+            get { return geom; }
+            set
+            {
+                geom = value;
+                OnPropertyChanged("Geom");
+            }
+        }
+
+        public Aesthetic Aes { get; set; }
 
         public string Stat
         {
             get; set;
         }
 
-        public bool ShowLegend { get; set; }
+        public bool ShowLegend
+        {
+            get { return showLegend; }
+            set
+            {
+                showLegend = value;
+                OnPropertyChanged("ShowLegend");
+            }
+        }
 
         public string Position
         {

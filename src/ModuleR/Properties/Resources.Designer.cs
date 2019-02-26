@@ -62,7 +62,30 @@ namespace ModuleR.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-        ///&lt;LayerProperties Name=&quot;point&quot;&gt;
+        ///&lt;Aesthetic Name=&quot;bar&quot;&gt;
+        ///  &lt;AestheticValues&gt;
+        ///    &lt;AestheticValue Name=&quot;XVariable&quot; Required=&quot;true&quot;/&gt;
+        ///    &lt;AestheticValue Name=&quot;YVariable&quot;/&gt;
+        ///    &lt;AestheticValue Name=&quot;Alpha&quot;/&gt;
+        ///    &lt;AestheticValue Name=&quot;Colour&quot;/&gt;
+        ///    &lt;AestheticValue Name=&quot;Fill&quot;/&gt;
+        ///    &lt;AestheticValue Name=&quot;Group&quot;/&gt;
+        ///    &lt;AestheticValue Name=&quot;LineType&quot;/&gt;
+        ///    &lt;AestheticValue Name=&quot;Size&quot;/&gt;
+        ///  &lt;/AestheticValues&gt;
+        ///  &lt;DefaultStat&gt;Count&lt;/DefaultStat&gt;
+        ///  &lt;DefaultPosition&gt;Stack&lt;/DefaultPosition&gt;
+        ///  &lt;Values&gt; [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string geom_bar {
+            get {
+                return ResourceManager.GetString("geom_bar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;Aesthetic Name=&quot;point&quot;&gt;
         ///  &lt;AestheticValues&gt;
         ///    &lt;AestheticValue Name=&quot;XVariable&quot; Required=&quot;true&quot;/&gt;
         ///    &lt;AestheticValue Name=&quot;YVariable&quot; Required=&quot;true&quot;/&gt;
@@ -74,8 +97,7 @@ namespace ModuleR.Properties {
         ///    &lt;AestheticValue Name=&quot;Size&quot;/&gt;
         ///    &lt;AestheticValue Name=&quot;Stroke&quot;/&gt;
         ///  &lt;/AestheticValues&gt;
-        ///  &lt;Stat&gt;Identity&lt;/Stat&gt;
-        ///  &lt;Posi [rest of string was truncated]&quot;;.
+        ///  &lt;DefaultStat&gt;Identity&lt;/DefaultStat&gt;        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string geom_point {
             get {
