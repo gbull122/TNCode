@@ -1,4 +1,5 @@
-﻿using ModuleR.Charts.Ggplot.Enums;
+﻿using ModuleR.Charts.Ggplot;
+using ModuleR.Charts.Ggplot.Enums;
 using ModuleR.Charts.Ggplot.Layer;
 using ModuleR.Controls;
 using ModuleR.R;
@@ -9,7 +10,9 @@ using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Windows.Media.Imaging;
 using TNCode.Core.Data;
 using TNCodeApp.Data.Events;
 using TNCodeApp.Docking;
@@ -24,6 +27,7 @@ namespace ModuleR.ViewModels
         private List<string> currentVariables;
         private string currentData;
         private IXmlConverter xmlConverter;
+        private BitmapImage chartImage;
 
         public List<string> Geoms { get; }
         public DelegateCommand NewLayerCommand { get; private set; }
@@ -39,6 +43,16 @@ namespace ModuleR.ViewModels
             {
                 variableControls = value;
                 RaisePropertyChanged("ExtraControls");
+            }
+        }
+
+        public BitmapImage ChartImage
+        {
+            get { return chartImage; }
+            set
+            {
+                chartImage = value;
+                RaisePropertyChanged("ChartImage");
             }
         }
 
@@ -104,17 +118,69 @@ namespace ModuleR.ViewModels
 
         private void LayerSelected(ILayer layer)
         {
-            SelectedGeom = layer.Geom;
             var aestheticXml = Properties.Resources.ResourceManager.GetObject("geom_" + layer.Geom);
             var aesthetic = xmlConverter.ToObject<Aesthetic>(aestheticXml.ToString());
             MergeAesthetics(aesthetic);
+
+            foreach(var vc in variableControls)
+            {
+                vc.PropertyChanged-= GControl_PropertyChanged;
+            }
             variableControls.Clear();
-            foreach (var aValue in aesthetic.AestheticValues)
+            foreach (var aValue in SelectedLayer.Aes.AestheticValues)
             {
                 var gControl = new VariableControl(aValue, currentVariables);
+                gControl.PropertyChanged += GControl_PropertyChanged;
                 variableControls.Add(gControl);
             }
             RaisePropertyChanged("VariableControls");
+        }
+
+        private async void GControl_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            var plot = new Ggplot();
+            plot.Layers.AddRange(layers);
+            var plotCommand = plot.Command();
+
+            await rManager.GenerateGgplotAsync(plotCommand);
+
+            var imagePath = GetGgplotChartPath();
+
+            if (!string.IsNullOrEmpty(imagePath))
+            {
+
+
+                using (var stream = new FileStream(
+                            imagePath,
+                            FileMode.Open,
+                            FileAccess.Read,
+                            FileShare.Read))
+                {
+                    var bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.StreamSource = stream;
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmap.EndInit();
+                    bitmap.Freeze();
+
+                    ChartImage = bitmap;
+                }
+            }
+        }
+
+        public string GetGgplotChartPath()
+        {
+            DirectoryInfo directoryToSearch = new DirectoryInfo(Path.GetTempPath());
+            FileInfo[] filesInDir = directoryToSearch.GetFiles("*.png");
+            foreach (FileInfo foundFile in filesInDir)
+            {
+                if (foundFile.FullName.EndsWith("TNGgplot.png"))
+                {
+                    return foundFile.FullName;
+                }
+            }
+
+            return string.Empty;
         }
 
         private void MergeAesthetics(Aesthetic aestheticFromFile)
@@ -122,13 +188,22 @@ namespace ModuleR.ViewModels
             if (SelectedLayer.Aes == null)
                 return;
 
+            var mergedAesthetic = new Aesthetic();
+
             foreach (var aesValue in aestheticFromFile.AestheticValues)
             {
-                if(!selectedLayer.Aes.DoesAestheticContainValue(aesValue.Name))
+                if(SelectedLayer.Aes.DoesAestheticContainValue(aesValue.Name))
                 {
-                    selectedLayer.Aes.RemoveAestheticValue(aesValue.Name);
+                    mergedAesthetic.AestheticValues.Add(SelectedLayer.Aes.GetAestheticValueByName(aesValue.Name));
+
+                }
+                else
+                {
+                    mergedAesthetic.AestheticValues.Add(aesValue);
                 }
             }
+            SelectedLayer.Aes = mergedAesthetic;
+
             RaisePropertyChanged("");
         }
 
@@ -154,6 +229,9 @@ namespace ModuleR.ViewModels
         {
             var newLayer = new Layer("point");
 
+            var aestheticXml = Properties.Resources.ResourceManager.GetObject("geom_point");
+            var aesthetic = xmlConverter.ToObject<Aesthetic>(aestheticXml.ToString());
+            newLayer.Aes = aesthetic;
             newLayer.Data = currentData;
 
             layers.Add(newLayer);

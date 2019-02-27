@@ -7,5 +7,7 @@ namespace ModuleR.R
         Task<bool> InitialiseAsync();
 
         bool IsRRunning { get; }
+
+        Task<bool> GenerateGgplotAsync(string ggplotCommand);
     }
 }

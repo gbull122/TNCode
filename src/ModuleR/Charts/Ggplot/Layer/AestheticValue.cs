@@ -23,7 +23,7 @@ namespace ModuleR.Charts.Ggplot.Layer
 
         public AestheticValue()
         {
-            //FormatString = "{0}";
+            FormatString = "{0}";
             //Required = required;
         }
 

@@ -3,6 +3,7 @@ using Prism.Logging;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using TNCode.Core.Data;
@@ -14,6 +15,12 @@ namespace ModuleR.R
         private IROperations rOperations;
         private readonly IRHostSessionCallback rHostSessionCallback;
         private ILoggerFacade logger;
+
+        public string WindowsDirectory
+        {
+            get;
+            set;
+        }
 
         public bool IsRRunning
         {
@@ -27,6 +34,7 @@ namespace ModuleR.R
         {
             logger = loggerFacade;
             rHostSessionCallback = rhostSession;
+            WindowsDirectory = Path.GetTempPath();
         }
 
         public RManager(IRHostSessionCallback rhostSession, ILoggerFacade loggerFacade, IROperations rOps)
@@ -203,6 +211,52 @@ namespace ModuleR.R
             //await rOperations.CreateDataFrameAsync(name, df);
 
             return true;
+        }
+
+        public async Task<bool> GenerateGgplotAsync(string ggplotCommand)
+        {
+            try
+            {
+                using (StringReader reader = new StringReader(ggplotCommand + "+ theme_sharp()"))
+                {
+                    var plotWidth = 15;
+                    var plotHeight = 12;
+                    var plotRes = 600;
+                    //get code into text file
+                    string fileName = WindowsDirectory + "\\ExcelRLinkScript.R";
+                    using (StreamWriter file = new StreamWriter(fileName))
+                    {
+                        file.WriteLine(
+                            "devEval(" + string.Format("\"{0}\"", "png") +
+                            ", path = " + ConverPathToR(Path.Combine(WindowsDirectory, "Charts")) +
+                            ", name = \"TNGgplot\", width = " + plotWidth +
+                            ", height = " + plotHeight + ", units =" +
+                            string.Format("\"{0}\"", "cm") + ", res = " + plotRes + ", pointsize = 12, {");
+
+                        string line;
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            file.WriteLine(line);
+                        }
+                        file.WriteLine("plot(p)");
+                        file.WriteLine("})");
+                    }
+
+                    await rOperations.ExecuteAsync("source(" + ConverPathToR(fileName) + ",echo=TRUE, max.deparse.length=10000)");
+                }
+            }
+            catch (Exception ex)
+            {
+                //ErrorMessage = "Failed to generate plot " + ex.Message;
+                return false;
+            }
+            return true;
+        }
+
+        public string ConverPathToR(string path)
+        {
+            string temp = path.Replace('\\', '/');
+            return string.Format("\"{0}\"", temp);
         }
     }
 }

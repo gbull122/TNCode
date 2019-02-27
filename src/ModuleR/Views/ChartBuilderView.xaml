@@ -252,6 +252,13 @@
         <GroupBox
             Grid.Row="1"
             Header="Chart">
+            <Image 
+                Source="{Binding ChartImage}"
+                SnapsToDevicePixels="True"
+                RenderOptions.EdgeMode="Aliased"
+                RenderOptions.BitmapScalingMode="HighQuality"
+                StretchDirection="DownOnly"
+                Stretch="Uniform"/>
 
 
         </GroupBox>

@@ -89,7 +89,7 @@ namespace ModuleR.Charts.Ggplot.Layer
 
         private bool IsValid()
         {
-            throw new NotImplementedException();
+            return true;
         }
     }
 }
