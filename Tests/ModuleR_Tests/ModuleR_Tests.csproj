@@ -76,6 +76,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AestheticValue_Tests.cs" />
     <Compile Include="Aesthetic_Tests.cs" />
     <Compile Include="RManager_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

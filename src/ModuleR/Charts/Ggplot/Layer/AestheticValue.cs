@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace ModuleR.Charts.Ggplot.Layer
@@ -13,22 +9,28 @@ namespace ModuleR.Charts.Ggplot.Layer
     {
         [XmlAttribute("Name")]
         public string Name { get; set; }
-        public string IgnoreCase { get; set; }
+
         public string FormatString { get; set; }
+
         public bool? UseLowerCase { get; set; }
+
         public bool? IsFactor { get; set; }
+
         [XmlAttribute("Required")]
         public bool Required { get; set; }
+
         public string Entry { get; set; }
 
         public AestheticValue()
         {
             FormatString = "{0}";
-            //Required = required;
         }
 
         public string ReadValue()
         {
+            if (string.IsNullOrEmpty(Name))
+                return string.Empty;
+
             var entryAsString = Entry;
 
             if (UseLowerCase.HasValue && UseLowerCase.Value)
