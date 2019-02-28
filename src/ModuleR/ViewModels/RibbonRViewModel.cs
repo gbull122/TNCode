@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using ModuleR.R;
 using Prism.Commands;
 using Prism.Events;
@@ -41,12 +43,19 @@ namespace ModuleR.ViewModels
 
             ChartBuilderCommand = new DelegateCommand(CreateChart).ObservesCanExecute(() => IsRRunning);
             RStartCommand = new DelegateCommand(StartR);
-            RDetailsCommand = new DelegateCommand(ShowRDetails).ObservesCanExecute(()=>IsRRunning);
+            RDetailsCommand = new DelegateCommand(ShowRDetails).ObservesCanExecute(() => IsRRunning);
         }
 
-        private void ShowRDetails()
+        private async void ShowRDetails()
         {
-            throw new NotImplementedException();
+            StringBuilder message = new StringBuilder();
+
+            message.AppendLine("TNCode is connected to R:");
+            message.AppendLine("R Home : " + await rManager.RHomeFromConnectedRAsync());
+            message.AppendLine("R Version :" + await rManager.RVersionFromConnectedRAsync());
+            message.AppendLine("R Platform :" + await rManager.RPlatformFromConnectedRAsync());
+
+            MessageBox.Show(message.ToString(), "TNCode", MessageBoxButton.OK);
         }
 
         private async void StartR()

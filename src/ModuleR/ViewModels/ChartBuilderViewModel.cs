@@ -94,13 +94,13 @@ namespace ModuleR.ViewModels
             }
         }
 
-        public ChartBuilderViewModel(IEventAggregator eventAggr,IRegionManager regMngr,IRManager rMngr, IXmlConverter converter)
+        public ChartBuilderViewModel(IEventAggregator eventAggr, IRegionManager regMngr, IRManager rMngr, IXmlConverter converter)
         {
             xmlConverter = converter;
             rManager = rMngr;
             eventAggregator = eventAggr;
             regionManager = regMngr;
-            
+
             eventAggregator.GetEvent<DataSetSelectedEvent>().Subscribe(DataSetSelected, ThreadOption.UIThread);
 
             layers = new ObservableCollection<ILayer>();
@@ -109,7 +109,7 @@ namespace ModuleR.ViewModels
             Geoms = Enum.GetNames(typeof(Geoms)).ToList();
             Geoms.Remove("tile");
 
-            NewLayerCommand = new DelegateCommand(NewLayer,CanNewLayer);
+            NewLayerCommand = new DelegateCommand(NewLayer, CanNewLayer);
             ClearLayersCommand = new DelegateCommand(ClearLayers, CanClearLayers);
             LayerSelectedCommand = new DelegateCommand<ILayer>(LayerSelected);
             currentVariables = new List<string>();
@@ -122,9 +122,9 @@ namespace ModuleR.ViewModels
             var aesthetic = xmlConverter.ToObject<Aesthetic>(aestheticXml.ToString());
             MergeAesthetics(aesthetic);
 
-            foreach(var vc in variableControls)
+            foreach (var vc in variableControls)
             {
-                vc.PropertyChanged-= GControl_PropertyChanged;
+                vc.PropertyChanged -= GControl_PropertyChanged;
             }
             variableControls.Clear();
             foreach (var aValue in SelectedLayer.Aes.AestheticValues)
@@ -148,8 +148,6 @@ namespace ModuleR.ViewModels
 
             if (!string.IsNullOrEmpty(imagePath))
             {
-
-
                 using (var stream = new FileStream(
                             imagePath,
                             FileMode.Open,
@@ -192,7 +190,7 @@ namespace ModuleR.ViewModels
 
             foreach (var aesValue in aestheticFromFile.AestheticValues)
             {
-                if(SelectedLayer.Aes.DoesAestheticContainValue(aesValue.Name))
+                if (SelectedLayer.Aes.DoesAestheticContainValue(aesValue.Name))
                 {
                     mergedAesthetic.AestheticValues.Add(SelectedLayer.Aes.GetAestheticValueByName(aesValue.Name));
 
@@ -219,7 +217,7 @@ namespace ModuleR.ViewModels
 
         private bool CanNewLayer()
         {
-            if ((currentVariables != null || currentVariables.Count > 0)&& !string.IsNullOrEmpty(currentData))
+            if ((currentVariables != null || currentVariables.Count > 0) && !string.IsNullOrEmpty(currentData))
                 return true;
 
             return false;
@@ -240,19 +238,25 @@ namespace ModuleR.ViewModels
 
             ClearLayersCommand.RaiseCanExecuteChanged();
         }
+    
+        private async void PutDataSetInR(DataSet data)
+        {
+           await rManager.DataSetToRAsDataFrameAsync(data);
+        }
 
         private void DataSetSelected(DataSet dataSet)
         {
             currentVariables = dataSet.VariableNames();
             currentData = dataSet.Name;
 
+            PutDataSetInR(dataSet);
             NewLayerCommand.RaiseCanExecuteChanged();
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             if (navigationContext == null)
-               return;
+                return;
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -262,7 +266,7 @@ namespace ModuleR.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
-           
+
         }
     }
 }

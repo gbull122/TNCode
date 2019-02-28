@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace TNCode.Core.Data
 {
@@ -13,5 +9,6 @@ namespace TNCode.Core.Data
         List<string> ObservationNames { get; }
         List<IVariable> Variables { get; }
         bool AllColumnsEqual();
+        IReadOnlyList<IReadOnlyList<object>> RawData();
     }
 }

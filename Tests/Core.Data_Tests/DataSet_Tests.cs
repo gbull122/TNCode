@@ -24,6 +24,7 @@ namespace Core.Data_Tests
             dataSet.Variables.Count.Should().Be(expectedVariableCount);
             dataSet.Variables[1].Length.Should().Be(expectedVariableLength);
             dataSet.Name.Should().Be(expectedName);
+            dataSet.ObservationNames.Count.Should().Be(expectedVariableLength);
 
         }
 
@@ -46,7 +47,7 @@ namespace Core.Data_Tests
             dataSet.VariableNames()[0].Should().Be(expectedNames[0]);
             dataSet.VariableNames()[1].Should().Be(expectedNames[1]);
             dataSet.Name.Should().Be(expectedName);
-
+            dataSet.ObservationNames.Count.Should().Be(expectedVariableLength);
         }
     }
 }

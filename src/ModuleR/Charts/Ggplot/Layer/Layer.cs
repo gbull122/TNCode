@@ -75,8 +75,8 @@ namespace ModuleR.Charts.Ggplot.Layer
             command.Append("data=" + Data + ",");
             command.Append("geom=\"" + Geom.ToString() + "\",");
             command.Append("mapping=" + Aes.Command() + ",");
-            //command.Append("stat=" + Statistic.Command() + ",");
-            //command.Append("position=" + Pos.Command() + ",");
+            command.Append("stat=" + string.Format("\"{0}\"", "identity") + ",");
+            command.Append("position=" + string.Format("\"{0}\"", "identity") + ",");
             //command.Append(ParametersCommand() + ",");
             command.Append("show.legend=" + ShowLegend.ToString().ToUpper());
             command.Append(")");

@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Aesthetic Name="point">
   <AestheticValues>
-    <AestheticValue Name="XVariable" Required="true"/>
-    <AestheticValue Name="YVariable" Required="true"/>
+    <AestheticValue Name="x" Required="true"/>
+    <AestheticValue Name="y" Required="true"/>
     <AestheticValue Name="Alpha"/>
     <AestheticValue Name="Colour"/>
     <AestheticValue Name="Fill"/>

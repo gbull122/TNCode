@@ -52,6 +52,12 @@ namespace ModuleR.R
                 rOperations = new ROperations(rHostSession);
 
                 await rOperations.StartHostAsync(rHostSessionCallback);
+
+                await rOperations.ExecuteAsync("library(" + string.Format("\"{0}\"", "R.devices") + ")");
+
+                await rOperations.ExecuteAsync("library(" + string.Format("\"{0}\"", "ggplot2") + ")");
+
+                await rOperations.ExecuteAndOutputAsync("setwd(" + ConverPathToR(WindowsDirectory) + ")");
             }
             catch (Exception ex)
             {
@@ -195,20 +201,11 @@ namespace ModuleR.R
             return await RunRCommnadAsync("R.version$version.string");
         }
 
-        public async Task<bool> DataSetToRAsDataFrameAsync(DataSet data,List<IReadOnlyCollection<object>> selectedData, string name, string[] headers)
+        public async Task<bool> DataSetToRAsDataFrameAsync(DataSet data)
         {
-            //var rowLength = selectedData[0].Cast<object>().ToList().Count;
-            //var rows = Enumerable.Range(1, rowLength);
+            DataFrame df = new DataFrame(data.ObservationNames.AsReadOnly(), data.VariableNames().AsReadOnly(),data.RawData());
 
-            //List<string> rowNames = ((IEnumerable)rows)
-            //                    .Cast<object>()
-            //                    .Select(x => x.ToString())
-            //                    .ToList();
-
-
-            //DataFrame df = new DataFrame(data.ObservationNames.AsReadOnly(), data.VariableNames().AsReadOnly(), data.);
-
-            //await rOperations.CreateDataFrameAsync(name, df);
+            await rOperations.CreateDataFrameAsync(data.Name, df);
 
             return true;
         }
@@ -217,13 +214,13 @@ namespace ModuleR.R
         {
             try
             {
-                using (StringReader reader = new StringReader(ggplotCommand + "+ theme_sharp()"))
+                using (StringReader reader = new StringReader(ggplotCommand))
                 {
                     var plotWidth = 15;
                     var plotHeight = 12;
                     var plotRes = 600;
                     //get code into text file
-                    string fileName = WindowsDirectory + "\\ExcelRLinkScript.R";
+                    string fileName = WindowsDirectory + "\\TNGgplot.R";
                     using (StreamWriter file = new StreamWriter(fileName))
                     {
                         file.WriteLine(
@@ -258,5 +255,7 @@ namespace ModuleR.R
             string temp = path.Replace('\\', '/');
             return string.Format("\"{0}\"", temp);
         }
+
+
     }
 }
