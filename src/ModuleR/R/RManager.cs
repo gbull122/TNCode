@@ -225,7 +225,7 @@ namespace ModuleR.R
                     {
                         file.WriteLine(
                             "devEval(" + string.Format("\"{0}\"", "png") +
-                            ", path = " + ConverPathToR(Path.Combine(WindowsDirectory, "Charts")) +
+                            ", path = " + ConverPathToR(WindowsDirectory) +
                             ", name = \"TNGgplot\", width = " + plotWidth +
                             ", height = " + plotHeight + ", units =" +
                             string.Format("\"{0}\"", "cm") + ", res = " + plotRes + ", pointsize = 12, {");
