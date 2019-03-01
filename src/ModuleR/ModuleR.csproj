@@ -168,6 +168,20 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Charts\Ggplot\Definitions\Geoms\bar.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Geoms\bin2d.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Geoms\boxplot.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Geoms\contour.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Geoms\density.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Geoms\density_2d.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Geoms\dotplot.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Geoms\errorbar.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Geoms\hex.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Geoms\histogram.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Geoms\line.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Geoms\quantile.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Geoms\rug.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Geoms\smooth.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Geoms\violin.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.R.Host.Client.API.1.1.1\build\Microsoft.R.Host.Client.API.targets" Condition="Exists('..\packages\Microsoft.R.Host.Client.API.1.1.1\build\Microsoft.R.Host.Client.API.targets')" />

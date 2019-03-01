@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Aesthetic Name="boxplot">
+  <AestheticValues>
+    <AestheticValue Name="X"/>
+    <AestheticValue Name="Y"/>
+    <AestheticValue Name="Alpha"/>
+    <AestheticValue Name="Colour"/>
+    <AestheticValue Name="Fill"/>
+    <AestheticValue Name="Group"/>
+    <AestheticValue Name="Shape"/>
+    <AestheticValue Name="Size"/>
+    <AestheticValue Name="Weight"/>
+    <AestheticValue Name="LineType"/>
+  </AestheticValues>
+  <Stat>Boxplot</Stat>
+  <Position>Dodge2</Position>
+  <Properties>
+    
+  </Properties>
+  <Booleans>
+    <Property Tag="Show Notch" Name="notch" Value="FALSE"/>
+    <Property Tag="Variable Width" Name="varwidth" Value="FALSE"/>
+  </Booleans>
+  <Values>
+    <Property Tag="Outlier Size" Name ="outlier.size" Value="1.5"/>
+    <Property Tag="Notch Width" Name="notchwidth" Value="0.5"/>
+  </Values>
+
+</Aesthetic>

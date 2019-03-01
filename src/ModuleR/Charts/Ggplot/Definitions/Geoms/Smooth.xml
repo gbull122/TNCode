@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Aesthetic Name="bar">
+<Aesthetic Name="smooth">
   <AestheticValues>
-    <AestheticValue Name="X" Required="true"/>
+    <AestheticValue Name="X"/>
     <AestheticValue Name="Y"/>
     <AestheticValue Name="Alpha"/>
     <AestheticValue Name="Colour"/>
@@ -9,10 +9,8 @@
     <AestheticValue Name="Group"/>
     <AestheticValue Name="LineType"/>
     <AestheticValue Name="Size"/>
+    <AestheticValue Name="Weight"/>
   </AestheticValues>
-  <DefaultStat>Count</DefaultStat>
-  <DefaultPosition>Stack</DefaultPosition>
-  <Values>
-    <Property Tag="Bar Width" Name="width" Value="0.9"/>
-  </Values>
-  </Aesthetic>
+  <Stat>Smooth</Stat>
+  <Position>Identity</Position>
+</Aesthetic>

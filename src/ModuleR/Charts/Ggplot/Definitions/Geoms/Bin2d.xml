@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Aesthetic Name="tile">
+  <AestheticValues>
+    <AestheticValue Name="X"/>
+    <AestheticValue Name="Y"/>
+    <AestheticValue Name="Fill"/>
+    <AestheticValue Name="Group"/>
+  </AestheticValues>
+  <Stat>Bin2d</Stat>
+  <Position>Identity</Position>
+</Aesthetic>

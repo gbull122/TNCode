@@ -7,15 +7,17 @@
         boxplot,
         contour,
         density,
+        density_2d,
         dotplot,
         errorbar,
         hex,
         histogram,
         line,
         point,
+        quantile,
+        rug,
         smooth,
         tile,
-        rug,
         violin
     }
 }

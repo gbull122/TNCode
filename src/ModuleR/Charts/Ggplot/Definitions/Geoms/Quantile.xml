@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Aesthetic Name="quantile">
+  <AestheticValues>
+    <AestheticValue Name="XVariable"/>
+    <AestheticValue Name="YVariable"/>
+    <AestheticValue Name="Alpha"/>
+    <AestheticValue Name="Colour"/>
+    <AestheticValue Name="Group"/>
+    <AestheticValue Name="LineType"/>
+    <AestheticValue Name="Size"/>
+    <AestheticValue Name="Weight"/>
+  </AestheticValues>
+  <Stat>Quantile</Stat>
+  <Position>Identity</Position>
+</Aesthetic>

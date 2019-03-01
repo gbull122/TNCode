@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Aesthetic Name="line">
+  <AestheticValues>
+    <AestheticValue Name="X"/>
+    <AestheticValue Name="Y"/>
+    <AestheticValue Name="Alpha"/>
+    <AestheticValue Name="Colour"/>
+    <AestheticValue Name="Group"/>
+    <AestheticValue Name="LineType"/>
+    <AestheticValue Name="Size"/>
+  </AestheticValues>
+  <Stat>Identity</Stat>
+  <Position>Identity</Position>
+  <Properties>
+    <Property Tag="Line End" Name="lineend" Value="">
+      <Options>
+        <Option Name="Round" Value="round"/>
+        <Option Name="Butt" Value="butt"/>
+        <Option Name="Square" Value="square"/>
+      </Options>
+    </Property>
+    <Property Tag="Line Join" Name="linejoin" Value="">
+      <Options>
+        <Option Name="Round" Value="round"/>
+        <Option Name="Mitre" Value="mitre"/>
+        <Option Name="Bevel" Value="bevel"/>
+      </Options>
+    </Property>
+  </Properties>
+
+</Aesthetic>

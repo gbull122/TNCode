@@ -1,18 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Aesthetic Name="bar">
+<Aesthetic Name="density">
   <AestheticValues>
-    <AestheticValue Name="X" Required="true"/>
+    <AestheticValue Name="X"/>
     <AestheticValue Name="Y"/>
     <AestheticValue Name="Alpha"/>
     <AestheticValue Name="Colour"/>
     <AestheticValue Name="Fill"/>
     <AestheticValue Name="Group"/>
-    <AestheticValue Name="LineType"/>
     <AestheticValue Name="Size"/>
+    <AestheticValue Name="Weight"/>
+    <AestheticValue Name="LineType"/>
   </AestheticValues>
-  <DefaultStat>Count</DefaultStat>
-  <DefaultPosition>Stack</DefaultPosition>
-  <Values>
-    <Property Tag="Bar Width" Name="width" Value="0.9"/>
-  </Values>
-  </Aesthetic>
+  <Stat>Density</Stat>
+  <Position>Identity</Position>
+</Aesthetic>
