@@ -34,7 +34,7 @@ namespace TNCodeApp
            
             regionAdapterMappings.RegisterMapping(typeof(DockingManager), new DockingRegionAdapter(ServiceLocator.Current.GetInstance<IRegionBehaviorFactory>()));
 
-            regionAdapterMappings.RegisterMapping(typeof(Ribbon), new RibbonRegionAdapter(ServiceLocator.Current.GetInstance<IRegionBehaviorFactory>()));
+            regionAdapterMappings.RegisterMapping(typeof(System.Windows.Controls.Ribbon.Ribbon), new RibbonRegionAdapter(ServiceLocator.Current.GetInstance<IRegionBehaviorFactory>()));
 
             base.ConfigureRegionAdapterMappings(regionAdapterMappings);
         }

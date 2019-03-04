@@ -182,6 +182,31 @@
     <Content Include="Charts\Ggplot\Definitions\Geoms\rug.xml" />
     <Content Include="Charts\Ggplot\Definitions\Geoms\smooth.xml" />
     <Content Include="Charts\Ggplot\Definitions\Geoms\violin.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Positions\dodge.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Charts\Ggplot\Definitions\Positions\dodge2.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Positions\identity.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Charts\Ggplot\Definitions\Positions\jitter.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Positions\stack.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Stats\bin.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Stats\bin2d.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Stats\bindot.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Stats\binhex.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Stats\boxplot.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Stats\contour.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Stats\count.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Stats\density.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Stats\density_2d.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Stats\identity.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Stats\quantile.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Stats\smooth.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Stats\summary.xml" />
+    <Content Include="Charts\Ggplot\Definitions\Stats\ydensity.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.R.Host.Client.API.1.1.1\build\Microsoft.R.Host.Client.API.targets" Condition="Exists('..\packages\Microsoft.R.Host.Client.API.1.1.1\build\Microsoft.R.Host.Client.API.targets')" />

@@ -8,7 +8,7 @@ using System.Windows.Controls.Ribbon;
 
 namespace TNCodeApp.Menu
 {
-    public class RibbonRegionAdapter : RegionAdapterBase<Ribbon>
+    public class RibbonRegionAdapter : RegionAdapterBase<System.Windows.Controls.Ribbon.Ribbon>
     {
 
         public RibbonRegionAdapter(IRegionBehaviorFactory regionBehaviorFactory)
@@ -16,7 +16,7 @@ namespace TNCodeApp.Menu
         {
         }
 
-        protected override void Adapt(IRegion region, Ribbon regionTarget)
+        protected override void Adapt(IRegion region, System.Windows.Controls.Ribbon.Ribbon regionTarget)
         {
             region.Behaviors.Add(RibbonBehavior.BehaviorKey,
                  new RibbonBehavior()

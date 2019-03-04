@@ -11,9 +11,9 @@ namespace TNCodeApp.Menu
     {
         public static readonly string BehaviorKey = "MenuManagerBehavior";
 
-        private Ribbon mainRibbon;
+        private System.Windows.Controls.Ribbon.Ribbon mainRibbon;
 
-        public Ribbon MainRibbon
+        public System.Windows.Controls.Ribbon.Ribbon MainRibbon
         {
             get { return mainRibbon; }
             set { mainRibbon = value; }
@@ -35,11 +35,13 @@ namespace TNCodeApp.Menu
 
                     if (ribbonView != null)
                     {
-                        RemoveFromParent(ribbonView.MainApplicationMenu);
-                        mainRibbon.ApplicationMenu = ribbonView.MainApplicationMenu;
+                        RemoveFromParent(ribbonView.ApplicationMenu);
+                        mainRibbon.ApplicationMenu = ribbonView.ApplicationMenu;
+                        mainRibbon.ApplicationMenu.DataContext = ribbonView.DataContext;
 
                         RemoveFromParent(ribbonView.HomeTab);
                         mainRibbon.Items.Add(ribbonView.HomeTab);
+                        
                         return;
                     }
                     var newTab = newItem as RibbonTab;
@@ -54,7 +56,7 @@ namespace TNCodeApp.Menu
 
                         var homeTab = (RibbonTab)mainRibbon.Items.GetItemAt(0);
 
-                        homeTab.Items.Insert(0, group);
+                        homeTab.Items.Add(group);
 
                         return;
                     }

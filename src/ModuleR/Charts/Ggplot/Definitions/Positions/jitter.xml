@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<LayerProperties Name="jitter">
+  <Values>
+    <Property Tag="Width" Name ="width" Value="0"/>
+    <Property Tag="Height" Name ="height" Value="0"/>
+  </Values>
+</LayerProperties>

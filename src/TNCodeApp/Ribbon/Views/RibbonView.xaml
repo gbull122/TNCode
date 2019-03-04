@@ -3,22 +3,45 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:views="clr-namespace:TNCodeApp.Ribbon.Views"
     prism:ViewModelLocator.AutoWireViewModel="True">
 
-        <Ribbon.ApplicationMenu>
+    <i:Interaction.Triggers>
+
+        <prism:InteractionRequestTrigger SourceObject="{Binding CustomPopupRequest}">
+            <prism:PopupWindowAction IsModal="True" CenterOverAssociatedObject="True">
+                <prism:PopupWindowAction.WindowContent>
+                    <views:AboutView />
+                </prism:PopupWindowAction.WindowContent>
+            </prism:PopupWindowAction>
+        </prism:InteractionRequestTrigger>
+
+    </i:Interaction.Triggers>
+    <Ribbon.ApplicationMenu>
             <RibbonApplicationMenu
                 x:Name="MainApplicationMenu">
-                <RibbonApplicationMenuItem  Header="New" />
+                <!--<RibbonApplicationMenuItem  Header="New" />
                 <RibbonApplicationMenuItem  Header="Open ..." />
                 <RibbonApplicationSplitMenuItem Header="Save">
                     <RibbonApplicationMenuItem  Header="Save As ..." />
                     <RibbonApplicationMenuItem Header="Save a Copy ..." />
-                </RibbonApplicationSplitMenuItem>
+                </RibbonApplicationSplitMenuItem>-->
 
-                <RibbonApplicationMenuItem Header="Close" Command="{Binding Path=CloseCommand}"/>
-                <RibbonSeparator />
-                <RibbonApplicationMenuItem Header="Settings" />
-                <RibbonApplicationMenuItem  Header="About" />
+            <RibbonApplicationMenuItem 
+                Header="Close"
+                Command="{Binding Path=CloseCommand}"/>
+                
+            <RibbonSeparator />
+            <RibbonApplicationMenuItem 
+                Header="Settings" 
+                Command="{Binding Path=SettingsCommand}"
+                IsEnabled="False"/>
+                
+            <RibbonApplicationMenuItem  
+                Header="About"  
+                Command="{Binding Path=AboutCommand}"
+                IsEnabled="False"/>
 
             </RibbonApplicationMenu>
         </Ribbon.ApplicationMenu>

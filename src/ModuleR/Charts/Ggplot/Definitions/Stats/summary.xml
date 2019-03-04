@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<LayerProperties Name="summary">
+  <Properties>
+    <Property Tag="Y Function" Name="fun.y" Value="">
+      <Options>
+        <Option Name="Min" Value="min"/>
+        <Option Name="Max" Value="max"/>
+        <Option Name="Mean" Value="mean"/>
+        <Option Name="Median" Value="median"/>
+        <Option Name="Sum" Value="sum"/>
+        <Option Name="StdDev" Value="sd"/>
+        <Option Name="Variance" Value="var"/>
+      </Options>
+    </Property>
+  </Properties>
+</LayerProperties>

@@ -5,7 +5,7 @@ namespace TNCodeApp.Menu.Views
     /// <summary>
     /// Interaction logic for MenuView.xaml
     /// </summary>
-    public partial class RibbonView : Ribbon
+    public partial class RibbonView : System.Windows.Controls.Ribbon.Ribbon
     {
         public RibbonView()
         {

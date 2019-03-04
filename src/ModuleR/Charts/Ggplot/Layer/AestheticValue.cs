@@ -24,6 +24,7 @@ namespace ModuleR.Charts.Ggplot.Layer
         public AestheticValue()
         {
             FormatString = "{0}";
+            UseLowerCase = true;
         }
 
         public string ReadValue()

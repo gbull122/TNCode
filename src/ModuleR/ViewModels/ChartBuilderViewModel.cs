@@ -78,6 +78,7 @@ namespace ModuleR.ViewModels
             set
             {
                 SelectedLayer.Geom = value;
+                Update();
                 RaisePropertyChanged("SelectedGeom");
             }
         }
@@ -119,6 +120,26 @@ namespace ModuleR.ViewModels
         private void LayerSelected(ILayer layer)
         {
             var aestheticXml = Properties.Resources.ResourceManager.GetObject("geom_" + layer.Geom);
+            var aesthetic = xmlConverter.ToObject<Aesthetic>(aestheticXml.ToString());
+            MergeAesthetics(aesthetic);
+
+            foreach (var vc in variableControls)
+            {
+                vc.PropertyChanged -= GControl_PropertyChanged;
+            }
+            variableControls.Clear();
+            foreach (var aValue in SelectedLayer.Aes.AestheticValues)
+            {
+                var gControl = new VariableControl(aValue, currentVariables);
+                gControl.PropertyChanged += GControl_PropertyChanged;
+                variableControls.Add(gControl);
+            }
+            RaisePropertyChanged("VariableControls");
+        }
+
+        private void Update()
+        {
+            var aestheticXml = Properties.Resources.ResourceManager.GetObject("geom_" +SelectedGeom);
             var aesthetic = xmlConverter.ToObject<Aesthetic>(aestheticXml.ToString());
             MergeAesthetics(aesthetic);
 

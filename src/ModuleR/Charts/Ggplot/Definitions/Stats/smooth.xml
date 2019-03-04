@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<LayerProperties Name="smooth">
+  <Properties>
+    <Property Tag="Method" Name="method" Value="auto">
+      <Options>
+        <Option Name="Auto" Value="auto"/>
+        <Option Name="LM" Value="lm"/>
+        <Option Name="GLM" Value="glm"/>
+        <Option Name="GAM" Value="gam"/>
+        <Option Name="Loess" Value="loess"/>
+      </Options>
+    </Property>
+    <Property Tag="Formula" Name="formula" Value="y~x">
+      <Options>
+        <Option Name="Simple" Value="y~x"/>
+        <Option Name="Quadratic" Value="y ~ poly(x, 2)"/>
+        <Option Name="Cubic" Value="y ~ poly(x, 3)"/>
+        <Option Name="Log" Value="y ~ log(x)"/>
+      </Options>
+    </Property>
+  </Properties>
+  <Values>
+    <Property Tag="Number of Points" Name="n" Value="0"/>
+    <Property Tag="Span" Name="span" Value="0.75"/>
+    <Property Tag="Level" Name="level" Value="0.95"/>
+  </Values>
+  <Booleans>
+    <Property Tag="Full range" Name="fullrange" Value="TRUE"/>
+  </Booleans>
+</LayerProperties>
