@@ -1,17 +1,15 @@
-﻿using System;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using ModuleR.R;
+﻿using ModuleR.R;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
-using TNCodeApp.Menu;
+using System;
+using System.Text;
+using System.Windows;
 
 namespace ModuleR.ViewModels
 {
-    public class RibbonRViewModel : BindableBase, ITnRibbon
+    public class RibbonRViewModel : BindableBase
     {
         private IEventAggregator eventAggregator;
         private IRegionManager regionManager;

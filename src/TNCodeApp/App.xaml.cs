@@ -5,11 +5,9 @@ using Prism.Modularity;
 using Prism.Regions;
 using Prism.Unity;
 using System.Windows;
-using System.Windows.Controls.Ribbon;
-using TNCodeApp.Data.Views;
 using TNCodeApp.Docking;
 using TNCodeApp.Logger;
-using TNCodeApp.Menu;
+using TNCodeApp.Ribbon;
 using Xceed.Wpf.AvalonDock;
 
 namespace TNCodeApp
@@ -31,7 +29,6 @@ namespace TNCodeApp
 
         protected override void ConfigureRegionAdapterMappings(RegionAdapterMappings regionAdapterMappings)
         {
-           
             regionAdapterMappings.RegisterMapping(typeof(DockingManager), new DockingRegionAdapter(ServiceLocator.Current.GetInstance<IRegionBehaviorFactory>()));
 
             regionAdapterMappings.RegisterMapping(typeof(System.Windows.Controls.Ribbon.Ribbon), new RibbonRegionAdapter(ServiceLocator.Current.GetInstance<IRegionBehaviorFactory>()));

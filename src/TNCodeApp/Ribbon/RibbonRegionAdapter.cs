@@ -1,28 +1,32 @@
 ﻿using Prism.Regions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls.Ribbon;
+using System.Windows.Controls;
 
-namespace TNCodeApp.Menu
+namespace TNCodeApp.Ribbon
 {
     public class RibbonRegionAdapter : RegionAdapterBase<System.Windows.Controls.Ribbon.Ribbon>
     {
 
-        public RibbonRegionAdapter(IRegionBehaviorFactory regionBehaviorFactory)
-          : base(regionBehaviorFactory)
-        {
-        }
+		/// <summary>
+		/// Initializes a new instance of <see cref="RibbonRegionAdapter"/>.
+		/// </summary>
+		/// <param name="regionBehaviorFactory">The factory used to create the region behaviors to attach to the created regions.</param>
+		public RibbonRegionAdapter(IRegionBehaviorFactory regionBehaviorFactory)
+			: base(regionBehaviorFactory)
+		{
+		}
 
-        protected override void Adapt(IRegion region, System.Windows.Controls.Ribbon.Ribbon regionTarget)
-        {
-            region.Behaviors.Add(RibbonBehavior.BehaviorKey,
-                 new RibbonBehavior()
-                 {
-                     MainRibbon = regionTarget
-                 });
+		/// <summary>
+		/// Adapts a <see cref="ContentControl"/> to an <see cref="IRegion"/>.
+		/// </summary>
+		/// <param name="region">The new region being used.</param>
+		/// <param name="regionTarget">The object to adapt.</param>
+		protected override void Adapt(IRegion region, System.Windows.Controls.Ribbon.Ribbon regionTarget)
+		{
+            region.Behaviors.Add(RibbonBehavoir.BehaviorKey,
+                new RibbonBehavoir()
+                {
+                    MainRibbon = regionTarget
+                });
 
             base.AttachBehaviors(region, regionTarget);
         }
@@ -31,5 +35,6 @@ namespace TNCodeApp.Menu
         {
             return new SingleActiveRegion();
         }
+
     }
 }

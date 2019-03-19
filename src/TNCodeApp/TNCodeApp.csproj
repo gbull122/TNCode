@@ -114,6 +114,9 @@
     <Compile Include="Data\Events\DataSetSelectedEvent.cs" />
     <Compile Include="Data\Events\TestDataEvent.cs" />
     <Compile Include="Data\MpgDataSet.cs" />
+    <Compile Include="Ribbon\RibbonBehavoir.cs" />
+    <Compile Include="Ribbon\RibbonRegionAdapter.cs" />
+    <Compile Include="Ribbon\UIElementExtension.cs" />
     <Compile Include="Data\ViewModels\DataRibbonViewModel.cs" />
     <Compile Include="Data\ViewModels\DataSetsViewModel.cs" />
     <Compile Include="Data\Views\DataRibbonView.xaml.cs">
@@ -135,16 +138,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindowViewModel.cs" />
-    <Compile Include="Ribbon\ITnRibbon.cs" />
-    <Compile Include="Ribbon\RibbonBehavior.cs" />
-    <Compile Include="Ribbon\RibbonRegionAdapter.cs" />
-    <Compile Include="Ribbon\ViewModels\RibbonViewModel.cs" />
-    <Compile Include="Ribbon\Views\AboutView.xaml.cs">
-      <DependentUpon>AboutView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ribbon\Views\RibbonView.xaml.cs">
-      <DependentUpon>RibbonView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -187,14 +180,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Ribbon\Views\AboutView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Ribbon\Views\RibbonView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

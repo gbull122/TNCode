@@ -1,11 +1,11 @@
 ﻿using CommonServiceLocator;
+using Prism.Commands;
 using Prism.Events;
-using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Regions;
+using System.Windows;
 using TNCode.Core.Data;
 using TNCodeApp.Data.Views;
-using TNCodeApp.Menu.Views;
 using Unity;
 
 namespace TNCodeApp
@@ -17,6 +17,10 @@ namespace TNCodeApp
         private IEventAggregator eventAggregator;
         private IUnityContainer container;
         private string title = "TNCode";
+
+        public DelegateCommand AboutCommand { get; private set; }
+        public DelegateCommand CloseCommand { get; private set; }
+        public DelegateCommand SettingsCommand { get; private set; }
 
         public string Title
         {
@@ -31,11 +35,30 @@ namespace TNCodeApp
 
             eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
 
-            regionManager.RegisterViewWithRegion("RibbonRegion", typeof(RibbonView));
+            CloseCommand = new DelegateCommand(Close);
+            AboutCommand = new DelegateCommand(About);
+            SettingsCommand = new DelegateCommand(Settings);
+
             regionManager.RegisterViewWithRegion("RibbonRegion", typeof(DataRibbonView));
             regionManager.RegisterViewWithRegion("MainRegion", typeof(DataSetsView));
 
             container.RegisterType<IXmlConverter, XmlConverter>();
+        }
+
+        private void Settings()
+        {
+
+        }
+
+        private void About()
+        {
+            
+
+        }
+
+        private void Close()
+        {
+            Application.Current.Shutdown();
         }
     }
 }

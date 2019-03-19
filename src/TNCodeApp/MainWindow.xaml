@@ -10,70 +10,70 @@
 
     <Window.Resources>
         <ResourceDictionary>
-            
+
             <ResourceDictionary.MergedDictionaries>
 
             </ResourceDictionary.MergedDictionaries>
 
-        <DataTemplate 
+            <DataTemplate 
             x:Key="DocumentTitleTemplate">
-            <DockPanel>
-                <TextBlock 
+                <DockPanel>
+                    <TextBlock 
                     Text="Document: "
                      TextTrimming="CharacterEllipsis" />
-                <TextBlock 
+                    <TextBlock 
                     Text="{Binding Path=Content.DataContext.Title}"
                     DockPanel.Dock="Left"
                     TextTrimming="CharacterEllipsis" />
-            </DockPanel>
-        </DataTemplate>
+                </DockPanel>
+            </DataTemplate>
 
-        <DataTemplate x:Key="AnchorableTitleTemplate">
-            <DockPanel
+            <DataTemplate x:Key="AnchorableTitleTemplate">
+                <DockPanel
                 MinWidth="300">
-                <TextBlock 
+                    <TextBlock 
                     Text="Anchorable: "
                     TextTrimming="CharacterEllipsis" />
-                <TextBlock 
+                    <TextBlock 
                     Text="{Binding Path=Content.DataContext.Title}"
                     DockPanel.Dock="Left"
                     TextTrimming="CharacterEllipsis" />
-            </DockPanel>
-        </DataTemplate>
-
-        <DataTemplate 
-            x:Key="DocumentHeaderTemplate">
-            <DockPanel>
-                <TextBlock 
-                    Text="{Binding Path=Content.DataContext.Title}"
-                    MaxWidth="125"
-                    TextTrimming="CharacterEllipsis" />
-            </DockPanel>
-        </DataTemplate>
-
-        <DataTemplate 
-            x:Key="AnchorableHeaderTemplate">
-            <StackPanel 
-                Orientation="Horizontal">
-                <TextBlock 
-                    Text="{Binding Path=Content.DataContext.Title}"
-                    MaxWidth="125"
-                    TextTrimming="CharacterEllipsis" />
-            </StackPanel>
-        </DataTemplate>
-
-        <ControlTemplate
-            x:Key="PaneTemplate">
-            <avalonDock:AnchorablePaneTabPanel>
-                <DockPanel
-                    MinWidth="500">
-                    
                 </DockPanel>
-            </avalonDock:AnchorablePaneTabPanel>
-        </ControlTemplate>
+            </DataTemplate>
+
+            <DataTemplate 
+            x:Key="DocumentHeaderTemplate">
+                <DockPanel>
+                    <TextBlock 
+                    Text="{Binding Path=Content.DataContext.Title}"
+                    MaxWidth="125"
+                    TextTrimming="CharacterEllipsis" />
+                </DockPanel>
+            </DataTemplate>
+
+            <DataTemplate 
+            x:Key="AnchorableHeaderTemplate">
+                <StackPanel 
+                Orientation="Horizontal">
+                    <TextBlock 
+                    Text="{Binding Path=Content.DataContext.Title}"
+                    MaxWidth="125"
+                    TextTrimming="CharacterEllipsis" />
+                </StackPanel>
+            </DataTemplate>
+
+            <ControlTemplate
+            x:Key="PaneTemplate">
+                <avalonDock:AnchorablePaneTabPanel>
+                    <DockPanel
+                    MinWidth="500">
+
+                    </DockPanel>
+                </avalonDock:AnchorablePaneTabPanel>
+            </ControlTemplate>
         </ResourceDictionary>
     </Window.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -81,15 +81,42 @@
         </Grid.RowDefinitions>
 
         <Ribbon
-            x:Name="ribbon"
             Grid.Row="0"
-            prism:RegionManager.RegionName="RibbonRegion" />
+            x:Name="MainRibbon"
+            x:FieldModifier="protected internal"
+            prism:RegionManager.RegionName="RibbonRegion">
+
+            <Ribbon.ApplicationMenu>
+                <RibbonApplicationMenu>
+
+                    <RibbonApplicationMenuItem 
+                        Header="Settings" 
+                        Command="{Binding Path=SettingsCommand}"
+                        IsEnabled="False"/>
+
+                    <RibbonApplicationMenuItem  
+                        Header="About"  
+                        Command="{Binding Path=AboutCommand}"
+                        IsEnabled="False"/>
+
+                    <RibbonApplicationMenuItem 
+                        Header="Close"
+                        Command="{Binding Path=CloseCommand}"/>
+
+                </RibbonApplicationMenu>
+            </Ribbon.ApplicationMenu>
+
+            <RibbonTab
+                Header="Home">
+
+            </RibbonTab>
+
+        </Ribbon>
 
         <avalonDock:DockingManager 
             x:Name="dockingManager" 
             Grid.Row="1" 
             prism:RegionManager.RegionName="MainRegion"
-
             DocumentTitleTemplate="{StaticResource DocumentTitleTemplate}"
             AnchorableTitleTemplate="{StaticResource AnchorableTitleTemplate}"
             DocumentHeaderTemplate="{StaticResource DocumentHeaderTemplate}"
@@ -103,10 +130,10 @@
 
                     <avalonDock:LayoutAnchorablePane
                         x:Name="ControlPanel">
-     
+
 
                     </avalonDock:LayoutAnchorablePane>
-                    
+
                     <avalonDock:LayoutPanel
                         x:Name="DocumentPanel"
                         Orientation="Horizontal">
@@ -123,10 +150,10 @@
                         >
 
                     </avalonDock:LayoutAnchorablePaneGroup>-->
-          
+
                 </avalonDock:LayoutPanel>
             </avalonDock:LayoutRoot>
-                    
+
             <!--AnchorablePaneTemplate="{StaticResource PaneTemplate}"-->
 
             <!--<avalonDock:LayoutRoot>
@@ -149,13 +176,13 @@
                 </Style>
 
             </avalonDock:DockingManager.Resources>-->
-            
-          
+
+
             <avalonDock:DockingManager.Theme>
                 <avalonDock:AeroTheme/>
             </avalonDock:DockingManager.Theme>
 
-            
+
         </avalonDock:DockingManager>
 
     </Grid>
