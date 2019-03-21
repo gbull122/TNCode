@@ -11,7 +11,7 @@ namespace TNCode.Core.Data
         private List<IReadOnlyCollection<object>> rawColumns = new List<IReadOnlyCollection<object>>();
         private int rowCount;
 
-        public string Name { get; }
+        public string Name { get; set; }
 
         public List<string> ObservationNames => observationNames;
 

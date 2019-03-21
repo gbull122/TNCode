@@ -78,6 +78,8 @@
   <ItemGroup>
     <Compile Include="AestheticValue_Tests.cs" />
     <Compile Include="Aesthetic_Tests.cs" />
+    <Compile Include="Ggplot_Tests.cs" />
+    <Compile Include="Layer_Tests.cs" />
     <Compile Include="RManager_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

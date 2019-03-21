@@ -1,11 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ModuleR.Charts.Ggplot.Layer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ModuleR_Tests
 {
@@ -13,7 +8,7 @@ namespace ModuleR_Tests
     public class Aesthetic_Tests
     {
         [TestMethod]
-        public void Empty_Test()
+        public void Empty()
         {
             var aesthetic = new Aesthetic();
 
@@ -24,38 +19,94 @@ namespace ModuleR_Tests
 
 
         [TestMethod]
-        public void Simple_Test()
+        public void Simple()
         {
+            var aestheticValue = new AestheticValue();
+            aestheticValue.Name = "X";
+            aestheticValue.Entry = "Xvar";
+
             var aesthetic = new Aesthetic();
-            //aesthetic.XVariable.Entry = "Xvar";
+            aesthetic.AestheticValues.Add(aestheticValue);
             var command = aesthetic.Command();
 
             command.Should().Be("aes(x=Xvar)");
         }
 
         [TestMethod]
-        public void Factor_Test()
+        public void Factor()
         {
+            var aestheticValue = new AestheticValue();
+            aestheticValue.Name = "X";
+            aestheticValue.Entry = "Xvar";
+            aestheticValue.IsFactor = true;
+
             var aesthetic = new Aesthetic();
-            //aesthetic.XVariable.Entry = "Xvar";
-            //aesthetic.Fill.Entry = "fillVar";
-            //aesthetic.Fill.IsFactor = true;
+            aesthetic.AestheticValues.Add(aestheticValue);
+
             var command = aesthetic.Command();
 
-            command.Should().Be("aes(x=Xvar,fill=as.factor(fillVar))");
+            command.Should().Be("aes(x=as.factor(Xvar))");
         }
 
         [TestMethod]
-        public void LowerCase_Test()
+        public void LowerCase()
         {
+            var aestheticValue = new AestheticValue();
+            aestheticValue.Name = "X";
+            aestheticValue.Entry = "Xvar";
+            aestheticValue.IsFactor = true;
+            aestheticValue.UseLowerCase = true;
+
             var aesthetic = new Aesthetic();
-            //aesthetic.XVariable.Entry = "Xvar";
-            //aesthetic.Fill.Entry = "fillVar";
-            //aesthetic.Fill.IsFactor = true;
-            //aesthetic.Fill.UseLowerCase = true;
+            aesthetic.AestheticValues.Add(aestheticValue);
+
             var command = aesthetic.Command();
 
-            command.Should().Be("aes(x=Xvar,fill=as.factor(fillvar))");
+            command.Should().Be("aes(x=as.factor(xvar))");
         }
+
+        [TestMethod]
+        public void Required_NotSet()
+        {
+            var aestheticValueX = new AestheticValue();
+            aestheticValueX.Name = "X";
+            aestheticValueX.Entry = "Xvar";
+            aestheticValueX.Required = true;
+
+            var aestheticValueY = new AestheticValue();
+            aestheticValueY.Name = "Y";
+            aestheticValueY.Required = true;
+
+            var aesthetic = new Aesthetic();
+            aesthetic.AestheticValues.Add(aestheticValueX);
+            aesthetic.AestheticValues.Add(aestheticValueY);
+
+            var command = aesthetic.Command();
+
+            command.Should().Be("aes(x=Xvar)");
+        }
+
+        [TestMethod]
+        public void Required_BothSet()
+        {
+            var aestheticValueX = new AestheticValue();
+            aestheticValueX.Name = "X";
+            aestheticValueX.Entry = "Xvar";
+            aestheticValueX.Required = true;
+
+            var aestheticValueY = new AestheticValue();
+            aestheticValueY.Name = "Y";
+            aestheticValueY.Entry = "Yvar";
+            aestheticValueY.Required = true;
+
+            var aesthetic = new Aesthetic();
+            aesthetic.AestheticValues.Add(aestheticValueX);
+            aesthetic.AestheticValues.Add(aestheticValueY);
+
+            var command = aesthetic.Command();
+
+            command.Should().Be("aes(x=Xvar,y=Yvar)");
+        }
+
     }
 }

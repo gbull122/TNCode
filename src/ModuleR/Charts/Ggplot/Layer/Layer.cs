@@ -89,6 +89,13 @@ namespace ModuleR.Charts.Ggplot.Layer
 
         private bool IsValid()
         {
+            foreach(var val in Aes.AestheticValues)
+            {
+                if (val.Required)
+                    if (string.IsNullOrEmpty(val.Entry))
+                        return false;
+            }
+
             return true;
         }
     }

@@ -31,7 +31,9 @@ namespace ModuleR.Charts.Ggplot.Layer
             var aesCommands = new List<string>();
             foreach (var aes in AestheticValues)
             {
-                aesCommands.Add(aes.ReadValue());
+                var commandString = aes.ReadValue();
+                if(!string.IsNullOrEmpty(commandString))
+                    aesCommands.Add(commandString);
             }
             command.Append(string.Join(",", aesCommands.ToArray()));
             command.Append(")");

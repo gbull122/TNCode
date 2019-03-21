@@ -11,7 +11,7 @@ namespace ModuleR_Tests
         private string entry = "Variable";
 
         [TestMethod]
-        public void Empty_Test()
+        public void Empty()
         {
             var aestheticValue = new AestheticValue();
 
@@ -21,7 +21,7 @@ namespace ModuleR_Tests
         }
 
         [TestMethod]
-        public void Basic_Test()
+        public void Basic()
         {
             var aestheticValue = new AestheticValue();
 
@@ -29,11 +29,11 @@ namespace ModuleR_Tests
             aestheticValue.Entry = entry;
             var actualValue = aestheticValue.ReadValue();
 
-            actualValue.Should().Be("Colour=Variable");
+            actualValue.Should().Be("colour=Variable");
         }
 
         [TestMethod]
-        public void Factor_Test()
+        public void Factor()
         {
             var aestheticValue = new AestheticValue();
 
@@ -43,11 +43,11 @@ namespace ModuleR_Tests
 
             var actualValue = aestheticValue.ReadValue();
 
-            actualValue.Should().Be("Colour=as.factor(Variable)");
+            actualValue.Should().Be("colour=as.factor(Variable)");
         }
 
         [TestMethod]
-        public void Factor_LowerCase_Test()
+        public void Factor_LowerCase()
         {
             var aestheticValue = new AestheticValue();
 
@@ -58,11 +58,11 @@ namespace ModuleR_Tests
 
             var actualValue = aestheticValue.ReadValue();
 
-            actualValue.Should().Be("Colour=as.factor(variable)");
+            actualValue.Should().Be("colour=as.factor(variable)");
         }
 
         [TestMethod]
-        public void Factor_LowerCase_Quotes_Test()
+        public void Factor_LowerCase_Quotes()
         {
             var aestheticValue = new AestheticValue();
 
@@ -73,7 +73,7 @@ namespace ModuleR_Tests
             aestheticValue.FormatString = "\"{0}\"";
             var actualValue = aestheticValue.ReadValue();
 
-            actualValue.Should().Be(@"Colour=as.factor(""variable"")");
+            actualValue.Should().Be(@"colour=as.factor(""variable"")");
         }
     }
 }

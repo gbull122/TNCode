@@ -24,12 +24,11 @@ namespace ModuleR.Charts.Ggplot.Layer
         public AestheticValue()
         {
             FormatString = "{0}";
-            UseLowerCase = true;
         }
 
         public string ReadValue()
         {
-            if (string.IsNullOrEmpty(Name))
+            if (string.IsNullOrEmpty(Name)|| string.IsNullOrEmpty(Entry))
                 return string.Empty;
 
             var entryAsString = Entry;
@@ -42,7 +41,7 @@ namespace ModuleR.Charts.Ggplot.Layer
             if (IsFactor.HasValue && IsFactor.Value)
                 entryAsString = "as.factor(" + entryAsString + ")";
 
-            return Name + "=" + entryAsString;
+            return Name.ToLower() + "=" + entryAsString;
         }
     }
 }
