@@ -10,8 +10,8 @@
     <AestheticValue Name="LineType"/>
     <AestheticValue Name="Size"/>
   </AestheticValues>
-  <Stat>Bin</Stat>
-  <Position>Identity</Position>
+  <DefaultStat>Bin</DefaultStat>
+  <DefaultPosition>Identity</DefaultPosition>
   <Values>
     <Property Tag="Bin Width" Name="binwidth" Value="0"/>
     <Property Tag="Bins" Name="bins" Value="0"/>

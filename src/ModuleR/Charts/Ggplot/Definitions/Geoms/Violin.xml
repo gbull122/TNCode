@@ -11,8 +11,8 @@
     <AestheticValue Name="Size"/>
     <AestheticValue Name="Weight"/>
   </AestheticValues>
-  <Stat>Ydensity</Stat>
-  <Position>Dodge</Position>
+  <DefaultStat>Ydensity</DefaultStat>
+  <DefaultPosition>Dodge</DefaultPosition>
   <Booleans>
     <Property Tag="Trim" Name="trim" Value="TRUE"/>
   </Booleans>

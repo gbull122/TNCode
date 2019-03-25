@@ -8,20 +8,18 @@ namespace UITests
     [TestClass]
     public class ApplicationWindow_Tests
     {
+        const string APPPATH= "..\\..\\..\\..\\src\\TNCodeApp\\bin\\Debug\\TNCodeApp.exe";
+
         [TestMethod]
         public void MainWindowOpens()
         {
-            var path = Path.Combine("..\\..\\..\\..\\src\\TNCodeApp\\bin\\Debug", "TNCodeApp.exe");
-            var app = FlaUI.Core.Application.Launch(path);
+            var app = FlaUI.Core.Application.Launch(APPPATH);
             using (var automation = new UIA3Automation())
             {
                 var window = app.GetMainWindow(automation);
-                window.Title.Should().Be("TNCode");
-                
+                window.Title.Should().Be("TNCode"); 
 	        }
-
-            app.Close();
-            
+            app.Close();  
         }
     }
 }

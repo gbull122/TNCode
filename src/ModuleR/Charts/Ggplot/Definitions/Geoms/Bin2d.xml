@@ -6,6 +6,6 @@
     <AestheticValue Name="Fill"/>
     <AestheticValue Name="Group"/>
   </AestheticValues>
-  <Stat>Bin2d</Stat>
-  <Position>Identity</Position>
+  <DefaultStat>Bin2d</DefaultStat>
+  <DefaultPosition>Identity</DefaultPosition>
 </Aesthetic>

@@ -9,6 +9,6 @@
     <AestheticValue Name="Group"/>
     <AestheticValue Name="Size"/>
   </AestheticValues>
-  <Stat>Binhex</Stat>
-  <Position>Identity</Position>
+  <DefaultStat>Binhex</DefaultStat>
+  <DefaultPosition>Identity</DefaultPosition>
 </Aesthetic>

@@ -12,10 +12,9 @@
     <AestheticValue Name="Weight"/>
     <AestheticValue Name="LineType"/>
   </AestheticValues>
-  <Stat>Boxplot</Stat>
-  <Position>Dodge2</Position>
+  <DefaultStat>Boxplot</DefaultStat>
+  <DefaultPosition>Dodge2</DefaultPosition>
   <Properties>
-    
   </Properties>
   <Booleans>
     <Property Tag="Show Notch" Name="notch" Value="FALSE"/>
@@ -25,5 +24,4 @@
     <Property Tag="Outlier Size" Name ="outlier.size" Value="1.5"/>
     <Property Tag="Notch Width" Name="notchwidth" Value="0.5"/>
   </Values>
-
 </Aesthetic>

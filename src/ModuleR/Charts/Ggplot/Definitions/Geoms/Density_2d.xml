@@ -9,8 +9,8 @@
     <AestheticValue Name="LineType"/>
     <AestheticValue Name="Size"/>
   </AestheticValues>
-  <Stat>Density_2d</Stat>
-  <Position>Identity</Position>
+  <DefaultStat>Density_2d</DefaultStat>
+  <DefaultPosition>Identity</DefaultPosition>
   <Properties>
     <Property Tag="Line End" Name="lineend" Value="">
       <Options>
@@ -33,5 +33,4 @@
   <Booleans>
     <Property Tag="Contour" Name="contour" Value="TRUE"/>
   </Booleans>
-
 </Aesthetic>

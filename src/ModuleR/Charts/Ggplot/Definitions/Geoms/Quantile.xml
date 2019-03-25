@@ -10,6 +10,6 @@
     <AestheticValue Name="Size"/>
     <AestheticValue Name="Weight"/>
   </AestheticValues>
-  <Stat>Quantile</Stat>
-  <Position>Identity</Position>
+  <DefaultStat>Quantile</DefaultStat>
+  <DefaultPosition>Identity</DefaultPosition>
 </Aesthetic>

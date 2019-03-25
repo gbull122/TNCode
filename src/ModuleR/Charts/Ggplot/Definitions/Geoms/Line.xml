@@ -9,8 +9,8 @@
     <AestheticValue Name="LineType"/>
     <AestheticValue Name="Size"/>
   </AestheticValues>
-  <Stat>Identity</Stat>
-  <Position>Identity</Position>
+  <DefaultStat>Identity</DefaultStat>
+  <DefaultPosition>Identity</DefaultPosition>
   <Properties>
     <Property Tag="Line End" Name="lineend" Value="">
       <Options>
@@ -27,5 +27,4 @@
       </Options>
     </Property>
   </Properties>
-
 </Aesthetic>

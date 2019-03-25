@@ -9,8 +9,8 @@
     <AestheticValue Name="Size"/>
     <AestheticValue Name="Linetype"/>
   </AestheticValues>
-  <Stat>Identity</Stat>
-  <Position>Identity</Position>
+  <DefaultStat>Identity</DefaultStat>
+  <DefaultPosition>Identity</DefaultPosition>
   <Properties>
     <Property Tag="Sides" Name="sides" Value="bl">
       <Options>

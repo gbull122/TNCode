@@ -7,8 +7,8 @@
     <AestheticValue Name="Colour"/>
     <AestheticValue Name="Size"/>
   </AestheticValues>
-  <Stat>Contour</Stat>
-  <Position>Identity</Position>
+  <DefaultStat>Contour</DefaultStat>
+  <DefaultPosition>Identity</DefaultPosition>
   <Properties>
     <Property Tag="Line End" Name="lineend" Value="">
       <Options>

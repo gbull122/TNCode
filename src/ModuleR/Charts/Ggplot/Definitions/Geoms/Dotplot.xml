@@ -8,8 +8,8 @@
     <AestheticValue Name="Fill"/>
     <AestheticValue Name="Group"/>
   </AestheticValues>
-  <Stat>Bindot</Stat>
-  <Position>Identity</Position>
+  <DefaultStat>Bindot</DefaultStat>
+  <DefaultPosition>Identity</DefaultPosition>
   <Properties>
     <Property Tag="Bin Axis" Name="binaxis" Value="">
       <Options>
@@ -48,5 +48,4 @@
     <Property Tag="Dot Size" Name="dotsize" Value="1"/>
     <Property Tag="Width" Name="width" Value="0.9"/>
   </Values>
-
 </Aesthetic>

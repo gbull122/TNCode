@@ -1,4 +1,6 @@
-﻿namespace ModuleR.Charts.Ggplot.Layer
+﻿using System.ComponentModel;
+
+namespace ModuleR.Charts.Ggplot.Layer
 {
     public interface ILayer
     {
@@ -7,5 +9,6 @@
         bool ShowLegend { get; set; }
         string Command();
         Aesthetic Aes { get; set; }
+        event PropertyChangedEventHandler PropertyChanged;
     }
 }

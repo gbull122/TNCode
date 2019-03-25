@@ -11,6 +11,6 @@
     <AestheticValue Name="Weight"/>
     <AestheticValue Name="LineType"/>
   </AestheticValues>
-  <Stat>Density</Stat>
-  <Position>Identity</Position>
+  <DefaultStat>Density</DefaultStat>
+  <DefaultPosition>Identity</DefaultPosition>
 </Aesthetic>

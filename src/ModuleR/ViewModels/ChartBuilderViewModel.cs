@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using TNCode.Core.Data;
 using TNCodeApp.Data.Events;
@@ -72,17 +73,6 @@ namespace ModuleR.ViewModels
             }
         }
 
-        public string SelectedGeom
-        {
-            get { return SelectedLayer == null ? "point" : SelectedLayer.Geom; }
-            set
-            {
-                SelectedLayer.Geom = value;
-                Update();
-                RaisePropertyChanged("SelectedGeom");
-            }
-        }
-
         private ObservableCollection<ILayer> layers;
 
         public ObservableCollection<ILayer> Layers
@@ -115,14 +105,25 @@ namespace ModuleR.ViewModels
             LayerSelectedCommand = new DelegateCommand<ILayer>(LayerSelected);
             currentVariables = new List<string>();
             currentData = string.Empty;
+
+            this.PropertyChanged += ChartBuilderViewModel_PropertyChanged;
+        }
+
+        private void ChartBuilderViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            //if (e.PropertyName.Equals("SelectedGeom"))
+            //{
+            //    Update();
+            //    GeneratePlotAsync();
+            //}
+
         }
 
         private void LayerSelected(ILayer layer)
         {
-            var aestheticXml = Properties.Resources.ResourceManager.GetObject("geom_" + layer.Geom);
-            var aesthetic = xmlConverter.ToObject<Aesthetic>(aestheticXml.ToString());
-            MergeAesthetics(aesthetic);
-
+            SelectedLayer.PropertyChanged-= SelectedLayer_PropertyChanged;
+            SelectedLayer = layer;
+            SelectedLayer.PropertyChanged += SelectedLayer_PropertyChanged;
             foreach (var vc in variableControls)
             {
                 vc.PropertyChanged -= GControl_PropertyChanged;
@@ -134,13 +135,19 @@ namespace ModuleR.ViewModels
                 gControl.PropertyChanged += GControl_PropertyChanged;
                 variableControls.Add(gControl);
             }
+            
             RaisePropertyChanged("VariableControls");
+        }
+
+        private void SelectedLayer_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName.Equals("Geom"))
+                Update();
         }
 
         private void Update()
         {
-            var aestheticXml = Properties.Resources.ResourceManager.GetObject("geom_" +SelectedGeom);
-            var aesthetic = xmlConverter.ToObject<Aesthetic>(aestheticXml.ToString());
+            var aesthetic = LoadAesthetic(SelectedLayer.Geom);
             MergeAesthetics(aesthetic);
 
             foreach (var vc in variableControls)
@@ -157,7 +164,19 @@ namespace ModuleR.ViewModels
             RaisePropertyChanged("VariableControls");
         }
 
+        private Aesthetic LoadAesthetic(string geom)
+        {
+            var aestheticXml = Properties.Resources.ResourceManager.GetObject("geom_" + geom);
+            var aesthetic = xmlConverter.ToObject<Aesthetic>(aestheticXml.ToString());
+            return aesthetic;
+        }
+
         private async void GControl_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            await GeneratePlotAsync();
+        }
+
+        private async Task GeneratePlotAsync()
         {
             var plot = new Ggplot();
             plot.Layers.AddRange(layers);
@@ -209,6 +228,9 @@ namespace ModuleR.ViewModels
 
             var mergedAesthetic = new Aesthetic();
 
+            mergedAesthetic.DefaultStat = aestheticFromFile.DefaultStat;
+            mergedAesthetic.DefaultPosition = aestheticFromFile.DefaultPosition;
+
             foreach (var aesValue in aestheticFromFile.AestheticValues)
             {
                 if (SelectedLayer.Aes.DoesAestheticContainValue(aesValue.Name))
@@ -255,19 +277,21 @@ namespace ModuleR.ViewModels
 
             layers.Add(newLayer);
 
-            SelectedLayer = newLayer;
-
             ClearLayersCommand.RaiseCanExecuteChanged();
+            SelectedLayer = newLayer;
         }
-    
+
         private async void PutDataSetInR(DataSet data)
         {
-           await rManager.DataSetToRAsDataFrameAsync(data);
+            await rManager.DataSetToRAsDataFrameAsync(data);
         }
 
         private void DataSetSelected(DataSet dataSet)
         {
-            currentVariables = dataSet.VariableNames();
+            var varibleNames = dataSet.VariableNames();
+            varibleNames.Insert(0, "");
+            currentVariables = varibleNames;
+
             currentData = dataSet.Name;
 
             PutDataSetInR(dataSet);

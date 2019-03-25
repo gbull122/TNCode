@@ -11,6 +11,6 @@
     <AestheticValue Name="Size"/>
     <AestheticValue Name="Weight"/>
   </AestheticValues>
-  <Stat>Smooth</Stat>
-  <Position>Identity</Position>
+  <DefaultStat>Smooth</DefaultStat>
+  <DefaultPosition>Identity</DefaultPosition>
 </Aesthetic>
