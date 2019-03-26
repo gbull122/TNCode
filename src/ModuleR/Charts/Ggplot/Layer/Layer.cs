@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Text;
 
 namespace ModuleR.Charts.Ggplot.Layer
@@ -9,6 +8,7 @@ namespace ModuleR.Charts.Ggplot.Layer
         private string data;
         private string geom;
         private bool showLegend;
+        private bool showInPlot;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -51,6 +51,16 @@ namespace ModuleR.Charts.Ggplot.Layer
             {
                 showLegend = value;
                 OnPropertyChanged("ShowLegend");
+            }
+        }
+
+        public bool ShowInPlot
+        {
+            get { return showInPlot; }
+            set
+            {
+                showInPlot = value;
+                OnPropertyChanged("ShowInPlot");
             }
         }
 

@@ -25,6 +25,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -32,6 +33,17 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
+                <StackPanel
+                    Grid.Row="0"
+                    Grid.ColumnSpan="3"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Text="Current DataSet:"/>
+
+                    <TextBlock
+                        Text="{Binding CurrentDataSet}"/>
+
+                </StackPanel>
                 <!--Buttons-->
                 <StackPanel
                         Grid.Row="1"

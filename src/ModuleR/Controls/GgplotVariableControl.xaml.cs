@@ -62,7 +62,11 @@ namespace ModuleR.Controls
         public bool? Factor
         {
             get { return aestheticValue.IsFactor; }
-            set { aestheticValue.IsFactor = value; }
+            set
+            {
+                aestheticValue.IsFactor = value;
+                OnPropertyChanged("Factor");
+            }
         }
 
         public GgplotVariableControl(AestheticValue aesValue, List<string> variableNames)

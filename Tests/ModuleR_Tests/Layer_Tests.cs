@@ -26,6 +26,9 @@ namespace ModuleR_Tests
             aVal1.Entry = "xvar";
             aesthetic.AestheticValues.Add(aVal1);
 
+            aesthetic.DefaultStat = "identity";
+            aesthetic.DefaultPosition = "identity";
+
             var layer = new Layer("point");
             layer.Data = "DataFrame";
             layer.Aes = aesthetic;
@@ -50,6 +53,8 @@ namespace ModuleR_Tests
 
             aesthetic.AestheticValues.Add(aVal1);
             aesthetic.AestheticValues.Add(aVal2);
+            aesthetic.DefaultStat = "identity";
+            aesthetic.DefaultPosition = "identity";
 
             var layer = new Layer("point");
             layer.Data = "DataFrame";
@@ -73,6 +78,8 @@ namespace ModuleR_Tests
 
             aesthetic.AestheticValues.Add(aVal1);
             aesthetic.AestheticValues.Add(aVal2);
+            aesthetic.DefaultStat = "identity";
+            aesthetic.DefaultPosition = "identity";
 
             var layer = new Layer("point");
             layer.Data = "DataFrame";
@@ -123,6 +130,8 @@ namespace ModuleR_Tests
 
             aesthetic.AestheticValues.Add(aVal1);
             aesthetic.AestheticValues.Add(aVal2);
+            aesthetic.DefaultStat= "identity";
+            aesthetic.DefaultPosition = "identity";
 
             var layer = new Layer("point");
             layer.Data = "DataFrame";
@@ -131,6 +140,32 @@ namespace ModuleR_Tests
             var actualValue = layer.Command();
 
             actualValue.Should().Be(@"layer(data=DataFrame,geom=""point"",mapping=aes(x=xvar,y=yvar),stat=""identity"",position=""identity"",show.legend=FALSE)");
+        }
+
+        [TestMethod]
+        public void Required_set_returns_layer1()
+        {
+            var aesthetic = new Aesthetic();
+            var aVal1 = new AestheticValue();
+            aVal1.Name = "X";
+            aVal1.Entry = "xvar";
+            aVal1.Required = true;
+
+            var aVal2 = new AestheticValue();
+            aVal2.Name = "Y";
+
+            aesthetic.AestheticValues.Add(aVal1);
+            aesthetic.AestheticValues.Add(aVal2);
+            aesthetic.DefaultStat = "identity";
+            aesthetic.DefaultPosition = "identity";
+
+            var layer = new Layer("point");
+            layer.Data = "DataFrame";
+            layer.Aes = aesthetic;
+
+            var actualValue = layer.Command();
+
+            actualValue.Should().Be(@"layer(data=DataFrame,geom=""point"",mapping=aes(x=xvar),stat=""identity"",position=""identity"",show.legend=FALSE)");
         }
     }
 }

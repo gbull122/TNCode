@@ -1,10 +1,6 @@
 ﻿using ModuleR.Charts.Ggplot.Layer;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ModuleR.Controls
 {
@@ -62,7 +58,11 @@ namespace ModuleR.Controls
         public bool? Factor
         {
             get { return aestheticValue.IsFactor==null ? false: aestheticValue.IsFactor; }
-            set { aestheticValue.IsFactor = value; }
+            set
+            {
+                aestheticValue.IsFactor = value;
+                OnPropertyChanged("Factor");
+            }
         }
 
         public VariableControl(AestheticValue aesValue, List<string> variableNames)

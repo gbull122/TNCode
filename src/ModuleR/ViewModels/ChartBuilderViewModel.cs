@@ -37,6 +37,15 @@ namespace ModuleR.ViewModels
 
         private ObservableCollection<VariableControl> variableControls;
 
+        public string CurrentDataSet
+        {
+            get { return currentData; }
+            set
+            {
+                currentData = value;
+                RaisePropertyChanged("CurrentDataSet");
+            }
+        }
         public ObservableCollection<VariableControl> VariableControls
         {
             get { return variableControls; }
@@ -139,10 +148,13 @@ namespace ModuleR.ViewModels
             RaisePropertyChanged("VariableControls");
         }
 
-        private void SelectedLayer_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private async void SelectedLayer_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("Geom"))
+            {
                 Update();
+            }
+            await GeneratePlotAsync();
         }
 
         private void Update()
@@ -235,13 +247,10 @@ namespace ModuleR.ViewModels
             {
                 if (SelectedLayer.Aes.DoesAestheticContainValue(aesValue.Name))
                 {
-                    mergedAesthetic.AestheticValues.Add(SelectedLayer.Aes.GetAestheticValueByName(aesValue.Name));
-
+                    var existingValue = SelectedLayer.Aes.GetAestheticValueByName(aesValue.Name);
+                    aesValue.Entry = existingValue.Entry;
                 }
-                else
-                {
-                    mergedAesthetic.AestheticValues.Add(aesValue);
-                }
+                mergedAesthetic.AestheticValues.Add(aesValue);
             }
             SelectedLayer.Aes = mergedAesthetic;
 
@@ -292,7 +301,7 @@ namespace ModuleR.ViewModels
             varibleNames.Insert(0, "");
             currentVariables = varibleNames;
 
-            currentData = dataSet.Name;
+            CurrentDataSet = dataSet.Name;
 
             PutDataSetInR(dataSet);
             NewLayerCommand.RaiseCanExecuteChanged();
