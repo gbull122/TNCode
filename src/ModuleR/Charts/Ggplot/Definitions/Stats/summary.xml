@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<LayerProperties Name="summary">
+<Statistic Name="summary">
   <Properties>
     <Property Tag="Y Function" Name="fun.y" Value="">
       <Options>
@@ -13,4 +13,4 @@
       </Options>
     </Property>
   </Properties>
-</LayerProperties>
+</Statistic>

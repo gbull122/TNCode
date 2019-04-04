@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<LayerProperties Name="dodge2">
+<Position Name="dodge2">
   <Properties>
     <Property Tag="Preserve" Name="bw" Value="">
       <Options>
@@ -15,4 +15,4 @@
     <Property Tag="Width" Name ="width" Value="0"/>
     <Property Tag="Padding" Name ="padding" Value="0.1"/>
   </Values>
-</LayerProperties>
+</Position>

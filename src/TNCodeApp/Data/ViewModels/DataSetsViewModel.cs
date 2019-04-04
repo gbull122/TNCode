@@ -24,7 +24,7 @@ namespace TNCodeApp.Data.ViewModels
         public DockingMethod Docking { get => DockingMethod.Left; }
 
         public DelegateCommand<DataSet> SelectedItemChangedCommand { get; private set; }
-
+        public DelegateCommand DeleteDataSetCommand { get; private set; }
         public ObservableCollection<IDataSet> DataSets
         {
             get { return dataSets; }
@@ -63,11 +63,16 @@ namespace TNCodeApp.Data.ViewModels
             this.regionManager = regionManager;
 
             SelectedItemChangedCommand = new DelegateCommand<DataSet>(SelectedItemChanged);
+            DeleteDataSetCommand = new DelegateCommand(DeleteDataSet);
 
             eventAggregator.GetEvent<TestDataEvent>().Subscribe(TestData, ThreadOption.UIThread);
             eventAggregator.GetEvent<DataLoadedEvent>().Subscribe(LoadData, ThreadOption.UIThread);
 
+        }
 
+        private void DeleteDataSet()
+        {
+            DataSets.Remove(selectedDataSet);
         }
 
         private void LoadData(DataSet obj)

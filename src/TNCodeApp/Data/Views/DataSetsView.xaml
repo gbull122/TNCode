@@ -30,7 +30,8 @@
 
                 <ie:Interaction.Triggers>
                     <ie:EventTrigger EventName="SelectionChanged">
-                        <ie:InvokeCommandAction Command="{Binding SelectedItemChangedCommand}"  CommandParameter="{Binding ElementName=DataSetsList, Path=SelectedItem}"/>
+                        <ie:InvokeCommandAction Command="{Binding SelectedItemChangedCommand}"  
+                                                CommandParameter="{Binding ElementName=DataSetsList, Path=SelectedItem}"/>
                     </ie:EventTrigger>
                 </ie:Interaction.Triggers>
 
@@ -57,7 +58,8 @@
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem 
-                            Header="Delete" />
+                            Header="Delete"
+                            Command="{Binding DeleteDataSetCommand}" CommandParameter="{Binding ElementName=DataSetsList, Path=SelectedItem}"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
 

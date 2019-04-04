@@ -1,4 +1,6 @@
 ﻿using ModuleR.Charts.Ggplot.Layer;
+using Prism.Commands;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
@@ -12,14 +14,29 @@ namespace ModuleR.Controls
 
         private AestheticValue aestheticValue;
 
+        public DelegateCommand ActionCommand { get; private set; }
+
         protected void OnPropertyChanged(string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public VariableControl()
+        public VariableControl(AestheticValue aesValue, List<string> variableNames)
         {
+            aestheticValue = aesValue;
+            variables = variableNames;
 
+            ActionCommand = new DelegateCommand(DoAction, CanDoAction);
+        }
+
+        private bool CanDoAction()
+        {
+            return true;
+        }
+
+        private void DoAction()
+        {
+           
         }
 
         public string PropertyName
@@ -65,11 +82,6 @@ namespace ModuleR.Controls
             }
         }
 
-        public VariableControl(AestheticValue aesValue, List<string> variableNames)
-        {
-            aestheticValue = aesValue;
-            variables = variableNames;
-        }
     }
 }
 

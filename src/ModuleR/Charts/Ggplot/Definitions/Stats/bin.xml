@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<LayerProperties Name="bin">
+<Statistic Name="bin">
   <Values>
     <Property Tag="Bin Width" Name="binwidth" Value="0"/>
     <Property Tag="Bins" Name="bins" Value="30"/>
@@ -25,4 +25,4 @@
   <Booleans>
     <Property Tag="Pad" Name="pad" Value="FALSE"/>
   </Booleans>
-</LayerProperties>
+</Statistic>

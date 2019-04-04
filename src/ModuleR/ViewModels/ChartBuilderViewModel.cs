@@ -13,6 +13,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media.Imaging;
 using TNCode.Core.Data;
 using TNCodeApp.Data.Events;
@@ -34,7 +35,7 @@ namespace ModuleR.ViewModels
         public DelegateCommand NewLayerCommand { get; private set; }
         public DelegateCommand ClearLayersCommand { get; private set; }
         public DelegateCommand<ILayer> LayerSelectedCommand { get; private set; }
-
+        public DelegateCommand CopyChartCommand { get; private set; }
         private ObservableCollection<VariableControl> variableControls;
 
         public string CurrentDataSet
@@ -112,25 +113,22 @@ namespace ModuleR.ViewModels
             NewLayerCommand = new DelegateCommand(NewLayer, CanNewLayer);
             ClearLayersCommand = new DelegateCommand(ClearLayers, CanClearLayers);
             LayerSelectedCommand = new DelegateCommand<ILayer>(LayerSelected);
+            CopyChartCommand = new DelegateCommand(CopyChart);
             currentVariables = new List<string>();
             currentData = string.Empty;
 
-            this.PropertyChanged += ChartBuilderViewModel_PropertyChanged;
         }
 
-        private void ChartBuilderViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void CopyChart()
         {
-            //if (e.PropertyName.Equals("SelectedGeom"))
-            //{
-            //    Update();
-            //    GeneratePlotAsync();
-            //}
+            var imagePath = GetGgplotChartPath();
 
+            Clipboard.SetImage(chartImage);
         }
 
         private void LayerSelected(ILayer layer)
         {
-            SelectedLayer.PropertyChanged-= SelectedLayer_PropertyChanged;
+            SelectedLayer.PropertyChanged -= SelectedLayer_PropertyChanged;
             SelectedLayer = layer;
             SelectedLayer.PropertyChanged += SelectedLayer_PropertyChanged;
             foreach (var vc in variableControls)
@@ -144,7 +142,7 @@ namespace ModuleR.ViewModels
                 gControl.PropertyChanged += GControl_PropertyChanged;
                 variableControls.Add(gControl);
             }
-            
+
             RaisePropertyChanged("VariableControls");
         }
 

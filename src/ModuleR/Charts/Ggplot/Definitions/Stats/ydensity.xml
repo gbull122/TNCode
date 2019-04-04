@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<LayerProperties Name="ydensity">
+<Statistic Name="ydensity">
   <Properties>
     <Property Tag="Bandwidth" Name="bw" Value="nrd0">
       <Options>
@@ -17,4 +17,4 @@
       </Options>
     </Property>
   </Properties>
-</LayerProperties>
+</Statistic>

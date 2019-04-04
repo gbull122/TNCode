@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<LayerProperties Name="bin2d">
+<Statistic Name="bin2d">
   <Values>
     <Property Tag="Bin Width" Name="binwidth" Value="0"/>
     <Property Tag="Bins" Name="bins" Value="30"/>
@@ -7,4 +7,4 @@
   <Booleans>
     <Property Tag="Drop zero counts" Name="drop" Value="TRUE"/>
   </Booleans>
-</LayerProperties>
+</Statistic>

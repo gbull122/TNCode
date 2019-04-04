@@ -93,8 +93,15 @@
     <Compile Include="Charts\Ggplot\Layer\ILayer.cs" />
     <Compile Include="Charts\Ggplot\Layer\Layer.cs" />
     <Compile Include="Charts\IChart.cs" />
-    <Compile Include="Controls\GgplotVariableControl.xaml.cs">
-      <DependentUpon>GgplotVariableControl.xaml</DependentUpon>
+    <Compile Include="Controls\IOptionControl.cs" />
+    <Compile Include="Controls\OptionCheckBoxControl.xaml.cs">
+      <DependentUpon>OptionCheckBoxControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\OptionPropertyControl.xaml.cs">
+      <DependentUpon>OptionPropertyControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\OptionValueControl.xaml.cs">
+      <DependentUpon>OptionValueControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\VariableControl.cs" />
     <Compile Include="Events\GenerateGgplotChart.cs" />
@@ -127,7 +134,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Controls\GgplotVariableControl.xaml">
+    <Page Include="Controls\OptionCheckBoxControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\OptionPropertyControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\OptionValueControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

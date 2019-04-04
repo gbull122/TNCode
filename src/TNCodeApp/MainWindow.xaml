@@ -122,7 +122,9 @@
             DocumentHeaderTemplate="{StaticResource DocumentHeaderTemplate}"
             AnchorableHeaderTemplate="{StaticResource AnchorableHeaderTemplate}"
             DocumentPaneMenuItemHeaderTemplate="{StaticResource DocumentHeaderTemplate}">
-
+            <avalonDock:DockingManager.Theme>
+                <avalonDock:AeroTheme />
+            </avalonDock:DockingManager.Theme>
             <avalonDock:LayoutRoot>
                 <avalonDock:LayoutPanel 
                     x:Name="VerticalPanel" 
@@ -176,12 +178,6 @@
                 </Style>
 
             </avalonDock:DockingManager.Resources>-->
-
-
-            <avalonDock:DockingManager.Theme>
-                <avalonDock:AeroTheme/>
-            </avalonDock:DockingManager.Theme>
-
 
         </avalonDock:DockingManager>
 

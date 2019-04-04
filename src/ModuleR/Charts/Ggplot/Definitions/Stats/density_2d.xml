@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<LayerProperties Name="density_2d">
+<Statistic Name="density_2d">
   <Values>
     <Property Tag="Number of Points" Name="n" Value="0"/>
   </Values>
   <Booleans>
     <Property Tag="Contour" Name="contour" Value="TRUE"/>
   </Booleans>
-</LayerProperties>
+</Statistic>
