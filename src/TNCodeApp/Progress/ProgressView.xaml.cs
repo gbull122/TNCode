@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TNCodeApp.Docking
+namespace TNCodeApp.Progress
 {
     /// <summary>
-    /// Interaction logic for DocumentViewHost.xaml
+    /// Interaction logic for ProgressView.xaml
     /// </summary>
-    public partial class DocumentViewHost : UserControl
+    public partial class ProgressView : UserControl
     {
-        public DocumentViewHost()
+        public ProgressView()
         {
             InitializeComponent();
         }

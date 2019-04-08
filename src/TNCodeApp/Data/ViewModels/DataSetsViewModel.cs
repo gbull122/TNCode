@@ -21,7 +21,7 @@ namespace TNCodeApp.Data.ViewModels
 
         public string Title { get => "Data Sets"; }
 
-        public DockingMethod Docking { get => DockingMethod.Left; }
+        public DockingMethod Docking { get => DockingMethod.ControlPanel; }
 
         public DelegateCommand<DataSet> SelectedItemChangedCommand { get; private set; }
         public DelegateCommand DeleteDataSetCommand { get; private set; }

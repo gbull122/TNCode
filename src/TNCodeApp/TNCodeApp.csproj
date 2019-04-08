@@ -114,6 +114,12 @@
     <Compile Include="Data\Events\DataSetSelectedEvent.cs" />
     <Compile Include="Data\Events\TestDataEvent.cs" />
     <Compile Include="Data\MpgDataSet.cs" />
+    <Compile Include="Progress\IProgressService.cs" />
+    <Compile Include="Progress\ProgressService.cs" />
+    <Compile Include="Progress\ProgressView.xaml.cs">
+      <DependentUpon>ProgressView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Progress\ProgressViewModel.cs" />
     <Compile Include="Ribbon\RibbonBehavoir.cs" />
     <Compile Include="Ribbon\RibbonRegionAdapter.cs" />
     <Compile Include="Ribbon\UIElementExtension.cs" />
@@ -128,10 +134,6 @@
     <Compile Include="Docking\DockingBehavoir.cs" />
     <Compile Include="Docking\DockingMethod.cs" />
     <Compile Include="Docking\DockingRegionAdapter.cs" />
-    <Compile Include="Docking\DocumentViewHost.xaml.cs">
-      <DependentUpon>DocumentViewHost.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Docking\DocumentViewModel.cs" />
     <Compile Include="Docking\ITnPanel.cs" />
     <Compile Include="Logger\TnLogger.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -175,11 +177,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Docking\DocumentViewHost.xaml">
+    <Page Include="MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Progress\ProgressView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

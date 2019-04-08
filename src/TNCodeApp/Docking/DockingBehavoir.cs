@@ -65,19 +65,17 @@ namespace TNCodeApp.Docking
                 {
                     var tnPanel = (ITnPanel)GetDataContext(newItem) as ITnPanel;
 
-
                     var layoutDocumentPaneControl
                            = dockingManager
                            .FindVisualChildren<LayoutDocumentPaneControl>()
                            .FirstOrDefault();
 
-                    var thing = dockingManager.FindName("ControlPanel") as LayoutAnchorablePane;
 
                     if (layoutDocumentPaneControl != null)
                     {
                         var layoutAnchorable = new LayoutAnchorable();
                         layoutAnchorable.Closed += LayoutAnchorableClosed;
-
+                        
                         layoutAnchorable.Content = newItem;
 
                         var layoutDocumentPane = (LayoutDocumentPane)layoutDocumentPaneControl.Model;
@@ -91,8 +89,15 @@ namespace TNCodeApp.Docking
 
                     layoutAnchorable1.Content = newItem;
 
-                    thing.Children.Add(layoutAnchorable1);
-                    thing.DockMinWidth = 300;
+                    if(tnPanel.Docking == DockingMethod.ControlPanel)
+                    {
+                        var controlPanel = dockingManager.FindName("ControlPanel") as LayoutAnchorablePane;
+                        controlPanel.Children.Add(layoutAnchorable1);
+                        return;
+                    }
+                   
+                    var statusPanel = dockingManager.FindName("StatusPanel") as LayoutAnchorablePane;
+                    statusPanel.Children.Add(layoutAnchorable1);
                 }
             }
         }

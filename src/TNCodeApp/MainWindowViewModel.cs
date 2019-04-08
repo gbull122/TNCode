@@ -6,6 +6,7 @@ using Prism.Regions;
 using System.Windows;
 using TNCode.Core.Data;
 using TNCodeApp.Data.Views;
+using TNCodeApp.Progress;
 using Unity;
 
 namespace TNCodeApp
@@ -17,6 +18,7 @@ namespace TNCodeApp
         private IEventAggregator eventAggregator;
         private IUnityContainer container;
         private string title = "TNCode";
+        private string statusMessage = "Ready";
 
         public DelegateCommand AboutCommand { get; private set; }
         public DelegateCommand CloseCommand { get; private set; }
@@ -26,6 +28,12 @@ namespace TNCodeApp
         {
             get { return title; }
             set { SetProperty(ref title, value); }
+        }
+
+        public string StatusMessage
+        {
+            get { return statusMessage; }
+            set { SetProperty(ref statusMessage, value); }
         }
 
         public MainWindowViewModel(IUnityContainer contain, IRegionManager regManager)
@@ -41,6 +49,7 @@ namespace TNCodeApp
 
             regionManager.RegisterViewWithRegion("RibbonRegion", typeof(DataRibbonView));
             regionManager.RegisterViewWithRegion("MainRegion", typeof(DataSetsView));
+            regionManager.RegisterViewWithRegion("MainRegion", typeof(ProgressView));
 
             container.RegisterType<IXmlConverter, XmlConverter>();
         }
