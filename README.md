@@ -1,9 +1,13 @@
 # TNCode
 
-Experimental data analysis platform using R from C# with Microsoft RTVS, https://github.com/microsoft/rtvs.
+Experimental data analysis platform investigating ways to allow non-programmers to access tools like R without having to code or run scripts. 
+Must be flexible enough to ‘easily’ add functions and custom analysis methods. Also want to be able to ‘plug in modules' written in C# allowing 
+access too many other analysis tools.
 
-Implemented with WPF, Prism and AvalonDock,
- 
+Implemented in C# with WPF, Prism and AvalonDock,
+
+R integration using Microsoft RTVS, https://github.com/microsoft/rtvs.
+
 Using code and ideas from various projects,
 
 * https://github.com/PrismLibrary/Prism-Samples-Wpf
