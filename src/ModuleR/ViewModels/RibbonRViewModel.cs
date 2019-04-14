@@ -6,6 +6,7 @@ using Prism.Regions;
 using System;
 using System.Text;
 using System.Windows;
+using TNCodeApp.Progress;
 
 namespace ModuleR.ViewModels
 {
@@ -14,6 +15,7 @@ namespace ModuleR.ViewModels
         private IEventAggregator eventAggregator;
         private IRegionManager regionManager;
         private IRManager rManager;
+        private IProgressService progressService;
 
         public bool IsMainRibbon => false;
 
@@ -33,11 +35,12 @@ namespace ModuleR.ViewModels
             }
         }
 
-        public RibbonRViewModel(IEventAggregator eventAggr, IRegionManager regionMgr, IRManager rMgr)
+        public RibbonRViewModel(IEventAggregator eventAggr, IRegionManager regionMgr, IRManager rMgr, IProgressService pService)
         {
             eventAggregator = eventAggr;
             regionManager = regionMgr;
             rManager = rMgr;
+            progressService = pService;
 
             ChartBuilderCommand = new DelegateCommand(CreateChart).ObservesCanExecute(() => IsRRunning);
             RStartCommand = new DelegateCommand(StartR);
@@ -58,7 +61,7 @@ namespace ModuleR.ViewModels
 
         private async void StartR()
         {
-            await rManager.InitialiseAsync();
+            await progressService.ExecuteAsync(rManager.InitialiseAsync(), "R Test");
 
             IsRRunning = rManager.IsRRunning;
         }

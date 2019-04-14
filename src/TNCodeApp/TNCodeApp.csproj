@@ -115,7 +115,6 @@
     <Compile Include="Data\Events\TestDataEvent.cs" />
     <Compile Include="Data\MpgDataSet.cs" />
     <Compile Include="Progress\IProgressService.cs" />
-    <Compile Include="Progress\ProgressService.cs" />
     <Compile Include="Progress\ProgressView.xaml.cs">
       <DependentUpon>ProgressView.xaml</DependentUpon>
     </Compile>

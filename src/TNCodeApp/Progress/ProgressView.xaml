@@ -1,15 +1,21 @@
 ﻿<UserControl 
     x:Class="TNCodeApp.Progress.ProgressView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-    xmlns:local="clr-namespace:TNCodeApp.Progress"
     xmlns:prism="http://prismlibrary.com/"
-    xmlns:ie="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     prism:ViewModelLocator.AutoWireViewModel="True">
     
     <Grid>
-        <ProgressBar/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Label
+            Content="{Binding Message}"/>
+        
+        <ProgressBar
+            Grid.Row="1"
+            Value="{Binding ProgressValue}"
+            IsIndeterminate="{Binding ProgressIndeterminate}"/>
     </Grid>
 </UserControl>

@@ -46,13 +46,20 @@ namespace TNCodeApp
             CloseCommand = new DelegateCommand(Close);
             AboutCommand = new DelegateCommand(About);
             SettingsCommand = new DelegateCommand(Settings);
+            //var progressService= new ProgressService();
+
+            container.RegisterType<IXmlConverter, XmlConverter>();
+            //container.RegisterInstance<IProgressService>(progressService);
 
             regionManager.RegisterViewWithRegion("RibbonRegion", typeof(DataRibbonView));
             regionManager.RegisterViewWithRegion("MainRegion", typeof(DataSetsView));
             regionManager.RegisterViewWithRegion("MainRegion", typeof(ProgressView));
 
-            container.RegisterType<IXmlConverter, XmlConverter>();
+
+
+            
         }
+
 
         private void Settings()
         {
