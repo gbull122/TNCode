@@ -109,7 +109,22 @@
 
             <RibbonTab
                 Header="Home">
+                <RibbonGroup
+                    Header="View">
+                    
+                    <RibbonButton
+                        AutomationProperties.AutomationId="RbBtnShowDataSets"
+                        Label="Data Sets"
+                        Command="{Binding ShowDataSetsCommand}">
+                    </RibbonButton>
 
+                    <RibbonButton
+                        AutomationProperties.AutomationId="RbBtnShowStatus"
+                        Label="Status"
+                        Command="{Binding ShowStatusCommand}">
+                    </RibbonButton>
+                    
+                </RibbonGroup>
             </RibbonTab>
 
         </Ribbon>

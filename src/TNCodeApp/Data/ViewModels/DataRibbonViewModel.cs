@@ -3,12 +3,8 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TNCode.Core.Data;
 using TNCodeApp.Data.Events;
 

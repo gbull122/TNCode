@@ -36,7 +36,8 @@ namespace ModuleR.Controls
 
         private void DoAction()
         {
-           
+            if (string.IsNullOrEmpty(aestheticValue.Entry))
+                return;
         }
 
         public string PropertyName

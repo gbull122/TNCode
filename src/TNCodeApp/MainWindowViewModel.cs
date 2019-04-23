@@ -1,8 +1,10 @@
 ﻿using CommonServiceLocator;
 using Prism.Commands;
 using Prism.Events;
+using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Regions;
+using System;
 using System.Windows;
 using TNCode.Core.Data;
 using TNCodeApp.Data.Views;
@@ -23,6 +25,8 @@ namespace TNCodeApp
         public DelegateCommand AboutCommand { get; private set; }
         public DelegateCommand CloseCommand { get; private set; }
         public DelegateCommand SettingsCommand { get; private set; }
+        public DelegateCommand ShowDataSetsCommand { get; private set; }
+        public DelegateCommand ShowStatusCommand { get; private set; }
 
         public string Title
         {
@@ -46,20 +50,49 @@ namespace TNCodeApp
             CloseCommand = new DelegateCommand(Close);
             AboutCommand = new DelegateCommand(About);
             SettingsCommand = new DelegateCommand(Settings);
-            //var progressService= new ProgressService();
+            ShowStatusCommand = new DelegateCommand(ShowStatusView);
+            ShowDataSetsCommand = new DelegateCommand(ShowDataSetsView);
 
             container.RegisterType<IXmlConverter, XmlConverter>();
-            //container.RegisterInstance<IProgressService>(progressService);
 
             regionManager.RegisterViewWithRegion("RibbonRegion", typeof(DataRibbonView));
             regionManager.RegisterViewWithRegion("MainRegion", typeof(DataSetsView));
+
             regionManager.RegisterViewWithRegion("MainRegion", typeof(ProgressView));
-
-
-
-            
+            regionManager.RequestNavigate("MainRegion", "ProgressView");
         }
 
+        private void ShowDataSetsView()
+        {
+            //var mainRegion = regionManager.Regions["MainRegion"];
+            //foreach (var view in mainRegion.Views)
+            //{
+            //    if (view.GetType().Equals(typeof(DataSetsView)))
+            //    {
+            //        regionManager.RequestNavigate("MainRegion", "DataSetsView");
+            //        return;
+            //    }
+            //}
+
+            regionManager.RegisterViewWithRegion("MainRegion", typeof(DataSetsView));
+            regionManager.RequestNavigate("MainRegion", "DataSetsView");
+        }
+
+        private void ShowStatusView()
+        {
+            //var mainRegion = regionManager.Regions["MainRegion"];
+            //foreach(var view in mainRegion.Views)
+            //{
+            //    if (view.GetType().Equals(typeof(ProgressView)))
+            //    {
+            //        regionManager.RequestNavigate("MainRegion", "ProgressView");
+            //        return;
+            //    }
+            //}
+
+            //regionManager.RegisterViewWithRegion("MainRegion", typeof(ProgressView));
+            regionManager.RequestNavigate("MainRegion", "ProgressView");
+        }
 
         private void Settings()
         {

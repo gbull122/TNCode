@@ -7,6 +7,7 @@ using Prism.Unity;
 using System.Windows;
 using TNCodeApp.Docking;
 using TNCodeApp.Logger;
+using TNCodeApp.Progress;
 using TNCodeApp.Ribbon;
 using Xceed.Wpf.AvalonDock;
 
@@ -40,7 +41,5 @@ namespace TNCodeApp
         {
             return new ConfigurationModuleCatalog();
         }
-
-        
     }
 }

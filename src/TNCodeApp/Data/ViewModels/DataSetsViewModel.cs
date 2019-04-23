@@ -101,17 +101,17 @@ namespace TNCodeApp.Data.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            throw new System.NotImplementedException();
+            
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
-            throw new System.NotImplementedException();
+            return true;
         }
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
-            throw new System.NotImplementedException();
+            
         }
     }
 }

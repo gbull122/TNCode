@@ -67,7 +67,7 @@ namespace ModuleR.ViewModels
             }
         }
 
-        public string Title => "Plot";
+        public string Title => "Chart Builder";
 
         public DockingMethod Docking => DockingMethod.Document;
 

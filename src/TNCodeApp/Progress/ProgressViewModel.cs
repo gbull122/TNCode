@@ -1,4 +1,5 @@
 ﻿using Prism.Mvvm;
+using Prism.Regions;
 using System;
 using System.Threading.Tasks;
 using TNCodeApp.Docking;
@@ -6,7 +7,7 @@ using Unity;
 
 namespace TNCodeApp.Progress
 {
-    public class ProgressViewModel : BindableBase, ITnPanel,IProgressService
+    public class ProgressViewModel : BindableBase, ITnPanel,IProgressService, INavigationAware
     {
         public IProgress<int> Progress { get; set; }
 
@@ -58,13 +59,33 @@ namespace TNCodeApp.Progress
             Progress = action;
 
             await Task.Run(() => action);
+            
         }
 
         public async Task ExecuteAsync(Task<bool> task, string v)
         {
             Message = v;
+            ProgressIndeterminate = true;
+
             await Task.Run(() => task);
+
+            ProgressIndeterminate = false;
             Message = "Ready";
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            
         }
     }
 }

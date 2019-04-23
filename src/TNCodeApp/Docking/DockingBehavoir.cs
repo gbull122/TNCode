@@ -48,7 +48,6 @@ namespace TNCodeApp.Docking
         {
             Region.ActiveViews.CollectionChanged += ActiveViewsCollectionChanged;
             Region.Views.CollectionChanged += ViewsCollectionChanged;
-
         }
 
         /// <summary>
@@ -71,33 +70,38 @@ namespace TNCodeApp.Docking
                            .FirstOrDefault();
 
 
-                    if (layoutDocumentPaneControl != null)
+                    if (layoutDocumentPaneControl != null && tnPanel.Docking==DockingMethod.Document)
                     {
-                        var layoutAnchorable = new LayoutAnchorable();
-                        layoutAnchorable.Closed += LayoutAnchorableClosed;
+                        var document = new LayoutAnchorable();
+                        document.CanClose = true;
+                        document.CanAutoHide = false;
+                        document.Closed += LayoutAnchorableClosed;
                         
-                        layoutAnchorable.Content = newItem;
+                        document.Content = newItem;
 
                         var layoutDocumentPane = (LayoutDocumentPane)layoutDocumentPaneControl.Model;
 
-                        layoutDocumentPane.Children.Add(layoutAnchorable);
+                        layoutDocumentPane.Children.Add(document);
                         return;
                     }
+                   
 
-                    var layoutAnchorable1 = new LayoutAnchorable();
-                    layoutAnchorable1.Closed += LayoutAnchorableClosed;
-
-                    layoutAnchorable1.Content = newItem;
+                    var anchorablePanel = new LayoutAnchorable();
+                    anchorablePanel.Closed += LayoutAnchorableClosed;
+                    //layoutAnchorable1.CanClose = true;
+                    //layoutAnchorable1.CanAutoHide = false;
+                    anchorablePanel.Content = newItem;
 
                     if(tnPanel.Docking == DockingMethod.ControlPanel)
                     {
                         var controlPanel = dockingManager.FindName("ControlPanel") as LayoutAnchorablePane;
-                        controlPanel.Children.Add(layoutAnchorable1);
+                        controlPanel.Children.Add(anchorablePanel);
                         return;
                     }
                    
                     var statusPanel = dockingManager.FindName("StatusPanel") as LayoutAnchorablePane;
-                    statusPanel.Children.Add(layoutAnchorable1);
+                    
+                    statusPanel.Children.Add(anchorablePanel);
                 }
             }
         }
@@ -117,12 +121,11 @@ namespace TNCodeApp.Docking
                 return;
             }
 
-            //var view = ((DocumentViewHost)layoutAnchorable.Content).View;
-            //if (Region.Views.Contains(view))
-            //{
-            //    view.CloseDocument();
-            //    Region.RegionManager.Regions["DocumentRegion"].Remove(view);
-            //}
+            var view = layoutAnchorable.Content;
+            if (Region.Views.Contains(view))
+            {
+                Region.RegionManager.Regions["MainRegion"].Remove(view);
+            }
         }
 
         /// <summary>
@@ -132,22 +135,22 @@ namespace TNCodeApp.Docking
         /// <param name="e">Event arguments.</param>
         private void ActiveViewsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (e.Action == NotifyCollectionChangedAction.Add)
-            {
-                if (dockingManager.ActiveContent != null
-                    && dockingManager.ActiveContent != e.NewItems[0]
-                    && Region.ActiveViews.Contains(dockingManager.ActiveContent))
-                {
-                    Region.Deactivate(dockingManager.ActiveContent);
-                }
+            //if (e.Action == NotifyCollectionChangedAction.Add)
+            //{
+            //    if (dockingManager.ActiveContent != null
+            //        && dockingManager.ActiveContent != e.NewItems[0]
+            //        && Region.ActiveViews.Contains(dockingManager.ActiveContent))
+            //    {
+            //        Region.Deactivate(dockingManager.ActiveContent);
+            //    }
 
-                dockingManager.ActiveContent = e.NewItems[0];
-            }
-            else if (e.Action == NotifyCollectionChangedAction.Remove
-                && e.OldItems.Contains(dockingManager.ActiveContent))
-            {
-                dockingManager.ActiveContent = null;
-            }
+            //    dockingManager.ActiveContent = e.NewItems[0];
+            //}
+            //else if (e.Action == NotifyCollectionChangedAction.Remove
+            //    && e.OldItems.Contains(dockingManager.ActiveContent))
+            //{
+            //    dockingManager.ActiveContent = null;
+            //}
         }
 
         private object GetDataContext(object item)
@@ -155,36 +158,5 @@ namespace TNCodeApp.Docking
             var frameworkElement = item as FrameworkElement;
             return frameworkElement == null ? item : frameworkElement.DataContext;
         }
-
-        /// <summary>
-        /// Toggles between modules, showing documents available to the current 
-        /// selected module, while hidding documents relating to other modules.
-        /// </summary>
-        /// <param name="sender">The <see cref="ModulesNavigationView"/>.</param>
-        /// <param name="e">Module event arguments.</param>
-        //private void ModuleSelected(object sender, ModuleEventArgs e)
-        //{
-        //    var layoutAnchorablesHide = dockingManager.Layout.Descendents()
-        //        .OfType<LayoutAnchorable>()
-        //        .Where(la => !((DocumentViewHost)la.Content).ModuleName.ToUpper().Equals(e.ModuleName.ToUpper()));
-
-        //    var anchorablesHide = layoutAnchorablesHide.ToList();
-
-        //    var layoutAnchorablesShow = dockingManager.Layout.Descendents()
-        //        .OfType<LayoutAnchorable>()
-        //        .Where(la => ((DocumentViewHost)la.Content).ModuleName.ToUpper().Equals(e.ModuleName.ToUpper()));
-
-        //    var anchorablesShow = layoutAnchorablesShow.ToList();
-
-        //    for (int i = 0; i < anchorablesHide.Count(); i++)
-        //    {
-        //        anchorablesHide[i].Hide();
-        //    }
-
-        //    for (int i = 0; i < anchorablesShow.Count(); i++)
-        //    {
-        //        anchorablesShow[i].Show();
-        //    }
-        //}
     }
 }

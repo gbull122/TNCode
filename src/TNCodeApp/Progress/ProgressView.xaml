@@ -10,12 +10,23 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
         <Label
+            Grid.Row="0"
+            Grid.Column="0"
             Content="{Binding Message}"/>
         
         <ProgressBar
-            Grid.Row="1"
+            Grid.Row="0"
+            Grid.Column="1"
             Value="{Binding ProgressValue}"
             IsIndeterminate="{Binding ProgressIndeterminate}"/>
+
+        <TextBox
+            Grid.Row="1"
+            Grid.ColumnSpan="2"/>
     </Grid>
 </UserControl>

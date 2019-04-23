@@ -193,21 +193,6 @@
                                                                 Margin="2"
                                                                 IsChecked="{Binding Factor, UpdateSourceTrigger=PropertyChanged}"
                                                                 VerticalAlignment="Center">
-                                                                <!--<CheckBox.Style>
-                        <Style
-                            TargetType="CheckBox"
-                            BasedOn="{StaticResource {x:Type CheckBox}}">
-                            <Style.Triggers>
-                                <DataTrigger 
-                                    Binding="{Binding Path=HasControls, UpdateSourceTrigger=PropertyChanged}" 
-                                    Value="False">
-                                    <Setter 
-                                        Property="Visibility" 
-                                        Value="Hidden"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </CheckBox.Style>-->
                                                             </CheckBox>
 
                                                         </Grid>

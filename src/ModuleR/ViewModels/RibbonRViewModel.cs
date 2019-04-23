@@ -61,7 +61,7 @@ namespace ModuleR.ViewModels
 
         private async void StartR()
         {
-            await progressService.ExecuteAsync(rManager.InitialiseAsync(), "R Test");
+            await progressService.ExecuteAsync(rManager.InitialiseAsync(), "Starting R...");
 
             IsRRunning = rManager.IsRRunning;
         }
