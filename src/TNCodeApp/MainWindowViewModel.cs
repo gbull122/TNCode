@@ -7,6 +7,7 @@ using Prism.Regions;
 using System;
 using System.Windows;
 using TNCode.Core.Data;
+using TNCodeApp.Data;
 using TNCodeApp.Data.Views;
 using TNCodeApp.Progress;
 using Unity;
@@ -55,6 +56,9 @@ namespace TNCodeApp
 
             container.RegisterType<IXmlConverter, XmlConverter>();
 
+            IDataSetsManager dataSetsManager = new DataSetsManager();
+            container.RegisterInstance<IDataSetsManager>(dataSetsManager);
+
             regionManager.RegisterViewWithRegion("RibbonRegion", typeof(DataRibbonView));
             regionManager.RegisterViewWithRegion("MainRegion", typeof(DataSetsView));
 
@@ -64,33 +68,11 @@ namespace TNCodeApp
 
         private void ShowDataSetsView()
         {
-            //var mainRegion = regionManager.Regions["MainRegion"];
-            //foreach (var view in mainRegion.Views)
-            //{
-            //    if (view.GetType().Equals(typeof(DataSetsView)))
-            //    {
-            //        regionManager.RequestNavigate("MainRegion", "DataSetsView");
-            //        return;
-            //    }
-            //}
-
-            regionManager.RegisterViewWithRegion("MainRegion", typeof(DataSetsView));
             regionManager.RequestNavigate("MainRegion", "DataSetsView");
         }
 
         private void ShowStatusView()
         {
-            //var mainRegion = regionManager.Regions["MainRegion"];
-            //foreach(var view in mainRegion.Views)
-            //{
-            //    if (view.GetType().Equals(typeof(ProgressView)))
-            //    {
-            //        regionManager.RequestNavigate("MainRegion", "ProgressView");
-            //        return;
-            //    }
-            //}
-
-            //regionManager.RegisterViewWithRegion("MainRegion", typeof(ProgressView));
             regionManager.RequestNavigate("MainRegion", "ProgressView");
         }
 

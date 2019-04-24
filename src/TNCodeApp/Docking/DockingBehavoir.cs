@@ -35,27 +35,15 @@ namespace TNCodeApp.Docking
             }
         }
 
-        /// <summary>
-        /// The DockingManagerBehavior's key used to 
-        /// identify it in the region's behavior collection.
-        /// </summary>
         public static readonly string BehaviorKey = "DockingManagerBehavior";
 
-        /// <summary>
-        /// Register to handle region events.
-        /// </summary>
+
         protected override void OnAttach()
         {
             Region.ActiveViews.CollectionChanged += ActiveViewsCollectionChanged;
             Region.Views.CollectionChanged += ViewsCollectionChanged;
         }
 
-        /// <summary>
-        /// Handles changes to the <see cref="IRegion"/> views collection, adding  
-        /// or removing items to the <see cref="HostControl"/> document source.
-        /// </summary>
-        /// <param name="sender">The <see cref="IRegion"/> views collection.</param>
-        /// <param name="e">Event arguments.</param>
         private void ViewsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Add)
@@ -70,13 +58,15 @@ namespace TNCodeApp.Docking
                            .FirstOrDefault();
 
 
-                    if (layoutDocumentPaneControl != null && tnPanel.Docking==DockingMethod.Document)
+                    if (layoutDocumentPaneControl != null && tnPanel.Docking == DockingMethod.Document)
                     {
-                        var document = new LayoutAnchorable();
-                        document.CanClose = true;
-                        document.CanAutoHide = false;
-                        document.Closed += LayoutAnchorableClosed;
-                        
+                        var document = new LayoutAnchorable
+                        {
+                            CanClose = true,
+                            CanAutoHide = false
+                        };
+                        document.Closed += DocumentAnchorableClosed;
+
                         document.Content = newItem;
 
                         var layoutDocumentPane = (LayoutDocumentPane)layoutDocumentPaneControl.Model;
@@ -84,42 +74,28 @@ namespace TNCodeApp.Docking
                         layoutDocumentPane.Children.Add(document);
                         return;
                     }
-                   
 
                     var anchorablePanel = new LayoutAnchorable();
-                    anchorablePanel.Closed += LayoutAnchorableClosed;
-                    //layoutAnchorable1.CanClose = true;
-                    //layoutAnchorable1.CanAutoHide = false;
                     anchorablePanel.Content = newItem;
 
-                    if(tnPanel.Docking == DockingMethod.ControlPanel)
+                    if (tnPanel.Docking == DockingMethod.ControlPanel)
                     {
                         var controlPanel = dockingManager.FindName("ControlPanel") as LayoutAnchorablePane;
                         controlPanel.Children.Add(anchorablePanel);
                         return;
                     }
-                   
+
                     var statusPanel = dockingManager.FindName("StatusPanel") as LayoutAnchorablePane;
-                    
                     statusPanel.Children.Add(anchorablePanel);
                 }
             }
         }
 
-        /// <summary>
-        /// Removes the document from the <see cref="IRegion"/> after it has been closed.
-        /// If you don't do this the document will not be removed but just hidden and you
-        /// will not be able to open it again as prism will already think it exists.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">LayoutAnchorable closed event arguments.</param>
-        private void LayoutAnchorableClosed(object sender, EventArgs e)
+        private void DocumentAnchorableClosed(object sender, EventArgs e)
         {
             var layoutAnchorable = sender as LayoutAnchorable;
             if (layoutAnchorable == null)
-            {
                 return;
-            }
 
             var view = layoutAnchorable.Content;
             if (Region.Views.Contains(view))
@@ -135,22 +111,26 @@ namespace TNCodeApp.Docking
         /// <param name="e">Event arguments.</param>
         private void ActiveViewsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            //if (e.Action == NotifyCollectionChangedAction.Add)
-            //{
-            //    if (dockingManager.ActiveContent != null
-            //        && dockingManager.ActiveContent != e.NewItems[0]
-            //        && Region.ActiveViews.Contains(dockingManager.ActiveContent))
-            //    {
-            //        Region.Deactivate(dockingManager.ActiveContent);
-            //    }
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                foreach (object newItem in e.NewItems)
+                {
+                    var tnPanel = (ITnPanel)GetDataContext(newItem) as ITnPanel;
 
-            //    dockingManager.ActiveContent = e.NewItems[0];
-            //}
-            //else if (e.Action == NotifyCollectionChangedAction.Remove
-            //    && e.OldItems.Contains(dockingManager.ActiveContent))
-            //{
-            //    dockingManager.ActiveContent = null;
-            //}
+                    var anchorablePanel = new LayoutAnchorable();
+                    anchorablePanel.Content = newItem;
+
+                    if (tnPanel.Docking == DockingMethod.ControlPanel)
+                    {
+                        var controlPanel = dockingManager.FindName("ControlPanel") as LayoutAnchorablePane;
+                        controlPanel.Children.Add(anchorablePanel);
+                        return;
+                    }
+
+                    var statusPanel = dockingManager.FindName("StatusPanel") as LayoutAnchorablePane;
+                    statusPanel.Children.Add(anchorablePanel);
+                }
+            }
         }
 
         private object GetDataContext(object item)

@@ -7,7 +7,7 @@ using Unity;
 
 namespace TNCodeApp.Progress
 {
-    public class ProgressViewModel : BindableBase, ITnPanel,IProgressService, INavigationAware
+    public class ProgressViewModel : BindableBase, ITnPanel, IProgressService, INavigationAware, IRegionMemberLifetime
     {
         public IProgress<int> Progress { get; set; }
 
@@ -53,6 +53,8 @@ namespace TNCodeApp.Progress
         public string Title { get => "Status"; }
 
         public DockingMethod Docking { get => DockingMethod.StatusPanel; }
+
+        public bool KeepAlive => true;
 
         public async Task ExecuteAsync(IProgress<int> action, string message)
         {

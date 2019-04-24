@@ -11,13 +11,13 @@ using TNCodeApp.Docking;
 
 namespace TNCodeApp.Data.ViewModels
 {
-    public class DataSetsViewModel : BindableBase, ITnPanel, INavigationAware
+    public class DataSetsViewModel : BindableBase, ITnPanel, INavigationAware, IRegionMemberLifetime
     {
-        private ObservableCollection<IDataSet> dataSets;
         private IDataSet selectedDataSet;
         private IEventAggregator eventAggregator;
         private IRegionManager regionManager;
         private IVariable selectedVariable;
+        private IDataSetsManager datasetsManager;
 
         public string Title { get => "Data Sets"; }
 
@@ -27,10 +27,10 @@ namespace TNCodeApp.Data.ViewModels
         public DelegateCommand DeleteDataSetCommand { get; private set; }
         public ObservableCollection<IDataSet> DataSets
         {
-            get { return dataSets; }
+            get { return datasetsManager.DataSets; }
             set
             {
-                dataSets = value;
+                datasetsManager.DataSets = value;
                 RaisePropertyChanged("DataSets");
             }
         }
@@ -55,9 +55,11 @@ namespace TNCodeApp.Data.ViewModels
             }
         }
 
-        public DataSetsViewModel(IEventAggregator eventAggregator, IRegionManager regionManager)
+        public bool KeepAlive => true;
+
+        public DataSetsViewModel(IEventAggregator eventAggregator, IRegionManager regionManager, IDataSetsManager dataMgr)
         {
-            dataSets = new ObservableCollection<IDataSet>();
+            datasetsManager = dataMgr;
 
             this.eventAggregator = eventAggregator;
             this.regionManager = regionManager;
@@ -77,7 +79,7 @@ namespace TNCodeApp.Data.ViewModels
 
         private void LoadData(DataSet obj)
         {
-            dataSets.Add(obj);
+            datasetsManager.DataSets.Add(obj);
 
             eventAggregator.GetEvent<DataSetSelectedEvent>().Publish(obj);
         }
@@ -94,14 +96,14 @@ namespace TNCodeApp.Data.ViewModels
             var dataList = new List<object[,]>() { mpgData.Data };
 
             var testData = new DataSet(dataList, "Mpg");
-            dataSets.Add(testData);
+            datasetsManager.DataSets.Add(testData);
 
             eventAggregator.GetEvent<DataSetSelectedEvent>().Publish(testData);
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            
+            SelectedDataSet = datasetsManager.DataSets[0];
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
