@@ -18,7 +18,7 @@
 
             <RibbonGroup
                 Header="Data"
-                adapter:UIElementExtension.MergeOrder="5">
+                adapter:UIElementExtension.MergeOrder="2">
                 
                 <RibbonButton
                     AutomationProperties.AutomationId="RbBtnLoadData"

@@ -2,6 +2,7 @@
 using ModuleR.Charts.Ggplot.Enums;
 using ModuleR.Charts.Ggplot.Layer;
 using ModuleR.Controls;
+using ModuleR.Events;
 using ModuleR.R;
 using Prism.Commands;
 using Prism.Events;
@@ -30,12 +31,14 @@ namespace ModuleR.ViewModels
         private string currentData;
         private IXmlConverter xmlConverter;
         private BitmapImage chartImage;
+        private List<Parameter> titleParameters;
 
         public List<string> Geoms { get; }
         public DelegateCommand NewLayerCommand { get; private set; }
         public DelegateCommand ClearLayersCommand { get; private set; }
         public DelegateCommand<ILayer> LayerSelectedCommand { get; private set; }
         public DelegateCommand CopyChartCommand { get; private set; }
+        public DelegateCommand<string> ActionCommand { get; private set; }
         private ObservableCollection<VariableControl> variableControls;
 
         public string CurrentDataSet
@@ -103,9 +106,11 @@ namespace ModuleR.ViewModels
             regionManager = regMngr;
 
             eventAggregator.GetEvent<DataSetSelectedEvent>().Subscribe(DataSetSelected, ThreadOption.UIThread);
+            eventAggregator.GetEvent<VariableControlActionEvent>().Subscribe(HandleAction);
 
             layers = new ObservableCollection<ILayer>();
             variableControls = new ObservableCollection<VariableControl>();
+            titleParameters = new List<Parameter>();
 
             Geoms = Enum.GetNames(typeof(Geoms)).ToList();
             Geoms.Remove("tile");
@@ -114,9 +119,23 @@ namespace ModuleR.ViewModels
             ClearLayersCommand = new DelegateCommand(ClearLayers, CanClearLayers);
             LayerSelectedCommand = new DelegateCommand<ILayer>(LayerSelected);
             CopyChartCommand = new DelegateCommand(CopyChart);
+            ActionCommand = new DelegateCommand<string>(ExecuteActionCommand);
             currentVariables = new List<string>();
             currentData = string.Empty;
 
+        }
+
+        private void ExecuteActionCommand(string obj)
+        {
+            var navigationParameters = new NavigationParameters();
+
+            regionManager.RequestNavigate("OptionsRegion",
+               new Uri("Ggplot"+obj+"View" + navigationParameters.ToString(), UriKind.Relative));
+        }
+
+        private void HandleAction(string aestheticName)
+        {
+            
         }
 
         private void CopyChart()
@@ -127,8 +146,10 @@ namespace ModuleR.ViewModels
         }
 
         private void LayerSelected(ILayer layer)
-        {
-            SelectedLayer.PropertyChanged -= SelectedLayer_PropertyChanged;
+        { 
+            if(SelectedLayer!=null)
+                SelectedLayer.PropertyChanged -= SelectedLayer_PropertyChanged;
+
             SelectedLayer = layer;
             SelectedLayer.PropertyChanged += SelectedLayer_PropertyChanged;
             foreach (var vc in variableControls)
@@ -138,7 +159,7 @@ namespace ModuleR.ViewModels
             variableControls.Clear();
             foreach (var aValue in SelectedLayer.Aes.AestheticValues)
             {
-                var gControl = new VariableControl(aValue, currentVariables);
+                var gControl = new VariableControl(eventAggregator,aValue, currentVariables);
                 gControl.PropertyChanged += GControl_PropertyChanged;
                 variableControls.Add(gControl);
             }
@@ -167,7 +188,7 @@ namespace ModuleR.ViewModels
             variableControls.Clear();
             foreach (var aValue in SelectedLayer.Aes.AestheticValues)
             {
-                var gControl = new VariableControl(aValue, currentVariables);
+                var gControl = new VariableControl(eventAggregator,aValue, currentVariables);
                 gControl.PropertyChanged += GControl_PropertyChanged;
                 variableControls.Add(gControl);
             }
@@ -285,7 +306,7 @@ namespace ModuleR.ViewModels
             layers.Add(newLayer);
 
             ClearLayersCommand.RaiseCanExecuteChanged();
-            SelectedLayer = newLayer;
+            LayerSelected(newLayer);
         }
 
         private async void PutDataSetInR(DataSet data)

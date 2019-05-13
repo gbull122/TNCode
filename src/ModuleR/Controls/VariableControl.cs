@@ -1,5 +1,7 @@
 ﻿using ModuleR.Charts.Ggplot.Layer;
+using ModuleR.Events;
 using Prism.Commands;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,8 +13,8 @@ namespace ModuleR.Controls
         public event PropertyChangedEventHandler PropertyChanged;
 
         private List<string> variables;
-
         private AestheticValue aestheticValue;
+        private IEventAggregator eventAggregator;
 
         public DelegateCommand ActionCommand { get; private set; }
 
@@ -21,8 +23,9 @@ namespace ModuleR.Controls
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public VariableControl(AestheticValue aesValue, List<string> variableNames)
+        public VariableControl(IEventAggregator evtAgg, AestheticValue aesValue, List<string> variableNames)
         {
+            eventAggregator = evtAgg;
             aestheticValue = aesValue;
             variables = variableNames;
 
@@ -38,6 +41,9 @@ namespace ModuleR.Controls
         {
             if (string.IsNullOrEmpty(aestheticValue.Entry))
                 return;
+
+            eventAggregator.GetEvent<VariableControlActionEvent>().Publish(aestheticValue.Name);
+
         }
 
         public string PropertyName
@@ -75,7 +81,7 @@ namespace ModuleR.Controls
 
         public bool? Factor
         {
-            get { return aestheticValue.IsFactor==null ? false: aestheticValue.IsFactor; }
+            get { return aestheticValue.IsFactor == null ? false : aestheticValue.IsFactor; }
             set
             {
                 aestheticValue.IsFactor = value;

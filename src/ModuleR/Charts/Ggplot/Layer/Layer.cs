@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace ModuleR.Charts.Ggplot.Layer
@@ -11,6 +12,8 @@ namespace ModuleR.Charts.Ggplot.Layer
         private bool showInPlot;
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private List<Parameter> labels;
 
         protected void OnPropertyChanged(string propertyName = null)
         {
@@ -72,6 +75,8 @@ namespace ModuleR.Charts.Ggplot.Layer
         public Layer(string geom)
         {
             Geom = geom;
+
+            labels = new List<Parameter>();
         }
 
         public string Command()
@@ -90,11 +95,29 @@ namespace ModuleR.Charts.Ggplot.Layer
             //command.Append(ParametersCommand() + ",");
             command.Append("show.legend=" + ShowLegend.ToString().ToUpper());
             command.Append(")");
-            //command.Append(DoLabels());
+            command.Append(DoLabels());
             //command.Append(DoScales());
             //command.Append(DoFacet());
 
             return command.ToString();
+        }
+
+        private string DoLabels()
+        {
+            List<string> titles = new List<string>();
+            if (labels.Count == 0)
+                return string.Empty;
+
+            foreach (var l in labels)
+            {
+                if (!string.IsNullOrEmpty(l.Command()))
+                    titles.Add(l.Command());
+            }
+
+            if (titles.Count == 0)
+                return string.Empty;
+
+            return "+labs(" + string.Join(",", titles) + ")";
         }
 
         private bool IsValid()

@@ -7,6 +7,7 @@ using Prism.Regions;
 using System;
 using System.Windows;
 using TNCode.Core.Data;
+using TNCodeApp.Chart.Views;
 using TNCodeApp.Data;
 using TNCodeApp.Data.Views;
 using TNCodeApp.Progress;
@@ -60,6 +61,8 @@ namespace TNCodeApp
             container.RegisterInstance<IDataSetsManager>(dataSetsManager);
 
             regionManager.RegisterViewWithRegion("RibbonRegion", typeof(DataRibbonView));
+            regionManager.RegisterViewWithRegion("RibbonRegion", typeof(ChartRibbonView));
+
             regionManager.RegisterViewWithRegion("MainRegion", typeof(DataSetsView));
 
             regionManager.RegisterViewWithRegion("MainRegion", typeof(ProgressView));

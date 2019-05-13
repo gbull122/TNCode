@@ -19,7 +19,6 @@ namespace ModuleR
         {
             regionManager = regManager;
             rManager = new RManager(new RHostSessionCallback(), loggerFacade);
-
         }
 
         public void OnInitialized(IContainerProvider containerPvdr)
@@ -33,6 +32,9 @@ namespace ModuleR
             containerRegistry.Register<IRHostSessionCallback,RHostSessionCallback>();
             containerRegistry.RegisterInstance<IRManager>(rManager);
             containerRegistry.RegisterForNavigation<ChartBuilderView>();
+            containerRegistry.RegisterForNavigation<GgplotTitleView>();
+            containerRegistry.RegisterForNavigation<GgplotScaleView>();
+            containerRegistry.RegisterForNavigation<GgplotFacetView>();
 
             regionManager.RegisterViewWithRegion("RibbonRegion", typeof(RibbonRView));
 

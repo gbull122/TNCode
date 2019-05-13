@@ -1,0 +1,75 @@
+﻿<UserControl 
+    x:Class="ModuleR.Views.GgplotFacetView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:ModuleR.Views"
+    xmlns:prism="http://prismlibrary.com/"
+    prism:ViewModelLocator.AutoWireViewModel="True">
+    
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="2"
+            Text="Vertical"/>
+
+        <ComboBox 
+            Grid.Row="1"
+            Grid.Column="0"
+            MinWidth="75"
+            Margin="2" 
+            MaxDropDownHeight="150"
+            ItemsSource="{Binding Path=Variables}" 
+            IsSynchronizedWithCurrentItem="False"
+            SelectedItem="{Binding Path=XVariable ,UpdateSourceTrigger=PropertyChanged}"
+            ToolTip="Select the vertical variable."/>
+
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="2"
+            Text="Horizontal"/>
+
+        <ComboBox 
+            Grid.Row="1"
+            Grid.Column="1"
+            MinWidth="75"
+            Margin="2" 
+            MaxDropDownHeight="150"
+            ItemsSource="{Binding Path=Variables}" 
+            IsSynchronizedWithCurrentItem="False"
+            SelectedItem="{Binding Path=YVariable ,UpdateSourceTrigger=PropertyChanged}"
+            ToolTip="Select the Horizontal variable."/>
+
+        <CheckBox
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="2"
+            Content="Free Scale"
+            IsChecked="{Binding Path=IsFreeScale}"
+            ToolTip="Check for each plot to have a seperate scale."/>
+
+        <CheckBox
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="2"
+            Content="Free Space"
+            IsChecked="{Binding Path=IsFreeSpace}"
+            ToolTip="Check for each plot to have different size."/>
+
+    </Grid>
+</UserControl>

@@ -42,6 +42,12 @@
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NLog.4.5.11\lib\net45\NLog.dll</HintPath>
     </Reference>
+    <Reference Include="OxyPlot, Version=1.0.0.0, Culture=neutral, PublicKeyToken=638079a8f0bd61e9, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\OxyPlot.Core.1.0.0\lib\net45\OxyPlot.dll</HintPath>
+    </Reference>
+    <Reference Include="OxyPlot.Wpf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=75e952ba404cdbb0, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\OxyPlot.Wpf.1.0.0\lib\net45\OxyPlot.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="Prism, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Prism.Core.7.1.0.431\lib\net45\Prism.dll</HintPath>
     </Reference>
@@ -110,6 +116,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Chart\ChartManager.cs" />
+    <Compile Include="Chart\ViewModels\ChartRibbonViewModel.cs" />
+    <Compile Include="Chart\ViewModels\ChartViewModel.cs" />
+    <Compile Include="Chart\Views\ChartRibbonView.xaml.cs">
+      <DependentUpon>ChartRibbonView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Chart\Views\ChartView.xaml.cs">
+      <DependentUpon>ChartView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Data\DataSetsManager.cs" />
     <Compile Include="Data\Events\DataLoadedEvent.cs" />
     <Compile Include="Data\Events\DataSetSelectedEvent.cs" />
@@ -170,6 +185,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Chart\Views\ChartRibbonView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Chart\Views\ChartView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Data\Views\DataRibbonView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -89,6 +89,7 @@
     <Compile Include="Charts\Ggplot\Layer\AestheticValue.cs" />
     <Compile Include="Charts\Ggplot\Layer\ILayer.cs" />
     <Compile Include="Charts\Ggplot\Layer\Layer.cs" />
+    <Compile Include="Charts\Ggplot\Layer\Parameter.cs" />
     <Compile Include="Charts\IChart.cs" />
     <Compile Include="Controls\IOptionControl.cs" />
     <Compile Include="Controls\OptionCheckBoxControl.xaml.cs">
@@ -102,7 +103,10 @@
     </Compile>
     <Compile Include="Controls\VariableControl.cs" />
     <Compile Include="Events\GenerateGgplotChart.cs" />
+    <Compile Include="Events\GgplotFacetEvent.cs" />
+    <Compile Include="Events\GgplotTitleEvent.cs" />
     <Compile Include="Events\LayerSelectedEvent.cs" />
+    <Compile Include="Events\VariableControlActionEvent.cs" />
     <Compile Include="ModuleRModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -116,12 +120,24 @@
     <Compile Include="R\ROperations.cs" />
     <Compile Include="ViewModels\FunctionViewModel.cs" />
     <Compile Include="ViewModels\ChartBuilderViewModel.cs" />
+    <Compile Include="ViewModels\GgplotFacetViewModel.cs" />
+    <Compile Include="ViewModels\GgplotScaleViewModel.cs" />
+    <Compile Include="ViewModels\GgplotTitleViewModel.cs" />
     <Compile Include="ViewModels\RibbonRViewModel.cs" />
     <Compile Include="Views\FunctionView.xaml.cs">
       <DependentUpon>FunctionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ChartBuilderView.xaml.cs">
       <DependentUpon>ChartBuilderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GgplotFacetView.xaml.cs">
+      <DependentUpon>GgplotFacetView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GgplotScaleView.xaml.cs">
+      <DependentUpon>GgplotScaleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GgplotTitleView.xaml.cs">
+      <DependentUpon>GgplotTitleView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RibbonRView.xaml.cs">
       <DependentUpon>RibbonRView.xaml</DependentUpon>
@@ -148,6 +164,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ChartBuilderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GgplotFacetView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GgplotScaleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GgplotTitleView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
