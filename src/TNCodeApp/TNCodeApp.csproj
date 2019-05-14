@@ -129,6 +129,7 @@
     <Compile Include="Data\Events\DataLoadedEvent.cs" />
     <Compile Include="Data\Events\DataSetSelectedEvent.cs" />
     <Compile Include="Data\Events\TestDataEvent.cs" />
+    <Compile Include="Data\Events\VariablesSelectedEvent.cs" />
     <Compile Include="Data\IDataSetsManager.cs" />
     <Compile Include="Data\MpgDataSet.cs" />
     <Compile Include="Progress\IProgressService.cs" />

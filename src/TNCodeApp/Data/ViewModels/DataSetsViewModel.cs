@@ -16,13 +16,14 @@ namespace TNCodeApp.Data.ViewModels
         private IDataSet selectedDataSet;
         private IEventAggregator eventAggregator;
         private IRegionManager regionManager;
-        private IVariable selectedVariable;
+        private IList<object> selectedVariables;
         private IDataSetsManager datasetsManager;
 
         public string Title { get => "Data Sets"; }
 
         public DockingMethod Docking { get => DockingMethod.ControlPanel; }
 
+        public DelegateCommand<IList<object>> VariableSelectionChangedCommand { get; private set; }
         public DelegateCommand<DataSet> SelectedItemChangedCommand { get; private set; }
         public DelegateCommand DeleteDataSetCommand { get; private set; }
         public ObservableCollection<IDataSet> DataSets
@@ -45,12 +46,12 @@ namespace TNCodeApp.Data.ViewModels
             }
         }
 
-        public IVariable SelectedVariable
+        public IList<object> SelectedVariables
         {
-            get { return selectedVariable; }
+            get { return selectedVariables; }
             set
             {
-                selectedVariable = value;
+                selectedVariables = value;
                 RaisePropertyChanged("SelectedVariable");
             }
         }
@@ -66,10 +67,17 @@ namespace TNCodeApp.Data.ViewModels
 
             SelectedItemChangedCommand = new DelegateCommand<DataSet>(SelectedItemChanged);
             DeleteDataSetCommand = new DelegateCommand(DeleteDataSet);
+            VariableSelectionChangedCommand = new DelegateCommand<IList<object>>(VariableSelectionChanged);
 
             eventAggregator.GetEvent<TestDataEvent>().Subscribe(TestData, ThreadOption.UIThread);
             eventAggregator.GetEvent<DataLoadedEvent>().Subscribe(LoadData, ThreadOption.UIThread);
 
+        }
+
+        private void VariableSelectionChanged(IList<object> variableList)
+        {
+            SelectedVariables = variableList;
+            eventAggregator.GetEvent<VariablesSelectedEvent>().Publish(variableList);
         }
 
         private void DeleteDataSet()
