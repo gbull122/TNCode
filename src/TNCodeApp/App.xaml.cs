@@ -5,6 +5,7 @@ using Prism.Modularity;
 using Prism.Regions;
 using Prism.Unity;
 using System.Windows;
+using TNCodeApp.Chart.Views;
 using TNCodeApp.Docking;
 using TNCodeApp.Logger;
 using TNCodeApp.Progress;
@@ -26,6 +27,8 @@ namespace TNCodeApp
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.Register<ILoggerFacade, TnLogger>();
+
+            containerRegistry.RegisterForNavigation<ChartView>();
         }
 
         protected override void ConfigureRegionAdapterMappings(RegionAdapterMappings regionAdapterMappings)
