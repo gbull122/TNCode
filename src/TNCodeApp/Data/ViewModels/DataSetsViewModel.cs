@@ -26,6 +26,8 @@ namespace TNCodeApp.Data.ViewModels
         public DelegateCommand<IList<object>> VariableSelectionChangedCommand { get; private set; }
         public DelegateCommand<DataSet> SelectedItemChangedCommand { get; private set; }
         public DelegateCommand DeleteDataSetCommand { get; private set; }
+        public DelegateCommand CloseCommand { get; private set; }
+
         public ObservableCollection<IDataSet> DataSets
         {
             get { return datasetsManager.DataSets; }
@@ -68,10 +70,16 @@ namespace TNCodeApp.Data.ViewModels
             SelectedItemChangedCommand = new DelegateCommand<DataSet>(SelectedItemChanged);
             DeleteDataSetCommand = new DelegateCommand(DeleteDataSet);
             VariableSelectionChangedCommand = new DelegateCommand<IList<object>>(VariableSelectionChanged);
+            CloseCommand = new DelegateCommand(Close);
 
             eventAggregator.GetEvent<TestDataEvent>().Subscribe(TestData, ThreadOption.UIThread);
             eventAggregator.GetEvent<DataLoadedEvent>().Subscribe(LoadData, ThreadOption.UIThread);
 
+        }
+
+        private void Close()
+        {
+            throw new NotImplementedException();
         }
 
         private void VariableSelectionChanged(IList<object> variableList)

@@ -6,7 +6,8 @@
     xmlns:local="clr-namespace:TNCodeApp.Data.Views"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:ie="http://schemas.microsoft.com/expression/2010/interactivity"
-    prism:ViewModelLocator.AutoWireViewModel="True">
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    Name="DatasetsView">
 
     <Grid>
         <Grid.RowDefinitions>

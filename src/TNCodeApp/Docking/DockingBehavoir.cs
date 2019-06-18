@@ -50,6 +50,10 @@ namespace TNCodeApp.Docking
             {
                 foreach (object newItem in e.NewItems)
                 {
+                    var test = GetDataContext(newItem);
+                    if (test == null)
+                        return;
+
                     var tnPanel = (ITnPanel)GetDataContext(newItem) as ITnPanel;
 
                     var layoutDocumentPaneControl
@@ -77,17 +81,26 @@ namespace TNCodeApp.Docking
 
                     var anchorablePanel = new LayoutAnchorable();
                     anchorablePanel.Content = newItem;
+                    anchorablePanel.CanClose = false;
+
+                    anchorablePanel.Closed += DocumentAnchorableClosed;
 
                     if (tnPanel.Docking == DockingMethod.ControlPanel)
                     {
                         var controlPanel = dockingManager.FindName("ControlPanel") as LayoutAnchorablePane;
                         controlPanel.Children.Add(anchorablePanel);
+
+                        var debug = controlPanel.IsVisible;
                         return;
                     }
 
                     var statusPanel = dockingManager.FindName("StatusPanel") as LayoutAnchorablePane;
                     statusPanel.Children.Add(anchorablePanel);
                 }
+            }
+            if(e.Action== NotifyCollectionChangedAction.Remove)
+            {
+
             }
         }
 
@@ -97,11 +110,14 @@ namespace TNCodeApp.Docking
             if (layoutAnchorable == null)
                 return;
 
-            var view = layoutAnchorable.Content;
-            if (Region.Views.Contains(view))
-            {
-                Region.RegionManager.Regions["MainRegion"].Remove(view);
-            }
+            //var view = layoutAnchorable.Content;
+            //if (Region.Views.Contains(view))
+            //{
+            //    Region.RegionManager.Regions["MainRegion"].Remove(view);
+            //}
+
+            var controlPanel = dockingManager.FindName("ControlPanel") as LayoutAnchorablePane;
+            
         }
 
         /// <summary>
@@ -113,24 +129,29 @@ namespace TNCodeApp.Docking
         {
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
-                foreach (object newItem in e.NewItems)
+               foreach (object newItem in e.NewItems)
                 {
+                    Type objectType = newItem.GetType();
+
                     var tnPanel = (ITnPanel)GetDataContext(newItem) as ITnPanel;
 
-                    var anchorablePanel = new LayoutAnchorable();
-                    anchorablePanel.Content = newItem;
-
-                    if (tnPanel.Docking == DockingMethod.ControlPanel)
+                    if (!Region.Views.Contains(newItem))
                     {
-                        var controlPanel = dockingManager.FindName("ControlPanel") as LayoutAnchorablePane;
-                        controlPanel.Children.Add(anchorablePanel);
-                        return;
-                    }
+                        var anchorablePanel = new LayoutAnchorable();
+                        anchorablePanel.Content = newItem;
 
-                    var statusPanel = dockingManager.FindName("StatusPanel") as LayoutAnchorablePane;
-                    statusPanel.Children.Add(anchorablePanel);
+                        if (tnPanel.Docking == DockingMethod.ControlPanel)
+                        {
+                            var controlPanel = dockingManager.FindName("ControlPanel") as LayoutAnchorablePane;
+                            controlPanel.Children.Add(anchorablePanel);
+                            return;
+                        }
+
+                        var statusPanel = dockingManager.FindName("StatusPanel") as LayoutAnchorablePane;
+                        statusPanel.Children.Add(anchorablePanel);
+                    }
                 }
-            }
+           }
         }
 
         private object GetDataContext(object item)

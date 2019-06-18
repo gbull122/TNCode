@@ -64,19 +64,50 @@ namespace TNCodeApp
             regionManager.RegisterViewWithRegion("RibbonRegion", typeof(ChartRibbonView));
 
             regionManager.RegisterViewWithRegion("MainRegion", typeof(DataSetsView));
-
             regionManager.RegisterViewWithRegion("MainRegion", typeof(ProgressView));
-            regionManager.RequestNavigate("MainRegion", "ProgressView");
         }
 
+        
         private void ShowDataSetsView()
         {
-            regionManager.RequestNavigate("MainRegion", "DataSetsView");
+            var region = regionManager.Regions["MainRegion"];
+
+            foreach (var view in region.Views)
+            {
+                Type viewType = view.GetType();
+                if (viewType.Equals(typeof(DataSetsView)))
+                {
+                    var actualView = (DataSetsView)view;
+
+                    if(!actualView.IsVisible)
+                    {
+                        region.Remove(view);
+                        regionManager.AddToRegion("MainRegion", new DataSetsView());
+                    }
+                    regionManager.RequestNavigate("MainRegion", "DataSetsView");
+                }
+            }
         }
 
         private void ShowStatusView()
         {
-            regionManager.RequestNavigate("MainRegion", "ProgressView");
+            var region = regionManager.Regions["MainRegion"];
+
+            foreach (var view in region.Views)
+            {
+                Type viewType = view.GetType();
+                if (viewType.Equals(typeof(ProgressView)))
+                {
+                    var actualView = (ProgressView)view;
+
+                    if (!actualView.IsVisible)
+                    {
+                        region.Remove(view);
+                        regionManager.AddToRegion("MainRegion", new ProgressView());
+                    }
+                    regionManager.RequestNavigate("MainRegion", "ProgressView");
+                }
+            }
         }
 
         private void Settings()

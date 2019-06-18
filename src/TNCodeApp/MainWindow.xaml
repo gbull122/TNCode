@@ -19,50 +19,48 @@
             x:Key="DocumentTitleTemplate">
                 <DockPanel>
                     <TextBlock 
-                    Text="Document: "
-                     TextTrimming="CharacterEllipsis" />
-                    <TextBlock 
-                    Text="{Binding Path=Content.DataContext.Title}"
-                    DockPanel.Dock="Left"
-                    TextTrimming="CharacterEllipsis" />
+                        Text="{Binding Path=Content.DataContext.Title}"
+                        DockPanel.Dock="Left"
+                        TextTrimming="CharacterEllipsis" />
                 </DockPanel>
             </DataTemplate>
 
             <DataTemplate x:Key="AnchorableTitleTemplate">
-                <DockPanel
-                MinWidth="300">
+                <DockPanel>
                     <TextBlock 
-                    Text="Anchorable: "
-                    TextTrimming="CharacterEllipsis" />
-                    <TextBlock 
-                    Text="{Binding Path=Content.DataContext.Title}"
-                    DockPanel.Dock="Left"
-                    TextTrimming="CharacterEllipsis" />
+                        Text="{Binding Path=Content.DataContext.Title}"
+                        DockPanel.Dock="Left"
+                        TextTrimming="CharacterEllipsis" />
+
+
                 </DockPanel>
             </DataTemplate>
 
-            <DataTemplate 
+          
+            
+
+
+            <!--<DataTemplate 
             x:Key="DocumentHeaderTemplate">
                 <DockPanel>
                     <TextBlock 
                     Text="{Binding Path=Content.DataContext.Title}"
-                    MaxWidth="125"
                     TextTrimming="CharacterEllipsis" />
                 </DockPanel>
-            </DataTemplate>
+            </DataTemplate>-->
 
-            <DataTemplate 
-            x:Key="AnchorableHeaderTemplate">
+            <!--<DataTemplate 
+                x:Key="AnchorableHeaderTemplate">
                 <StackPanel 
-                Orientation="Horizontal">
+                    Orientation="Horizontal">
                     <TextBlock 
-                    Text="{Binding Path=Content.DataContext.Title}"
-                    MaxWidth="125"
-                    TextTrimming="CharacterEllipsis" />
+                        Text="{Binding Path=Content.DataContext.Title}"
+                        TextTrimming="CharacterEllipsis" />
                 </StackPanel>
-            </DataTemplate>
 
-            <ControlTemplate
+            </DataTemplate>-->
+
+            <!--<ControlTemplate
             x:Key="PaneTemplate">
                 <avalonDock:AnchorablePaneTabPanel>
                     <DockPanel
@@ -70,7 +68,7 @@
 
                     </DockPanel>
                 </avalonDock:AnchorablePaneTabPanel>
-            </ControlTemplate>
+            </ControlTemplate>-->
         </ResourceDictionary>
     </Window.Resources>
 
@@ -111,7 +109,7 @@
                 Header="Home">
                 <RibbonGroup
                     Header="View">
-                    
+
                     <RibbonButton
                         AutomationProperties.AutomationId="RbBtnShowDataSets"
                         Label="Data Sets"
@@ -123,7 +121,7 @@
                         Label="Status"
                         Command="{Binding ShowStatusCommand}">
                     </RibbonButton>
-                    
+
                 </RibbonGroup>
             </RibbonTab>
 
@@ -133,16 +131,25 @@
             x:Name="dockingManager" 
             Grid.Row="1" 
             prism:RegionManager.RegionName="MainRegion"
-            DocumentTitleTemplate="{StaticResource DocumentTitleTemplate}"
             AnchorableTitleTemplate="{StaticResource AnchorableTitleTemplate}"
-            DocumentHeaderTemplate="{StaticResource DocumentHeaderTemplate}"
+            DocumentTitleTemplate="{StaticResource DocumentTitleTemplate}">
+            
+            <!-- DocumentHeaderTemplate="{StaticResource DocumentHeaderTemplate}"
             AnchorableHeaderTemplate="{StaticResource AnchorableHeaderTemplate}"
-            DocumentPaneMenuItemHeaderTemplate="{StaticResource DocumentHeaderTemplate}">
+            DocumentPaneMenuItemHeaderTemplate="{StaticResource DocumentHeaderTemplate}"-->
+            <!--<avalonDock:DockingManager.LayoutItemContainerStyle>
+                <Style TargetType="{x:Type avalonDock:LayoutItem}">
+                    <Setter Property="CloseCommand" Value="{Binding DataContext.CloseCommand}" />
+                </Style>
+
+            </avalonDock:DockingManager.LayoutItemContainerStyle>-->
+
             <avalonDock:DockingManager.Theme>
                 <avalonDock:AeroTheme />
             </avalonDock:DockingManager.Theme>
 
-            <avalonDock:LayoutRoot>
+            <avalonDock:LayoutRoot
+                >
 
                 <avalonDock:LayoutPanel 
                     x:Name="VerticalPanel" 
@@ -153,19 +160,22 @@
                         Orientation="Horizontal">
 
                         <avalonDock:LayoutAnchorablePane
-                        x:Name="ControlPanel"
-                        DockWidth="300"/>
-                        
+                            x:Name="ControlPanel"
+                            DockMinWidth="300"
+                            >
+
+                        </avalonDock:LayoutAnchorablePane>
+
                         <avalonDock:LayoutDocumentPane />
-                        
+
                     </avalonDock:LayoutPanel>
 
                     <avalonDock:LayoutAnchorablePane
                         x:Name="StatusPanel"
-                        DockHeight="100"/>
+                        DockHeight="100" />
 
                 </avalonDock:LayoutPanel>
-                
+
 
             </avalonDock:LayoutRoot>
 
