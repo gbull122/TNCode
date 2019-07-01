@@ -1,16 +1,16 @@
 ﻿using OxyPlot;
 using Prism.Mvvm;
-using Prism.Regions;
 using TNCodeApp.Docking;
 
 namespace TNCodeApp.Chart.ViewModels
 {
-    public class ChartViewModel:BindableBase, ITnPanel, INavigationAware
+    public class ChartViewModel:BindableBase, ITnPanel
     {
 
-        private Model plotModel;
+        private PlotModel plotModel;
+        private IChartManager chartManager;
 
-        public Model PlotModel
+        public PlotModel PlotModel
         {
             get { return plotModel; }
             set
@@ -20,28 +20,18 @@ namespace TNCodeApp.Chart.ViewModels
             }
         }
 
-        public string Title => "Chart";
+        public string Title { get; set; }
 
         public DockingMethod Docking => DockingMethod.Document;
 
-        public ChartViewModel()
+        public ChartViewModel(IChartManager chartMgr)
         {
+            chartManager = chartMgr;
 
-        }
-
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            
-        }
-
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return true;
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-
+            var chart = chartManager.GetLastChart();
+            chart.Update();
+            Title = chart.Title;
+            PlotModel = chart.Model;
         }
     }
 }

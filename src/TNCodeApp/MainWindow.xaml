@@ -35,40 +35,16 @@
 
                 </DockPanel>
             </DataTemplate>
-
-          
             
-
-
-            <!--<DataTemplate 
+            <DataTemplate 
             x:Key="DocumentHeaderTemplate">
                 <DockPanel>
                     <TextBlock 
                     Text="{Binding Path=Content.DataContext.Title}"
                     TextTrimming="CharacterEllipsis" />
                 </DockPanel>
-            </DataTemplate>-->
-
-            <!--<DataTemplate 
-                x:Key="AnchorableHeaderTemplate">
-                <StackPanel 
-                    Orientation="Horizontal">
-                    <TextBlock 
-                        Text="{Binding Path=Content.DataContext.Title}"
-                        TextTrimming="CharacterEllipsis" />
-                </StackPanel>
-
-            </DataTemplate>-->
-
-            <!--<ControlTemplate
-            x:Key="PaneTemplate">
-                <avalonDock:AnchorablePaneTabPanel>
-                    <DockPanel
-                    MinWidth="500">
-
-                    </DockPanel>
-                </avalonDock:AnchorablePaneTabPanel>
-            </ControlTemplate>-->
+            </DataTemplate>
+            
         </ResourceDictionary>
     </Window.Resources>
 
@@ -132,17 +108,8 @@
             Grid.Row="1" 
             prism:RegionManager.RegionName="MainRegion"
             AnchorableTitleTemplate="{StaticResource AnchorableTitleTemplate}"
-            DocumentTitleTemplate="{StaticResource DocumentTitleTemplate}">
-            
-            <!-- DocumentHeaderTemplate="{StaticResource DocumentHeaderTemplate}"
-            AnchorableHeaderTemplate="{StaticResource AnchorableHeaderTemplate}"
-            DocumentPaneMenuItemHeaderTemplate="{StaticResource DocumentHeaderTemplate}"-->
-            <!--<avalonDock:DockingManager.LayoutItemContainerStyle>
-                <Style TargetType="{x:Type avalonDock:LayoutItem}">
-                    <Setter Property="CloseCommand" Value="{Binding DataContext.CloseCommand}" />
-                </Style>
-
-            </avalonDock:DockingManager.LayoutItemContainerStyle>-->
+            DocumentTitleTemplate="{StaticResource DocumentTitleTemplate}"
+            DocumentHeaderTemplate="{StaticResource DocumentHeaderTemplate}">
 
             <avalonDock:DockingManager.Theme>
                 <avalonDock:AeroTheme />
@@ -161,8 +128,7 @@
 
                         <avalonDock:LayoutAnchorablePane
                             x:Name="ControlPanel"
-                            DockMinWidth="300"
-                            >
+                            DockMinWidth="300">
 
                         </avalonDock:LayoutAnchorablePane>
 

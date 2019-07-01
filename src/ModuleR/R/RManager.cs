@@ -242,7 +242,7 @@ namespace ModuleR.R
                     await rOperations.ExecuteAsync("source(" + ConverPathToR(fileName) + ",echo=TRUE, max.deparse.length=10000)");
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 //ErrorMessage = "Failed to generate plot " + ex.Message;
                 return false;

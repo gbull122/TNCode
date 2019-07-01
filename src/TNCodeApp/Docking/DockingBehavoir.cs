@@ -110,11 +110,11 @@ namespace TNCodeApp.Docking
             if (layoutAnchorable == null)
                 return;
 
-            //var view = layoutAnchorable.Content;
-            //if (Region.Views.Contains(view))
-            //{
-            //    Region.RegionManager.Regions["MainRegion"].Remove(view);
-            //}
+            var view = layoutAnchorable.Content;
+            if (Region.Views.Contains(view))
+            {
+                Region.RegionManager.Regions["MainRegion"].Remove(view);
+            }
 
             var controlPanel = dockingManager.FindName("ControlPanel") as LayoutAnchorablePane;
             

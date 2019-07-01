@@ -1,6 +1,6 @@
 ﻿namespace ModuleR.Charts
 {
-    public interface IChart
+    public interface IRChart
     {
         string Command();
     }

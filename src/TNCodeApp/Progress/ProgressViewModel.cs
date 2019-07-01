@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using Prism.Events;
+using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace TNCodeApp.Progress
         private int progressValue;
         private bool progressIndeterminate;
         private string message = "Ready";
+        private IEventAggregator eventAggregator;
 
         public string Message
         {
@@ -45,9 +47,17 @@ namespace TNCodeApp.Progress
             }
         }
 
-        public ProgressViewModel(IUnityContainer container)
+        public ProgressViewModel(IUnityContainer container, IEventAggregator eventAgg)
         {
             container.RegisterInstance<IProgressService>(this);
+            eventAggregator = eventAgg;
+
+            eventAggregator.GetEvent<DisplayMessageEvent>().Subscribe(ShowMessage);
+        }
+
+        private void ShowMessage(string message)
+        {
+            Message = message;
         }
 
         public string Title { get => "Status"; }

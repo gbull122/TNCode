@@ -114,6 +114,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chart\ChartManager.cs" />
+    <Compile Include="Chart\Events\ChartCreatedEvent.cs" />
+    <Compile Include="Chart\IChart.cs" />
+    <Compile Include="Chart\IChartManager.cs" />
+    <Compile Include="Chart\LineChart.cs" />
+    <Compile Include="Chart\ScatterChart.cs" />
     <Compile Include="Chart\ViewModels\ChartRibbonViewModel.cs" />
     <Compile Include="Chart\ViewModels\ChartViewModel.cs" />
     <Compile Include="Chart\Views\ChartRibbonView.xaml.cs">
@@ -129,6 +134,7 @@
     <Compile Include="Data\Events\VariablesSelectedEvent.cs" />
     <Compile Include="Data\IDataSetsManager.cs" />
     <Compile Include="Data\MpgDataSet.cs" />
+    <Compile Include="Progress\DisplayMessageEvent.cs" />
     <Compile Include="Progress\IProgressService.cs" />
     <Compile Include="Progress\ProgressView.xaml.cs">
       <DependentUpon>ProgressView.xaml</DependentUpon>

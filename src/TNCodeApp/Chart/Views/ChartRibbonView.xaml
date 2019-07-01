@@ -19,16 +19,16 @@
 
                 <RibbonButton
                     AutomationProperties.AutomationId="RbBtnPointChart"
-                    Label="Point"
+                    Label="Scatter"
                     Command="{Binding ChartCommand}"
-                    CommandParameter="Point">
+                    CommandParameter="scatter">
                 </RibbonButton>
 
                 <RibbonButton
                     AutomationProperties.AutomationId="RbBtnLineChart"
                     Label="Line"
                     Command="{Binding ChartCommand}"
-                    CommandParameter="Line">
+                    CommandParameter="line">
                 </RibbonButton>
 
             </RibbonGroup>

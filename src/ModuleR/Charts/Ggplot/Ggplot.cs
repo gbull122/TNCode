@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ModuleR.Charts.Ggplot
 {
-    public class Ggplot:IChart
+    public class Ggplot:IRChart
     {
         private List<ILayer> layers;
 

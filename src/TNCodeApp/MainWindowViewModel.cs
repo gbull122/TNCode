@@ -7,6 +7,7 @@ using Prism.Regions;
 using System;
 using System.Windows;
 using TNCode.Core.Data;
+using TNCodeApp.Chart;
 using TNCodeApp.Chart.Views;
 using TNCodeApp.Data;
 using TNCodeApp.Data.Views;
@@ -59,6 +60,9 @@ namespace TNCodeApp
 
             IDataSetsManager dataSetsManager = new DataSetsManager();
             container.RegisterInstance<IDataSetsManager>(dataSetsManager);
+
+            IChartManager chartManager = new ChartManager(eventAggregator);
+            container.RegisterInstance<IChartManager>(chartManager);
 
             regionManager.RegisterViewWithRegion("RibbonRegion", typeof(DataRibbonView));
             regionManager.RegisterViewWithRegion("RibbonRegion", typeof(ChartRibbonView));
