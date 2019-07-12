@@ -5,7 +5,6 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Ribbon;
 using System.Windows.Media;
 
 namespace TNCodeApp.Ribbon
@@ -15,7 +14,7 @@ namespace TNCodeApp.Ribbon
         public static readonly string BehaviorKey = "RibbonBehavior";
         public const double DefaultMergeOrder = 10000d;
 
-        public System.Windows.Controls.Ribbon.Ribbon MainRibbon { get; set; }
+        public Fluent.Ribbon MainRibbon { get; set; }
 
         protected override void OnAttach()
         {
@@ -44,52 +43,52 @@ namespace TNCodeApp.Ribbon
 
         }
 
-        public System.Windows.Controls.Ribbon.Ribbon GetRibbonFromView(UserControl thing)
+        public Fluent.Ribbon GetRibbonFromView(UserControl thing)
         {
-            var foundControl = thing.FindName("MainRibbon") as System.Windows.Controls.Ribbon.Ribbon;
+            var foundControl = thing.FindName("MainRibbon") as Fluent.Ribbon;
             return foundControl;
         }
 
-        protected void MergeRibbon(object sourceView, System.Windows.Controls.Ribbon.Ribbon moduleRibbon, System.Windows.Controls.Ribbon.Ribbon ribbon)
+        protected void MergeRibbon(object sourceView, Fluent.Ribbon moduleRibbon, Fluent.Ribbon ribbon)
         {
             MergeApplicationMenu(sourceView, moduleRibbon, ribbon);
             MergeQuickAccessToolbar(sourceView, moduleRibbon, ribbon);
             MergeContextualTabGroups(sourceView, moduleRibbon, ribbon);
-            MergeItemsControl(sourceView, moduleRibbon, ribbon);
+            //MergeItemsControl(sourceView, moduleRibbon, ribbon);
         }
 
-        protected void MergeQuickAccessToolbar(object sourceView, System.Windows.Controls.Ribbon.Ribbon moduleRibbon, System.Windows.Controls.Ribbon.Ribbon ribbon)
+        protected void MergeQuickAccessToolbar(object sourceView, Fluent.Ribbon moduleRibbon, Fluent.Ribbon ribbon)
         {
-            if (moduleRibbon.QuickAccessToolBar != null)
-            {
-                if (ribbon.QuickAccessToolBar == null)
-                    ribbon.QuickAccessToolBar = new RibbonQuickAccessToolBar();
-                MergeItemsControl(sourceView, moduleRibbon.QuickAccessToolBar, ribbon.QuickAccessToolBar);
-            }
+            //if (moduleRibbon.QuickAccessToolBar != null)
+            //{
+            //    if (ribbon.QuickAccessToolBar == null)
+            //        ribbon.QuickAccessToolBar = new RibbonQuickAccessToolBar();
+            //    MergeItemsControl(sourceView, moduleRibbon.QuickAccessToolBar, ribbon.QuickAccessToolBar);
+            //}
         }
 
-        protected void MergeApplicationMenu(object sourceView, System.Windows.Controls.Ribbon.Ribbon moduleRibbon, System.Windows.Controls.Ribbon.Ribbon ribbon)
+        protected void MergeApplicationMenu(object sourceView, Fluent.Ribbon moduleRibbon, Fluent.Ribbon ribbon)
         {
-            if (moduleRibbon.ApplicationMenu != null)
-            {
-                if (ribbon.ApplicationMenu == null)
-                    ribbon.ApplicationMenu = new RibbonApplicationMenu();
-                MergeItemsControl(sourceView, moduleRibbon.ApplicationMenu, ribbon.ApplicationMenu);
-            }
+            //if (moduleRibbon.ApplicationMenu != null)
+            //{
+            //    if (ribbon.ApplicationMenu == null)
+            //        ribbon.ApplicationMenu = new RibbonApplicationMenu();
+            //    MergeItemsControl(sourceView, moduleRibbon.ApplicationMenu, ribbon.ApplicationMenu);
+            //}
         }
 
-        protected void MergeContextualTabGroups(object sourceView, System.Windows.Controls.Ribbon.Ribbon moduleRibbon, System.Windows.Controls.Ribbon.Ribbon ribbon)
+        protected void MergeContextualTabGroups(object sourceView, Fluent.Ribbon moduleRibbon, Fluent.Ribbon ribbon)
         {
-            foreach (RibbonContextualTabGroup group in moduleRibbon.ContextualTabGroups)
-            {
-                if (!ribbon.ContextualTabGroups.Any(t => UiElementsHaveSameId(t, group)))
-                {
-                    DisconnectFromParent(group);
-                    if (group.DataContext == null)
-                        group.DataContext = moduleRibbon.DataContext;
-                    InsertItem(sourceView, group, ribbon.ContextualTabGroups);
-                }
-            }
+            //foreach (RibbonContextualTabGroup group in moduleRibbon.ContextualTabGroups)
+            //{
+            //    if (!ribbon.ContextualTabGroups.Any(t => UiElementsHaveSameId(t, group)))
+            //    {
+            //        DisconnectFromParent(group);
+            //        if (group.DataContext == null)
+            //            group.DataContext = moduleRibbon.DataContext;
+            //        InsertItem(sourceView, group, ribbon.ContextualTabGroups);
+            //    }
+            //}
         }
 
         protected void MergeItems(IList list, ItemsControl target)

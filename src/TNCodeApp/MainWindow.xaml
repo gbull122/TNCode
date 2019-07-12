@@ -4,16 +4,13 @@
     xmlns:prism="http://prismlibrary.com/"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"
+    xmlns:Fluent="urn:fluent-ribbon"
     prism:ViewModelLocator.AutoWireViewModel="True"
     Title="{Binding Title}"
     WindowState="Maximized">
 
     <Window.Resources>
         <ResourceDictionary>
-
-            <ResourceDictionary.MergedDictionaries>
-
-            </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate 
             x:Key="DocumentTitleTemplate">
@@ -35,7 +32,7 @@
 
                 </DockPanel>
             </DataTemplate>
-            
+
             <DataTemplate 
             x:Key="DocumentHeaderTemplate">
                 <DockPanel>
@@ -44,8 +41,10 @@
                     TextTrimming="CharacterEllipsis" />
                 </DockPanel>
             </DataTemplate>
-            
         </ResourceDictionary>
+
+
+        
     </Window.Resources>
 
     <Grid>
@@ -55,53 +54,54 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Ribbon
+        <Fluent:Ribbon
             Grid.Row="0"
             x:Name="MainRibbon"
-            x:FieldModifier="protected internal"
-            prism:RegionManager.RegionName="RibbonRegion">
+            x:FieldModifier="protected internal">
+            <!--prism:RegionManager.RegionName="RibbonRegion"-->
 
-            <Ribbon.ApplicationMenu>
-                <RibbonApplicationMenu>
-
-                    <RibbonApplicationMenuItem 
+            <Fluent:Ribbon.Menu>
+                <Fluent:Backstage>
+                    <Fluent:BackstageTabControl>
+                        <Fluent:Button
                         Header="Settings" 
                         Command="{Binding Path=SettingsCommand}"
-                        IsEnabled="False"/>
+                        IsEnabled="False"
+                        />
 
-                    <RibbonApplicationMenuItem  
+                        <Fluent:Button 
                         Header="About"  
                         Command="{Binding Path=AboutCommand}"
                         IsEnabled="False"/>
 
-                    <RibbonApplicationMenuItem 
+                        <Fluent:Button
                         Header="Close"
                         Command="{Binding Path=CloseCommand}"/>
+                    </Fluent:BackstageTabControl>
+                </Fluent:Backstage>
+            </Fluent:Ribbon.Menu>
 
-                </RibbonApplicationMenu>
-            </Ribbon.ApplicationMenu>
-
-            <RibbonTab
+            <Fluent:RibbonTabItem
                 Header="Home">
-                <RibbonGroup
+                <Fluent:RibbonGroupBox
                     Header="View">
 
-                    <RibbonButton
+                    <Fluent:Button
                         AutomationProperties.AutomationId="RbBtnShowDataSets"
-                        Label="Data Sets"
+                        Header="Data Sets"
                         Command="{Binding ShowDataSetsCommand}">
-                    </RibbonButton>
+                    </Fluent:Button>
 
-                    <RibbonButton
+                    <Fluent:Button
                         AutomationProperties.AutomationId="RbBtnShowStatus"
-                        Label="Status"
+                        Header="Status"
                         Command="{Binding ShowStatusCommand}">
-                    </RibbonButton>
+                    </Fluent:Button>
 
-                </RibbonGroup>
-            </RibbonTab>
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
 
-        </Ribbon>
+        </Fluent:Ribbon>
 
         <avalonDock:DockingManager 
             x:Name="dockingManager" 
@@ -111,9 +111,9 @@
             DocumentTitleTemplate="{StaticResource DocumentTitleTemplate}"
             DocumentHeaderTemplate="{StaticResource DocumentHeaderTemplate}">
 
-            <avalonDock:DockingManager.Theme>
+            <!--<avalonDock:DockingManager.Theme>
                 <avalonDock:AeroTheme />
-            </avalonDock:DockingManager.Theme>
+            </avalonDock:DockingManager.Theme>-->
 
             <avalonDock:LayoutRoot
                 >

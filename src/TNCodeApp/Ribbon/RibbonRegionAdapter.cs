@@ -1,9 +1,8 @@
 ﻿using Prism.Regions;
-using System.Windows.Controls;
 
 namespace TNCodeApp.Ribbon
 {
-    public class RibbonRegionAdapter : RegionAdapterBase<System.Windows.Controls.Ribbon.Ribbon>
+    public class RibbonRegionAdapter : RegionAdapterBase<Fluent.Ribbon>
     {
 
 		/// <summary>
@@ -20,7 +19,7 @@ namespace TNCodeApp.Ribbon
 		/// </summary>
 		/// <param name="region">The new region being used.</param>
 		/// <param name="regionTarget">The object to adapt.</param>
-		protected override void Adapt(IRegion region, System.Windows.Controls.Ribbon.Ribbon regionTarget)
+		protected override void Adapt(IRegion region, Fluent.Ribbon regionTarget)
 		{
             region.Behaviors.Add(RibbonBehavoir.BehaviorKey,
                 new RibbonBehavoir()

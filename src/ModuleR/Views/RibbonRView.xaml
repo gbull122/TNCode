@@ -7,15 +7,16 @@
     xmlns:local="clr-namespace:ModuleR.Views"
     xmlns:adapter="clr-namespace:TNCodeApp.Ribbon;assembly=TNCodeApp"
     xmlns:prism="http://prismlibrary.com/"
+    xmlns:Fluent="urn:fluent-ribbon"
     prism:ViewModelLocator.AutoWireViewModel="True">
 
-    <Ribbon
+    <Fluent:Ribbon
          x:Name="MainRibbon">
 
-        <RibbonTab
+        <Fluent:RibbonTabItem
             Header="Home">
-            
-            <RibbonGroup
+
+            <Fluent:RibbonGroupBox
                 Header="R"
                 adapter:UIElementExtension.MergeOrder="5">
                 
@@ -36,7 +37,7 @@
                     Label="Chart Builder"
                     Command="{Binding ChartBuilderCommand}">
                 </RibbonButton>
-            </RibbonGroup>
-        </RibbonTab>
-    </Ribbon>
+            </Fluent:RibbonGroupBox>
+        </Fluent:RibbonTabItem>
+    </Fluent:Ribbon>
 </UserControl>
