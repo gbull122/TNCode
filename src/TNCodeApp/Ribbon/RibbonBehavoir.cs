@@ -1,4 +1,5 @@
-﻿using Prism.Regions;
+﻿using Fluent;
+using Prism.Regions;
 using System;
 using System.Collections;
 using System.Collections.Specialized;
@@ -13,6 +14,7 @@ namespace TNCodeApp.Ribbon
     {
         public static readonly string BehaviorKey = "RibbonBehavior";
         public const double DefaultMergeOrder = 10000d;
+        private const string HOME_TAB = "Home";
 
         public Fluent.Ribbon MainRibbon { get; set; }
 
@@ -28,12 +30,10 @@ namespace TNCodeApp.Ribbon
             {
                 foreach (object newItem in e.NewItems)
                 {
+                    var view = newItem as UserControl;
+                    var ribbonFromView = GetRibbonFromView(view);
 
-
-                    var ribbonView = newItem as UserControl;
-                    var thing = GetRibbonFromView(ribbonView);
-
-                    MergeRibbon(newItem, thing, MainRibbon);
+                    MergeRibbon(newItem, ribbonFromView);
                 }
             }
         }
@@ -49,14 +49,67 @@ namespace TNCodeApp.Ribbon
             return foundControl;
         }
 
-        protected void MergeRibbon(object sourceView, Fluent.Ribbon moduleRibbon, Fluent.Ribbon ribbon)
-        {
-            MergeApplicationMenu(sourceView, moduleRibbon, ribbon);
-            MergeQuickAccessToolbar(sourceView, moduleRibbon, ribbon);
-            MergeContextualTabGroups(sourceView, moduleRibbon, ribbon);
-            //MergeItemsControl(sourceView, moduleRibbon, ribbon);
+        protected void MergeRibbon(object sourceView, Fluent.Ribbon moduleRibbon)
+        { 
+            //MergeApplicationMenu(sourceView, moduleRibbon, ribbon);
+            //MergeQuickAccessToolbar(sourceView, moduleRibbon, ribbon);
+            //MergeContextualTabGroups(sourceView, moduleRibbon, ribbon);
+            MergeTabs(sourceView, moduleRibbon);
+            //var ribbonTabs = ribbon.Tabs.Cast<UIElement>().ToArray();
+            //var moduleTabs = moduleRibbon.Tabs.Cast<UIElement>().ToArray();
+
+            //ItemsControl ribbontemsControl = new ItemsControl();
+            //ribbontemsControl.ItemsSource = ribbonTabs;
+
+            //ItemsControl moduleItemsControl = new ItemsControl();
+            //moduleItemsControl.ItemsSource=(moduleTabs);
+
+            //MergeItemsControl(sourceView, moduleItemsControl, ribbontemsControl);
         }
 
+        protected void MergeTabs(object sourceView, Fluent.Ribbon moduleRibbon)
+        {
+            var tabs = moduleRibbon.Tabs;
+            foreach(var tab in tabs)
+            {
+                if(tab.Header.Equals(HOME_TAB))
+                {
+                    var groups = tab.Groups;
+                    var homeTab = GetHomeTab();
+                    
+                    foreach(var group in groups)
+                    {
+                        DisconnectFromParent(sourceView,group);
+                        try
+                        {
+                            homeTab.Groups.Add(group);
+                        }
+                        catch(Exception w)
+                        {
+                            var e = w.Message;
+                        }
+                        
+                    }
+                }
+            }
+            //if (moduleRibbon.QuickAccessToolBar != null)
+            //{
+            //    if (ribbon.QuickAccessToolBar == null)
+            //        ribbon.QuickAccessToolBar = new RibbonQuickAccessToolBar();
+            //    MergeItemsControl(sourceView, moduleRibbon.QuickAccessToolBar, ribbon.QuickAccessToolBar);
+            //}
+        }
+
+        protected Fluent.RibbonTabItem GetHomeTab()
+        {
+            var tabs = MainRibbon.Tabs;
+            foreach(var tab in tabs)
+            {
+                if (tab.Header.Equals(HOME_TAB))
+                    return tab;
+            }
+            return null;
+        }
         protected void MergeQuickAccessToolbar(object sourceView, Fluent.Ribbon moduleRibbon, Fluent.Ribbon ribbon)
         {
             //if (moduleRibbon.QuickAccessToolBar != null)
@@ -91,54 +144,55 @@ namespace TNCodeApp.Ribbon
             //}
         }
 
-        protected void MergeItems(IList list, ItemsControl target)
-        {
-            if (list == null)
-                return;
+        //protected void MergeItems(IList list, ItemsControl target)
+        //{
+        //    if (list == null)
+        //        return;
 
-            foreach (object item in list)
-            {
-                if (item is ItemsControl)
-                    MergeItemsControl(item, (ItemsControl)item, target);
-                else
-                    MergeNonItemsControl(item as UIElement, target);
-            }
-        }
+        //    foreach (object item in list)
+        //    {
+        //        if (item is ItemsControl)
+        //            MergeItemsControl(item, (ItemsControl)item, target);
+        //        else
+        //            MergeNonItemsControl(item as UIElement, target);
+        //    }
+        //}
 
-        protected void MergeNonItemsControl(UIElement item, ItemsControl target)
-        {
-            if (item == null)
-                return;
-            InsertItem(item, item, target.Items);
-        }
+        //protected void MergeNonItemsControl(UIElement item, ItemsControl target)
+        //{
+        //    if (item == null)
+        //        return;
+        //    InsertItem(item, item, target.Items);
+        //}
 
-        protected void MergeItemsControl(object sourceView, ItemsControl source, ItemsControl target)
-        {
-            var items = source.Items.Cast<UIElement>().ToArray();
-            foreach (UIElement item in items)
-            {
-                if (item is ItemsControl)
-                {
-                    var existingItem = target.Items
-                        .OfType<ItemsControl>()
-                        .FirstOrDefault(t => UiElementsHaveSameId(t, item));
-                    if (existingItem == null)
-                        InsertItem(sourceView, item, target.Items);
-                    else
-                        MergeItemsControl(sourceView, (ItemsControl)item, existingItem);
-                }
-                else
-                {
-                    InsertItem(sourceView, item, target.Items);
-                }
-            }
-        }
+        //protected void MergeItemsControl(object sourceView, ItemsControl source, ItemsControl target)
+        //{
+        //    var items = source.ItemsSource;
+        //    foreach (UIElement item in items)
+        //    {
+        //        //if (item is ItemsControl)
+        //        //{
+        //           //var existingItem = target.ItemsSource
+        //            //    .OfType<ItemsControl>()
+        //             //   .FirstOrDefault(t => UiElementsHaveSameId(t, item));
+        //           // if (existingItem == null)
+        //                InsertItem(sourceView, item, target.ItemsSource);
+        //            //else
+        //               // MergeItemsControl(sourceView, (ItemsControl)item, existingItem);
+        //        //}
+        //        //else
+        //        //{
+        //            //InsertItem(sourceView, item, target.ItemsSource);
+        //        //}
+        //    }
+        //}
 
-        protected void InsertItem(object sourceView, UIElement item, IList target)
-        {
-            DisconnectFromParent(item);
-            InsertSorted(item, target);
-        }
+        //protected void InsertItem(object sourceView, UIElement item, IEnumerable target)
+        //{
+        //    var targetList = target.Cast<UIElement>().ToList();
+        //    DisconnectFromParent(item);
+        //    InsertSorted(item, targetList);
+        //}
 
         protected internal bool UiElementsHaveSameId(UIElement item1, UIElement item2)
         {
@@ -160,26 +214,26 @@ namespace TNCodeApp.Ribbon
             return key;
         }
 
-        public void InsertSorted(UIElement item, IList collection)
-        {
-            var order = UIElementExtension.GetMergeOrder(item);
-            if (Math.Abs(order - DefaultMergeOrder) < 0.001)
-            {
-                order = DefaultMergeOrder;
-                UIElementExtension.SetMergeOrder(item, order);
-            }
+        //public void InsertSorted(UIElement item, IList collection)
+        //{
+        //    var order = UIElementExtension.GetMergeOrder(item);
+        //    if (Math.Abs(order - DefaultMergeOrder) < 0.001)
+        //    {
+        //        order = DefaultMergeOrder;
+        //        UIElementExtension.SetMergeOrder(item, order);
+        //    }
 
-            int insertPosition = 0;
-            foreach (UIElement t in collection)
-            {
-                var curOrder = UIElementExtension.GetMergeOrder(t);
-                if (curOrder > order)
-                    break;
-                insertPosition++;
-            }
-            DisconnectFromParent(item);
-            collection.Insert(insertPosition, item);
-        }
+        //    int insertPosition = 0;
+        //    foreach (UIElement t in collection)
+        //    {
+        //        var curOrder = UIElementExtension.GetMergeOrder(t);
+        //        if (curOrder > order)
+        //            break;
+        //        insertPosition++;
+        //    }
+        //    DisconnectFromParent(item);
+        //    collection.Insert(insertPosition, item);
+        //}
 
         public T GetChildOfType<T>(DependencyObject depObj)
                 where T : DependencyObject
@@ -221,17 +275,21 @@ namespace TNCodeApp.Ribbon
             return dataContext;
         }
 
-        public void DisconnectFromParent(UIElement child)
+        public void DisconnectFromParent(object sourceView,RibbonGroupBox child)
         {
-            var parent = GetParent(child);
+            
+            var parent = GetParent(child) as Panel;
 
-            var dataContext = GetDataContext(child, parent);
+            var s = (FrameworkElement)sourceView;
 
-            var parentAsItemsControl = parent as System.Windows.Controls.ItemsControl;
-            if (parentAsItemsControl != null)
-            {
-                parentAsItemsControl.Items.Remove(child);
-            }
+            var dataContext = s.DataContext;
+
+            parent.Children.Remove(child);
+            //var parentAsItemsControl = parent as System.Windows.Controls.ItemsControl;
+            //if (parentAsItemsControl != null)
+            //{
+            //    parentAsItemsControl.Items.Remove(child);
+            //}
 
             if (child is FrameworkElement && dataContext != null)
                 ((FrameworkElement)child).DataContext = dataContext;

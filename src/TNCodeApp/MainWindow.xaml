@@ -6,7 +6,7 @@
     xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"
     xmlns:Fluent="urn:fluent-ribbon"
     prism:ViewModelLocator.AutoWireViewModel="True"
-    Title="{Binding Title}"
+    Title="{Binding Title}" 
     WindowState="Maximized">
 
     <Window.Resources>
@@ -57,8 +57,8 @@
         <Fluent:Ribbon
             Grid.Row="0"
             x:Name="MainRibbon"
-            x:FieldModifier="protected internal">
-            <!--prism:RegionManager.RegionName="RibbonRegion"-->
+            x:FieldModifier="protected internal"
+            prism:RegionManager.RegionName="RibbonRegion">
 
             <Fluent:Ribbon.Menu>
                 <Fluent:Backstage>

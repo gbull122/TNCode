@@ -21,18 +21,18 @@
                 Header="Data"
                 adapter:UIElementExtension.MergeOrder="2">
                 
-                <RibbonButton
+                <Fluent:Button
                     AutomationProperties.AutomationId="RbBtnLoadData"
-                    Label="Load Data"
+                    Header="Load Data"
                     Command="{Binding LoadCommand}">
-                </RibbonButton>
+                </Fluent:Button>
 
-                <RibbonButton
+                <Fluent:Button
                     AutomationProperties.AutomationId="RbBtnTestData"
-                    Label="Test Data"
+                    Header="Test Data"
                     Command="{Binding DataCommand}"
                     CommandParameter="Mpg">
-                </RibbonButton>
+                </Fluent:Button>
 
             </Fluent:RibbonGroupBox>
         </Fluent:RibbonTabItem>

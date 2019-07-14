@@ -18,19 +18,19 @@
                 Header="Charts"
                 adapter:UIElementExtension.MergeOrder="5">
 
-                <RibbonButton
+                <Fluent:Button
                     AutomationProperties.AutomationId="RbBtnPointChart"
-                    Label="Scatter"
+                    Header="Scatter"
                     Command="{Binding ChartCommand}"
                     CommandParameter="scatter">
-                </RibbonButton>
+                </Fluent:Button>
 
-                <RibbonButton
+                <Fluent:Button
                     AutomationProperties.AutomationId="RbBtnLineChart"
-                    Label="Line"
+                    Header="Line"
                     Command="{Binding ChartCommand}"
                     CommandParameter="line">
-                </RibbonButton>
+                </Fluent:Button>
 
             </Fluent:RibbonGroupBox>
         </Fluent:RibbonTabItem>
