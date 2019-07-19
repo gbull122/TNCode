@@ -111,9 +111,9 @@
             DocumentTitleTemplate="{StaticResource DocumentTitleTemplate}"
             DocumentHeaderTemplate="{StaticResource DocumentHeaderTemplate}">
 
-            <!--<avalonDock:DockingManager.Theme>
-                <avalonDock:AeroTheme />
-            </avalonDock:DockingManager.Theme>-->
+            <avalonDock:DockingManager.Theme>
+                <avalonDock:MetroTheme/>
+            </avalonDock:DockingManager.Theme>
 
             <avalonDock:LayoutRoot
                 >

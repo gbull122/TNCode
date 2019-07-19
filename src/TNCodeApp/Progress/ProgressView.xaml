@@ -16,17 +16,13 @@
         </Grid.ColumnDefinitions>
         <Label
             Grid.Row="0"
-            Grid.Column="0"
+            Grid.ColumnSpan="2"
             Content="{Binding Message}"/>
-        
+
         <ProgressBar
-            Grid.Row="0"
-            Grid.Column="1"
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
             Value="{Binding ProgressValue}"
             IsIndeterminate="{Binding ProgressIndeterminate}"/>
-
-        <TextBox
-            Grid.Row="1"
-            Grid.ColumnSpan="2"/>
     </Grid>
 </UserControl>

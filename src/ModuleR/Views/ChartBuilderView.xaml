@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:local="clr-namespace:ModuleR.Views"
     xmlns:prism="http://prismlibrary.com/"
+    xmlns:i1="http://schemas.microsoft.com/xaml/behaviors"
     prism:ViewModelLocator.AutoWireViewModel="True">
 
     <Grid>
@@ -72,11 +73,11 @@
                         Width="Auto"
                         ToolTip="Use to select a layer to edit or determine if it should be shown in the current plot.">
 
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectionChanged">
-                            <prism:InvokeCommandAction Command="{Binding LayerSelectedCommand}" CommandParameter="{Binding SelectedItem, ElementName=layersList}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                    <i1:Interaction.Triggers>
+                        <i1:EventTrigger EventName="SelectionChanged">
+                            <i1:InvokeCommandAction Command="{Binding LayerSelectedCommand}" CommandParameter="{Binding SelectedItem, ElementName=layersList}" />
+                        </i1:EventTrigger>
+                    </i1:Interaction.Triggers>
 
                     <DataGrid.Columns>
 

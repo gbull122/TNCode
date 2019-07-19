@@ -11,7 +11,8 @@
     prism:ViewModelLocator.AutoWireViewModel="True">
 
     <Fluent:Ribbon
-         x:Name="MainRibbon">
+        x:Name="MainRibbon"
+        x:FieldModifier="protected internal">
 
         <Fluent:RibbonTabItem
             Header="Home">
@@ -19,24 +20,24 @@
             <Fluent:RibbonGroupBox
                 Header="R"
                 adapter:UIElementExtension.MergeOrder="5">
-                
-                <RibbonButton
+
+                <Fluent:Button
                     AutomationProperties.AutomationId="RbBtnRConnect"
-                    Label="Connect"
+                    Header="Connect"
                     Command="{Binding RStartCommand}">
-                </RibbonButton>
+                </Fluent:Button>
 
-                <RibbonButton
+                <Fluent:Button
                     AutomationProperties.AutomationId="RbBtnRDetails"
-                    Label="Details"
+                    Header="Details"
                     Command="{Binding RDetailsCommand}">
-                </RibbonButton>
+                </Fluent:Button>
 
-                <RibbonButton
+                <Fluent:Button
                     AutomationProperties.AutomationId="RbBtnRCharts"
-                    Label="Chart Builder"
+                    Header="Chart Builder"
                     Command="{Binding ChartBuilderCommand}">
-                </RibbonButton>
+                </Fluent:Button>
             </Fluent:RibbonGroupBox>
         </Fluent:RibbonTabItem>
     </Fluent:Ribbon>
