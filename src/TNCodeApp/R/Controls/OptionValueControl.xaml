@@ -1,0 +1,35 @@
+﻿<UserControl
+    x:Class="TNCodeApp.R.Controls.OptionValueControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid 
+        Name="ControlPanel" 
+        Width="150" 
+        MaxHeight="75">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock 
+            Grid.Row="0" 
+            Margin="2" 
+            Text="{Binding Path=Label}"/>
+
+        <TextBox 
+            x:Name="MyTextBox" 
+            Grid.Row="1" 
+            Margin="2" 
+            Text="{Binding Path=UserText,Mode=TwoWay}" 
+            KeyDown="MyTextBox_KeyDown"
+            PreviewTextInput="MyTextBox_PreviewTextInput"/>
+
+
+    </Grid>
+</UserControl>

@@ -1,7 +1,9 @@
 ﻿using CommonServiceLocator;
+using Microsoft.R.Host.Client;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Ioc;
+using Prism.Logging;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
@@ -12,6 +14,8 @@ using TNCodeApp.Chart.Views;
 using TNCodeApp.Data;
 using TNCodeApp.Data.Views;
 using TNCodeApp.Progress;
+using TNCodeApp.R;
+using TNCodeApp.R.Views;
 using Unity;
 
 namespace TNCodeApp
@@ -22,6 +26,7 @@ namespace TNCodeApp
         private IRegionManager regionManager;
         private IEventAggregator eventAggregator;
         private IUnityContainer container;
+        private IRManager rManager;
         private string title = "TNCode";
         private string statusMessage = "Ready";
 
@@ -43,7 +48,7 @@ namespace TNCodeApp
             set { SetProperty(ref statusMessage, value); }
         }
 
-        public MainWindowViewModel(IUnityContainer contain, IRegionManager regManager)
+        public MainWindowViewModel(IUnityContainer contain, IRegionManager regManager, ILoggerFacade loggerFacade)
         {
             container = contain;
             regionManager = regManager;
@@ -64,8 +69,12 @@ namespace TNCodeApp
             IChartManager chartManager = new ChartManager(eventAggregator);
             container.RegisterInstance<IChartManager>(chartManager);
 
+            rManager = new RManager(new RHostSessionCallback(), loggerFacade);
+            container.RegisterInstance<IRManager>(rManager);
+
             regionManager.RegisterViewWithRegion("RibbonRegion", typeof(DataRibbonView));
             regionManager.RegisterViewWithRegion("RibbonRegion", typeof(ChartRibbonView));
+            regionManager.RegisterViewWithRegion("RibbonRegion", typeof(RibbonRView));
 
             regionManager.RegisterViewWithRegion("MainRegion", typeof(DataSetsView));
             regionManager.RegisterViewWithRegion("MainRegion", typeof(ProgressView));

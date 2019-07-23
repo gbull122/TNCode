@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Position Name="dodge2">
+  <Properties>
+    <Property Tag="Preserve" Name="bw" Value="">
+      <Options>
+        <Option Name="Total" Value="total"/>
+        <Option Name="Single" Value="single"/>
+      </Options>
+    </Property>
+  </Properties>
+  <Booleans>
+    <Property Tag="Reverse" Name="reverse" Value="FALSE"/>
+  </Booleans>
+  <Values>
+    <Property Tag="Width" Name ="width" Value="0"/>
+    <Property Tag="Padding" Name ="padding" Value="0.1"/>
+  </Values>
+</Position>

@@ -1,0 +1,29 @@
+﻿<UserControl 
+    x:Class="TNCodeApp.R.Views.GgplotScaleView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <Grid>
+
+        <GroupBox
+            Header="Scale">
+
+            <Grid>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding ExtraControls}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+
+        </GroupBox>
+
+    </Grid>
+
+</UserControl>

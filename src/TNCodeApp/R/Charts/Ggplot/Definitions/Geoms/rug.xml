@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Aesthetic Name="rug">
+  <AestheticValues>
+    <AestheticValue Name="X"/>
+    <AestheticValue Name="Y"/>
+    <AestheticValue Name="Alpha"/>
+    <AestheticValue Name="Colour"/>
+    <AestheticValue Name="Group"/>
+    <AestheticValue Name="Size"/>
+    <AestheticValue Name="Linetype"/>
+  </AestheticValues>
+  <DefaultStat>Identity</DefaultStat>
+  <DefaultPosition>Identity</DefaultPosition>
+  <Properties>
+    <Property Tag="Sides" Name="sides" Value="bl">
+      <Options>
+        <Option Name="Bottom" Value="b"/>
+        <Option Name="Left" Value="l"/>
+        <Option Name="Top" Value="t"/>
+        <Option Name="Right" Value="r"/>
+        <Option Name="Bottom Left" Value="bl"/>
+        <Option Name="Top Right" Value="tr"/>
+        <Option Name="All" Value="trbl"/>
+      </Options>
+    </Property>
+  </Properties>
+</Aesthetic>

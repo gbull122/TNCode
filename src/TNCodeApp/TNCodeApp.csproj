@@ -15,6 +15,8 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -54,12 +56,17 @@
     <Reference Include="MaterialDesignThemes.Wpf, Version=2.5.1.1345, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MaterialDesignThemes.2.5.1\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.R.Common.Core, Version=1.1.30719.1703, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.R.Host.Client.API.1.1.1\lib\net46\Microsoft.R.Common.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.R.Host.Client.API, Version=1.1.30719.1703, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.R.Host.Client.API.1.1.1\lib\net46\Microsoft.R.Host.Client.API.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Xaml.Behaviors.Wpf.1.0.1\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\Downloads140719\Fluent.Ribbon-develop\Fluent.Ribbon-develop\bin\Fluent.Ribbon\Release\net462\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NLog.4.5.11\lib\net45\NLog.dll</HintPath>
@@ -86,6 +93,9 @@
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Threading.Tasks.Dataflow, Version=4.5.24.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Tpl.Dataflow.4.5.24\lib\portable-net45+win8+wpa81\System.Threading.Tasks.Dataflow.dll</HintPath>
+    </Reference>
     <Reference Include="System.Transactions" />
     <Reference Include="System.Windows.Controls.Ribbon" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -133,6 +143,60 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="R\Charts\Ggplot\Enums\Geoms.cs" />
+    <Compile Include="R\Charts\Ggplot\Enums\Positions.cs" />
+    <Compile Include="R\Charts\Ggplot\Enums\Stats.cs" />
+    <Compile Include="R\Charts\Ggplot\Ggplot.cs" />
+    <Compile Include="R\Charts\Ggplot\Layer\Aesthetic.cs" />
+    <Compile Include="R\Charts\Ggplot\Layer\AestheticValue.cs" />
+    <Compile Include="R\Charts\Ggplot\Layer\ILayer.cs" />
+    <Compile Include="R\Charts\Ggplot\Layer\Layer.cs" />
+    <Compile Include="R\Charts\Ggplot\Layer\Parameter.cs" />
+    <Compile Include="R\Charts\IChart.cs" />
+    <Compile Include="R\Controls\IOptionControl.cs" />
+    <Compile Include="R\Controls\OptionCheckBoxControl.xaml.cs">
+      <DependentUpon>OptionCheckBoxControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="R\Controls\OptionPropertyControl.xaml.cs">
+      <DependentUpon>OptionPropertyControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="R\Controls\OptionValueControl.xaml.cs">
+      <DependentUpon>OptionValueControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="R\Controls\VariableControl.cs" />
+    <Compile Include="R\Events\GenerateGgplotChart.cs" />
+    <Compile Include="R\Events\GgplotFacetEvent.cs" />
+    <Compile Include="R\Events\GgplotTitleEvent.cs" />
+    <Compile Include="R\Events\LayerSelectedEvent.cs" />
+    <Compile Include="R\Events\VariableControlActionEvent.cs" />
+    <Compile Include="R\IRManager.cs" />
+    <Compile Include="R\IROperations.cs" />
+    <Compile Include="R\RManager.cs" />
+    <Compile Include="R\ROperations.cs" />
+    <Compile Include="R\ViewModels\ChartBuilderViewModel.cs" />
+    <Compile Include="R\ViewModels\FunctionViewModel.cs" />
+    <Compile Include="R\ViewModels\GgplotFacetViewModel.cs" />
+    <Compile Include="R\ViewModels\GgplotScaleViewModel.cs" />
+    <Compile Include="R\ViewModels\GgplotTitleViewModel.cs" />
+    <Compile Include="R\ViewModels\RibbonRViewModel.cs" />
+    <Compile Include="R\Views\ChartBuilderView.xaml.cs">
+      <DependentUpon>ChartBuilderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="R\Views\FunctionView.xaml.cs">
+      <DependentUpon>FunctionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="R\Views\GgplotFacetView.xaml.cs">
+      <DependentUpon>GgplotFacetView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="R\Views\GgplotScaleView.xaml.cs">
+      <DependentUpon>GgplotScaleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="R\Views\GgplotTitleView.xaml.cs">
+      <DependentUpon>GgplotTitleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="R\Views\RibbonRView.xaml.cs">
+      <DependentUpon>RibbonRView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -236,6 +300,42 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="R\Controls\OptionCheckBoxControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="R\Controls\OptionPropertyControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="R\Controls\OptionValueControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="R\Views\ChartBuilderView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="R\Views\FunctionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="R\Views\GgplotFacetView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="R\Views\GgplotScaleView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="R\Views\GgplotTitleView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="R\Views\RibbonRView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.Data\Core.Data.csproj">
@@ -246,5 +346,58 @@
   <ItemGroup>
     <Resource Include="functon24.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="R\Functions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="R\Charts\Ggplot\Definitions\Geoms\bar.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Geoms\bin2d.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Geoms\boxplot.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Geoms\contour.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Geoms\density.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Geoms\density_2d.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Geoms\dotplot.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Geoms\errorbar.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Geoms\hex.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Geoms\histogram.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Geoms\line.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Geoms\quantile.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Geoms\rug.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Geoms\smooth.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Geoms\violin.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Positions\dodge.xml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="R\Charts\Ggplot\Definitions\Positions\dodge2.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Positions\identity.xml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="R\Charts\Ggplot\Definitions\Positions\jitter.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Positions\stack.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Stats\bin.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Stats\bin2d.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Stats\bindot.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Stats\binhex.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Stats\boxplot.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Stats\contour.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Stats\count.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Stats\density.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Stats\density_2d.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Stats\identity.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Stats\quantile.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Stats\smooth.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Stats\summary.xml" />
+    <Resource Include="R\Charts\Ggplot\Definitions\Stats\ydensity.xml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="R\Charts\Ggplot\Definitions\Geoms\point.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\..\packages\Microsoft.R.Host.Client.API.1.1.1\build\Microsoft.R.Host.Client.API.targets" Condition="Exists('..\..\packages\Microsoft.R.Host.Client.API.1.1.1\build\Microsoft.R.Host.Client.API.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\Microsoft.R.Host.Client.API.1.1.1\build\Microsoft.R.Host.Client.API.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.R.Host.Client.API.1.1.1\build\Microsoft.R.Host.Client.API.targets'))" />
+  </Target>
 </Project>
