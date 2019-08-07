@@ -13,12 +13,6 @@ namespace TNCodeApp.Chart
         private string title;
         private IList<object> data;
         private PlotModel plotModel;
-        //public event PropertyChangedEventHandler PropertyChanged;
-
-        //protected void OnPropertyChanged(string propertyName = null)
-        //{
-        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        //}
 
         public string Title { get => title; set => title = value; }
 

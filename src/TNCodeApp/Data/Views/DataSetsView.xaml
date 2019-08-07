@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:local="clr-namespace:TNCodeApp.Data.Views"
+    xmlns:data="clr-namespace:TNCode.Core.Data;assembly=TNCode.Core.Data"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:ie="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:ie1="http://schemas.microsoft.com/xaml/behaviors"
@@ -20,25 +21,50 @@
         <GroupBox
             Grid.Row="0"
             Header="DataSets">
-            <DataGrid 
-                x:Name="DataSetsList"
+            
+            <TreeView
+                x:Name="DataSetsTreeView"
                 Margin="2" 
                 ItemsSource="{Binding Path=DataSets}" 
                 ScrollViewer.VerticalScrollBarVisibility="Visible"
-                SelectedItem="{Binding Path=SelectedDataSet,UpdateSourceTrigger=PropertyChanged}"
-                AutoGenerateColumns="False"
                 Width="Auto"
                 ToolTip="Use to select a data set.">
-
-                <ie1:Interaction.Triggers>
+                
+                <!--<ie1:Interaction.Triggers>
                     <ie1:EventTrigger EventName="SelectionChanged">
                         <ie1:InvokeCommandAction Command="{Binding SelectedItemChangedCommand}"  
                                                 CommandParameter="{Binding ElementName=DataSetsList, Path=SelectedItem}"/>
                     </ie1:EventTrigger>
-                </ie1:Interaction.Triggers>
+                </ie1:Interaction.Triggers>-->
+                
+                <TreeView.Resources>
+                    <HierarchicalDataTemplate 
+                        DataType="{x:Type data:DataSet}" 
+                        ItemsSource="{Binding Variables}">
 
+                        <StackPanel 
+                            Orientation="Horizontal">
+                            <CheckBox 
+                                IsChecked="{Binding IsChecked}"/>
+                            <TextBlock 
+                                Text="{Binding Name}"/>
+                        </StackPanel>
 
-                <DataGrid.Columns>
+                    </HierarchicalDataTemplate>
+                    
+                    <HierarchicalDataTemplate
+                        DataType="{x:Type data:Variable}"
+                        ItemsSource="{Binding Variables}">
+                        
+                    <StackPanel 
+                        Orientation="Horizontal">
+                            <CheckBox 
+                                IsChecked="{Binding IsChecked}"/>
+                            <TextBlock Text="{Binding Name}"/>
+                        </StackPanel>
+                </HierarchicalDataTemplate>
+                </TreeView.Resources>
+                <!--<DataGrid.Columns>
 
                     <DataGridTextColumn
                         Header="Name"
@@ -56,17 +82,17 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
 
-                </DataGrid.Columns>
+                </DataGrid.Columns>-->
 
-                <DataGrid.ContextMenu>
+                <!--<TreeView.ContextMenu>
                     <ContextMenu>
                         <MenuItem 
                             Header="Delete"
                             Command="{Binding DeleteDataSetCommand}" CommandParameter="{Binding ElementName=DataSetsList, Path=SelectedItem}"/>
                     </ContextMenu>
-                </DataGrid.ContextMenu>
+                </TreeView.ContextMenu>-->
 
-            </DataGrid>
+            </TreeView>
         </GroupBox>
 
         <GridSplitter

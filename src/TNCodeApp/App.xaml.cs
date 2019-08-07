@@ -8,7 +8,7 @@ using System.Windows;
 using TNCodeApp.Chart.Views;
 using TNCodeApp.Docking;
 using TNCodeApp.Logger;
-using TNCodeApp.Progress;
+using TNCodeApp.R.Views;
 using TNCodeApp.Ribbon;
 using Xceed.Wpf.AvalonDock;
 
@@ -29,6 +29,11 @@ namespace TNCodeApp
             containerRegistry.Register<ILoggerFacade, TnLogger>();
 
             containerRegistry.RegisterForNavigation<ChartView>();
+
+            containerRegistry.RegisterForNavigation<ChartBuilderView>();
+            containerRegistry.RegisterForNavigation<GgplotTitleView>();
+            containerRegistry.RegisterForNavigation<GgplotScaleView>();
+            containerRegistry.RegisterForNavigation<GgplotFacetView>();
         }
 
         protected override void ConfigureRegionAdapterMappings(RegionAdapterMappings regionAdapterMappings)

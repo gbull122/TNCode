@@ -6,6 +6,7 @@ using System;
 using System.Text;
 using System.Windows;
 using TNCodeApp.Progress;
+using TNCodeApp.R.Views;
 
 namespace TNCodeApp.R.ViewModels
 {
@@ -67,10 +68,8 @@ namespace TNCodeApp.R.ViewModels
 
         private void CreateChart()
         {
-            var navigationParameters = new NavigationParameters();
+            regionManager.AddToRegion("MainRegion", new ChartBuilderView());
 
-            regionManager.RequestNavigate("MainRegion",
-                new Uri("ChartBuilderView" + navigationParameters.ToString(), UriKind.Relative));
         }
     }
 }

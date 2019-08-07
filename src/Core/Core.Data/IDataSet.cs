@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace TNCode.Core.Data
 {
@@ -7,7 +8,7 @@ namespace TNCode.Core.Data
         string Name { get; set; }
         List<string> VariableNames();
         List<string> ObservationNames { get; }
-        List<IVariable> Variables { get; }
+        ObservableCollection<IVariable> Variables { get; }
         bool AllColumnsEqual();
         IReadOnlyList<IReadOnlyList<object>> RawData();
     }

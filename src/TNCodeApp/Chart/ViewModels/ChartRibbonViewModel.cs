@@ -17,7 +17,7 @@ namespace TNCodeApp.Chart.ViewModels
         private IEventAggregator eventAggregator;
         private IRegionManager regionManager;
         private bool variablesSelected;
-        private IList<object> variables;
+        private IList<string> variableNames;
         private IChartManager chartManager;
 
         public DelegateCommand<string> ChartCommand { get; private set; }
@@ -53,14 +53,19 @@ namespace TNCodeApp.Chart.ViewModels
         {
             if (variableList.Count > 0)
             {
-                variables = variableList;
+               foreach(var vari in variableList)
+                {
+                    var varia = (IVariable)vari;
+                    variableNames.Add(varia.Name);
+                }
+                   
                 VariablesSelected = true;
             }
         }
 
         private void CreateChart(string chartType)
         {
-            chartManager.Create(chartType, variables);
+            //chartManager.Create(chartType, variables);
             
         }
     }

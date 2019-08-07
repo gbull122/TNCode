@@ -1,21 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 
 namespace TNCode.Core.Data
 {
-    public class DataSet : IDataSet
+    public class DataSet : IDataSet, INotifyPropertyChanged
     {
-        private List<IVariable> variables = new List<IVariable>();
+        private ObservableCollection<IVariable> variables = new ObservableCollection<IVariable>();
         private List<string> observationNames = new List<string>();
         private List<IReadOnlyCollection<object>> rawColumns = new List<IReadOnlyCollection<object>>();
         private int rowCount;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         public string Name { get; set; }
 
         public List<string> ObservationNames => observationNames;
 
-        public List<IVariable> Variables => variables;
+        public ObservableCollection<IVariable> Variables => variables;
 
         public DataSet(List<object[,]> rawData, string name)
         {

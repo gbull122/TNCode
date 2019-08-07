@@ -153,7 +153,7 @@
     <Compile Include="R\Charts\Ggplot\Layer\ILayer.cs" />
     <Compile Include="R\Charts\Ggplot\Layer\Layer.cs" />
     <Compile Include="R\Charts\Ggplot\Layer\Parameter.cs" />
-    <Compile Include="R\Charts\IChart.cs" />
+    <Compile Include="R\Charts\IRChart.cs" />
     <Compile Include="R\Controls\IOptionControl.cs" />
     <Compile Include="R\Controls\OptionCheckBoxControl.xaml.cs">
       <DependentUpon>OptionCheckBoxControl.xaml</DependentUpon>
@@ -347,6 +347,7 @@
     <Resource Include="functon24.ico" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="R\Charts\Ggplot\Theme\" />
     <Folder Include="R\Functions\" />
   </ItemGroup>
   <ItemGroup>
