@@ -1,6 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using TNCode.Core.Data;
+using System.Linq;
 
 namespace TNCodeApp.Data
 {
@@ -8,17 +10,11 @@ namespace TNCodeApp.Data
     {
 
         private ObservableCollection<IDataSet> dataSets;
-        private IDataSet selectedDataSet;
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        public IDataSet SelectedDataSet
-        {
-            get { return selectedDataSet; }
-            set { selectedDataSet = value; }
         }
 
         public ObservableCollection<IDataSet> DataSets
@@ -33,6 +29,20 @@ namespace TNCodeApp.Data
         public DataSetsManager()
         {
             dataSets = new ObservableCollection<IDataSet>();
+        }
+
+        public Dictionary<string, List<string>> SelectedData()
+        {
+            var selection = new Dictionary<string, List<string>>();
+
+            foreach (var dataSet in dataSets)
+            {
+                var selectedVariables = dataSet.SelectedVariableNames();
+                if (dataSet.IsSelected || selectedVariables.Count > 0)
+                    selection.Add(dataSet.Name, selectedVariables);
+            }
+
+            return selection;
         }
     }
 }

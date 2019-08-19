@@ -18,5 +18,7 @@ namespace TNCode.Core.Data
         IReadOnlyCollection<object> ConvertDoubleToDateTime(object[] testStringArray, bool trimNans);
         string FormatName(string name);
         IReadOnlyCollection<object> TrimNansFromList(List<object> data);
+
+        bool IsSelected { get; set; }
     }
 }

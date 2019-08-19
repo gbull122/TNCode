@@ -11,5 +11,8 @@ namespace TNCode.Core.Data
         ObservableCollection<IVariable> Variables { get; }
         bool AllColumnsEqual();
         IReadOnlyList<IReadOnlyList<object>> RawData();
+        bool IsSelected { get; set; }
+
+        List<string> SelectedVariableNames();
     }
 }

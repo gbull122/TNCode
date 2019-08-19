@@ -1,16 +1,34 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace TNCode.Core.Data
 {
-    public class Variable : IVariable
+    public class Variable : IVariable, INotifyPropertyChanged
     {
         private bool trimNans = true;
+        private bool isSelected;
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public bool IsSelected
+        {
+            get { return isSelected; }
+            set
+            {
+                isSelected = value;
+                OnPropertyChanged(nameof(IsSelected));
+            }
+        }
         public int Length { get; }
 
         public string Name { get; }

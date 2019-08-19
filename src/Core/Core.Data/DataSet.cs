@@ -12,7 +12,7 @@ namespace TNCode.Core.Data
         private List<string> observationNames = new List<string>();
         private List<IReadOnlyCollection<object>> rawColumns = new List<IReadOnlyCollection<object>>();
         private int rowCount;
-
+        private bool isSelected;
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string propertyName = null)
@@ -20,11 +20,33 @@ namespace TNCode.Core.Data
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        public bool IsSelected
+        {
+            get { return isSelected; }
+            set
+            {
+                isSelected = value;
+                SetAllVariables(value);
+                OnPropertyChanged(nameof(IsSelected));
+            }
+        }
+
         public string Name { get; set; }
 
         public List<string> ObservationNames => observationNames;
 
         public ObservableCollection<IVariable> Variables => variables;
+
+        public List<string> SelectedVariableNames()
+        {
+            var selected = new List<string>();
+            foreach(var vari in variables)
+            {
+                if (vari.IsSelected)
+                    selected.Add(vari.Name);
+            }
+            return selected;
+        }
 
         public DataSet(List<object[,]> rawData, string name)
         {
@@ -90,6 +112,15 @@ namespace TNCode.Core.Data
             return result;
         }
 
+        public void SetAllVariables(bool selected)
+        {
+            foreach(var variable in Variables)
+            {
+                variable.IsSelected = selected;
+            }
+        }
+
+        
         public bool AllColumnsEqual()
         {
             var length = Variables[0].Length;

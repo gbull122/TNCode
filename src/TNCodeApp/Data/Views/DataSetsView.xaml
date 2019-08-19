@@ -29,14 +29,16 @@
                 ScrollViewer.VerticalScrollBarVisibility="Visible"
                 Width="Auto"
                 ToolTip="Use to select a data set.">
-                
-                <!--<ie1:Interaction.Triggers>
-                    <ie1:EventTrigger EventName="SelectionChanged">
-                        <ie1:InvokeCommandAction Command="{Binding SelectedItemChangedCommand}"  
-                                                CommandParameter="{Binding ElementName=DataSetsList, Path=SelectedItem}"/>
+
+                <ie1:Interaction.Triggers>
+                    <ie1:EventTrigger 
+                        EventName="SelectionChanged">
+                        <ie1:InvokeCommandAction 
+                            Command="{Binding SelectedItemChangedCommand}"  
+                            CommandParameter="{Binding ElementName=DataSetsTreeView, Path=SelectedItem}"/>
                     </ie1:EventTrigger>
-                </ie1:Interaction.Triggers>-->
-                
+                </ie1:Interaction.Triggers>
+
                 <TreeView.Resources>
                     <HierarchicalDataTemplate 
                         DataType="{x:Type data:DataSet}" 
@@ -45,7 +47,7 @@
                         <StackPanel 
                             Orientation="Horizontal">
                             <CheckBox 
-                                IsChecked="{Binding IsChecked}"/>
+                                IsChecked="{Binding IsSelected}"/>
                             <TextBlock 
                                 Text="{Binding Name}"/>
                         </StackPanel>
@@ -59,38 +61,21 @@
                     <StackPanel 
                         Orientation="Horizontal">
                             <CheckBox 
-                                IsChecked="{Binding IsChecked}"/>
-                            <TextBlock Text="{Binding Name}"/>
+                                IsChecked="{Binding IsSelected}"/>
+                            <TextBlock 
+                                Text="{Binding Name}"/>
                         </StackPanel>
                 </HierarchicalDataTemplate>
                 </TreeView.Resources>
-                <!--<DataGrid.Columns>
 
-                    <DataGridTextColumn
-                        Header="Name"
-                        Binding="{Binding Path=Name}" 
-                        IsReadOnly="True"
-                        Width="*"/>
-
-                    <DataGridTemplateColumn
-                        Header="Property"
-                        Width="*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=Property,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-
-                </DataGrid.Columns>-->
-
-                <!--<TreeView.ContextMenu>
+                <TreeView.ContextMenu>
                     <ContextMenu>
                         <MenuItem 
                             Header="Delete"
-                            Command="{Binding DeleteDataSetCommand}" CommandParameter="{Binding ElementName=DataSetsList, Path=SelectedItem}"/>
+                            Command="{Binding DeleteDataSetCommand}" 
+                            CommandParameter="{Binding ElementName=DataSetsTreeView, Path=SelectedItem}"/>
                     </ContextMenu>
-                </TreeView.ContextMenu>-->
+                </TreeView.ContextMenu>
 
             </TreeView>
         </GroupBox>
