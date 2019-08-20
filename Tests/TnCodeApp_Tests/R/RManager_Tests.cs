@@ -64,7 +64,7 @@ namespace TnCodeApp_Tests.R
 
             A.CallTo(() => rOperations.GetDataFrameAsync("test")).MustHaveHappened();
 
-            var rowNames = new List<string>() { "A", "B" };
+            var rowNames = new List<string>() { "A", "B","C" };
             var headers = new List<string>() { "HA", "HB" };
 
             List<object> first = new List<object>() { "3", "B", "y" };

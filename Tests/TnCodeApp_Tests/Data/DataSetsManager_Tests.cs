@@ -39,13 +39,15 @@ namespace TnCodeApp_Tests.Data
             var dataSet = A.Fake<IDataSet>();
             A.CallTo(() => dataSet.IsSelected).Returns(false);
             A.CallTo(() => dataSet.SelectedVariableNames()).Returns(selectedVariable);
+            A.CallTo(() => dataSet.Name).Returns("Name");
 
-            var dataSetManager = A.Fake<IDataSetsManager>();
+            var dataSetManager = new DataSetsManager();
             dataSetManager.DataSets.Add(dataSet);
 
             var actualSelectedData = dataSetManager.SelectedData();
 
             actualSelectedData.Count().Should().Be(expectedCount);
         }
+
     }
 }
