@@ -24,7 +24,7 @@ namespace TNCodeApp.Data.ViewModels
         public DockingMethod Docking { get => DockingMethod.ControlPanel; }
 
         public DelegateCommand<IList<object>> VariableSelectionChangedCommand { get; private set; }
-        public DelegateCommand<DataSet> SelectedItemChangedCommand { get; private set; }
+        public DelegateCommand SelectedItemChangedCommand { get; private set; }
         public DelegateCommand DeleteDataSetCommand { get; private set; }
         public DelegateCommand CloseCommand { get; private set; }
 
@@ -67,7 +67,7 @@ namespace TNCodeApp.Data.ViewModels
             this.eventAggregator = eventAggregator;
             this.regionManager = regionManager;
 
-            SelectedItemChangedCommand = new DelegateCommand<DataSet>(SelectedItemChanged);
+            SelectedItemChangedCommand = new DelegateCommand(SelectedItemChanged);
             DeleteDataSetCommand = new DelegateCommand(DeleteDataSet);
             VariableSelectionChangedCommand = new DelegateCommand<IList<object>>(VariableSelectionChanged);
             CloseCommand = new DelegateCommand(Close);
@@ -100,9 +100,9 @@ namespace TNCodeApp.Data.ViewModels
             eventAggregator.GetEvent<DataSetSelectedEvent>().Publish(obj);
         }
 
-        private void SelectedItemChanged(DataSet obj)
+        private void SelectedItemChanged()
         {
-            eventAggregator.GetEvent<DataSetSelectedEvent>().Publish(obj);
+            //eventAggregator.GetEvent<DataSetSelectedEvent>().Publish(obj);
         }
 
         private void TestData(string obj)

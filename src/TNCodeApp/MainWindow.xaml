@@ -61,8 +61,10 @@
             prism:RegionManager.RegionName="RibbonRegion">
 
             <Fluent:Ribbon.Menu>
-                <Fluent:Backstage>
-                    <Fluent:BackstageTabControl>
+                <Fluent:Backstage
+                    x:Name="Backstage">
+                    <Fluent:BackstageTabControl
+                        Name="tabControl">
                         <Fluent:Button
                         Header="Settings" 
                         Command="{Binding Path=SettingsCommand}"

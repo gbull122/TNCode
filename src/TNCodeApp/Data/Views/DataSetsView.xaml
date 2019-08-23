@@ -28,20 +28,19 @@
                 ItemsSource="{Binding Path=DataSets}" 
                 ScrollViewer.VerticalScrollBarVisibility="Visible"
                 Width="Auto"
-                ToolTip="Use to select a data set.">
+                ToolTip="Use to select a data.">
 
                 <ie1:Interaction.Triggers>
                     <ie1:EventTrigger 
-                        EventName="SelectionChanged">
+                        EventName="SelectedItemChanged">
                         <ie1:InvokeCommandAction 
-                            Command="{Binding SelectedItemChangedCommand}"  
-                            CommandParameter="{Binding ElementName=DataSetsTreeView, Path=SelectedItem}"/>
+                            Command="{Binding SelectedItemChangedCommand}"/>
                     </ie1:EventTrigger>
                 </ie1:Interaction.Triggers>
 
                 <TreeView.Resources>
                     <HierarchicalDataTemplate 
-                        DataType="{x:Type data:DataSet}" 
+                        DataType="{x:Type data:DataSet}"
                         ItemsSource="{Binding Variables}">
 
                         <StackPanel 
@@ -55,27 +54,28 @@
                     </HierarchicalDataTemplate>
                     
                     <HierarchicalDataTemplate
-                        DataType="{x:Type data:Variable}"
-                        ItemsSource="{Binding Variables}">
-                        
-                    <StackPanel 
-                        Orientation="Horizontal">
+                        DataType="{x:Type data:Variable}">
+
+                        <StackPanel 
+                            Orientation="Horizontal">
                             <CheckBox 
-                                IsChecked="{Binding IsSelected}"/>
+                                    IsChecked="{Binding IsSelected}"/>
                             <TextBlock 
-                                Text="{Binding Name}"/>
+                                    Text="{Binding Name}"/>
                         </StackPanel>
-                </HierarchicalDataTemplate>
+                        
+                    </HierarchicalDataTemplate>
+                    
                 </TreeView.Resources>
 
-                <TreeView.ContextMenu>
+                <!--<TreeView.ContextMenu>
                     <ContextMenu>
                         <MenuItem 
                             Header="Delete"
                             Command="{Binding DeleteDataSetCommand}" 
                             CommandParameter="{Binding ElementName=DataSetsTreeView, Path=SelectedItem}"/>
                     </ContextMenu>
-                </TreeView.ContextMenu>
+                </TreeView.ContextMenu>-->
 
             </TreeView>
         </GroupBox>

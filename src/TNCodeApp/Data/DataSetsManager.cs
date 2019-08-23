@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using TNCode.Core.Data;
-using System.Linq;
 
 namespace TNCodeApp.Data
 {

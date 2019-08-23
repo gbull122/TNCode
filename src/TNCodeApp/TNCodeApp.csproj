@@ -41,8 +41,11 @@
     <ApplicationIcon>functon24.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\CommonServiceLocator.2.0.4\lib\net47\CommonServiceLocator.dll</HintPath>
+    <Reference Include="Catel.Core, Version=5.10.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Catel.Core.5.10.0\lib\net47\Catel.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Catel.MVVM, Version=5.10.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Catel.MVVM.5.10.0\lib\net47\Catel.MVVM.dll</HintPath>
     </Reference>
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ControlzEx.3.0.2.4\lib\net462\ControlzEx.dll</HintPath>
@@ -50,11 +53,17 @@
     <Reference Include="Fluent, Version=6.1.0.326, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Fluent.Ribbon.6.1.0.326\lib\net462\Fluent.dll</HintPath>
     </Reference>
+    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Ionic.Zip.1.9.1.8\lib\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="MaterialDesignColors, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MaterialDesignColors.1.1.2\lib\net45\MaterialDesignColors.dll</HintPath>
     </Reference>
     <Reference Include="MaterialDesignThemes.Wpf, Version=2.5.1.1345, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MaterialDesignThemes.2.5.1\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Expression.Blend.Sdk.WPF.1.0.1\lib\net45\Microsoft.Expression.Interactions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.R.Common.Core, Version=1.1.30719.1703, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.R.Host.Client.API.1.1.1\lib\net46\Microsoft.R.Common.Core.dll</HintPath>
@@ -68,30 +77,58 @@
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NLog.4.5.11\lib\net45\NLog.dll</HintPath>
+    <Reference Include="Orc.Controls, Version=3.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Orc.Controls.3.2.0\lib\net47\Orc.Controls.dll</HintPath>
     </Reference>
-    <Reference Include="OxyPlot, Version=1.0.0.0, Culture=neutral, PublicKeyToken=638079a8f0bd61e9, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\OxyPlot.Core.1.0.0\lib\net45\OxyPlot.dll</HintPath>
+    <Reference Include="Orc.FileSystem, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Orc.FileSystem.3.1.0\lib\net47\Orc.FileSystem.dll</HintPath>
     </Reference>
-    <Reference Include="OxyPlot.Wpf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=75e952ba404cdbb0, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\OxyPlot.Wpf.1.0.0\lib\net45\OxyPlot.Wpf.dll</HintPath>
+    <Reference Include="Orc.SystemInfo, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Orc.SystemInfo.3.1.0\lib\net47\Orc.SystemInfo.dll</HintPath>
+    </Reference>
+    <Reference Include="Orchestra.Core, Version=5.2.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Orchestra.Core.5.2.4\lib\net47\Orchestra.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Orchestra.Shell.Ribbon.Fluent, Version=5.2.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Orchestra.Shell.Ribbon.Fluent.5.2.4\lib\net47\Orchestra.Shell.Ribbon.Fluent.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework.Classic" />
-    <Reference Include="Prism, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Prism.Core.7.1.0.431\lib\net45\Prism.dll</HintPath>
-    </Reference>
-    <Reference Include="Prism.Unity.Wpf, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Prism.Unity.7.1.0.431\lib\net45\Prism.Unity.Wpf.dll</HintPath>
-    </Reference>
-    <Reference Include="Prism.Wpf, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Prism.Wpf.7.1.0.431\lib\net45\Prism.Wpf.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.2.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Collections.Immutable.1.5.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.ComponentModel.Annotations.4.5.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.ConfigurationManager, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Configuration.ConfigurationManager.4.4.1\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.FileSystem.Watcher, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.IO.FileSystem.Watcher.4.3.0\lib\net46\System.IO.FileSystem.Watcher.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Runtime.Serialization.Formatters, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.Serialization.Formatters.4.3.0\lib\net46\System.Runtime.Serialization.Formatters.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Primitives, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.Serialization.Primitives.4.3.0\lib\net46\System.Runtime.Serialization.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Xml, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.Serialization.Xml.4.3.0\lib\net46\System.Runtime.Serialization.Xml.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Threading.Tasks.Dataflow, Version=4.5.24.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Tpl.Dataflow.4.5.24\lib\portable-net45+win8+wpa81\System.Threading.Tasks.Dataflow.dll</HintPath>
@@ -99,7 +136,7 @@
     <Reference Include="System.Transactions" />
     <Reference Include="System.Windows.Controls.Ribbon" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ControlzEx.3.0.2.4\lib\net462\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\..\packages\Expression.Blend.Sdk.WPF.1.0.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -109,12 +146,6 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="Unity.Abstractions, Version=3.3.1.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Unity.Abstractions.3.3.1\lib\net47\Unity.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Container, Version=5.8.11.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Unity.Container.5.8.11\lib\net47\Unity.Container.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
