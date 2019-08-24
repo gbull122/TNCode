@@ -1,7 +1,4 @@
-﻿using Prism.Commands;
-using Prism.Events;
-using Prism.Mvvm;
-using Prism.Regions;
+﻿using Catel.MVVM;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,21 +8,19 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using TNCode.Core.Data;
-using TNCodeApp.Data.Events;
 using TNCodeApp.Docking;
 using TNCodeApp.R.Charts.Ggplot;
 using TNCodeApp.R.Charts.Ggplot.Enums;
 using TNCodeApp.R.Charts.Ggplot.Layer;
 using TNCodeApp.R.Controls;
-using TNCodeApp.R.Events;
 
 namespace TNCodeApp.R.ViewModels
 {
-    public class ChartBuilderViewModel : BindableBase, ITnPanel, INavigationAware
+    public class ChartBuilderViewModel : ViewModelBase
     {
         private readonly IRManager rManager;
-        private IEventAggregator eventAggregator;
-        private IRegionManager regionManager;
+        //private IEventAggregator eventAggregator;
+        //private IRegionManager regionManager;
         private List<string> currentVariables;
         private string currentData;
         private IXmlConverter xmlConverter;
@@ -33,11 +28,11 @@ namespace TNCodeApp.R.ViewModels
         private List<Parameter> titleParameters;
 
         public List<string> Geoms { get; }
-        public DelegateCommand NewLayerCommand { get; private set; }
-        public DelegateCommand ClearLayersCommand { get; private set; }
-        public DelegateCommand<ILayer> LayerSelectedCommand { get; private set; }
-        public DelegateCommand CopyChartCommand { get; private set; }
-        public DelegateCommand<string> ActionCommand { get; private set; }
+        //public DelegateCommand NewLayerCommand { get; private set; }
+        //public DelegateCommand ClearLayersCommand { get; private set; }
+        //public DelegateCommand<ILayer> LayerSelectedCommand { get; private set; }
+        //public DelegateCommand CopyChartCommand { get; private set; }
+        //public DelegateCommand<string> ActionCommand { get; private set; }
         private ObservableCollection<VariableControl> variableControls;
 
         public string CurrentDataSet
@@ -97,15 +92,15 @@ namespace TNCodeApp.R.ViewModels
             }
         }
 
-        public ChartBuilderViewModel(IEventAggregator eventAggr, IRegionManager regMngr, IRManager rMngr, IXmlConverter converter)
+        public ChartBuilderViewModel(IRManager rMngr, IXmlConverter converter)
         {
             xmlConverter = converter;
             rManager = rMngr;
-            eventAggregator = eventAggr;
-            regionManager = regMngr;
+            //eventAggregator = eventAggr;
+            //regionManager = regMngr;
 
-            eventAggregator.GetEvent<DataSetSelectedEvent>().Subscribe(DataSetSelected, ThreadOption.UIThread);
-            eventAggregator.GetEvent<VariableControlActionEvent>().Subscribe(HandleAction);
+            //eventAggregator.GetEvent<DataSetSelectedEvent>().Subscribe(DataSetSelected, ThreadOption.UIThread);
+            //eventAggregator.GetEvent<VariableControlActionEvent>().Subscribe(HandleAction);
 
             layers = new ObservableCollection<ILayer>();
             variableControls = new ObservableCollection<VariableControl>();
@@ -114,11 +109,11 @@ namespace TNCodeApp.R.ViewModels
             Geoms = Enum.GetNames(typeof(Geoms)).ToList();
             Geoms.Remove("tile");
 
-            NewLayerCommand = new DelegateCommand(NewLayer, CanNewLayer);
-            ClearLayersCommand = new DelegateCommand(ClearLayers, CanClearLayers);
-            LayerSelectedCommand = new DelegateCommand<ILayer>(LayerSelected);
-            CopyChartCommand = new DelegateCommand(CopyChart);
-            ActionCommand = new DelegateCommand<string>(ExecuteActionCommand);
+            //NewLayerCommand = new DelegateCommand(NewLayer, CanNewLayer);
+            //ClearLayersCommand = new DelegateCommand(ClearLayers, CanClearLayers);
+            //LayerSelectedCommand = new DelegateCommand<ILayer>(LayerSelected);
+            //CopyChartCommand = new DelegateCommand(CopyChart);
+            //ActionCommand = new DelegateCommand<string>(ExecuteActionCommand);
             currentVariables = new List<string>();
             currentData = string.Empty;
 
@@ -126,10 +121,10 @@ namespace TNCodeApp.R.ViewModels
 
         private void ExecuteActionCommand(string obj)
         {
-            var navigationParameters = new NavigationParameters();
+            //var navigationParameters = new NavigationParameters();
 
-            regionManager.RequestNavigate("OptionsRegion",
-               new Uri("Ggplot"+obj+"View" + navigationParameters.ToString(), UriKind.Relative));
+            //regionManager.RequestNavigate("OptionsRegion",
+            //   new Uri("Ggplot"+obj+"View" + navigationParameters.ToString(), UriKind.Relative));
         }
 
         private void HandleAction(string aestheticName)
@@ -158,9 +153,9 @@ namespace TNCodeApp.R.ViewModels
             variableControls.Clear();
             foreach (var aValue in SelectedLayer.Aes.AestheticValues)
             {
-                var gControl = new VariableControl(eventAggregator,aValue, currentVariables);
-                gControl.PropertyChanged += GControl_PropertyChanged;
-                variableControls.Add(gControl);
+                //var gControl = new VariableControl(eventAggregator,aValue, currentVariables);
+                //gControl.PropertyChanged += GControl_PropertyChanged;
+                //variableControls.Add(gControl);
             }
 
             RaisePropertyChanged("VariableControls");
@@ -187,9 +182,9 @@ namespace TNCodeApp.R.ViewModels
             variableControls.Clear();
             foreach (var aValue in SelectedLayer.Aes.AestheticValues)
             {
-                var gControl = new VariableControl(eventAggregator,aValue, currentVariables);
-                gControl.PropertyChanged += GControl_PropertyChanged;
-                variableControls.Add(gControl);
+                //var gControl = new VariableControl(eventAggregator,aValue, currentVariables);
+                //gControl.PropertyChanged += GControl_PropertyChanged;
+                //variableControls.Add(gControl);
             }
             RaisePropertyChanged("VariableControls");
         }
@@ -304,7 +299,7 @@ namespace TNCodeApp.R.ViewModels
 
             layers.Add(newLayer);
 
-            ClearLayersCommand.RaiseCanExecuteChanged();
+            //ClearLayersCommand.RaiseCanExecuteChanged();
             LayerSelected(newLayer);
         }
 
@@ -322,23 +317,7 @@ namespace TNCodeApp.R.ViewModels
             CurrentDataSet = dataSet.Name;
 
             PutDataSetInR(dataSet);
-            NewLayerCommand.RaiseCanExecuteChanged();
-        }
-
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            if (navigationContext == null)
-                return;
-        }
-
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return true;
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-
+            //NewLayerCommand.RaiseCanExecuteChanged();
         }
     }
 }

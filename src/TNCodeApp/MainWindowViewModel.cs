@@ -1,127 +1,102 @@
-﻿using CommonServiceLocator;
+﻿using Catel.MVVM;
 using Microsoft.R.Host.Client;
-using Prism.Commands;
-using Prism.Events;
-using Prism.Ioc;
-using Prism.Logging;
-using Prism.Mvvm;
-using Prism.Regions;
 using System;
 using System.Windows;
 using TNCode.Core.Data;
-using TNCodeApp.Chart;
-using TNCodeApp.Chart.Views;
 using TNCodeApp.Data;
 using TNCodeApp.Data.Views;
-using TNCodeApp.Progress;
 using TNCodeApp.R;
 using TNCodeApp.R.Views;
-using Unity;
 
 namespace TNCodeApp
 {
-    public class MainWindowViewModel : BindableBase
+    public class MainWindowViewModel : ViewModelBase
     {
 
-        private IRegionManager regionManager;
-        private IEventAggregator eventAggregator;
-        private IUnityContainer container;
+        //private IRegionManager regionManager;
+        //private IEventAggregator eventAggregator;
+        //private IUnityContainer container;
         private IRManager rManager;
         private string title = "TNCode";
         private string statusMessage = "Ready";
 
-        public DelegateCommand AboutCommand { get; private set; }
-        public DelegateCommand CloseCommand { get; private set; }
-        public DelegateCommand SettingsCommand { get; private set; }
-        public DelegateCommand ShowDataSetsCommand { get; private set; }
-        public DelegateCommand ShowStatusCommand { get; private set; }
+        //public DelegateCommand AboutCommand { get; private set; }
+        //public DelegateCommand CloseCommand { get; private set; }
+        //public DelegateCommand SettingsCommand { get; private set; }
+        //public DelegateCommand ShowDataSetsCommand { get; private set; }
+        //public DelegateCommand ShowStatusCommand { get; private set; }
 
         public string Title
         {
             get { return title; }
-            set { SetProperty(ref title, value); }
+            set {
+                title = value;
+                RaisePropertyChanged(nameof(Title)); }
         }
 
         public string StatusMessage
         {
             get { return statusMessage; }
-            set { SetProperty(ref statusMessage, value); }
+            set {
+                statusMessage = value;
+                RaisePropertyChanged(nameof(StatusMessage));
+            }
         }
 
-        public MainWindowViewModel(IUnityContainer contain, IRegionManager regManager, ILoggerFacade loggerFacade)
+        public MainWindowViewModel()
         {
-            container = contain;
-            regionManager = regManager;
+            //container = contain;
+            //regionManager = regManager;
 
-            eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
+            //eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
 
-            CloseCommand = new DelegateCommand(Close);
-            AboutCommand = new DelegateCommand(About);
-            SettingsCommand = new DelegateCommand(Settings);
-            ShowStatusCommand = new DelegateCommand(ShowStatusView);
-            ShowDataSetsCommand = new DelegateCommand(ShowDataSetsView);
+            //CloseCommand = new DelegateCommand(Close);
+            //AboutCommand = new DelegateCommand(About);
+            //SettingsCommand = new DelegateCommand(Settings);
+            //ShowStatusCommand = new DelegateCommand(ShowStatusView);
+            //ShowDataSetsCommand = new DelegateCommand(ShowDataSetsView);
 
-            container.RegisterType<IXmlConverter, XmlConverter>();
+            //container.RegisterType<IXmlConverter, XmlConverter>();
 
             IDataSetsManager dataSetsManager = new DataSetsManager();
-            container.RegisterInstance<IDataSetsManager>(dataSetsManager);
+            //container.RegisterInstance<IDataSetsManager>(dataSetsManager);
 
-            IChartManager chartManager = new ChartManager(eventAggregator);
-            container.RegisterInstance<IChartManager>(chartManager);
+            //IChartManager chartManager = new ChartManager(eventAggregator);
+            //container.RegisterInstance<IChartManager>(chartManager);
 
-            rManager = new RManager(new RHostSessionCallback(), loggerFacade);
-            container.RegisterInstance<IRManager>(rManager);
+            //rManager = new RManager(new RHostSessionCallback(), loggerFacade);
+            //container.RegisterInstance<IRManager>(rManager);
 
-            regionManager.RegisterViewWithRegion("RibbonRegion", typeof(DataRibbonView));
-            regionManager.RegisterViewWithRegion("RibbonRegion", typeof(ChartRibbonView));
-            regionManager.RegisterViewWithRegion("RibbonRegion", typeof(RibbonRView));
+            //regionManager.RegisterViewWithRegion("RibbonRegion", typeof(DataRibbonView));
+            //regionManager.RegisterViewWithRegion("RibbonRegion", typeof(ChartRibbonView));
+            //regionManager.RegisterViewWithRegion("RibbonRegion", typeof(RibbonRView));
 
-            regionManager.RegisterViewWithRegion("MainRegion", typeof(DataSetsView));
-            regionManager.RegisterViewWithRegion("MainRegion", typeof(ProgressView));
+            //regionManager.RegisterViewWithRegion("MainRegion", typeof(DataSetsView));
+
         }
 
         
         private void ShowDataSetsView()
         {
-            var region = regionManager.Regions["MainRegion"];
+            //var region = regionManager.Regions["MainRegion"];
 
-            foreach (var view in region.Views)
-            {
-                Type viewType = view.GetType();
-                if (viewType.Equals(typeof(DataSetsView)))
-                {
-                    var actualView = (DataSetsView)view;
+            //foreach (var view in region.Views)
+            //{
+            //    Type viewType = view.GetType();
+            //    if (viewType.Equals(typeof(DataSetsView)))
+            //    {
+            //        var actualView = (DataSetsView)view;
 
-                    if(!actualView.IsVisible)
-                    {
-                        region.Remove(view);
-                        regionManager.AddToRegion("MainRegion", new DataSetsView());
-                    }
-                    regionManager.RequestNavigate("MainRegion", "DataSetsView");
-                }
-            }
+            //        if(!actualView.IsVisible)
+            //        {
+            //            region.Remove(view);
+            //            regionManager.AddToRegion("MainRegion", new DataSetsView());
+            //        }
+            //        regionManager.RequestNavigate("MainRegion", "DataSetsView");
+            //    }
+            //}
         }
 
-        private void ShowStatusView()
-        {
-            var region = regionManager.Regions["MainRegion"];
-
-            foreach (var view in region.Views)
-            {
-                Type viewType = view.GetType();
-                if (viewType.Equals(typeof(ProgressView)))
-                {
-                    var actualView = (ProgressView)view;
-
-                    if (!actualView.IsVisible)
-                    {
-                        region.Remove(view);
-                        regionManager.AddToRegion("MainRegion", new ProgressView());
-                    }
-                    regionManager.RequestNavigate("MainRegion", "ProgressView");
-                }
-            }
-        }
 
         private void Settings()
         {

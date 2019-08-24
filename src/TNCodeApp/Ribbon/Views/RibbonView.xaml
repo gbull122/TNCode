@@ -1,0 +1,62 @@
+﻿<catel:UserControl 
+    x:Class="TNCodeApp.Ribbon.Views.RibbonView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:catel="http://schemas.catelproject.com"
+    xmlns:fluent="urn:fluent-ribbon"
+    xmlns:local="clr-namespace:TNCodeApp.Ribbon.Views">
+
+    <Grid>
+        <fluent:Ribbon
+            Grid.Row="0"
+            x:Name="MainRibbon"
+            x:FieldModifier="protected internal">
+
+            <fluent:Ribbon.Menu>
+                <fluent:Backstage
+                    x:Name="Backstage">
+                    <fluent:BackstageTabControl
+                        Name="tabControl">
+                        <fluent:Button
+                        Header="Settings" 
+                        Command="{Binding Path=SettingsCommand}"
+                        IsEnabled="False"
+                        />
+
+                        <fluent:Button 
+                        Header="About"  
+                        Command="{Binding Path=AboutCommand}"
+                        IsEnabled="False"/>
+
+                        <fluent:Button
+                        Header="Close"
+                        Command="{Binding Path=CloseCommand}"/>
+                    </fluent:BackstageTabControl>
+                </fluent:Backstage>
+            </fluent:Ribbon.Menu>
+
+            <fluent:RibbonTabItem
+                Header="Home">
+                <fluent:RibbonGroupBox
+                    Header="View">
+
+                    <fluent:Button
+                        AutomationProperties.AutomationId="RbBtnShowDataSets"
+                        Header="Data Sets"
+                        Command="{Binding ShowDataSetsCommand}">
+                    </fluent:Button>
+
+                    <fluent:Button
+                        AutomationProperties.AutomationId="RbBtnShowStatus"
+                        Header="Status"
+                        Command="{Binding ShowStatusCommand}">
+                    </fluent:Button>
+
+                </fluent:RibbonGroupBox>
+            </fluent:RibbonTabItem>
+
+        </fluent:Ribbon>
+    </Grid>
+</catel:UserControl>

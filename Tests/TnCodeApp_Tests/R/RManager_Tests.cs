@@ -20,7 +20,7 @@ namespace TnCodeApp_Tests.R
             var logger = A.Fake<ILoggerFacade>();
             var rOperations = A.Fake<IROperations>();
 
-            var rManager = new RManager(rHostSessionCallback, logger, rOperations);
+            var rManager = new RManager(rHostSessionCallback);
 
             List<object> first = new List<object>() { "A", "B", "C" };
             List<object> second = new List<object>() { 1.2, 3.4, 5 };
@@ -41,7 +41,7 @@ namespace TnCodeApp_Tests.R
             var logger = A.Fake<ILoggerFacade>();
             var rOperations = A.Fake<IROperations>();
 
-            var rManager = new RManager(rHostSessionCallback, logger, rOperations);
+            var rManager = new RManager(rHostSessionCallback);
 
             List<string> rVariables = new List<string>() { "A", "B", "C" };
 
@@ -58,7 +58,7 @@ namespace TnCodeApp_Tests.R
             var logger = A.Fake<ILoggerFacade>();
             var rOperations = A.Fake<IROperations>();
 
-            var rManager = new RManager(rHostSessionCallback, logger, rOperations);
+            var rManager = new RManager(rHostSessionCallback);
 
             await rManager.GetDataFrameAsync("test");
 
@@ -86,7 +86,7 @@ namespace TnCodeApp_Tests.R
             var logger = A.Fake<ILoggerFacade>();
             var rOperations = A.Fake<IROperations>();
 
-            var rManager = new RManager(rHostSessionCallback, logger, rOperations);
+            var rManager = new RManager(rHostSessionCallback);
 
             var headers = new List<object>() { "HA", "HB" };
             A.CallTo(() => rOperations.GetListAsync("test")).Returns(headers);
@@ -105,7 +105,7 @@ namespace TnCodeApp_Tests.R
             var logger = A.Fake<ILoggerFacade>();
             var rOperations = A.Fake<IROperations>();
 
-            var rManager = new RManager(rHostSessionCallback, logger, rOperations);
+            var rManager = new RManager(rHostSessionCallback);
 
             var expectedMaxLength = 5;
 

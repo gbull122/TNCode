@@ -1,21 +1,17 @@
-﻿using Prism.Commands;
-using Prism.Events;
-using Prism.Mvvm;
-using Prism.Regions;
+﻿using Catel.MVVM;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using TNCode.Core.Data;
-using TNCodeApp.Data.Events;
 using TNCodeApp.Docking;
 
 namespace TNCodeApp.Data.ViewModels
 {
-    public class DataSetsViewModel : BindableBase, ITnPanel, INavigationAware, IRegionMemberLifetime
+    public class DataSetsViewModel : ViewModelBase, ITnPanel
     {
         private IDataSet selectedDataSet;
-        private IEventAggregator eventAggregator;
-        private IRegionManager regionManager;
+        //private IEventAggregator eventAggregator;
+        //private IRegionManager regionManager;
         private IList<object> selectedVariables;
         private IDataSetsManager datasetsManager;
 
@@ -23,10 +19,10 @@ namespace TNCodeApp.Data.ViewModels
 
         public DockingMethod Docking { get => DockingMethod.ControlPanel; }
 
-        public DelegateCommand<IList<object>> VariableSelectionChangedCommand { get; private set; }
-        public DelegateCommand SelectedItemChangedCommand { get; private set; }
-        public DelegateCommand DeleteDataSetCommand { get; private set; }
-        public DelegateCommand CloseCommand { get; private set; }
+        //public DelegateCommand<IList<object>> VariableSelectionChangedCommand { get; private set; }
+        //public DelegateCommand SelectedItemChangedCommand { get; private set; }
+        //public DelegateCommand DeleteDataSetCommand { get; private set; }
+        //public DelegateCommand CloseCommand { get; private set; }
 
         public ObservableCollection<IDataSet> DataSets
         {
@@ -60,20 +56,20 @@ namespace TNCodeApp.Data.ViewModels
 
         public bool KeepAlive => true;
 
-        public DataSetsViewModel(IEventAggregator eventAggregator, IRegionManager regionManager, IDataSetsManager dataMgr)
+        public DataSetsViewModel( IDataSetsManager dataMgr)
         {
             datasetsManager = dataMgr;
 
-            this.eventAggregator = eventAggregator;
-            this.regionManager = regionManager;
+            //this.eventAggregator = eventAggregator;
+            //this.regionManager = regionManager;
 
-            SelectedItemChangedCommand = new DelegateCommand(SelectedItemChanged);
-            DeleteDataSetCommand = new DelegateCommand(DeleteDataSet);
-            VariableSelectionChangedCommand = new DelegateCommand<IList<object>>(VariableSelectionChanged);
-            CloseCommand = new DelegateCommand(Close);
+            //SelectedItemChangedCommand = new DelegateCommand(SelectedItemChanged);
+            //DeleteDataSetCommand = new DelegateCommand(DeleteDataSet);
+            //VariableSelectionChangedCommand = new DelegateCommand<IList<object>>(VariableSelectionChanged);
+            //CloseCommand = new DelegateCommand(Close);
 
-            eventAggregator.GetEvent<TestDataEvent>().Subscribe(TestData, ThreadOption.UIThread);
-            eventAggregator.GetEvent<DataLoadedEvent>().Subscribe(LoadData, ThreadOption.UIThread);
+            //eventAggregator.GetEvent<TestDataEvent>().Subscribe(TestData, ThreadOption.UIThread);
+            //eventAggregator.GetEvent<DataLoadedEvent>().Subscribe(LoadData, ThreadOption.UIThread);
 
         }
 
@@ -85,7 +81,7 @@ namespace TNCodeApp.Data.ViewModels
         private void VariableSelectionChanged(IList<object> variableList)
         {
             SelectedVariables = variableList;
-            eventAggregator.GetEvent<VariablesSelectedEvent>().Publish(variableList);
+            //eventAggregator.GetEvent<VariablesSelectedEvent>().Publish(variableList);
         }
 
         private void DeleteDataSet()
@@ -97,7 +93,7 @@ namespace TNCodeApp.Data.ViewModels
         {
             datasetsManager.DataSets.Add(obj);
 
-            eventAggregator.GetEvent<DataSetSelectedEvent>().Publish(obj);
+            //eventAggregator.GetEvent<DataSetSelectedEvent>().Publish(obj);
         }
 
         private void SelectedItemChanged()
@@ -114,22 +110,9 @@ namespace TNCodeApp.Data.ViewModels
             var testData = new DataSet(dataList, "Mpg");
             datasetsManager.DataSets.Add(testData);
 
-            eventAggregator.GetEvent<DataSetSelectedEvent>().Publish(testData);
+            //eventAggregator.GetEvent<DataSetSelectedEvent>().Publish(testData);
         }
 
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            SelectedDataSet = datasetsManager.DataSets[0];
-        }
-
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return true;
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-            
-        }
+       
     }
 }

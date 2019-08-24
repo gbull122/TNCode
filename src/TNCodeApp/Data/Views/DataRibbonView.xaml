@@ -6,9 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:local="clr-namespace:TNCodeApp.Data.Views"
     xmlns:adapter="clr-namespace:TNCodeApp.Ribbon"
-    xmlns:prism="http://prismlibrary.com/"
-    xmlns:Fluent="urn:fluent-ribbon"
-    prism:ViewModelLocator.AutoWireViewModel="True">
+    xmlns:Fluent="urn:fluent-ribbon">
 
     <Fluent:Ribbon
          x:Name="MainRibbon"
@@ -18,8 +16,7 @@
             Header="Home">
 
             <Fluent:RibbonGroupBox
-                Header="Data"
-                adapter:UIElementExtension.MergeOrder="2">
+                Header="Data">
                 
                 <Fluent:Button
                     AutomationProperties.AutomationId="RbBtnLoadData"

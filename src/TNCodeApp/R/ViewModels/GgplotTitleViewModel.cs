@@ -1,10 +1,10 @@
-﻿using Prism.Mvvm;
+﻿using Catel.MVVM;
 using System.Collections.Generic;
 using TNCodeApp.R.Charts.Ggplot.Layer;
 
 namespace TNCodeApp.R.ViewModels
 {
-    public class GgplotTitleViewModel:BindableBase
+    public class GgplotTitleViewModel : ViewModelBase
     {
         private Parameter xAxisTitle;
         private Parameter yAxisTitle;

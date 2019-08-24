@@ -1,37 +1,33 @@
-﻿using Microsoft.Win32;
-using Prism.Commands;
-using Prism.Events;
-using Prism.Mvvm;
-using Prism.Regions;
+﻿using Catel.MVVM;
+using Microsoft.Win32;
 using System.Collections.Generic;
 using System.IO;
 using TNCode.Core.Data;
-using TNCodeApp.Data.Events;
 
 namespace TNCodeApp.Data.ViewModels
 {
-    public class DataRibbonViewModel:BindableBase
+    public class DataRibbonViewModel : ViewModelBase
     {
 
-        private IRegionManager regionManager;
-        private IEventAggregator eventAggregator;
+        //private IRegionManager regionManager;
+        //private IEventAggregator eventAggregator;
 
-        public DelegateCommand<string> NavigateCommand { get; private set; }
+        //public DelegateCommand<string> NavigateCommand { get; private set; }
 
-        public DelegateCommand<string> DataCommand { get; private set; }
+        //public DelegateCommand<string> DataCommand { get; private set; }
 
-        public DelegateCommand LoadCommand { get; private set; }
+        //public DelegateCommand LoadCommand { get; private set; }
 
         public bool IsMainRibbon => true;
 
-        public DataRibbonViewModel(IRegionManager regionManager, IEventAggregator eventAggregator)
+        public DataRibbonViewModel()
         {
-            this.regionManager = regionManager;
-            this.eventAggregator = eventAggregator;
+            //this.regionManager = regionManager;
+            //this.eventAggregator = eventAggregator;
 
-            NavigateCommand = new DelegateCommand<string>(Navigate);
-            DataCommand = new DelegateCommand<string>(Data);
-            LoadCommand = new DelegateCommand(LoadData);
+            //NavigateCommand = new DelegateCommand<string>(Navigate);
+            //DataCommand = new DelegateCommand<string>(Data);
+            //LoadCommand = new DelegateCommand(LoadData);
         }
 
         private void LoadData()
@@ -44,7 +40,7 @@ namespace TNCodeApp.Data.ViewModels
 
                 var newDataSet = new DataSet(rawData, Path.GetFileName(openFileDialog.FileName));
 
-                eventAggregator.GetEvent<DataLoadedEvent>().Publish(newDataSet);
+               // eventAggregator.GetEvent<DataLoadedEvent>().Publish(newDataSet);
             }
         }
 
@@ -64,13 +60,13 @@ namespace TNCodeApp.Data.ViewModels
 
         private void Navigate(string navigatePath)
         {
-            if (navigatePath != null)
-                regionManager.RequestNavigate("MainRegion", navigatePath);
+            //if (navigatePath != null)
+            //    regionManager.RequestNavigate("MainRegion", navigatePath);
         }
 
         private void Data(string action)
         {
-            eventAggregator.GetEvent<TestDataEvent>().Publish("Mpg");
+            //eventAggregator.GetEvent<TestDataEvent>().Publish("Mpg");
         }
     }
 }

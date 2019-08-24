@@ -1,10 +1,8 @@
 ﻿using Microsoft.R.Host.Client;
-using Prism.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TNCode.Core.Data;
 
@@ -14,7 +12,7 @@ namespace TNCodeApp.R
     {
         private IROperations rOperations;
         private readonly IRHostSessionCallback rHostSessionCallback;
-        private ILoggerFacade logger;
+        //private ILoggerFacade logger;
 
         public string WindowsDirectory
         {
@@ -30,16 +28,16 @@ namespace TNCodeApp.R
             }
         }
 
-        public RManager(IRHostSessionCallback rhostSession, ILoggerFacade loggerFacade)
+        public RManager(IRHostSessionCallback rhostSession)
         {
-            logger = loggerFacade;
+            //logger = loggerFacade;
             rHostSessionCallback = rhostSession;
             WindowsDirectory = Path.GetTempPath();
         }
 
-        public RManager(IRHostSessionCallback rhostSession, ILoggerFacade loggerFacade, IROperations rOps)
+        public RManager(IRHostSessionCallback rhostSession, IROperations rOps)
         {
-            logger = loggerFacade;
+            //logger = loggerFacade;
             rHostSessionCallback = rhostSession;
             rOperations = rOps;
         }
@@ -61,7 +59,7 @@ namespace TNCodeApp.R
             }
             catch (Exception ex)
             {
-                logger.Log(ex.Message, Category.Exception, Priority.High);
+                //logger.Log(ex.Message, Category.Exception, Priority.High);
                 return false;
             }
             return true;
@@ -84,7 +82,7 @@ namespace TNCodeApp.R
             }
             catch (Exception ex)
             {
-                logger.Log(ex.Message, Category.Exception, Priority.High);
+                //logger.Log(ex.Message, Category.Exception, Priority.High);
             }
             return result;
         }

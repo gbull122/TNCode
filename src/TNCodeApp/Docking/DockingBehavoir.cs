@@ -1,6 +1,4 @@
-﻿using Prism.Regions;
-using Prism.Regions.Behaviors;
-using System;
+﻿using System;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
@@ -14,7 +12,7 @@ namespace TNCodeApp.Docking
     /// Encapsulates behaviours related to the docking manager, keeping
     /// the documents source in sync with the active views of the <see cref="IRegion"/>. 
     /// </summary>
-    public class DockingBehavior : RegionBehavior, IHostAwareRegionBehavior
+    public class DockingBehavior 
     {
         private DockingManager dockingManager;
 
@@ -38,11 +36,11 @@ namespace TNCodeApp.Docking
         public static readonly string BehaviorKey = "DockingManagerBehavior";
 
 
-        protected override void OnAttach()
-        {
-            Region.ActiveViews.CollectionChanged += ActiveViewsCollectionChanged;
-            Region.Views.CollectionChanged += ViewsCollectionChanged;
-        }
+        //protected override void OnAttach()
+        //{
+        //    Region.ActiveViews.CollectionChanged += ActiveViewsCollectionChanged;
+        //    Region.Views.CollectionChanged += ViewsCollectionChanged;
+        //}
 
         private void ViewsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -111,10 +109,10 @@ namespace TNCodeApp.Docking
                 return;
 
             var view = layoutAnchorable.Content;
-            if (Region.Views.Contains(view))
-            {
-                Region.RegionManager.Regions["MainRegion"].Remove(view);
-            }
+            //if (Region.Views.Contains(view))
+            //{
+            //    Region.RegionManager.Regions["MainRegion"].Remove(view);
+            //}
 
             var controlPanel = dockingManager.FindName("ControlPanel") as LayoutAnchorablePane;
             
@@ -135,21 +133,21 @@ namespace TNCodeApp.Docking
 
                     var tnPanel = (ITnPanel)GetDataContext(newItem) as ITnPanel;
 
-                    if (!Region.Views.Contains(newItem))
-                    {
-                        var anchorablePanel = new LayoutAnchorable();
-                        anchorablePanel.Content = newItem;
+                    //if (!Region.Views.Contains(newItem))
+                    //{
+                    //    var anchorablePanel = new LayoutAnchorable();
+                    //    anchorablePanel.Content = newItem;
 
-                        if (tnPanel.Docking == DockingMethod.ControlPanel)
-                        {
-                            var controlPanel = dockingManager.FindName("ControlPanel") as LayoutAnchorablePane;
-                            controlPanel.Children.Add(anchorablePanel);
-                            return;
-                        }
+                    //    if (tnPanel.Docking == DockingMethod.ControlPanel)
+                    //    {
+                    //        var controlPanel = dockingManager.FindName("ControlPanel") as LayoutAnchorablePane;
+                    //        controlPanel.Children.Add(anchorablePanel);
+                    //        return;
+                    //    }
 
-                        var statusPanel = dockingManager.FindName("StatusPanel") as LayoutAnchorablePane;
-                        statusPanel.Children.Add(anchorablePanel);
-                    }
+                    //    var statusPanel = dockingManager.FindName("StatusPanel") as LayoutAnchorablePane;
+                    //    statusPanel.Children.Add(anchorablePanel);
+                    //}
                 }
            }
         }

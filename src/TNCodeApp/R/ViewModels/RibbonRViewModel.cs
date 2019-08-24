@@ -1,29 +1,24 @@
-﻿using Prism.Commands;
-using Prism.Events;
-using Prism.Mvvm;
-using Prism.Regions;
-using System;
+﻿using Catel.MVVM;
 using System.Text;
 using System.Windows;
-using TNCodeApp.Progress;
 using TNCodeApp.R.Views;
 
 namespace TNCodeApp.R.ViewModels
 {
-    public class RibbonRViewModel : BindableBase
+    public class RibbonRViewModel : ViewModelBase
     {
-        private IEventAggregator eventAggregator;
-        private IRegionManager regionManager;
+        //private IEventAggregator eventAggregator;
+        //private IRegionManager regionManager;
         private IRManager rManager;
-        private IProgressService progressService;
+        //private IProgressService progressService;
 
         public bool IsMainRibbon => false;
 
         public bool isRRunning = false;
 
-        public DelegateCommand ChartBuilderCommand { get; private set; }
-        public DelegateCommand RStartCommand { get; private set; }
-        public DelegateCommand RDetailsCommand { get; private set; }
+        //public DelegateCommand ChartBuilderCommand { get; private set; }
+        //public DelegateCommand RStartCommand { get; private set; }
+        //public DelegateCommand RDetailsCommand { get; private set; }
 
         public bool IsRRunning
         {
@@ -31,20 +26,20 @@ namespace TNCodeApp.R.ViewModels
             set
             {
                 isRRunning = value;
-                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(IsRRunning));
             }
         }
 
-        public RibbonRViewModel(IEventAggregator eventAggr, IRegionManager regionMgr, IRManager rMgr, IProgressService pService)
+        public RibbonRViewModel(IRManager rMgr)
         {
-            eventAggregator = eventAggr;
-            regionManager = regionMgr;
+            //eventAggregator = eventAggr;
+            //regionManager = regionMgr;
             rManager = rMgr;
-            progressService = pService;
+            //progressService = pService;
 
-            ChartBuilderCommand = new DelegateCommand(CreateChart).ObservesCanExecute(() => IsRRunning);
-            RStartCommand = new DelegateCommand(StartR);
-            RDetailsCommand = new DelegateCommand(ShowRDetails).ObservesCanExecute(() => IsRRunning);
+            //ChartBuilderCommand = new DelegateCommand(CreateChart).ObservesCanExecute(() => IsRRunning);
+            //RStartCommand = new DelegateCommand(StartR);
+            //RDetailsCommand = new DelegateCommand(ShowRDetails).ObservesCanExecute(() => IsRRunning);
         }
 
         private async void ShowRDetails()
@@ -61,14 +56,14 @@ namespace TNCodeApp.R.ViewModels
 
         private async void StartR()
         {
-            await progressService.ExecuteAsync(rManager.InitialiseAsync(), "Starting R...");
+            //await progressService.ExecuteAsync(rManager.InitialiseAsync(), "Starting R...");
 
             IsRRunning = rManager.IsRRunning;
         }
 
         private void CreateChart()
         {
-            regionManager.AddToRegion("MainRegion", new ChartBuilderView());
+            //regionManager.AddToRegion("MainRegion", new ChartBuilderView());
 
         }
     }

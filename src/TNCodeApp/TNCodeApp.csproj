@@ -175,6 +175,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ApplicationInitializationService.cs" />
+    <Compile Include="Ribbon\RibbonService.cs" />
+    <Compile Include="Ribbon\ViewModels\RibbonViewModel.cs" />
+    <Compile Include="Ribbon\Views\RibbonView.xaml.cs">
+      <DependentUpon>RibbonView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="R\Charts\Ggplot\Enums\Geoms.cs" />
     <Compile Include="R\Charts\Ggplot\Enums\Positions.cs" />
     <Compile Include="R\Charts\Ggplot\Enums\Stats.cs" />
@@ -196,11 +202,6 @@
       <DependentUpon>OptionValueControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="R\Controls\VariableControl.cs" />
-    <Compile Include="R\Events\GenerateGgplotChart.cs" />
-    <Compile Include="R\Events\GgplotFacetEvent.cs" />
-    <Compile Include="R\Events\GgplotTitleEvent.cs" />
-    <Compile Include="R\Events\LayerSelectedEvent.cs" />
-    <Compile Include="R\Events\VariableControlActionEvent.cs" />
     <Compile Include="R\IRManager.cs" />
     <Compile Include="R\IROperations.cs" />
     <Compile Include="R\RManager.cs" />
@@ -229,38 +230,19 @@
     <Compile Include="R\Views\RibbonRView.xaml.cs">
       <DependentUpon>RibbonRView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\StatusBarViewModel.cs" />
+    <Compile Include="Views\MainView.xaml.cs">
+      <DependentUpon>MainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StatusBarView.xaml.cs">
+      <DependentUpon>StatusBarView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Chart\ChartManager.cs" />
-    <Compile Include="Chart\Events\ChartCreatedEvent.cs" />
-    <Compile Include="Chart\IChart.cs" />
-    <Compile Include="Chart\IChartManager.cs" />
-    <Compile Include="Chart\LineChart.cs" />
-    <Compile Include="Chart\ScatterChart.cs" />
-    <Compile Include="Chart\ViewModels\ChartRibbonViewModel.cs" />
-    <Compile Include="Chart\ViewModels\ChartViewModel.cs" />
-    <Compile Include="Chart\Views\ChartRibbonView.xaml.cs">
-      <DependentUpon>ChartRibbonView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Chart\Views\ChartView.xaml.cs">
-      <DependentUpon>ChartView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Data\DataSetsManager.cs" />
-    <Compile Include="Data\Events\DataLoadedEvent.cs" />
-    <Compile Include="Data\Events\DataSetSelectedEvent.cs" />
-    <Compile Include="Data\Events\TestDataEvent.cs" />
-    <Compile Include="Data\Events\VariablesSelectedEvent.cs" />
     <Compile Include="Data\IDataSetsManager.cs" />
     <Compile Include="Data\MpgDataSet.cs" />
-    <Compile Include="Progress\DisplayMessageEvent.cs" />
-    <Compile Include="Progress\IProgressService.cs" />
-    <Compile Include="Progress\ProgressView.xaml.cs">
-      <DependentUpon>ProgressView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Progress\ProgressViewModel.cs" />
-    <Compile Include="Ribbon\RibbonBehavoir.cs" />
-    <Compile Include="Ribbon\RibbonRegionAdapter.cs" />
-    <Compile Include="Ribbon\UIElementExtension.cs" />
     <Compile Include="Data\ViewModels\DataRibbonViewModel.cs" />
     <Compile Include="Data\ViewModels\DataSetsViewModel.cs" />
     <Compile Include="Data\Views\DataRibbonView.xaml.cs">
@@ -271,9 +253,7 @@
     </Compile>
     <Compile Include="Docking\DockingBehavoir.cs" />
     <Compile Include="Docking\DockingMethod.cs" />
-    <Compile Include="Docking\DockingRegionAdapter.cs" />
     <Compile Include="Docking\ITnPanel.cs" />
-    <Compile Include="Logger\TnLogger.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -307,14 +287,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Chart\Views\ChartRibbonView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Chart\Views\ChartView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Data\Views\DataRibbonView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -327,7 +299,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Progress\ProgressView.xaml">
+    <Page Include="Ribbon\Views\RibbonView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -366,6 +338,14 @@
     <Page Include="R\Views\RibbonRView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StatusBarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

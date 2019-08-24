@@ -1,9 +1,6 @@
-﻿using Prism.Commands;
-using Prism.Events;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using TNCodeApp.R.Charts.Ggplot.Layer;
-using TNCodeApp.R.Events;
 
 namespace TNCodeApp.R.Controls
 {
@@ -13,22 +10,22 @@ namespace TNCodeApp.R.Controls
 
         private List<string> variables;
         private AestheticValue aestheticValue;
-        private IEventAggregator eventAggregator;
+        //private IEventAggregator eventAggregator;
 
-        public DelegateCommand ActionCommand { get; private set; }
+        //public DelegateCommand ActionCommand { get; private set; }
 
         protected void OnPropertyChanged(string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public VariableControl(IEventAggregator evtAgg, AestheticValue aesValue, List<string> variableNames)
+        public VariableControl( AestheticValue aesValue, List<string> variableNames)
         {
-            eventAggregator = evtAgg;
+            //eventAggregator = evtAgg;
             aestheticValue = aesValue;
             variables = variableNames;
 
-            ActionCommand = new DelegateCommand(DoAction, CanDoAction);
+            //ActionCommand = new DelegateCommand(DoAction, CanDoAction);
         }
 
         private bool CanDoAction()
@@ -41,7 +38,7 @@ namespace TNCodeApp.R.Controls
             if (string.IsNullOrEmpty(aestheticValue.Entry))
                 return;
 
-            eventAggregator.GetEvent<VariableControlActionEvent>().Publish(aestheticValue.Name);
+           // eventAggregator.GetEvent<VariableControlActionEvent>().Publish(aestheticValue.Name);
 
         }
 

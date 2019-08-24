@@ -1,8 +1,8 @@
-﻿using Prism.Mvvm;
+﻿using Catel.MVVM;
 
 namespace TNCodeApp.R.ViewModels
 {
-    public class FunctionViewModel:BindableBase
+    public class FunctionViewModel : ViewModelBase
     {
 
         public FunctionViewModel()

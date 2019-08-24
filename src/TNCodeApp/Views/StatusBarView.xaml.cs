@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TNCodeApp.Chart.Views
+namespace TNCodeApp.Views
 {
     /// <summary>
-    /// Interaction logic for ChartRibbonView.xaml
+    /// Interaction logic for StatusBarView.xaml
     /// </summary>
-    public partial class ChartRibbonView : UserControl
+    public partial class StatusBarView
     {
-        public ChartRibbonView()
+        public StatusBarView()
         {
             InitializeComponent();
         }
