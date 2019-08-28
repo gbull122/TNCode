@@ -55,8 +55,27 @@
                     </fluent:Button>
 
                 </fluent:RibbonGroupBox>
+
+                <fluent:RibbonGroupBox
+                Header="Data">
+
+                    <fluent:Button
+                    AutomationProperties.AutomationId="RbBtnLoadData"
+                    Header="Load Data"
+                    Command="{Binding LoadDataCommand}">
+                    </fluent:Button>
+
+                    <fluent:Button
+                    AutomationProperties.AutomationId="RbBtnTestData"
+                    Header="Test Data"
+                    Command="{Binding TestDataCommand}"
+                    CommandParameter="Mpg">
+                    </fluent:Button>
+
+                </fluent:RibbonGroupBox>
             </fluent:RibbonTabItem>
 
+            
         </fluent:Ribbon>
     </Grid>
 </catel:UserControl>

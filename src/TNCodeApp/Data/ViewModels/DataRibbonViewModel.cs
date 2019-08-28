@@ -1,4 +1,5 @@
 ﻿using Catel.MVVM;
+using Catel.Services;
 using Microsoft.Win32;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +9,7 @@ namespace TNCodeApp.Data.ViewModels
 {
     public class DataRibbonViewModel : ViewModelBase
     {
-
+        
         //private IRegionManager regionManager;
         //private IEventAggregator eventAggregator;
 
@@ -20,8 +21,9 @@ namespace TNCodeApp.Data.ViewModels
 
         public bool IsMainRibbon => true;
 
-        public DataRibbonViewModel()
+        public DataRibbonViewModel(INavigationService navService)
         {
+
             //this.regionManager = regionManager;
             //this.eventAggregator = eventAggregator;
 

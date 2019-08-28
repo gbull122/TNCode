@@ -4,6 +4,8 @@ using Catel.Logging;
 using Orchestra.Services;
 using System;
 using System.Threading.Tasks;
+using TNCodeApp.Data;
+using TNCodeApp.Docking;
 
 namespace TNCodeApp
 {
@@ -57,6 +59,9 @@ namespace TNCodeApp
 
             //var keyboardMappingsService = _serviceLocator.ResolveType<IKeyboardMappingsService>();
             //keyboardMappingsService.AdditionalKeyboardMappings.Add(new KeyboardMapping("MyGroup.Zoom", "Mousewheel", ModifierKeys.Control));
+
+            IDataSetsManager dataSetsManager = new DataSetsManager();
+
         }
 
         public override async Task InitializeAfterCreatingShellAsync()
@@ -80,6 +85,9 @@ namespace TNCodeApp
 
             serviceLocator.RegisterType<IAboutInfoService, AboutInfoService>();
 
+            serviceLocator.RegisterType<IDataSetsManager, DataSetsManager>(RegistrationType.Singleton);
+
+            serviceLocator.RegisterType<IDockingService, DockingService>();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Catel.MVVM;
+using Catel.Services;
 using Microsoft.R.Host.Client;
 using System;
 using System.Windows;
@@ -12,7 +13,7 @@ namespace TNCodeApp
 {
     public class MainWindowViewModel : ViewModelBase
     {
-
+        private IUIVisualizerService uIVisualizerService;
         //private IRegionManager regionManager;
         //private IEventAggregator eventAggregator;
         //private IUnityContainer container;
@@ -43,8 +44,9 @@ namespace TNCodeApp
             }
         }
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(IUIVisualizerService uIVisualizer)
         {
+            uIVisualizerService = uIVisualizer;
             //container = contain;
             //regionManager = regManager;
 
@@ -58,7 +60,7 @@ namespace TNCodeApp
 
             //container.RegisterType<IXmlConverter, XmlConverter>();
 
-            IDataSetsManager dataSetsManager = new DataSetsManager();
+            //IDataSetsManager dataSetsManager = new DataSetsManager();
             //container.RegisterInstance<IDataSetsManager>(dataSetsManager);
 
             //IChartManager chartManager = new ChartManager(eventAggregator);

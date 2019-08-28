@@ -176,6 +176,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ApplicationInitializationService.cs" />
+    <Compile Include="Docking\AnchorableItem.cs" />
+    <Compile Include="Docking\DockingService.cs" />
+    <Compile Include="Docking\IDockingService.cs" />
     <Compile Include="Ribbon\RibbonService.cs" />
     <Compile Include="Ribbon\ViewModels\RibbonViewModel.cs" />
     <Compile Include="Ribbon\Views\RibbonView.xaml.cs">

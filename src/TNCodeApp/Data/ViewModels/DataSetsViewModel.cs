@@ -7,7 +7,7 @@ using TNCodeApp.Docking;
 
 namespace TNCodeApp.Data.ViewModels
 {
-    public class DataSetsViewModel : ViewModelBase, ITnPanel
+    public class DataSetsViewModel : ViewModelBase
     {
         private IDataSet selectedDataSet;
         //private IEventAggregator eventAggregator;
@@ -56,7 +56,7 @@ namespace TNCodeApp.Data.ViewModels
 
         public bool KeepAlive => true;
 
-        public DataSetsViewModel( IDataSetsManager dataMgr)
+        public DataSetsViewModel(IDataSetsManager dataMgr)
         {
             datasetsManager = dataMgr;
 

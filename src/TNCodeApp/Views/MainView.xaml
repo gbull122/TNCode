@@ -45,8 +45,7 @@
     
     <Grid>
         <avalonDock:DockingManager 
-            x:Name="dockingManager" 
-            Grid.Row="1" >
+            x:Name="dockingManager">
             <!--AnchorableTitleTemplate="{StaticResource AnchorableTitleTemplate}"
             DocumentTitleTemplate="{StaticResource DocumentTitleTemplate}"
             DocumentHeaderTemplate="{StaticResource DocumentHeaderTemplate}">-->
@@ -55,8 +54,7 @@
                 <avalonDock:MetroTheme/>
             </avalonDock:DockingManager.Theme>
 
-            <avalonDock:LayoutRoot
-                >
+            <avalonDock:LayoutRoot>
 
                 <avalonDock:LayoutPanel 
                     x:Name="VerticalPanel" 
