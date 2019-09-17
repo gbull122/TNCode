@@ -30,14 +30,14 @@
                 Width="Auto"
                 ToolTip="Use to select a data set.">
 
-                <ie1:Interaction.Triggers>
-                    <ie1:EventTrigger 
-                        EventName="SelectionChanged">
-                        <ie1:InvokeCommandAction 
-                            Command="{Binding SelectedItemChangedCommand}"  
+                <!--<ie:Interaction.Triggers>
+                    <ie:EventTrigger 
+                        EventName="SelectedItemChanged">
+                        <ie:InvokeCommandAction 
+                            Command="{Binding DatasetSelectionChangedCommand}"  
                             CommandParameter="{Binding ElementName=DataSetsTreeView, Path=SelectedItem}"/>
-                    </ie1:EventTrigger>
-                </ie1:Interaction.Triggers>
+                    </ie:EventTrigger>
+                </ie:Interaction.Triggers>-->
 
                 <TreeView.Resources>
                     <HierarchicalDataTemplate 
@@ -55,8 +55,7 @@
                     </HierarchicalDataTemplate>
                     
                     <HierarchicalDataTemplate
-                        DataType="{x:Type data:Variable}"
-                        ItemsSource="{Binding Variables}">
+                        DataType="{x:Type data:Variable}">
                         
                     <StackPanel 
                         Orientation="Horizontal">
@@ -65,7 +64,8 @@
                             <TextBlock 
                                 Text="{Binding Name}"/>
                         </StackPanel>
-                </HierarchicalDataTemplate>
+                    </HierarchicalDataTemplate>
+                    
                 </TreeView.Resources>
 
                 <TreeView.ContextMenu>

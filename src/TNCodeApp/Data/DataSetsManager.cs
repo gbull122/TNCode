@@ -31,9 +31,9 @@ namespace TNCodeApp.Data
             dataSets = new ObservableCollection<IDataSet>();
         }
 
-        public Dictionary<string, List<string>> SelectedData()
+        public Dictionary<string, ICollection<string>> SelectedData()
         {
-            var selection = new Dictionary<string, List<string>>();
+            var selection = new Dictionary<string, ICollection<string>>();
 
             foreach (var dataSet in dataSets)
             {

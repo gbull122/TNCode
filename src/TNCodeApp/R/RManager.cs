@@ -203,7 +203,7 @@ namespace TNCodeApp.R
 
         public async Task<bool> DataSetToRAsDataFrameAsync(DataSet data)
         {
-            DataFrame df = new DataFrame(data.ObservationNames.AsReadOnly(), data.VariableNames().AsReadOnly(), data.RawData());
+            DataFrame df = new DataFrame(data.ObservationNames.AsReadOnly(), data.VariableNames(), data.RawData());
 
             await rOperations.CreateDataFrameAsync(data.Name, df);
 
