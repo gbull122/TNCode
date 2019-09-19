@@ -53,7 +53,7 @@ namespace TNCodeApp.Ribbon.ViewModels
 
             v.DataContext = vm;
 
-            dockingService.AddAnchorable(v);
+            dockingService.AddAnchorable(vm,v);
 
             //uIVisualizerService.ShowAsync<bool>(DataSetsViewModel);
 

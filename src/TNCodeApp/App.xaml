@@ -6,7 +6,8 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-
+                <ResourceDictionary Source="pack://application:,,,/Orchestra.Core;component/themes/Orchestra.generic.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Orchestra.Core;component/Themes/Orchestra.generic.wpf.defaultstyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <SolidColorBrush x:Key="AccentColorBrush" Color="#D24726" />
         </ResourceDictionary>

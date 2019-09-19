@@ -40,19 +40,21 @@
                     TextTrimming="CharacterEllipsis" />
                 </DockPanel>
             </DataTemplate>
+
         </ResourceDictionary>
     </UserControl.Resources>
     
     <Grid>
         <avalonDock:DockingManager 
             x:Name="dockingManager">
+            
             <!--AnchorableTitleTemplate="{StaticResource AnchorableTitleTemplate}"
             DocumentTitleTemplate="{StaticResource DocumentTitleTemplate}"
             DocumentHeaderTemplate="{StaticResource DocumentHeaderTemplate}">-->
 
-            <avalonDock:DockingManager.Theme>
+            <!--<avalonDock:DockingManager.Theme>
                 <avalonDock:MetroTheme/>
-            </avalonDock:DockingManager.Theme>
+            </avalonDock:DockingManager.Theme>-->
 
             <avalonDock:LayoutRoot>
 

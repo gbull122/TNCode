@@ -30,10 +30,10 @@ namespace TNCodeApp.Docking
 
         }
 
-        public void AddAnchorable(object thing)
+        public void AddAnchorable(object viewModel, object view)
         {
-            var vm = thing as DataSetsViewModel;
-            vm.InitializeViewModelAsync();
+            var vm = viewModel as DataSetsViewModel;
+            //vm.InitializeViewModelAsync();
 
             var viewManager = ServiceLocator.Default.ResolveType<IViewManager>();
 
@@ -42,7 +42,7 @@ namespace TNCodeApp.Docking
 
 
             var anchorablePanel = new LayoutAnchorable();
-            anchorablePanel.Content = thing;
+            anchorablePanel.Content = view;
             anchorablePanel.CanClose = false;
 
             //anchorablePanel.Closed += DocumentAnchorableClosed;
