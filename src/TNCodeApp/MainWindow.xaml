@@ -111,12 +111,8 @@
             DocumentTitleTemplate="{StaticResource DocumentTitleTemplate}"
             DocumentHeaderTemplate="{StaticResource DocumentHeaderTemplate}">
 
-            <avalonDock:DockingManager.Theme>
-                <avalonDock:MetroTheme/>
-            </avalonDock:DockingManager.Theme>
 
-            <avalonDock:LayoutRoot
-                >
+            <avalonDock:LayoutRoot>
 
                 <avalonDock:LayoutPanel 
                     x:Name="VerticalPanel" 

@@ -8,6 +8,7 @@ using Prism.Regions;
 using TNCode.Core.Data;
 using TNCodeApp.Chart.Events;
 using TNCodeApp.Chart.Views;
+using TNCodeApp.Data;
 using TNCodeApp.Data.Events;
 
 namespace TNCodeApp.Chart.ViewModels
@@ -16,9 +17,12 @@ namespace TNCodeApp.Chart.ViewModels
     {
         private IEventAggregator eventAggregator;
         private IRegionManager regionManager;
+        private IChartManager chartManager;
+        private IDataSetsManager dataSetsManager;
+
         private bool variablesSelected;
         private IList<string> variableNames;
-        private IChartManager chartManager;
+        
 
         public DelegateCommand<string> ChartCommand { get; private set; }
 
@@ -32,11 +36,12 @@ namespace TNCodeApp.Chart.ViewModels
             }
         }
 
-        public ChartRibbonViewModel(IEventAggregator eventAggr, IRegionManager regionMgr,IChartManager chartMgr)
+        public ChartRibbonViewModel(IEventAggregator eventAggr, IRegionManager regionMgr,IChartManager chartMgr, IDataSetsManager dataMgr)
         {
             eventAggregator = eventAggr;
             regionManager = regionMgr;
             chartManager = chartMgr;
+            dataSetsManager = dataMgr;
 
             ChartCommand = new DelegateCommand<string>(CreateChart).ObservesCanExecute(() => VariablesSelected);
 
@@ -49,24 +54,18 @@ namespace TNCodeApp.Chart.ViewModels
             regionManager.AddToRegion("MainRegion", new ChartView());
         }
 
-        private void VariablesSelection(IList<object> variableList)
+        private void VariablesSelection(Dictionary<string,ICollection<string>> variableList)
         {
             if (variableList.Count > 0)
-            {
-               foreach(var vari in variableList)
-                {
-                    var varia = (IVariable)vari;
-                    variableNames.Add(varia.Name);
-                }
-                   
+            { 
                 VariablesSelected = true;
             }
         }
 
         private void CreateChart(string chartType)
         {
-            //chartManager.Create(chartType, variables);
-            
+            var variables = dataSetsManager.SelectedVariables();
+            chartManager.Create(chartType, variables);
         }
     }
 }

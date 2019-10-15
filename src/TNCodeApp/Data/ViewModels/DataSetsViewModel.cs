@@ -19,12 +19,12 @@ namespace TNCodeApp.Data.ViewModels
         private IList<object> selectedVariables;
         private IDataSetsManager datasetsManager;
 
-        public string Title { get => "Data Sets"; }
+        public string Title { get => "Data"; }
 
         public DockingMethod Docking { get => DockingMethod.ControlPanel; }
 
-        public DelegateCommand<IList<object>> VariableSelectionChangedCommand { get; private set; }
-        public DelegateCommand<DataSet> DatasetSelectionChangedCommand { get; private set; }
+        public DelegateCommand VariableSelectionChangedCommand { get; private set; }
+        public DelegateCommand DatasetSelectionChangedCommand { get; private set; }
         public DelegateCommand DeleteDataSetCommand { get; private set; }
         public DelegateCommand CloseCommand { get; private set; }
 
@@ -67,9 +67,9 @@ namespace TNCodeApp.Data.ViewModels
             this.eventAggregator = eventAggregator;
             this.regionManager = regionManager;
 
-            DatasetSelectionChangedCommand = new DelegateCommand<DataSet>(DatasetSelectionChanged);
+            DatasetSelectionChangedCommand = new DelegateCommand(DatasetSelectionChanged);
             DeleteDataSetCommand = new DelegateCommand(DeleteDataSet);
-            VariableSelectionChangedCommand = new DelegateCommand<IList<object>>(VariableSelectionChanged);
+            VariableSelectionChangedCommand = new DelegateCommand(VariableSelectionChanged);
             CloseCommand = new DelegateCommand(Close);
 
             eventAggregator.GetEvent<TestDataEvent>().Subscribe(TestData, ThreadOption.UIThread);
@@ -82,10 +82,10 @@ namespace TNCodeApp.Data.ViewModels
             throw new NotImplementedException();
         }
 
-        private void VariableSelectionChanged(IList<object> variableList)
+        private void VariableSelectionChanged()
         {
-            SelectedVariables = variableList;
-            eventAggregator.GetEvent<VariablesSelectedEvent>().Publish(variableList);
+            var selection = datasetsManager.SelectedData();
+            eventAggregator.GetEvent<VariablesSelectedEvent>().Publish(selection);
         }
 
         private void DeleteDataSet()
@@ -98,9 +98,10 @@ namespace TNCodeApp.Data.ViewModels
             datasetsManager.DataSets.Add(obj);
         }
 
-        private void DatasetSelectionChanged(DataSet obj)
+        private void DatasetSelectionChanged()
         {
-            eventAggregator.GetEvent<DataSetSelectedEvent>().Publish(obj);
+            var selection = datasetsManager.SelectedData();
+            //eventAggregator.GetEvent<DataSetSelectedEvent>().Publish(obj);
         }
 
         private void TestData(string obj)

@@ -8,5 +8,6 @@ namespace TNCodeApp.Data
     {
         ObservableCollection<IDataSet> DataSets { get; set; }
         Dictionary<string, ICollection<string>> SelectedData();
+        IList<IVariable> SelectedVariables();
     }
 }

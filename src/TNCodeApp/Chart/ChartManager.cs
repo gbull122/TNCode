@@ -65,5 +65,7 @@ namespace TNCodeApp.Chart
 
             _dict.Add(id, type);
         }
+
+
     }
 }

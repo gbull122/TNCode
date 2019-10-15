@@ -12,16 +12,10 @@
     Name="DatasetsView">
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="5" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
 
         <GroupBox
-            Grid.Row="0"
-            Header="DataSets">
-            
+            Header="Data Sets">
+
             <TreeView
                 x:Name="DataSetsTreeView"
                 Margin="2" 
@@ -29,15 +23,6 @@
                 ScrollViewer.VerticalScrollBarVisibility="Visible"
                 Width="Auto"
                 ToolTip="Use to select a data set.">
-
-                <!--<ie:Interaction.Triggers>
-                    <ie:EventTrigger 
-                        EventName="SelectedItemChanged">
-                        <ie:InvokeCommandAction 
-                            Command="{Binding DatasetSelectionChangedCommand}"  
-                            CommandParameter="{Binding ElementName=DataSetsTreeView, Path=SelectedItem}"/>
-                    </ie:EventTrigger>
-                </ie:Interaction.Triggers>-->
 
                 <TreeView.Resources>
                     <HierarchicalDataTemplate 
@@ -47,7 +32,8 @@
                         <StackPanel 
                             Orientation="Horizontal">
                             <CheckBox 
-                                IsChecked="{Binding IsSelected}"/>
+                                IsChecked="{Binding IsSelected}"
+                                Command="{Binding DataContext.DatasetSelectionChangedCommand,RelativeSource={RelativeSource AncestorType={x:Type local:DataSetsView}}}"/>
                             <TextBlock 
                                 Text="{Binding Name}"/>
                         </StackPanel>
@@ -60,9 +46,14 @@
                     <StackPanel 
                         Orientation="Horizontal">
                             <CheckBox 
-                                IsChecked="{Binding IsSelected}"/>
+                                IsChecked="{Binding IsSelected}"
+                               Command="{Binding DataContext.VariableSelectionChangedCommand,RelativeSource={RelativeSource AncestorType={x:Type local:DataSetsView}}}"/>
                             <TextBlock 
                                 Text="{Binding Name}"/>
+                            <!--<TextBlock 
+                                Text="{Binding VariableType}"/>
+                            <TextBlock 
+                                Text="{Binding Length}"/>-->
                         </StackPanel>
                     </HierarchicalDataTemplate>
                     
@@ -80,7 +71,7 @@
             </TreeView>
         </GroupBox>
 
-        <GridSplitter
+        <!--<GridSplitter
             Grid.Row="1"/>
 
         <GroupBox
@@ -128,6 +119,6 @@
                     
                 </DataGrid.Columns>
             </DataGrid>
-        </GroupBox>
+        </GroupBox>-->
     </Grid>
 </UserControl>

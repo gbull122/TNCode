@@ -7,7 +7,7 @@ namespace TNCodeApp.Chart
     public interface IChart
     {
         string Title { get; set; }
-        IList<object> Data { get; set; }
+        IList<IVariable> Data { get; set; }
         PlotModel Model { get; set; }
 
         void Update();

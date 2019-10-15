@@ -4,7 +4,7 @@ using TNCode.Core.Data;
 
 namespace TNCodeApp.Data.Events
 {
-    public class VariablesSelectedEvent : PubSubEvent<IList<object>>
+    public class VariablesSelectedEvent : PubSubEvent<Dictionary<string,ICollection<string>>>
     {
     }
 }

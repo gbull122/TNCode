@@ -11,12 +11,12 @@ namespace TNCodeApp.Chart
     public class ScatterChart : IChart
     {
         private string title;
-        private IList<object> data;
+        private IList<IVariable> data;
         private PlotModel plotModel;
 
         public string Title { get => title; set => title = value; }
 
-        public IList<object> Data { get => data; set => data = value; }
+        public IList<IVariable> Data { get => data; set => data = value; }
 
         public PlotModel Model
         {
@@ -28,7 +28,7 @@ namespace TNCodeApp.Chart
         }
 
 
-        public ScatterChart(IList<object> variableList)
+        public ScatterChart(IList<IVariable> variableList)
         {
             Data = variableList;
         }

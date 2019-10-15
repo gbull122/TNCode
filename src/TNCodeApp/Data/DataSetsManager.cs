@@ -38,8 +38,36 @@ namespace TNCodeApp.Data
             foreach (var dataSet in dataSets)
             {
                 var selectedVariables = dataSet.SelectedVariableNames();
-                if (dataSet.IsSelected || selectedVariables.Count > 0)
+                if (selectedVariables.Count > 0)
                     selection.Add(dataSet.Name, selectedVariables);
+            }
+
+            return selection;
+        }
+
+        public List<string> SelectedDataSetsNames()
+        {
+            var selection = new List<string>();
+            foreach (var dataSet in dataSets)
+            {
+                var selectedVariables = dataSet.SelectedVariableNames();
+                if (selectedVariables.Count > 0)
+                    selection.Add(dataSet.Name);
+            }
+
+            return selection;
+        }
+
+        public IList<IVariable> SelectedVariables()
+        {
+            var selection = new List<IVariable>();
+            foreach (var dataSet in dataSets)
+            {
+                foreach(var vari in dataSet.Variables)
+                {
+                    if (vari.IsSelected)
+                        selection.Add(vari);
+                }
             }
 
             return selection;
