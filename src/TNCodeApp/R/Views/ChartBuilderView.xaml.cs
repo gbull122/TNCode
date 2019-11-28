@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using Prism.Regions;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace TNCodeApp.R.Views
 {
@@ -7,9 +9,23 @@ namespace TNCodeApp.R.Views
     /// </summary>
     public partial class ChartBuilderView : UserControl
     {
-        public ChartBuilderView()
+        public ChartBuilderView(IRegionManager regionManager)
         {
             InitializeComponent();
+            if (regionManager != null)
+            {
+                SetRegionManager(regionManager, Options, "OptionsRegion");
+            }
+        }
+
+        public void SetRegionManager(IRegionManager manager, DependencyObject regionTarget, string regionName)
+
+        {
+
+            RegionManager.SetRegionName(regionTarget, regionName);
+
+            RegionManager.SetRegionManager(regionTarget, manager);
+
         }
     }
 }

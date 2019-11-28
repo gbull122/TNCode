@@ -12,7 +12,6 @@ namespace TNCode.Core.Data
         bool AllColumnsEqual();
         IReadOnlyList<IReadOnlyList<object>> RawData();
         bool IsSelected { get; set; }
-
         List<string> SelectedVariableNames();
     }
 }

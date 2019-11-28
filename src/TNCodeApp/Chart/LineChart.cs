@@ -18,9 +18,9 @@ namespace TNCodeApp.Chart
         public PlotModel Model { get => plotModel; set =>  plotModel = value; }
         IList<IVariable> IChart.Data { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-        public LineChart(IList<object> variableList)
+        public LineChart(IList<IVariable> variableList)
         {
-
+            Data = variableList;
         }
 
         public void Update()
@@ -30,7 +30,7 @@ namespace TNCodeApp.Chart
 
         public bool CanPlot()
         {
-            throw new NotImplementedException();
+            return data.Count == 1;
         }
     }
 }

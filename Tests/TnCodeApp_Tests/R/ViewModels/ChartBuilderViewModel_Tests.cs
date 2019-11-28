@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Prism.Events;
 using Prism.Regions;
 using TNCode.Core.Data;
+using TNCodeApp.Data;
 using TNCodeApp.R;
 using TNCodeApp.R.ViewModels;
 
@@ -20,8 +21,9 @@ namespace TnCodeApp_Tests.R.ViewModels
             var regionManager = A.Fake<IRegionManager>();
             var rManager = A.Fake<IRManager>();
             var xmlConverter = A.Fake<IXmlConverter>();
+            var dataSetsManager = A.Fake<IDataSetsManager>();
 
-            var chartBuilderViewModel = new ChartBuilderViewModel(eventAggregator, regionManager, rManager, xmlConverter);
+            var chartBuilderViewModel = new ChartBuilderViewModel(eventAggregator, regionManager, rManager, xmlConverter, dataSetsManager);
         }
     }
 }

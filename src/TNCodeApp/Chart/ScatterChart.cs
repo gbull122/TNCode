@@ -45,8 +45,8 @@ namespace TNCodeApp.Chart
             for (int row = 0; row < ((IVariable)data[0]).Length; row++)
             {
 
-                var x = double.Parse(((IVariable)data[0]).Data.ElementAt(row).ToString());
-                var y = double.Parse(((IVariable)data[1]).Data.ElementAt(row).ToString());
+                var x = double.Parse(((IVariable)data[0]).Values.ElementAt(row).ToString());
+                var y = double.Parse(((IVariable)data[1]).Values.ElementAt(row).ToString());
                 var scatterPoint = new ScatterPoint(x, y);
                 scatterSeries.Points.Add(scatterPoint);
             }
@@ -60,8 +60,8 @@ namespace TNCodeApp.Chart
         {
             return data.Count == 2 && 
                 (((IVariable)data[0]).Length == ((IVariable)data[1]).Length) &&
-                ((IVariable)data[0]).VariableType== VariableValue.Numeric &&
-                ((IVariable)data[1]).VariableType == VariableValue.Numeric;
+                ((IVariable)data[0]).Data== DataType.Numeric &&
+                ((IVariable)data[1]).Data == DataType.Numeric;
         }
     }
 }

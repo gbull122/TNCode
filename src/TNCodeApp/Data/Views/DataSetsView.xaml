@@ -12,11 +12,7 @@
     Name="DatasetsView">
 
     <Grid>
-
-        <GroupBox
-            Header="Data Sets">
-
-            <TreeView
+        <TreeView
                 x:Name="DataSetsTreeView"
                 Margin="2" 
                 ItemsSource="{Binding Path=DataSets}" 
@@ -24,101 +20,51 @@
                 Width="Auto"
                 ToolTip="Use to select a data set.">
 
-                <TreeView.Resources>
-                    <HierarchicalDataTemplate 
+            <TreeView.Resources>
+                <HierarchicalDataTemplate 
                         DataType="{x:Type data:DataSet}" 
                         ItemsSource="{Binding Variables}">
 
-                        <StackPanel 
+                    <StackPanel 
                             Orientation="Horizontal">
-                            <CheckBox 
+                        <CheckBox 
                                 IsChecked="{Binding IsSelected}"
                                 Command="{Binding DataContext.DatasetSelectionChangedCommand,RelativeSource={RelativeSource AncestorType={x:Type local:DataSetsView}}}"/>
-                            <TextBlock 
+                        <TextBlock 
                                 Text="{Binding Name}"/>
-                        </StackPanel>
+                    </StackPanel>
 
-                    </HierarchicalDataTemplate>
-                    
-                    <HierarchicalDataTemplate
+                </HierarchicalDataTemplate>
+
+                <HierarchicalDataTemplate
                         DataType="{x:Type data:Variable}">
-                        
+
                     <StackPanel 
                         Orientation="Horizontal">
-                            <CheckBox 
+                        <CheckBox 
                                 IsChecked="{Binding IsSelected}"
                                Command="{Binding DataContext.VariableSelectionChangedCommand,RelativeSource={RelativeSource AncestorType={x:Type local:DataSetsView}}}"/>
-                            <TextBlock 
+                        <TextBlock 
                                 Text="{Binding Name}"/>
-                            <!--<TextBlock 
+                        <!--<TextBlock 
                                 Text="{Binding VariableType}"/>
                             <TextBlock 
                                 Text="{Binding Length}"/>-->
-                        </StackPanel>
-                    </HierarchicalDataTemplate>
-                    
-                </TreeView.Resources>
+                    </StackPanel>
+                </HierarchicalDataTemplate>
 
-                <TreeView.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem 
+            </TreeView.Resources>
+
+            <TreeView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem 
                             Header="Delete"
                             Command="{Binding DeleteDataSetCommand}" 
                             CommandParameter="{Binding ElementName=DataSetsTreeView, Path=SelectedItem}"/>
-                    </ContextMenu>
-                </TreeView.ContextMenu>
+                </ContextMenu>
+            </TreeView.ContextMenu>
 
-            </TreeView>
-        </GroupBox>
+        </TreeView>
 
-        <!--<GridSplitter
-            Grid.Row="1"/>
-
-        <GroupBox
-            Grid.Row="2"
-            Header="Details"
-            ToolTip="Data set summary">
-
-            <DataGrid
-                x:Name="VariableGrid"
-                Margin="2" 
-                ItemsSource="{Binding Path=SelectedDataSet.Variables}" 
-                ScrollViewer.VerticalScrollBarVisibility="Visible"
-                SelectionMode="Extended"
-                ToolTip="Use to select variables."
-                AutoGenerateColumns="False"
-                EnableRowVirtualization="False">
-
-                <ie1:Interaction.Triggers>
-                    <ie1:EventTrigger EventName="SelectionChanged">
-                        <ie1:InvokeCommandAction
-                            Command="{Binding VariableSelectionChangedCommand}"
-                            CommandParameter="{Binding ElementName=VariableGrid, Path=SelectedItems}" />
-                    </ie1:EventTrigger>
-                </ie1:Interaction.Triggers>
-                
-                <DataGrid.Columns>
-
-                    <DataGridTextColumn
-                        Header="Name"
-                        Binding="{Binding Path=Name}"
-                        IsReadOnly="True"
-                        Width="*"/>
-
-                    <DataGridTextColumn
-                        Header="Data Type"
-                        Binding="{Binding Path=VariableType}" 
-                        IsReadOnly="True"
-                        Width="*"/>
-
-                    <DataGridTextColumn
-                        Header="Length"
-                        Binding="{Binding Path=Length}"
-                        IsReadOnly="True"
-                        Width="*"/>
-                    
-                </DataGrid.Columns>
-            </DataGrid>
-        </GroupBox>-->
     </Grid>
 </UserControl>

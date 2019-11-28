@@ -1,10 +1,10 @@
 ﻿namespace TNCode.Core.Data
 {
-    public enum VariableValue
+    public enum DataType
     {
+        Unknown,
         Text,
         Numeric,
-        DateTime,
-        Object
+        DateTime
     }
 }

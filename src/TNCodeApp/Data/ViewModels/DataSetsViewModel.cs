@@ -84,8 +84,7 @@ namespace TNCodeApp.Data.ViewModels
 
         private void VariableSelectionChanged()
         {
-            var selection = datasetsManager.SelectedData();
-            eventAggregator.GetEvent<VariablesSelectedEvent>().Publish(selection);
+            eventAggregator.GetEvent<VariablesSelectedChangedEvent>().Publish();
         }
 
         private void DeleteDataSet()
@@ -100,8 +99,7 @@ namespace TNCodeApp.Data.ViewModels
 
         private void DatasetSelectionChanged()
         {
-            var selection = datasetsManager.SelectedData();
-            //eventAggregator.GetEvent<DataSetSelectedEvent>().Publish(obj);
+            eventAggregator.GetEvent<DataSetsSelectedChangedEvent>().Publish();
         }
 
         private void TestData(string obj)

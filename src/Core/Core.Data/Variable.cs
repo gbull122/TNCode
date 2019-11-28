@@ -10,7 +10,6 @@ namespace TNCode.Core.Data
 {
     public class Variable : IVariable, INotifyPropertyChanged
     {
-        private bool trimNans = true;
         private bool isSelected;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -29,22 +28,23 @@ namespace TNCode.Core.Data
                 OnPropertyChanged(nameof(IsSelected));
             }
         }
+
         public int Length { get; }
 
         public string Name { get; }
 
-        public IReadOnlyCollection<object> Data { get; }
+        public IReadOnlyCollection<object> Values { get; }
 
-        public VariableValue VariableType { get; }
+        public DataType Data { get; }
 
         public Variable(object[] rawData)
         {
             Name = FormatName(rawData[0].ToString());
-            Data = ConvertArray(rawData, trimNans);
+            Values = ArrayToCollection(rawData, true);
 
             if (CanConvertObjectArrayToDoubleArray(rawData))
             {
-                VariableType = VariableValue.Numeric;
+                Data = DataType.Numeric;
             }
             else
             {
@@ -52,20 +52,19 @@ namespace TNCode.Core.Data
                 if (DateTime.TryParseExact(rawData[1].ToString(), "dd/MM/yyyy hh:mm:ss",
                     CultureInfo.InvariantCulture, DateTimeStyles.None, out dateResult))
                 {
-                    Data = ConvertDoubleToDateTime(rawData, trimNans);
-                    VariableType = VariableValue.DateTime;
+                    Values = ConvertDoubleToDateTime(rawData);
+                    Data = DataType.DateTime;
                 }
-
-                if (Data == null)
+                else
                 {
 
-                    VariableType = VariableValue.Text;
+                    Data = DataType.Text;
                 }
             }
-            Length = Data.Count;
+            Length = Values.Count;
         }
 
-        public IReadOnlyCollection<object> ConvertArray(object[] dataArray, bool trimNans)
+        public IReadOnlyCollection<object> ArrayToCollection(object[] dataArray, bool trimNans)
         {
             var convertedArray = dataArray.ToList<object>();
             convertedArray.RemoveAt(0);
@@ -76,7 +75,7 @@ namespace TNCode.Core.Data
             return convertedArray;
         }
 
-        public IReadOnlyCollection<object> ConvertDoubleToDateTime(object[] testStringArray, bool trimNans)
+        public IReadOnlyCollection<object> ConvertDoubleToDateTime(object[] testStringArray)
         {
             var t = testStringArray.ToList<object>();
             t.RemoveAt(0);
@@ -86,8 +85,6 @@ namespace TNCode.Core.Data
                                 .Cast<object>()
                                 .Select(x => DateTime.ParseExact(x.ToString(), "dd/MM/yyyy hh:mm:ss", CultureInfo.InvariantCulture).ToOADate())
                                 .ToList();
-                if (trimNans)
-                    return TrimNansFromList(str.Cast<object>().ToList<object>());
 
                 return (str.Cast<object>().ToList().AsReadOnly());
             }
@@ -128,11 +125,8 @@ namespace TNCode.Core.Data
 
         public string FormatName(string name)
         {
-
             if (Regex.IsMatch(name, @"^\d"))
-            {
                 name = "V_" + name;
-            }
 
             return name.Replace(' ', '_');
         }

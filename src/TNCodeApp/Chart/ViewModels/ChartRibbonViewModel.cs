@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Events;
-using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Regions;
-using TNCode.Core.Data;
 using TNCodeApp.Chart.Events;
 using TNCodeApp.Chart.Views;
 using TNCodeApp.Data;
@@ -21,7 +17,7 @@ namespace TNCodeApp.Chart.ViewModels
         private IDataSetsManager dataSetsManager;
 
         private bool variablesSelected;
-        private IList<string> variableNames;
+
         
 
         public DelegateCommand<string> ChartCommand { get; private set; }
@@ -45,7 +41,7 @@ namespace TNCodeApp.Chart.ViewModels
 
             ChartCommand = new DelegateCommand<string>(CreateChart).ObservesCanExecute(() => VariablesSelected);
 
-            eventAggregator.GetEvent<VariablesSelectedEvent>().Subscribe(VariablesSelection);
+            eventAggregator.GetEvent<VariablesSelectedChangedEvent>().Subscribe(VariablesSelection);
             eventAggregator.GetEvent<ChartCreatedEvent>().Subscribe(ChartCreated);
         }
 
@@ -54,12 +50,12 @@ namespace TNCodeApp.Chart.ViewModels
             regionManager.AddToRegion("MainRegion", new ChartView());
         }
 
-        private void VariablesSelection(Dictionary<string,ICollection<string>> variableList)
+        private void VariablesSelection()
         {
-            if (variableList.Count > 0)
-            { 
+            //if (variableList.Count > 0)
+            //{
                 VariablesSelected = true;
-            }
+            //}
         }
 
         private void CreateChart(string chartType)

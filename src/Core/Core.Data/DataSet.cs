@@ -148,7 +148,7 @@ namespace TNCode.Core.Data
             var result = new List<List<object>>();
             foreach(var vari in variables)
             {
-                result.Add(vari.Data.ToList());
+                result.Add(vari.Values.ToList());
             }
 
             return result;

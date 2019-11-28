@@ -15,17 +15,17 @@ namespace Core.Data_Tests
         {
             var expectedCount = 3;
             var expectedElement = "C";
-            var expectedVariableType = VariableValue.Text;
+            var expectedVariableType = DataType.Text;
 
             List<object> rawData = new List<object>() { "Name", "A", "B", "C", "NaN", "NaN" };
             var variable = new Variable(rawData.ToArray());
 
             var actualCount = variable.Length;
-            var actualElement = variable.Data.ElementAt(2);
+            var actualElement = variable.Values.ElementAt(2);
 
             actualCount.Should().Be(expectedCount);
             actualElement.Should().Be(expectedElement);
-            variable.VariableType.Should().Be(expectedVariableType);
+            variable.Data.Should().Be(expectedVariableType);
         }
 
         [TestMethod]
@@ -33,17 +33,17 @@ namespace Core.Data_Tests
         {
             var expectedCount = 4;
             var expectedElement = 2.2;
-            var expectedVariableType = VariableValue.Numeric;
+            var expectedVariableType = DataType.Numeric;
 
             List<object> rawData = new List<object>() { "Name", 1.1, 2.2, 3.3, 4.4, double.NaN };
             var variable = new Variable(rawData.ToArray());
 
             var actualCount = variable.Length;
-            var actualElement = variable.Data.ElementAt(1);
+            var actualElement = variable.Values.ElementAt(1);
 
             actualCount.Should().Be(expectedCount);
             actualElement.Should().Be(expectedElement);
-            variable.VariableType.Should().Be(expectedVariableType);
+            variable.Data.Should().Be(expectedVariableType);
         }
 
         [TestMethod]
@@ -51,17 +51,17 @@ namespace Core.Data_Tests
         {
             var expectedCount = 3;
             var expectedElement = 1.0;
-            var expectedVariableType = VariableValue.Numeric;
+            var expectedVariableType = DataType.Numeric;
 
             List<object> rawData = new List<object>() { "Name", 1.0, 2.0, 3.0 };
             var variable = new Variable(rawData.ToArray());
 
             var actualCount = variable.Length;
-            var actualElement = variable.Data.ElementAt(0);
+            var actualElement = variable.Values.ElementAt(0);
 
             actualCount.Should().Be(expectedCount);
             actualElement.Should().Be(expectedElement);
-            variable.VariableType.Should().Be(expectedVariableType);
+            variable.Data.Should().Be(expectedVariableType);
         }
 
         [TestMethod]
@@ -70,17 +70,17 @@ namespace Core.Data_Tests
         {
             var expectedCount = 3;
             var expectedElement = 3.0;
-            var expectedVariableType = VariableValue.DateTime;
+            var expectedVariableType = DataType.DateTime;
 
             List<object> rawData = new List<object>() { "Name", 1.0, 2.0, 3.0, double.NaN, double.NaN };
             var dataColumn = new Variable(rawData.ToArray());
 
-            var actualCount = dataColumn.Data.Count;
-            var actualElement = dataColumn.Data.ElementAt(2);
+            var actualCount = dataColumn.Values.Count;
+            var actualElement = dataColumn.Values.ElementAt(2);
 
             actualCount.Should().Be(expectedCount);
             actualElement.Should().Be(expectedElement);
-            dataColumn.VariableType.Should().Be(expectedVariableType);
+            dataColumn.Data.Should().Be(expectedVariableType);
         }
 
         [TestMethod]

@@ -8,13 +8,13 @@ namespace TNCodeApp.Chart
 {
     public class ChartManager : IChartManager
     {
-        private Dictionary<string, Type> _dict = new Dictionary<string, Type>();
+        private readonly Dictionary<string, Type> dict = new Dictionary<string, Type>();
 
-        private Dictionary<string, IChart> charts = new Dictionary<string, IChart>();
+        private readonly Dictionary<string, IChart> charts = new Dictionary<string, IChart>();
 
         private string lastChart = string.Empty;
 
-        private IEventAggregator eventAggregator;
+        private readonly IEventAggregator eventAggregator;
 
         public ChartManager(IEventAggregator eventAgg)
         {
@@ -36,7 +36,7 @@ namespace TNCodeApp.Chart
         public void Create(string id, params object[] args)
         {
             Type type = null;
-            if (_dict.TryGetValue(id, out type))
+            if (dict.TryGetValue(id, out type))
             {
                 var newChart =  (IChart)Activator.CreateInstance(type, args);
 
@@ -63,7 +63,7 @@ namespace TNCodeApp.Chart
             if (type.IsInterface || type.IsAbstract)
                 throw new ArgumentException("...");
 
-            _dict.Add(id, type);
+            dict.Add(id, type);
         }
 
 

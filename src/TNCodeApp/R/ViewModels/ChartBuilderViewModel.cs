@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using TNCode.Core.Data;
+using TNCodeApp.Data;
 using TNCodeApp.Data.Events;
 using TNCodeApp.Docking;
 using TNCodeApp.R.Charts.Ggplot;
@@ -26,8 +27,10 @@ namespace TNCodeApp.R.ViewModels
         private readonly IRManager rManager;
         private IEventAggregator eventAggregator;
         private IRegionManager regionManager;
+        private IDataSetsManager dataSetsManager;
+
         private List<string> currentVariables;
-        private string currentData;
+        private IEnumerable<string> dataSets;
         private IXmlConverter xmlConverter;
         private BitmapImage chartImage;
         private List<Parameter> titleParameters;
@@ -40,13 +43,13 @@ namespace TNCodeApp.R.ViewModels
         public DelegateCommand<string> ActionCommand { get; private set; }
         private ObservableCollection<VariableControl> variableControls;
 
-        public string CurrentDataSet
+        public IEnumerable<string> DataSets
         {
-            get { return currentData; }
+            get { return dataSets; }
             set
             {
-                currentData = value;
-                RaisePropertyChanged("CurrentDataSet");
+                dataSets = value;
+                RaisePropertyChanged(nameof(DataSets));
             }
         }
         public ObservableCollection<VariableControl> VariableControls
@@ -97,14 +100,15 @@ namespace TNCodeApp.R.ViewModels
             }
         }
 
-        public ChartBuilderViewModel(IEventAggregator eventAggr, IRegionManager regMngr, IRManager rMngr, IXmlConverter converter)
+        public ChartBuilderViewModel(IEventAggregator eventAggr, IRegionManager regMngr, IRManager rMngr, IXmlConverter converter, IDataSetsManager setsManager)
         {
             xmlConverter = converter;
             rManager = rMngr;
             eventAggregator = eventAggr;
             regionManager = regMngr;
+            dataSetsManager = setsManager;
 
-            eventAggregator.GetEvent<DataSetSelectedEvent>().Subscribe(DataSetSelected, ThreadOption.UIThread);
+            eventAggregator.GetEvent<DataSetsSelectedChangedEvent>().Subscribe(DataSetSelectionChanged, ThreadOption.UIThread);
             eventAggregator.GetEvent<VariableControlActionEvent>().Subscribe(HandleAction);
 
             layers = new ObservableCollection<ILayer>();
@@ -120,9 +124,11 @@ namespace TNCodeApp.R.ViewModels
             CopyChartCommand = new DelegateCommand(CopyChart);
             ActionCommand = new DelegateCommand<string>(ExecuteActionCommand);
             currentVariables = new List<string>();
-            currentData = string.Empty;
+            dataSets = new List<string>();
 
         }
+
+
 
         private void ExecuteActionCommand(string obj)
         {
@@ -287,7 +293,7 @@ namespace TNCodeApp.R.ViewModels
 
         private bool CanNewLayer()
         {
-            if ((currentVariables != null || currentVariables.Count > 0) && !string.IsNullOrEmpty(currentData))
+            if ((currentVariables != null || currentVariables.Count > 0) && dataSets.Any())
                 return true;
 
             return false;
@@ -300,7 +306,7 @@ namespace TNCodeApp.R.ViewModels
             var aestheticXml = Properties.Resources.ResourceManager.GetObject("geom_point");
             var aesthetic = xmlConverter.ToObject<Aesthetic>(aestheticXml.ToString());
             newLayer.Aes = aesthetic;
-            newLayer.Data = currentData;
+            //newLayer.Data = currentData;
 
             layers.Add(newLayer);
 
@@ -313,15 +319,16 @@ namespace TNCodeApp.R.ViewModels
             await rManager.DataSetToRAsDataFrameAsync(data);
         }
 
-        private void DataSetSelected(DataSet dataSet)
+        private void DataSetSelectionChanged()
         {
-            var varibleNames = dataSet.VariableNames();
-            varibleNames.Insert(0, "");
-            currentVariables = varibleNames;
+            dataSets = dataSetsManager.SelectedDataSetsNames();
+            //var varibleNames = dataSet.VariableNames();
+            //varibleNames.Insert(0, "");
+            //currentVariables = varibleNames;
 
-            CurrentDataSet = dataSet.Name;
+            //CurrentDataSet = dataSet.Name;
 
-            PutDataSetInR(dataSet);
+            //PutDataSetInR(dataSet);
             NewLayerCommand.RaiseCanExecuteChanged();
         }
 
