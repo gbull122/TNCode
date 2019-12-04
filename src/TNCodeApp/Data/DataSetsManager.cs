@@ -63,7 +63,7 @@ namespace TNCodeApp.Data
             var selection = new List<IVariable>();
             foreach (var dataSet in dataSets)
             {
-                foreach(var vari in dataSet.Variables)
+                foreach (var vari in dataSet.Variables)
                 {
                     if (vari.IsSelected)
                         selection.Add(vari);
@@ -71,6 +71,24 @@ namespace TNCodeApp.Data
             }
 
             return selection;
+        }
+
+        public IEnumerable<string> DataSetNames()
+        {
+            foreach (var dataSet in dataSets)
+            {
+                yield return dataSet.Name;
+            }
+        }
+
+        public List<string> DataSetVariableNames(string dataSetName)
+        {
+            foreach (var dataSet in dataSets)
+            {
+                if(dataSet.Name.Equals(dataSetName))
+                    return dataSet.VariableNames();
+            }
+            return null;
         }
     }
 }

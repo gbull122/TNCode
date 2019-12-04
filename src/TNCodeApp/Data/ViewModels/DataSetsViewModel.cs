@@ -73,7 +73,7 @@ namespace TNCodeApp.Data.ViewModels
             CloseCommand = new DelegateCommand(Close);
 
             eventAggregator.GetEvent<TestDataEvent>().Subscribe(TestData, ThreadOption.UIThread);
-            eventAggregator.GetEvent<DataLoadedEvent>().Subscribe(LoadData, ThreadOption.UIThread);
+            eventAggregator.GetEvent<DataSetsChangedEvent>().Subscribe(LoadData, ThreadOption.UIThread);
 
         }
 
@@ -109,9 +109,8 @@ namespace TNCodeApp.Data.ViewModels
             var dataList = new List<object[,]>() { mpgData.Data };
 
             var testData = new DataSet(dataList, "Mpg");
-            datasetsManager.DataSets.Add(testData);
 
-            //eventAggregator.GetEvent<DataSetSelectedEvent>().Publish(testData);
+            eventAggregator.GetEvent<DataSetsChangedEvent>().Publish(testData);
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)

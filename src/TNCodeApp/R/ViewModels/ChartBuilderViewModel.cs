@@ -24,14 +24,15 @@ namespace TNCodeApp.R.ViewModels
 {
     public class ChartBuilderViewModel : BindableBase, ITnPanel, INavigationAware
     {
+        private readonly IEventAggregator eventAggregator;
+        private readonly IRegionManager regionManager;
+
         private readonly IRManager rManager;
-        private IEventAggregator eventAggregator;
-        private IRegionManager regionManager;
-        private IDataSetsManager dataSetsManager;
+        private readonly IDataSetsManager dataSetsManager;
 
         private List<string> currentVariables;
         private IEnumerable<string> dataSets;
-        private IXmlConverter xmlConverter;
+        private readonly IXmlConverter xmlConverter;
         private BitmapImage chartImage;
         private List<Parameter> titleParameters;
 
@@ -41,6 +42,7 @@ namespace TNCodeApp.R.ViewModels
         public DelegateCommand<ILayer> LayerSelectedCommand { get; private set; }
         public DelegateCommand CopyChartCommand { get; private set; }
         public DelegateCommand<string> ActionCommand { get; private set; }
+
         private ObservableCollection<VariableControl> variableControls;
 
         public IEnumerable<string> DataSets
@@ -52,13 +54,14 @@ namespace TNCodeApp.R.ViewModels
                 RaisePropertyChanged(nameof(DataSets));
             }
         }
+
         public ObservableCollection<VariableControl> VariableControls
         {
             get { return variableControls; }
             set
             {
                 variableControls = value;
-                RaisePropertyChanged("ExtraControls");
+                RaisePropertyChanged(nameof(VariableControls));
             }
         }
 
@@ -68,7 +71,7 @@ namespace TNCodeApp.R.ViewModels
             set
             {
                 chartImage = value;
-                RaisePropertyChanged("ChartImage");
+                RaisePropertyChanged(nameof(ChartImage));
             }
         }
 
@@ -84,7 +87,7 @@ namespace TNCodeApp.R.ViewModels
             set
             {
                 selectedLayer = value;
-                RaisePropertyChanged("SelectedLayer");
+                RaisePropertyChanged(nameof(SelectedLayer));
             }
         }
 
@@ -96,7 +99,7 @@ namespace TNCodeApp.R.ViewModels
             set
             {
                 layers = value;
-                RaisePropertyChanged("ChartLayers");
+                RaisePropertyChanged(nameof(Layers));
             }
         }
 
@@ -108,7 +111,7 @@ namespace TNCodeApp.R.ViewModels
             regionManager = regMngr;
             dataSetsManager = setsManager;
 
-            eventAggregator.GetEvent<DataSetsSelectedChangedEvent>().Subscribe(DataSetSelectionChanged, ThreadOption.UIThread);
+            eventAggregator.GetEvent<DataSetsChangedEvent>().Subscribe(DataSetsChanged, ThreadOption.UIThread);
             eventAggregator.GetEvent<VariableControlActionEvent>().Subscribe(HandleAction);
 
             layers = new ObservableCollection<ILayer>();
@@ -123,24 +126,33 @@ namespace TNCodeApp.R.ViewModels
             LayerSelectedCommand = new DelegateCommand<ILayer>(LayerSelected);
             CopyChartCommand = new DelegateCommand(CopyChart);
             ActionCommand = new DelegateCommand<string>(ExecuteActionCommand);
-            currentVariables = new List<string>();
-            dataSets = new List<string>();
 
+            currentVariables = new List<string>();
+
+            dataSets = dataSetsManager.DataSetNames();
+            ExistingDataToR();
         }
 
 
+        private void ExistingDataToR()
+        {
+            foreach(var ds in dataSetsManager.DataSets)
+            {
+                PutDataSetInR(ds as DataSet);
+            }
+        }
 
         private void ExecuteActionCommand(string obj)
         {
             var navigationParameters = new NavigationParameters();
 
             regionManager.RequestNavigate("OptionsRegion",
-               new Uri("Ggplot"+obj+"View" + navigationParameters.ToString(), UriKind.Relative));
+               new Uri("Ggplot" + obj + "View" + navigationParameters.ToString(), UriKind.Relative));
         }
 
         private void HandleAction(string aestheticName)
         {
-            
+
         }
 
         private void CopyChart()
@@ -151,8 +163,8 @@ namespace TNCodeApp.R.ViewModels
         }
 
         private void LayerSelected(ILayer layer)
-        { 
-            if(SelectedLayer!=null)
+        {
+            if (SelectedLayer != null)
                 SelectedLayer.PropertyChanged -= SelectedLayer_PropertyChanged;
 
             SelectedLayer = layer;
@@ -164,20 +176,26 @@ namespace TNCodeApp.R.ViewModels
             variableControls.Clear();
             foreach (var aValue in SelectedLayer.Aes.AestheticValues)
             {
-                var gControl = new VariableControl(eventAggregator,aValue, currentVariables);
+                var gControl = new VariableControl(eventAggregator, aValue, currentVariables);
                 gControl.PropertyChanged += GControl_PropertyChanged;
                 variableControls.Add(gControl);
             }
 
-            RaisePropertyChanged("VariableControls");
+            RaisePropertyChanged(nameof(VariableControls));
         }
 
         private async void SelectedLayer_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName.Equals("Geom"))
+            if (e.PropertyName.Equals(nameof(Layer.Data)))
             {
-                Update();
+                var varibleNames = dataSetsManager.DataSetVariableNames(selectedLayer.Data);
+                varibleNames.Insert(0, "");
+                currentVariables = varibleNames;
             }
+
+            if (e.PropertyName.Equals(nameof(Layer.Geom)))
+                Update();
+
             await GeneratePlotAsync();
         }
 
@@ -193,7 +211,7 @@ namespace TNCodeApp.R.ViewModels
             variableControls.Clear();
             foreach (var aValue in SelectedLayer.Aes.AestheticValues)
             {
-                var gControl = new VariableControl(eventAggregator,aValue, currentVariables);
+                var gControl = new VariableControl(eventAggregator, aValue, currentVariables);
                 gControl.PropertyChanged += GControl_PropertyChanged;
                 variableControls.Add(gControl);
             }
@@ -306,7 +324,6 @@ namespace TNCodeApp.R.ViewModels
             var aestheticXml = Properties.Resources.ResourceManager.GetObject("geom_point");
             var aesthetic = xmlConverter.ToObject<Aesthetic>(aestheticXml.ToString());
             newLayer.Aes = aesthetic;
-            //newLayer.Data = currentData;
 
             layers.Add(newLayer);
 
@@ -316,19 +333,14 @@ namespace TNCodeApp.R.ViewModels
 
         private async void PutDataSetInR(DataSet data)
         {
+
             await rManager.DataSetToRAsDataFrameAsync(data);
         }
 
-        private void DataSetSelectionChanged()
+        private void DataSetsChanged(DataSet dataSet)
         {
-            dataSets = dataSetsManager.SelectedDataSetsNames();
-            //var varibleNames = dataSet.VariableNames();
-            //varibleNames.Insert(0, "");
-            //currentVariables = varibleNames;
-
-            //CurrentDataSet = dataSet.Name;
-
-            //PutDataSetInR(dataSet);
+            PutDataSetInR(dataSet);
+            DataSets = dataSetsManager.DataSetNames();
             NewLayerCommand.RaiseCanExecuteChanged();
         }
 

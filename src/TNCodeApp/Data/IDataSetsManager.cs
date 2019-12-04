@@ -10,5 +10,7 @@ namespace TNCodeApp.Data
         Dictionary<string, ICollection<string>> SelectedData();
         IList<IVariable> SelectedVariables();
         List<string> SelectedDataSetsNames();
+        IEnumerable<string> DataSetNames();
+        List<string> DataSetVariableNames(string dataSetName);
     }
 }

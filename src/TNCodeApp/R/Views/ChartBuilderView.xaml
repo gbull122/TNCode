@@ -78,24 +78,33 @@
 
                     <DataGrid.Columns>
 
-                        <DataGridComboBoxColumn
-                                Header="Data"
-                                ItemsSource="{Binding Path=DataContext.DataSets,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
-                                Width="*"/>
+                        <DataGridTemplateColumn
+                            Header="Data">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <ItemContainerTemplate>
+                                    <ComboBox
+                                        materialDesign:HintAssist.Hint="Data set"
+                                        ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},  Path=DataContext.DataSets}"
+                                        SelectedItem="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},  Path=DataContext.SelectedLayer.Data}">
 
+                                    </ComboBox>
+                                </ItemContainerTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        
                         <DataGridTextColumn
                                 Header="Geom"
-                                Binding="{Binding Path=Geom,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                Binding="{Binding Path=Geom}"
                                 Width="*"/>
 
                         <DataGridCheckBoxColumn
                                 Header="Legend"
-                                Binding="{Binding Path=ShowLegend,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                Binding="{Binding Path=ShowLegend}"
                                 Width="*"/>
 
                         <DataGridCheckBoxColumn
                                 Header="Show"
-                                Binding="{Binding Path=ShowInPlot,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                                Binding="{Binding Path=ShowInPlot}"
                                 Width="*"/>
 
                     </DataGrid.Columns>

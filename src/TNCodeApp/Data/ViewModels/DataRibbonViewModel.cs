@@ -40,15 +40,15 @@ namespace TNCodeApp.Data.ViewModels
             openFileDialog.Filter = "Csv files (*.csv)|*.csv";
             if (openFileDialog.ShowDialog() == true)
             {
-                var rawData = LoadCsvFile(openFileDialog.FileName);
+                var rawData = ReadCsvFile(openFileDialog.FileName);
 
                 var newDataSet = new DataSet(rawData, Path.GetFileName(openFileDialog.FileName));
 
-                eventAggregator.GetEvent<DataLoadedEvent>().Publish(newDataSet);
+                eventAggregator.GetEvent<DataSetsChangedEvent>().Publish(newDataSet);
             }
         }
 
-        public List<string[]> LoadCsvFile(string filePath)
+        public List<string[]> ReadCsvFile(string filePath)
         {
             var reader = new StreamReader(File.OpenRead(filePath));
             List<string[]> rawData = new List<string[]>();

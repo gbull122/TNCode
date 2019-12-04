@@ -3,7 +3,7 @@ using TNCode.Core.Data;
 
 namespace TNCodeApp.Data.Events
 {
-    public class DataLoadedEvent : PubSubEvent<DataSet>
+    public class DataSetsChangedEvent : PubSubEvent<DataSet>
     {
     }
 }
