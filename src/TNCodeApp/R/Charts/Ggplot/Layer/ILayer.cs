@@ -10,5 +10,7 @@ namespace TNCodeApp.R.Charts.Ggplot.Layer
         string Command();
         Aesthetic Aes { get; set; }
         event PropertyChangedEventHandler PropertyChanged;
+        Stat Statistic { get; set; }
+        Position Pos { get; set; }
     }
 }

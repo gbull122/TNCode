@@ -91,7 +91,7 @@
                                 </ItemContainerTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        
+
                         <DataGridTextColumn
                                 Header="Geom"
                                 Binding="{Binding Path=Geom}"
@@ -120,133 +120,78 @@
                 </DataGrid>
 
                 <!--Dynamic controls-->
-                <ScrollViewer 
-                    Grid.Row="1"
-                    Grid.Column="2"
-                    HorizontalScrollBarVisibility="Disabled" 
-                    VerticalScrollBarVisibility="Auto">
+                <TabControl
+                        Grid.Row="1"
+                        Grid.Column="2">
 
-                    <!--<GroupBox
-                            Grid.Row="0"
-                            Header="Layer"
-                            Margin="2">-->
+                    <TabItem>
+                        <TabItem.Header>
+                            <StackPanel
+                                        Orientation="Horizontal">
+                                <Label
+                                            Content="Geom"
+                                            VerticalAlignment="Center"/>
+                                <ComboBox
+                                            Margin="2"
+                                            ItemsSource="{Binding Geoms}"
+                                            SelectedItem="{Binding SelectedLayer.Geom}"/>
+                            </StackPanel>
 
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-
-                        <!--Buttons-->
-                        <Grid
-                                Grid.Row="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-
-                            <ComboBox
-                                    Grid.Column="0"
-                                    Margin="2"
-                                    materialDesign:HintAssist.Hint="Geom"
-                                    ItemsSource="{Binding Geoms}"
-                                    SelectedItem="{Binding SelectedLayer.Geom}"/>
-
-                            <Button
-                                        Grid.Column="1"
-                                        Margin="2"
-                                        Content="Stat"
-                                        Command="{Binding ActionCommand}"
-                                        CommandParameter="Stat"/>
-
-                            <Button
-                                        Grid.Column="2"
-                                        Margin="2"
-                                        Content="Position"
-                                        Command="{Binding ActionCommand}"
-                                        CommandParameter="Position"/>
-
-                            <Button
-                                        Grid.Column="3"
-                                        Margin="2"
-                                        Content="Titles"
-                                        Command="{Binding ActionCommand}"
-                                        CommandParameter="Title"/>
-
-                            <Button
-                                        Grid.Column="4"
-                                        Margin="2"
-                                        Content="Facet"
-                                        Command="{Binding ActionCommand}"
-                                        CommandParameter="Facet"/>
-                        </Grid>
-
-                        <materialDesign:DrawerHost
-                                Grid.Row="1">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-
-                                <ScrollViewer 
+                        </TabItem.Header>
+                        <ScrollViewer 
                                         Grid.Row="0"
                                         VerticalScrollBarVisibility="Auto">
-                                    <ItemsControl 
+                            <ItemsControl 
                                             ItemsSource="{Binding Path=VariableControls}">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <WrapPanel/>
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <Border
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border
                                                     x:Name="MainBorder"
                                                     BorderBrush="Black"
                                                     BorderThickness="1"
                                                     Margin="1">
 
-                                                    <Grid>
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition Height="Auto"/>
-                                                            <RowDefinition Height="Auto"/>
-                                                        </Grid.RowDefinitions>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
 
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="Auto"/>
-                                                            <ColumnDefinition Width="Auto"/>
-                                                        </Grid.ColumnDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
 
-                                                        <Grid
+                                                <Grid
                                                             Grid.Row="0" 
                                                             Grid.Column="0">
 
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="*"/>
-                                                                <ColumnDefinition Width="Auto"/>
-                                                            </Grid.ColumnDefinitions>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
 
-                                                            <TextBlock 
+                                                    <TextBlock 
                                                                 Grid.Column="0"
                                                                 Margin="2" 
                                                                 Text="{Binding PropertyName}"
                                                                 VerticalAlignment="Center"/>
 
-                                                            <CheckBox 
+                                                    <CheckBox 
                                                                 Grid.Column="1"
                                                                 Margin="2"
                                                                 IsChecked="{Binding Factor, UpdateSourceTrigger=PropertyChanged}"
                                                                 VerticalAlignment="Center">
-                                                            </CheckBox>
+                                                    </CheckBox>
 
-                                                        </Grid>
+                                                </Grid>
 
-                                                        <ComboBox 
+                                                <ComboBox 
                                                             Grid.Row="1"  
                                                             Grid.Column="0"
                                                             Margin="2" 
@@ -255,7 +200,7 @@
                                                             SelectedItem="{Binding Path=SelectedVariable ,UpdateSourceTrigger=PropertyChanged}"
                                                             IsSynchronizedWithCurrentItem="False"/>
 
-                                                        <Button 
+                                                <Button 
                                                             Name="ActionButton"
                                                             Grid.Row="1"  
                                                             Grid.Column="1"
@@ -263,90 +208,37 @@
                                                             MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
                                                             Command="{Binding ActionCommand}"/>
 
-                                                    </Grid>
+                                            </Grid>
 
 
-                                                </Border>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </ScrollViewer>
-                                <Button 
-                                        Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
-                                        CommandParameter="{x:Static Dock.Bottom}"
-                                        Grid.Row="1"  
-                                        Margin="4">
-                                    <materialDesign:PackIcon Kind="ArrowDown" />
-                                </Button>
-                            </Grid>
-                            <materialDesign:DrawerHost.BottomDrawerContent
-                                >
-                                <StackPanel
-                                        Margin="2"
-                                    >
-                                    <ContentControl
-                                        x:Name="Options"
-                                   
-                                prism:RegionManager.RegionName="OptionsRegion">
-                                        
-                                    </ContentControl>
-                                    <Button
-                                            Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
-                                            CommandParameter="{x:Static Dock.Bottom}"
-                                            Margin="4"
-                                            HorizontalAlignment="Center"
-                                            Style="{DynamicResource MaterialDesignFlatButton}">
-                                        CLOSE THIS
-                                    </Button>
-                                </StackPanel>
-                            </materialDesign:DrawerHost.BottomDrawerContent>
-                        </materialDesign:DrawerHost>
-                        <!--<Expander
-                                    Grid.Row="2"
-                                    Header="Options"
-                                    Margin="2"
-                                    prism:RegionManager.RegionName="OptionsRegion">
-                            </Expander>-->
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </TabItem>
 
-                        <!--<materialDesign:DrawerHost
-                                Grid.Row="2"
-                                Margin="4"
-                                  HorizontalAlignment="Center"
-                                  VerticalAlignment="Center"
-                                  BorderThickness="2"
-                                  BorderBrush="{DynamicResource MaterialDesignDivider}">    
-                                <materialDesign:DrawerHost.RightDrawerContent >
-                                    <StackPanel
-                                        Margin="16">
-                                        <TextBlock
-                                            Margin="4"
-                                            HorizontalAlignment="Center">
-                                          THE RIGHT STUFF
-                                        </TextBlock>
-                                        <Button
-                                            Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
-                                            CommandParameter="{x:Static Dock.Right}"
-                                            Margin="4"
-                                            HorizontalAlignment="Center"
-                                            Style="{DynamicResource MaterialDesignFlatButton}">     
-                                            CLOSE THIS
-                                        </Button>
-                                        <Button
-                                            Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
-                                            Margin="4"
-                                            HorizontalAlignment="Center"
-                                            Style="{DynamicResource MaterialDesignFlatButton}">
-                                                                                CLOSE ALL
-                                        </Button>
-                                    </StackPanel>
-                                </materialDesign:DrawerHost.RightDrawerContent>
-                            </materialDesign:DrawerHost>-->
+                    <TabItem
+                                    Header="Stat">
 
-                    </Grid>
+                    </TabItem>
 
-                    <!--</GroupBox>-->
+                    <TabItem
+                                    Header="Position">
 
-                </ScrollViewer>
+                    </TabItem>
+
+                    <TabItem
+                                    Header="Titles">
+
+                    </TabItem>
+
+                    <TabItem
+                                    Header="Facet">
+
+                    </TabItem>
+
+                </TabControl>
 
             </Grid>
 

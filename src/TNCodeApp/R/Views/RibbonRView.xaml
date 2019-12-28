@@ -10,6 +10,15 @@
         x:Name="MainRibbon"
         x:FieldModifier="protected internal">
 
+        <Fluent:Ribbon.ContextualGroups>
+            <Fluent:RibbonContextualTabGroup
+                x:Name="ChartBuilderGroup"
+                Header="Chart Builder"
+                Visibility="Visible"
+                Background="Green" 
+                BorderBrush="Green"/>
+        </Fluent:Ribbon.ContextualGroups>
+
         <Fluent:RibbonTabItem
             Header="Home">
 
@@ -28,12 +37,35 @@
                     Command="{Binding RDetailsCommand}">
                 </Fluent:Button>
 
+
                 <Fluent:Button
                     AutomationProperties.AutomationId="RbBtnRCharts"
-                    Header="Chart Builder"
+                    Header="Charts"
                     Command="{Binding ChartBuilderCommand}">
                 </Fluent:Button>
+
             </Fluent:RibbonGroupBox>
+
+
+        </Fluent:RibbonTabItem>
+
+        <Fluent:RibbonTabItem
+            Header="charts controls"
+            Group="{Binding Source={x:Reference ChartBuilderGroup}}">
+
+            <Fluent:RibbonGroupBox
+                Header="Layer">
+                <Fluent:DropDownButton>
+                    
+                </Fluent:DropDownButton>
+
+                <Fluent:Button
+                    AutomationProperties.AutomationId="RbBtnTEST"
+                    Header="Details"
+                    Command="{Binding RDetailsCommand}">
+                </Fluent:Button>
+            </Fluent:RibbonGroupBox>
+
         </Fluent:RibbonTabItem>
     </Fluent:Ribbon>
 </UserControl>

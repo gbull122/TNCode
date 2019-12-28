@@ -10,17 +10,11 @@ using Xceed.Wpf.AvalonDock.Layout;
 
 namespace TNCodeApp.Docking
 {
-    /// <summary>
-    /// Encapsulates behaviours related to the docking manager, keeping
-    /// the documents source in sync with the active views of the <see cref="IRegion"/>. 
-    /// </summary>
+
     public class DockingBehavior : RegionBehavior, IHostAwareRegionBehavior
     {
         private DockingManager dockingManager;
 
-        /// <summary>
-        /// The target control for the <see cref="IRegion"/>.
-        /// </summary>
         public DependencyObject HostControl
         {
             get

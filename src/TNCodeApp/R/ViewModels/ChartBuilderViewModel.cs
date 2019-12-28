@@ -19,6 +19,7 @@ using TNCodeApp.R.Charts.Ggplot.Enums;
 using TNCodeApp.R.Charts.Ggplot.Layer;
 using TNCodeApp.R.Controls;
 using TNCodeApp.R.Events;
+using TNCodeApp.R.Views;
 
 namespace TNCodeApp.R.ViewModels
 {
@@ -45,6 +46,15 @@ namespace TNCodeApp.R.ViewModels
 
         private ObservableCollection<VariableControl> variableControls;
 
+        public object OptionsView
+        {
+            get { return optionsView; }
+            set
+            {
+                optionsView = value;
+                RaisePropertyChanged(nameof(OptionsView));
+            }
+        }
         public IEnumerable<string> DataSets
         {
             get { return dataSets; }
@@ -92,6 +102,7 @@ namespace TNCodeApp.R.ViewModels
         }
 
         private ObservableCollection<ILayer> layers;
+        private object optionsView;
 
         public ObservableCollection<ILayer> Layers
         {
@@ -146,8 +157,9 @@ namespace TNCodeApp.R.ViewModels
         {
             var navigationParameters = new NavigationParameters();
 
-            regionManager.RequestNavigate("OptionsRegion",
-               new Uri("Ggplot" + obj + "View" + navigationParameters.ToString(), UriKind.Relative));
+            OptionsView = new GgplotFacetView();
+            //regionManager.RequestNavigate("OptionsRegion",
+            //   new Uri("Ggplot" + obj + "View" + navigationParameters.ToString(), UriKind.Relative));
         }
 
         private void HandleAction(string aestheticName)

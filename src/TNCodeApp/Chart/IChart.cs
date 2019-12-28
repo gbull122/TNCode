@@ -1,5 +1,4 @@
-﻿using OxyPlot;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TNCode.Core.Data;
 
 namespace TNCodeApp.Chart
@@ -7,8 +6,9 @@ namespace TNCodeApp.Chart
     public interface IChart
     {
         string Title { get; set; }
-        IList<IVariable> Data { get; set; }
-        PlotModel Model { get; set; }
+
+        string DataSetName { get; set; }
+        IList<string> Data { get; set; }
 
         void Update();
 

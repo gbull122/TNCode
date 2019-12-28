@@ -35,6 +35,11 @@ namespace TNCodeApp.R.ViewModels
             }
         }
 
+        public bool IsRNotRunning()
+        {
+            return !isRRunning;
+        }
+
         public RibbonRViewModel(IEventAggregator eventAggr, IRegionManager regionMgr, IRManager rMgr, IProgressService pService)
         {
             eventAggregator = eventAggr;
@@ -43,8 +48,10 @@ namespace TNCodeApp.R.ViewModels
             progressService = pService;
 
             ChartBuilderCommand = new DelegateCommand(CreateChart).ObservesCanExecute(() => IsRRunning);
-            RStartCommand = new DelegateCommand(StartR);
+            RStartCommand = new DelegateCommand(StartR, IsRNotRunning);
             RDetailsCommand = new DelegateCommand(ShowRDetails).ObservesCanExecute(() => IsRRunning);
+
+            StartR();
         }
 
         private async void ShowRDetails()
@@ -68,7 +75,9 @@ namespace TNCodeApp.R.ViewModels
 
         private void CreateChart()
         {
-            regionManager.AddToRegion("MainRegion", new ChartBuilderView(regionManager));
+            
+
+            regionManager.AddToRegion("MainRegion", new ChartBuilderView());
 
         }
     }

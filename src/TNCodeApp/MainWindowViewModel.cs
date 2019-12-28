@@ -27,6 +27,8 @@ namespace TNCodeApp
         private IEventAggregator eventAggregator;
         private IUnityContainer container;
         private IRManager rManager;
+        private IProgressService progressService;
+
         private string title = "TNCode";
         private string statusMessage = "Ready";
 
@@ -52,6 +54,7 @@ namespace TNCodeApp
         {
             container = contain;
             regionManager = regManager;
+            //progressService = pService;
 
             eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
 
@@ -78,9 +81,15 @@ namespace TNCodeApp
 
             regionManager.RegisterViewWithRegion("MainRegion", typeof(DataSetsView));
             regionManager.RegisterViewWithRegion("MainRegion", typeof(ProgressView));
+
         }
 
-        
+
+        //private async void StartR()
+        //{
+        //    await progressService.ExecuteAsync(rManager.InitialiseAsync(), "Starting R...");
+        //}
+
         private void ShowDataSetsView()
         {
             var region = regionManager.Regions["MainRegion"];
