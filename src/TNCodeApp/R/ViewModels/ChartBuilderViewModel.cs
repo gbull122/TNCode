@@ -122,7 +122,7 @@ namespace TNCodeApp.R.ViewModels
             regionManager = regMngr;
             dataSetsManager = setsManager;
 
-            eventAggregator.GetEvent<DataSetsChangedEvent>().Subscribe(DataSetsChanged, ThreadOption.UIThread);
+            //eventAggregator.GetEvent<NewDataSetEvent>().Subscribe(DataSetsChanged, ThreadOption.UIThread);
             eventAggregator.GetEvent<VariableControlActionEvent>().Subscribe(HandleAction);
 
             layers = new ObservableCollection<ILayer>();
@@ -141,17 +141,17 @@ namespace TNCodeApp.R.ViewModels
             currentVariables = new List<string>();
 
             dataSets = dataSetsManager.DataSetNames();
-            ExistingDataToR();
+            //ExistingDataToR();
         }
 
 
-        private void ExistingDataToR()
-        {
-            foreach(var ds in dataSetsManager.DataSets)
-            {
-                PutDataSetInR(ds as DataSet);
-            }
-        }
+        //private void ExistingDataToR()
+        //{
+        //    foreach(var ds in dataSetsManager.DataSets)
+        //    {
+        //        PutDataSetInR(ds as DataSet);
+        //    }
+        //}
 
         private void ExecuteActionCommand(string obj)
         {
@@ -343,18 +343,18 @@ namespace TNCodeApp.R.ViewModels
             LayerSelected(newLayer);
         }
 
-        private async void PutDataSetInR(DataSet data)
-        {
+        //private async void PutDataSetInR(DataSet data)
+        //{
 
-            await rManager.DataSetToRAsDataFrameAsync(data);
-        }
+        //    await rManager.DataSetToRAsDataFrameAsync(data);
+        //}
 
-        private void DataSetsChanged(DataSet dataSet)
-        {
-            PutDataSetInR(dataSet);
-            DataSets = dataSetsManager.DataSetNames();
-            NewLayerCommand.RaiseCanExecuteChanged();
-        }
+        //private void DataSetsChanged(DataSet dataSet)
+        //{
+        //    PutDataSetInR(dataSet);
+        //    DataSets = dataSetsManager.DataSetNames();
+        //    NewLayerCommand.RaiseCanExecuteChanged();
+        //}
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {

@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using TNCode.Core.Data;
 using TNCodeApp.Data.Events;
 using TNCodeApp.Docking;
+using TNCodeApp.R;
 
 namespace TNCodeApp.Data.ViewModels
 {
@@ -18,6 +19,7 @@ namespace TNCodeApp.Data.ViewModels
         private IRegionManager regionManager;
         private IList<object> selectedVariables;
         private IDataSetsManager datasetsManager;
+        private IRManager rManager;
 
         public string Title { get => "Data"; }
 
@@ -60,9 +62,10 @@ namespace TNCodeApp.Data.ViewModels
 
         public bool KeepAlive => true;
 
-        public DataSetsViewModel(IEventAggregator eventAggregator, IRegionManager regionManager, IDataSetsManager dataMgr)
+        public DataSetsViewModel(IEventAggregator eventAggregator, IRegionManager regionManager, IDataSetsManager dataMgr,IRManager rMgr)
         {
             datasetsManager = dataMgr;
+            rManager = rMgr;
 
             this.eventAggregator = eventAggregator;
             this.regionManager = regionManager;
@@ -73,7 +76,7 @@ namespace TNCodeApp.Data.ViewModels
             CloseCommand = new DelegateCommand(Close);
 
             eventAggregator.GetEvent<TestDataEvent>().Subscribe(TestData, ThreadOption.UIThread);
-            eventAggregator.GetEvent<DataSetsChangedEvent>().Subscribe(LoadData, ThreadOption.UIThread);
+            eventAggregator.GetEvent<NewDataSetEvent>().Subscribe(AddNewDataset, ThreadOption.UIThread);
 
         }
 
@@ -92,9 +95,10 @@ namespace TNCodeApp.Data.ViewModels
             DataSets.Remove(selectedDataSet);
         }
 
-        private void LoadData(DataSet obj)
+        private async void AddNewDataset(DataSet dataSet)
         {
-            datasetsManager.DataSets.Add(obj);
+            await rManager.DataSetToRAsDataFrameAsync(dataSet);
+            datasetsManager.DataSets.Add(dataSet);
         }
 
         private void DatasetSelectionChanged()
@@ -110,7 +114,7 @@ namespace TNCodeApp.Data.ViewModels
 
             var testData = new DataSet(dataList, "Mpg");
 
-            eventAggregator.GetEvent<DataSetsChangedEvent>().Publish(testData);
+            eventAggregator.GetEvent<NewDataSetEvent>().Publish(testData);
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)

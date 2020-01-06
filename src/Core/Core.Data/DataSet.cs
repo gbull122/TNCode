@@ -33,6 +33,11 @@ namespace TNCode.Core.Data
 
         public string Name { get; set; }
 
+        public override string ToString()
+        {
+            return Name;
+        }
+
         public List<string> ObservationNames => observationNames;
 
         public ObservableCollection<IVariable> Variables => variables;

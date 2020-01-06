@@ -44,7 +44,7 @@ namespace TNCodeApp.Data.ViewModels
 
                 var newDataSet = new DataSet(rawData, Path.GetFileName(openFileDialog.FileName));
 
-                eventAggregator.GetEvent<DataSetsChangedEvent>().Publish(newDataSet);
+                eventAggregator.GetEvent<NewDataSetEvent>().Publish(newDataSet);
             }
         }
 

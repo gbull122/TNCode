@@ -8,14 +8,14 @@
     prism:ViewModelLocator.AutoWireViewModel="True">
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
         <!--Controls-->
         <GroupBox
-            Grid.Row="0"
+            Grid.Column="0"
             Header="Controls">
 
             <Grid>
@@ -25,27 +25,12 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
 
-                <!--<StackPanel
-                    Grid.Row="0"
-                    Grid.ColumnSpan="3"
-                    Orientation="Horizontal">
-                    <TextBlock
-                        Text="Current DataSet:"/>
-
-                    <TextBlock
-                        Text="{Binding CurrentDataSet}"/>
-
-                </StackPanel>-->
                 <!--Buttons-->
                 <StackPanel
-                        Grid.Row="1"
-                        Grid.Column="0">
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Orientation="Horizontal">
                     <Button 
                         Content="New Layer"
                         Margin="2"
@@ -61,14 +46,13 @@
 
                 <DataGrid 
                     x:Name="layersList"
-                        Grid.Row="1" 
-                        Grid.Column="1"
-                        Margin="2" 
-                        ItemsSource="{Binding Path=Layers}" 
-                        ScrollViewer.VerticalScrollBarVisibility="Visible"
-                        AutoGenerateColumns="False"
-                        Width="Auto"
-                        ToolTip="Use to select a layer to edit or determine if it should be shown in the current plot.">
+                    Grid.Row="1" 
+                    Grid.Column="0"
+                    Margin="2" 
+                    ItemsSource="{Binding Path=Layers}" 
+                    ScrollViewer.VerticalScrollBarVisibility="Visible"
+                    AutoGenerateColumns="False"
+                    ToolTip="Use to select a layer to edit or determine if it should be shown in the current plot.">
 
                     <i1:Interaction.Triggers>
                         <i1:EventTrigger EventName="SelectionChanged">
@@ -95,17 +79,17 @@
                         <DataGridTextColumn
                                 Header="Geom"
                                 Binding="{Binding Path=Geom}"
-                                Width="*"/>
+                                Width="Auto"/>
 
                         <DataGridCheckBoxColumn
                                 Header="Legend"
                                 Binding="{Binding Path=ShowLegend}"
-                                Width="*"/>
+                                Width="Auto"/>
 
                         <DataGridCheckBoxColumn
                                 Header="Show"
                                 Binding="{Binding Path=ShowInPlot}"
-                                Width="*"/>
+                                Width="Auto"/>
 
                     </DataGrid.Columns>
 
@@ -121,8 +105,8 @@
 
                 <!--Dynamic controls-->
                 <TabControl
-                        Grid.Row="1"
-                        Grid.Column="2">
+                        Grid.Row="2"
+                        Grid.Column="0">
 
                     <TabItem>
                         <TabItem.Header>
@@ -139,22 +123,23 @@
 
                         </TabItem.Header>
                         <ScrollViewer 
-                                        Grid.Row="0"
-                                        VerticalScrollBarVisibility="Auto">
+                            Grid.Row="0"
+                            VerticalScrollBarVisibility="Auto">
                             <ItemsControl 
-                                            ItemsSource="{Binding Path=VariableControls}">
+                                ItemsSource="{Binding Path=VariableControls}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <WrapPanel/>
+                                        <WrapPanel
+                                           Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollViewer}}, Path=ActualWidth}"/>
                                     </ItemsPanelTemplate>
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <Border
-                                                    x:Name="MainBorder"
-                                                    BorderBrush="Black"
-                                                    BorderThickness="1"
-                                                    Margin="1">
+                                            x:Name="MainBorder"
+                                            BorderBrush="Black"
+                                            BorderThickness="1"
+                                            Margin="1">
 
                                             <Grid>
                                                 <Grid.RowDefinitions>
@@ -246,7 +231,7 @@
 
         <!--Chart-->
         <GroupBox
-            Grid.Row="1"
+            Grid.Column="1"
             Header="Chart">
             <Image 
                 Source="{Binding ChartImage}"

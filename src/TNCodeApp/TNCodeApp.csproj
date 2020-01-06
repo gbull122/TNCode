@@ -224,7 +224,7 @@
       <DependentUpon>ChartView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Data\DataSetsManager.cs" />
-    <Compile Include="Data\Events\DataSetsChangedEvent.cs" />
+    <Compile Include="Data\Events\NewDataSetEvent.cs" />
     <Compile Include="Data\Events\DataSetsSelectedChangedEvent.cs" />
     <Compile Include="Data\Events\TestDataEvent.cs" />
     <Compile Include="Data\Events\VariablesSelectedChangedEvent.cs" />

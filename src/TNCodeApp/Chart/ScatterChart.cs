@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using TNCode.Core.Data;
 using TNCodeApp.R.Charts.Ggplot;
+using TNCodeApp.R.Charts.Ggplot.Layer;
 
 namespace TNCodeApp.Chart
 {
@@ -9,6 +10,7 @@ namespace TNCodeApp.Chart
         private string title;
         private IList<string> data;
         private Ggplot ggplot;
+        private readonly IXmlConverter xmlConverter;
 
         public string Title { get => title; set => title = value; }
 
@@ -38,7 +40,13 @@ namespace TNCodeApp.Chart
         {
             ggplot = new Ggplot();
 
+            var newLayer = new Layer("point");
 
+            var aestheticXml = Properties.Resources.ResourceManager.GetObject("geom_point");
+            var aesthetic = xmlConverter.ToObject<Aesthetic>(aestheticXml.ToString());
+            newLayer.Aes = aesthetic;
+
+            ggplot.Layers.Add(newLayer);
         }
 
         public bool CanPlot()

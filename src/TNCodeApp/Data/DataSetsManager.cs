@@ -1,21 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using TNCode.Core.Data;
-using System.Linq;
 
 namespace TNCodeApp.Data
 {
-    public class DataSetsManager : IDataSetsManager, INotifyPropertyChanged
+    public class DataSetsManager : IDataSetsManager
     {
-
         private ObservableCollection<IDataSet> dataSets;
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged(string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         public ObservableCollection<IDataSet> DataSets
         {
