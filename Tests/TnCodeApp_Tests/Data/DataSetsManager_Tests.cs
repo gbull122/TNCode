@@ -31,7 +31,7 @@ namespace TnCodeApp_Tests.Data
         }
 
         [TestMethod]
-        public void SelectedData_Test()
+        public void SelectedData_ReturnsVariable()
         {
             var expectedCount = 1;
             var selectedVariable = new List<string>() { "Variable1"};

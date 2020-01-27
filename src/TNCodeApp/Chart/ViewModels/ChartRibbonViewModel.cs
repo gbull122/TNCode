@@ -60,7 +60,7 @@ namespace TNCodeApp.Chart.ViewModels
 
         private void CreateChart(string chartType)
         {
-            var variables = dataSetsManager.SelectedVariables();
+            var variables = dataSetsManager.SelectedData();
             chartManager.Create(chartType, variables);
         }
     }

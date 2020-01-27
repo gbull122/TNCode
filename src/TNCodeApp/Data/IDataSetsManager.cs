@@ -12,5 +12,6 @@ namespace TNCodeApp.Data
         List<string> SelectedDataSetsNames();
         IEnumerable<string> DataSetNames();
         List<string> DataSetVariableNames(string dataSetName);
+        bool DatasetNameExists(string name);
     }
 }

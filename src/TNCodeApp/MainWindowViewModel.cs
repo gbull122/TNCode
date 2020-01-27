@@ -13,6 +13,7 @@ using TNCodeApp.Chart;
 using TNCodeApp.Chart.Views;
 using TNCodeApp.Data;
 using TNCodeApp.Data.Views;
+using TNCodeApp.Logger;
 using TNCodeApp.Progress;
 using TNCodeApp.R;
 using TNCodeApp.R.Views;
@@ -27,7 +28,6 @@ namespace TNCodeApp
         private IEventAggregator eventAggregator;
         private IUnityContainer container;
         private IRManager rManager;
-        private IProgressService progressService;
 
         private string title = "TNCode";
         private string statusMessage = "Ready";
@@ -54,22 +54,22 @@ namespace TNCodeApp
         {
             container = contain;
             regionManager = regManager;
-            //progressService = pService;
 
             eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
 
             CloseCommand = new DelegateCommand(Close);
             AboutCommand = new DelegateCommand(About);
             SettingsCommand = new DelegateCommand(Settings);
-            ShowStatusCommand = new DelegateCommand(ShowStatusView);
+            ShowStatusCommand = new DelegateCommand(ShowLogView);
             ShowDataSetsCommand = new DelegateCommand(ShowDataSetsView);
 
-            container.RegisterType<IXmlConverter, XmlConverter>();
+            IXmlConverter xmlConverter = new XmlConverter();
+            container.RegisterInstance<IXmlConverter>(xmlConverter);
 
             IDataSetsManager dataSetsManager = new DataSetsManager();
             container.RegisterInstance<IDataSetsManager>(dataSetsManager);
 
-            IChartManager chartManager = new ChartManager(eventAggregator);
+            IChartManager chartManager = new ChartManager(eventAggregator, xmlConverter, regionManager);
             container.RegisterInstance<IChartManager>(chartManager);
 
             rManager = new RManager(new RHostSessionCallback(), loggerFacade);
@@ -80,15 +80,10 @@ namespace TNCodeApp
             regionManager.RegisterViewWithRegion("RibbonRegion", typeof(RibbonRView));
 
             regionManager.RegisterViewWithRegion("MainRegion", typeof(DataSetsView));
-            regionManager.RegisterViewWithRegion("MainRegion", typeof(ProgressView));
+            regionManager.RegisterViewWithRegion("MainRegion", typeof(LoggerView));
 
+            regionManager.RegisterViewWithRegion("StatusBarRegion", typeof(ProgressView));
         }
-
-
-        //private async void StartR()
-        //{
-        //    await progressService.ExecuteAsync(rManager.InitialiseAsync(), "Starting R...");
-        //}
 
         private void ShowDataSetsView()
         {
@@ -111,23 +106,23 @@ namespace TNCodeApp
             }
         }
 
-        private void ShowStatusView()
+        private void ShowLogView()
         {
             var region = regionManager.Regions["MainRegion"];
 
             foreach (var view in region.Views)
             {
                 Type viewType = view.GetType();
-                if (viewType.Equals(typeof(ProgressView)))
+                if (viewType.Equals(typeof(LoggerView)))
                 {
-                    var actualView = (ProgressView)view;
+                    var actualView = (LoggerView)view;
 
                     if (!actualView.IsVisible)
                     {
                         region.Remove(view);
-                        regionManager.AddToRegion("MainRegion", new ProgressView());
+                        regionManager.AddToRegion("MainRegion", new LoggerView());
                     }
-                    regionManager.RequestNavigate("MainRegion", "ProgressView");
+                    regionManager.RequestNavigate("MainRegion", "LogView");
                 }
             }
         }

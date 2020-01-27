@@ -88,7 +88,7 @@ namespace TNCodeApp.Docking
                         return;
                     }
 
-                    var statusPanel = dockingManager.FindName("StatusPanel") as LayoutAnchorablePane;
+                    var statusPanel = dockingManager.FindName("LowerPanel") as LayoutAnchorablePane;
                     statusPanel.Children.Add(anchorablePanel);
                 }
             }

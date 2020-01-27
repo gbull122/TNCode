@@ -15,6 +15,7 @@ namespace TNCodeApp.Data.ViewModels
 
         private IRegionManager regionManager;
         private IEventAggregator eventAggregator;
+        private IDataSetsManager dataSetsManager;
 
         public DelegateCommand<string> NavigateCommand { get; private set; }
 
@@ -24,10 +25,11 @@ namespace TNCodeApp.Data.ViewModels
 
         public bool IsMainRibbon => true;
 
-        public DataRibbonViewModel(IRegionManager regionManager, IEventAggregator eventAggregator)
+        public DataRibbonViewModel(IRegionManager regionMgr, IEventAggregator eventAgg, IDataSetsManager dataMgr)
         {
-            this.regionManager = regionManager;
-            this.eventAggregator = eventAggregator;
+            regionManager = regionMgr;
+            eventAggregator = eventAgg;
+            dataSetsManager = dataMgr;
 
             NavigateCommand = new DelegateCommand<string>(Navigate);
             DataCommand = new DelegateCommand<string>(Data);
@@ -40,9 +42,13 @@ namespace TNCodeApp.Data.ViewModels
             openFileDialog.Filter = "Csv files (*.csv)|*.csv";
             if (openFileDialog.ShowDialog() == true)
             {
-                var rawData = ReadCsvFile(openFileDialog.FileName);
+                var dataSetName = Path.GetFileName(openFileDialog.FileName);
 
-                var newDataSet = new DataSet(rawData, Path.GetFileName(openFileDialog.FileName));
+                if (dataSetsManager.DatasetNameExists(dataSetName))
+                    return;
+
+                var rawData = ReadCsvFile(openFileDialog.FileName);
+                var newDataSet = new DataSet(rawData, dataSetName);
 
                 eventAggregator.GetEvent<NewDataSetEvent>().Publish(newDataSet);
             }

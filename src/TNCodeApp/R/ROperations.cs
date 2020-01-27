@@ -1,4 +1,5 @@
 ﻿using Microsoft.R.Host.Client;
+using Prism.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -7,10 +8,12 @@ namespace TNCodeApp.R
     public class ROperations : IROperations
     {
         private IRHostSession rHostSession;
+        private ILoggerFacade logger;
 
-        public ROperations(IRHostSession session)
+        public ROperations(IRHostSession session, ILoggerFacade loggerFacade)
         {
             rHostSession = session;
+            logger = loggerFacade;
         }
 
         public bool IsHostRunning()
@@ -50,6 +53,7 @@ namespace TNCodeApp.R
 
         public async Task ExecuteAsync(string command)
         {
+            logger.Log(command, Category.Info, Priority.None);
             await rHostSession.ExecuteAsync(command);
         }
 

@@ -8,13 +8,15 @@ namespace TNCodeApp.Chart
     public class ScatterChart : IChart
     {
         private string title;
-        private IList<string> data;
+        private Dictionary<string, ICollection<string>> data;
         private Ggplot ggplot;
-        private readonly IXmlConverter xmlConverter;
+        private IXmlConverter xmlConverter;
+        private Layer layer;
+
 
         public string Title { get => title; set => title = value; }
 
-        public IList<string> Data { get => data; set => data = value; }
+        public Dictionary<string, ICollection<string>> Data { get => data; set => data = value; }
 
         public string DataSetName
         {
@@ -30,8 +32,14 @@ namespace TNCodeApp.Chart
             }
         }
 
+        public Layer ChartLayer
+        {
+            get => layer;
+        }
 
-        public ScatterChart(IList<string> variableList)
+        public IXmlConverter Converter { set => xmlConverter=value; }
+
+        public ScatterChart(Dictionary<string, ICollection<string>> variableList)
         {
             Data = variableList;
         }
@@ -40,22 +48,33 @@ namespace TNCodeApp.Chart
         {
             ggplot = new Ggplot();
 
-            var newLayer = new Layer("point");
+            layer = new Layer("point");
 
             var aestheticXml = Properties.Resources.ResourceManager.GetObject("geom_point");
             var aesthetic = xmlConverter.ToObject<Aesthetic>(aestheticXml.ToString());
-            newLayer.Aes = aesthetic;
+            layer.Aes = aesthetic;
 
-            ggplot.Layers.Add(newLayer);
+            ggplot.Layers.Add(layer);
         }
 
         public bool CanPlot()
         {
-            return data.Count == 2;
-             //   && 
-            //    (((IVariable)data[0]).Length == ((IVariable)data[1]).Length) &&
-            //    ((IVariable)data[0]).Data== DataType.Numeric &&
-            //    ((IVariable)data[1]).Data == DataType.Numeric;
+            return SelectionContainsVariables()==2 && SelectionFromSingleDataSet();
+        }
+
+        public bool SelectionFromSingleDataSet()
+        {
+            return data.Count == 1;
+        }
+
+        public int SelectionContainsVariables()
+        {
+            var totalVariables = 0;
+            foreach(var entry in data)
+            {
+                totalVariables += entry.Value.Count;
+            }
+            return totalVariables;
         }
     }
 }

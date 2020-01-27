@@ -8,13 +8,13 @@ namespace TNCodeApp.Chart
     public class LineChart : IChart
     {
         private string title;
-        private IList<string> data;
+        private Dictionary<string, ICollection<string>> data;
         private Ggplot ggplot;
-        private readonly IXmlConverter xmlConverter;
+        private IXmlConverter xmlConverter;
 
         public string Title { get => title; set => title=value; }
 
-        public IList<string> Data { get => data; set => data = value; }
+        public Dictionary<string, ICollection<string>> Data { get => data; set => data = value; }
 
         public string DataSetName
         {
@@ -30,7 +30,11 @@ namespace TNCodeApp.Chart
             }
         }
 
-        public LineChart(IList<string> variableList)
+        public IXmlConverter Converter { set => xmlConverter =value; }
+
+        public Layer ChartLayer => throw new System.NotImplementedException();
+
+        public LineChart(Dictionary<string, ICollection<string>> variableList)
         {
             ggplot = new Ggplot();
 

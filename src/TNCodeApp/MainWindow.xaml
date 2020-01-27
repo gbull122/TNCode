@@ -134,7 +134,7 @@
                     </avalonDock:LayoutPanel>
 
                     <avalonDock:LayoutAnchorablePane
-                        x:Name="StatusPanel"
+                        x:Name="LowerPanel"
                         DockHeight="100" />
 
                 </avalonDock:LayoutPanel>
@@ -143,6 +143,11 @@
             </avalonDock:LayoutRoot>
 
         </avalonDock:DockingManager>
+
+        <ContentControl
+            Grid.Row="2"
+            prism:RegionManager.RegionName="StatusBarRegion" />
+
 
     </Grid>
 </Window>

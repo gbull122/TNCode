@@ -1,4 +1,5 @@
 ﻿using Prism.Events;
+using Prism.Logging;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
@@ -8,7 +9,7 @@ using Unity;
 
 namespace TNCodeApp.Progress
 {
-    public class ProgressViewModel : BindableBase, ITnPanel, IProgressService, INavigationAware, IRegionMemberLifetime
+    public class ProgressViewModel : BindableBase, IProgressService, INavigationAware, IRegionMemberLifetime
     {
         public IProgress<int> Progress { get; set; }
 
@@ -59,10 +60,6 @@ namespace TNCodeApp.Progress
         {
             Message = message;
         }
-
-        public string Title { get => "Status"; }
-
-        public DockingMethod Docking { get => DockingMethod.StatusPanel; }
 
         public bool KeepAlive => true;
 

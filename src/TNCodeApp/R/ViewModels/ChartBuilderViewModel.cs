@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using TNCode.Core.Data;
+using TNCodeApp.Chart;
 using TNCodeApp.Data;
 using TNCodeApp.Data.Events;
 using TNCodeApp.Docking;
@@ -141,17 +142,7 @@ namespace TNCodeApp.R.ViewModels
             currentVariables = new List<string>();
 
             dataSets = dataSetsManager.DataSetNames();
-            //ExistingDataToR();
         }
-
-
-        //private void ExistingDataToR()
-        //{
-        //    foreach(var ds in dataSetsManager.DataSets)
-        //    {
-        //        PutDataSetInR(ds as DataSet);
-        //    }
-        //}
 
         private void ExecuteActionCommand(string obj)
         {
@@ -176,6 +167,9 @@ namespace TNCodeApp.R.ViewModels
 
         private void LayerSelected(ILayer layer)
         {
+            if (layer == null)
+                return;
+
             if (SelectedLayer != null)
                 SelectedLayer.PropertyChanged -= SelectedLayer_PropertyChanged;
 
@@ -341,6 +335,7 @@ namespace TNCodeApp.R.ViewModels
 
             ClearLayersCommand.RaiseCanExecuteChanged();
             LayerSelected(newLayer);
+
         }
 
         //private async void PutDataSetInR(DataSet data)
@@ -360,11 +355,19 @@ namespace TNCodeApp.R.ViewModels
         {
             if (navigationContext == null)
                 return;
+
+            var chart = (IChart)navigationContext.Parameters["chart"];
+
+            layers.Add(chart.ChartLayer);
+
+            ClearLayersCommand.RaiseCanExecuteChanged();
+            LayerSelected(chart.ChartLayer);
+            Update();
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
-            return true;
+            return false;
         }
 
         public void OnNavigatedFrom(NavigationContext navigationContext)

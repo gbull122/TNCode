@@ -108,6 +108,9 @@ namespace TNCodeApp.Data.ViewModels
 
         private void TestData(string obj)
         {
+            if (datasetsManager.DatasetNameExists("Mpg"))
+                return;
+
             var mpgData = new MpgDataSet();
 
             var dataList = new List<object[,]>() { mpgData.Data };

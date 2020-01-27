@@ -1,8 +1,11 @@
 ﻿using Prism.Events;
+using Prism.Regions;
 using System;
 using System.Collections.Generic;
+using TNCode.Core.Data;
 using TNCodeApp.Chart.Events;
 using TNCodeApp.Progress;
+using TNCodeApp.R.Views;
 
 namespace TNCodeApp.Chart
 {
@@ -16,12 +19,21 @@ namespace TNCodeApp.Chart
 
         private readonly IEventAggregator eventAggregator;
 
-        public ChartManager(IEventAggregator eventAgg)
+        private readonly IXmlConverter xmlConverter;
+
+        private readonly IRegionManager regionManager;
+
+
+        public ChartManager(IEventAggregator eventAgg, IXmlConverter xCon, IRegionManager regionMgr)
         {
             eventAggregator = eventAgg;
+            xmlConverter = xCon;
+            regionManager = regionMgr;
+
             Register<ScatterChart>("scatter");
             Register<LineChart>("line");
         }
+
 
         public IChart GetChart(string key)
         {
@@ -35,18 +47,25 @@ namespace TNCodeApp.Chart
 
         public void Create(string id, params object[] args)
         {
+            ///TODO should return chart and viewmodel should be naviagate
             Type type = null;
             if (dict.TryGetValue(id, out type))
             {
                 var newChart =  (IChart)Activator.CreateInstance(type, args);
+                newChart.Converter = xmlConverter;
 
                 if (newChart.CanPlot())
                 {
+                    newChart.Update();
                     newChart.Title = "chart " + charts.Keys.Count + 1;
                     charts.Add(newChart.Title, newChart);
                     lastChart = newChart.Title;
 
-                    eventAggregator.GetEvent<ChartCreatedEvent>().Publish(newChart.Title);
+                    var naviParameters = new NavigationParameters();
+                    naviParameters.Add("chart", newChart);
+
+                    regionManager.RequestNavigate("MainRegion", new Uri("ChartBuilderView", UriKind.Relative),naviParameters);
+
                     return;
                 }
 

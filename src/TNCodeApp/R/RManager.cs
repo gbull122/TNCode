@@ -49,7 +49,7 @@ namespace TNCodeApp.R
             try
             {
                 var rHostSession = RHostSession.Create("TNCode");
-                rOperations = new ROperations(rHostSession);
+                rOperations = new ROperations(rHostSession, logger);
 
                 await rOperations.StartHostAsync(rHostSessionCallback);
 

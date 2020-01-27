@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using TNCode.Core.Data;
+using TNCodeApp.R.Charts.Ggplot.Layer;
 
 namespace TNCodeApp.Chart
 {
@@ -8,10 +9,12 @@ namespace TNCodeApp.Chart
         string Title { get; set; }
 
         string DataSetName { get; set; }
-        IList<string> Data { get; set; }
+        Dictionary<string, ICollection<string>> Data { get; set; }
 
         void Update();
 
         bool CanPlot();
+        Layer ChartLayer { get; }
+        IXmlConverter Converter { set; }
     }
 }

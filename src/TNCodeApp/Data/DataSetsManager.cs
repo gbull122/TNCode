@@ -81,5 +81,16 @@ namespace TNCodeApp.Data
             }
             return null;
         }
+
+        public bool DatasetNameExists(string name)
+        {
+            foreach (var dataSet in dataSets)
+            {
+                if (dataSet.Name.Equals(name))
+                    return true;
+            }
+            return false;
+        }
+
     }
 }

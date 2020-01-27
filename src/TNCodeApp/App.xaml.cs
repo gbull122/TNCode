@@ -2,6 +2,7 @@
 using Prism.Ioc;
 using Prism.Logging;
 using Prism.Modularity;
+using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Unity;
 using System.Windows;
@@ -26,7 +27,9 @@ namespace TNCodeApp
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.Register<ILoggerFacade, TnLogger>();
+            var logViewModel = new LoggerViewModel();
+            containerRegistry.RegisterInstance<ILoggerFacade>(logViewModel);
+            ViewModelLocationProvider.Register<LoggerView>(() => logViewModel);
 
             containerRegistry.RegisterForNavigation<ChartView>();
 
