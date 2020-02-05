@@ -15,7 +15,7 @@ namespace TNCodeApp.R
         private IROperations rOperations;
         private readonly IRHostSessionCallback rHostSessionCallback;
         private ILoggerFacade logger;
-
+        
         public string WindowsDirectory
         {
             get;
@@ -57,7 +57,8 @@ namespace TNCodeApp.R
 
                 await rOperations.ExecuteAsync("library(" + string.Format("\"{0}\"", "ggplot2") + ")");
 
-                await rOperations.ExecuteAndOutputAsync("setwd(" + ConverPathToR(WindowsDirectory) + ")");
+                await rOperations.ExecuteAndOutputAsync("setwd(" + ConvertPathToR(WindowsDirectory) + ")");
+
             }
             catch (Exception ex)
             {
@@ -225,7 +226,7 @@ namespace TNCodeApp.R
                     {
                         file.WriteLine(
                             "devEval(" + string.Format("\"{0}\"", "png") +
-                            ", path = " + ConverPathToR(WindowsDirectory) +
+                            ", path = " + ConvertPathToR(WindowsDirectory) +
                             ", name = \"TNGgplot\", width = " + plotWidth +
                             ", height = " + plotHeight + ", units =" +
                             string.Format("\"{0}\"", "cm") + ", res = " + plotRes + ", pointsize = 12, {");
@@ -239,7 +240,7 @@ namespace TNCodeApp.R
                         file.WriteLine("})");
                     }
 
-                    await rOperations.ExecuteAsync("source(" + ConverPathToR(fileName) + ",echo=TRUE, max.deparse.length=10000)");
+                    await rOperations.ExecuteAsync("source(" + ConvertPathToR(fileName) + ",echo=TRUE, max.deparse.length=10000)");
                 }
             }
             catch
@@ -250,10 +251,35 @@ namespace TNCodeApp.R
             return true;
         }
 
-        public string ConverPathToR(string path)
+        public string ConvertPathToR(string path)
         {
             string temp = path.Replace('\\', '/');
             return string.Format("\"{0}\"", temp);
+        }
+
+        public async Task LoadToTempEnv(string fullFileName)
+        {
+            var rPath = ConvertPathToR(fullFileName);
+
+            await rOperations.ExecuteAsync("tempEnv<-new.env()");
+            await rOperations.ExecuteAsync("load(" +rPath+ ",envir=tempEnv)");
+        }
+
+        public async Task<List<object>> TempEnvObjects()
+        {
+            await rOperations.ExecuteAsync("tempVars<-ls(tempEnv)");
+            return await rOperations.GetListAsync("tempVars");
+        }
+
+        public async Task<bool> IsDataFrame(string name)
+        {
+            var classProps =  await rOperations.GetListAsync("class(tempEnv$" + name+")");
+            foreach (string prop in classProps)
+            {
+                if (prop.Equals("data.frame"))
+                    return true;
+            }
+            return false;
         }
 
     }

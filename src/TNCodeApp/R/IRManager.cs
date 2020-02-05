@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using TNCode.Core.Data;
 
 namespace TNCodeApp.R
@@ -12,5 +13,9 @@ namespace TNCodeApp.R
         Task<string> RHomeFromConnectedRAsync();
         Task<string> RPlatformFromConnectedRAsync();
         Task<string> RVersionFromConnectedRAsync();
+        Task LoadToTempEnv(string fullFileName);
+        Task<List<object>> TempEnvObjects();
+        Task<bool> IsDataFrame(string name);
+        Task<DataSet> GetDataFrameAsDataSetAsync(string name);
     }
 }

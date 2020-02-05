@@ -13,5 +13,6 @@ namespace TNCodeApp.Data
         IEnumerable<string> DataSetNames();
         List<string> DataSetVariableNames(string dataSetName);
         bool DatasetNameExists(string name);
+        List<string[]> ReadCsvFile(string filePath);
     }
 }

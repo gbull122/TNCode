@@ -22,16 +22,24 @@
                 adapter:UIElementExtension.MergeOrder="2">
                 
                 <Fluent:Button
-                    AutomationProperties.AutomationId="RbBtnLoadData"
-                    Header="Load Data"
-                    Command="{Binding LoadCommand}">
+                    AutomationProperties.AutomationId="RbBtnLoadCsv"
+                    Header="Load Csv"
+                    Command="{Binding LoadCsvCommand}"
+                    ToolTip="Load data from csv">
                 </Fluent:Button>
 
                 <Fluent:Button
-                    AutomationProperties.AutomationId="RbBtnTestData"
-                    Header="Test Data"
-                    Command="{Binding DataCommand}"
-                    CommandParameter="Mpg">
+                    AutomationProperties.AutomationId="RbBtnLoadR"
+                    Header="Load Workspace"
+                    Command="{Binding LoadRCommand}"
+                    ToolTip="Load R Workspace">
+                </Fluent:Button>
+
+                <Fluent:Button
+                    AutomationProperties.AutomationId="RbBtnSave"
+                    Header="Save"
+                    Command="{Binding SaveCommand}"
+                    ToolTip="Save the current data sets">
                 </Fluent:Button>
 
             </Fluent:RibbonGroupBox>

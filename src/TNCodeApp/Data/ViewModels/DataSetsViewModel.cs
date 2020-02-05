@@ -75,7 +75,6 @@ namespace TNCodeApp.Data.ViewModels
             VariableSelectionChangedCommand = new DelegateCommand(VariableSelectionChanged);
             CloseCommand = new DelegateCommand(Close);
 
-            eventAggregator.GetEvent<TestDataEvent>().Subscribe(TestData, ThreadOption.UIThread);
             eventAggregator.GetEvent<NewDataSetEvent>().Subscribe(AddNewDataset, ThreadOption.UIThread);
 
         }
@@ -104,20 +103,6 @@ namespace TNCodeApp.Data.ViewModels
         private void DatasetSelectionChanged()
         {
             eventAggregator.GetEvent<DataSetsSelectedChangedEvent>().Publish();
-        }
-
-        private void TestData(string obj)
-        {
-            if (datasetsManager.DatasetNameExists("Mpg"))
-                return;
-
-            var mpgData = new MpgDataSet();
-
-            var dataList = new List<object[,]>() { mpgData.Data };
-
-            var testData = new DataSet(dataList, "Mpg");
-
-            eventAggregator.GetEvent<NewDataSetEvent>().Publish(testData);
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)

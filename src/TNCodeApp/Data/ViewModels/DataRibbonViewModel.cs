@@ -2,41 +2,44 @@
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
-using Prism.Regions;
-using System.Collections.Generic;
+using System;
 using System.IO;
 using TNCode.Core.Data;
 using TNCodeApp.Data.Events;
+using TNCodeApp.Progress;
+using TNCodeApp.R;
 
 namespace TNCodeApp.Data.ViewModels
 {
     public class DataRibbonViewModel:BindableBase
     {
+        private readonly IEventAggregator eventAggregator;
+        private readonly IDataSetsManager dataSetsManager;
+        private readonly IRManager rManager;
+        private IProgressService progressService;
 
-        private IRegionManager regionManager;
-        private IEventAggregator eventAggregator;
-        private IDataSetsManager dataSetsManager;
+        public DelegateCommand LoadRCommand { get; private set; }
+        public DelegateCommand LoadCsvCommand { get; private set; }
+        public DelegateCommand SaveCommand { get; private set; }
 
-        public DelegateCommand<string> NavigateCommand { get; private set; }
-
-        public DelegateCommand<string> DataCommand { get; private set; }
-
-        public DelegateCommand LoadCommand { get; private set; }
-
-        public bool IsMainRibbon => true;
-
-        public DataRibbonViewModel(IRegionManager regionMgr, IEventAggregator eventAgg, IDataSetsManager dataMgr)
+        public DataRibbonViewModel(IEventAggregator eventAgg, IDataSetsManager dataMgr, IRManager rMgr, IProgressService pService)
         {
-            regionManager = regionMgr;
             eventAggregator = eventAgg;
             dataSetsManager = dataMgr;
+            rManager = rMgr;
+            progressService = pService;
 
-            NavigateCommand = new DelegateCommand<string>(Navigate);
-            DataCommand = new DelegateCommand<string>(Data);
-            LoadCommand = new DelegateCommand(LoadData);
+            LoadRCommand = new DelegateCommand(LoadRData);
+            LoadCsvCommand = new DelegateCommand(LoadCsvData);
+            SaveCommand = new DelegateCommand(Save);
         }
 
-        private void LoadData()
+        private void Save()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void LoadCsvData()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Csv files (*.csv)|*.csv";
@@ -47,36 +50,35 @@ namespace TNCodeApp.Data.ViewModels
                 if (dataSetsManager.DatasetNameExists(dataSetName))
                     return;
 
-                var rawData = ReadCsvFile(openFileDialog.FileName);
+                var rawData = dataSetsManager.ReadCsvFile(openFileDialog.FileName);
                 var newDataSet = new DataSet(rawData, dataSetName);
 
                 eventAggregator.GetEvent<NewDataSetEvent>().Publish(newDataSet);
             }
         }
 
-        public List<string[]> ReadCsvFile(string filePath)
+        private async void LoadRData()
         {
-            var reader = new StreamReader(File.OpenRead(filePath));
-            List<string[]> rawData = new List<string[]>();
-
-            while (!reader.EndOfStream)
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "R Workspace (*.RData)|*.RData";
+            if (openFileDialog.ShowDialog() == true)
             {
-                var line = reader.ReadLine();
-                rawData.Add(line.Split(','));
+                var fileFullPath = openFileDialog.FileName;
+                await rManager.LoadToTempEnv(fileFullPath);
+
+                var things = await rManager.TempEnvObjects();
+                foreach(string thing in things)
+                {
+                    var isDataFrame = await rManager.IsDataFrame(thing);
+                    if (isDataFrame)
+                    {
+                        //await progressService.ExecuteAsync(rManager.InitialiseAsync(), "Starting R...");
+                        var importedData = await rManager.GetDataFrameAsDataSetAsync(thing);
+                        eventAggregator.GetEvent<NewDataSetEvent>().Publish(importedData);
+                    }
+
+                }
             }
-
-            return rawData;
-        }
-
-        private void Navigate(string navigatePath)
-        {
-            if (navigatePath != null)
-                regionManager.RequestNavigate("MainRegion", navigatePath);
-        }
-
-        private void Data(string action)
-        {
-            eventAggregator.GetEvent<TestDataEvent>().Publish("Mpg");
         }
     }
 }

@@ -230,10 +230,8 @@
     <Compile Include="Data\DataSetsManager.cs" />
     <Compile Include="Data\Events\NewDataSetEvent.cs" />
     <Compile Include="Data\Events\DataSetsSelectedChangedEvent.cs" />
-    <Compile Include="Data\Events\TestDataEvent.cs" />
     <Compile Include="Data\Events\VariablesSelectedChangedEvent.cs" />
     <Compile Include="Data\IDataSetsManager.cs" />
-    <Compile Include="Data\MpgDataSet.cs" />
     <Compile Include="Progress\DisplayMessageEvent.cs" />
     <Compile Include="Progress\IProgressService.cs" />
     <Compile Include="Progress\ProgressView.xaml.cs">

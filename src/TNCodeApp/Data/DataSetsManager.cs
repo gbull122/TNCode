@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using TNCode.Core.Data;
 
 namespace TNCodeApp.Data
@@ -91,6 +92,22 @@ namespace TNCodeApp.Data
             }
             return false;
         }
+
+        public List<string[]> ReadCsvFile(string filePath)
+        {
+            var reader = new StreamReader(File.OpenRead(filePath));
+            List<string[]> rawData = new List<string[]>();
+
+            while (!reader.EndOfStream)
+            {
+                var line = reader.ReadLine();
+                rawData.Add(line.Split(','));
+            }
+
+            return rawData;
+        }
+
+
 
     }
 }
