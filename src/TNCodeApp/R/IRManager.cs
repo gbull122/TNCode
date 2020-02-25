@@ -15,6 +15,7 @@ namespace TNCodeApp.R
         Task<string> RVersionFromConnectedRAsync();
         Task LoadToTempEnv(string fullFileName);
         Task<List<object>> TempEnvObjects();
+        Task RemoveTempEnviroment();
         Task<bool> IsDataFrame(string name);
         Task<DataSet> GetDataFrameAsDataSetAsync(string name);
     }

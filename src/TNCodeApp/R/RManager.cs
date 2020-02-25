@@ -271,13 +271,24 @@ namespace TNCodeApp.R
             return await rOperations.GetListAsync("tempVars");
         }
 
+        public async Task RemoveTempEnviroment()
+        {
+            await rOperations.ExecuteAsync("rm(tempEnv)");
+        }
+
+
         public async Task<bool> IsDataFrame(string name)
         {
             var classProps =  await rOperations.GetListAsync("class(tempEnv$" + name+")");
             foreach (string prop in classProps)
             {
                 if (prop.Equals("data.frame"))
+                {
+                    await rOperations.ExecuteAsync(name+"<-tempEnv$"+name);
+                    await rOperations.ExecuteAsync("rm(" + name + ",envir=tempEnv)");
                     return true;
+                }
+                   
             }
             return false;
         }

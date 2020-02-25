@@ -96,5 +96,42 @@ namespace TNCodeApp.Progress
         {
             
         }
+
+        public async Task ExecuteAsync(Task task, string v)
+        {
+            Message = v;
+            ProgressIndeterminate = true;
+
+            task.Start();
+            await task;
+
+            ProgressIndeterminate = false;
+            Message = "Ready";
+        }
+
+        public async Task ContinueAsync(Task task, string v)
+        {
+            Message = v;
+            ProgressIndeterminate = true;
+
+            await task;
+
+            ProgressIndeterminate = false;
+            Message = "Ready";
+
+        }
+
+        public async Task<T> ContinueAsync<T>(Task<T> task, string v)
+        {
+            Message = v;
+            ProgressIndeterminate = true;
+
+            var result  = await task;
+
+            ProgressIndeterminate = false;
+            Message = "Ready";
+
+            return result;
+        }
     }
 }

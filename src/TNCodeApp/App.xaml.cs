@@ -7,6 +7,8 @@ using Prism.Regions;
 using Prism.Unity;
 using System.Windows;
 using TNCodeApp.Chart.Views;
+using TNCodeApp.Dialogs.ViewModels;
+using TNCodeApp.Dialogs.Views;
 using TNCodeApp.Docking;
 using TNCodeApp.Logger;
 using TNCodeApp.R.Views;
@@ -37,6 +39,8 @@ namespace TNCodeApp
             containerRegistry.RegisterForNavigation<GgplotTitleView>();
             containerRegistry.RegisterForNavigation<GgplotScaleView>();
             containerRegistry.RegisterForNavigation<GgplotFacetView>();
+
+            containerRegistry.RegisterDialog<ConfirmationDialogView, ConfirmationDialogViewModel>();
         }
 
         protected override void ConfigureRegionAdapterMappings(RegionAdapterMappings regionAdapterMappings)
