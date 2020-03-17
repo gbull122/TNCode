@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Threading.Tasks;
 using TNCode.Core.Data;
 
 namespace TNCodeApp.Data
@@ -78,7 +77,7 @@ namespace TNCodeApp.Data
         {
             foreach (var dataSet in dataSets)
             {
-                if(dataSet.Name.Equals(dataSetName))
+                if (dataSet.Name.Equals(dataSetName))
                     return dataSet.VariableNames();
             }
             return null;
@@ -94,21 +93,41 @@ namespace TNCodeApp.Data
             return false;
         }
 
-        public List<string[]> ReadCsvFile(string filePath)
+        public List<string[]> ReadCsvFileRowWise(string filePath)
         {
-            var reader = new StreamReader(File.OpenRead(filePath));
-            List<string[]> rawData = new List<string[]>();
+            List<string[]> rawDataRowWise = new List<string[]>();
 
-            while (!reader.EndOfStream)
+            using (var reader = new StreamReader(File.OpenRead(filePath)))
             {
-                var line = reader.ReadLine();
-                rawData.Add(line.Split(','));
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+                    rawDataRowWise.Add(line.Split(','));
+                }
             }
 
-            return rawData;
+            return rawDataRowWise;
         }
 
+        public List<string[]> RowWiseToColumnWise(List<string[]> rowWiseData)
+        {
+            var numberOfColumns = rowWiseData[0].Length;
+            var numberOfRows = rowWiseData.Count;
+            List<string[]> colWiseData = new List<string[]>(numberOfColumns);
 
 
+            for (int index = 0; index < numberOfColumns; ++index)
+            {
+                var col = new List<string>();
+                foreach (var row in rowWiseData)
+                {
+                    col.Add(row[index]);
+                }
+
+                colWiseData.Add(col.ToArray());
+            }
+
+            return colWiseData;
+        }
     }
 }

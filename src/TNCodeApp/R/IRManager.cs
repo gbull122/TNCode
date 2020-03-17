@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using TNCode.Core.Data;
 
@@ -8,6 +9,8 @@ namespace TNCodeApp.R
     {
         Task<bool> InitialiseAsync();
         bool IsRRunning { get; }
+        event EventHandler RConnected;
+        event EventHandler RDisconnected;
         Task<bool> GenerateGgplotAsync(string ggplotCommand);
         Task<bool> DataSetToRAsDataFrameAsync(DataSet data);
         Task<string> RHomeFromConnectedRAsync();
@@ -18,5 +21,6 @@ namespace TNCodeApp.R
         Task RemoveTempEnviroment();
         Task<bool> IsDataFrame(string name);
         Task<DataSet> GetDataFrameAsDataSetAsync(string name);
+        Task<List<object>> ListWorkspaceItems();
     }
 }

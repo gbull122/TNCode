@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using TNCode.Core.Data;
 
 namespace TNCodeApp.Data
@@ -14,6 +13,7 @@ namespace TNCodeApp.Data
         IEnumerable<string> DataSetNames();
         List<string> DataSetVariableNames(string dataSetName);
         bool DatasetNameExists(string name);
-        List<string[]> ReadCsvFile(string filePath);
+        List<string[]> ReadCsvFileRowWise(string filePath);
+        List<string[]> RowWiseToColumnWise(List<string[]> rowWiseData);
     }
 }

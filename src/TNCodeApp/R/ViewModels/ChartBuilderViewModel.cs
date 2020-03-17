@@ -15,6 +15,7 @@ using TNCodeApp.Chart;
 using TNCodeApp.Data;
 using TNCodeApp.Data.Events;
 using TNCodeApp.Docking;
+using TNCodeApp.Progress;
 using TNCodeApp.R.Charts.Ggplot;
 using TNCodeApp.R.Charts.Ggplot.Enums;
 using TNCodeApp.R.Charts.Ggplot.Layer;
@@ -31,6 +32,8 @@ namespace TNCodeApp.R.ViewModels
 
         private readonly IRManager rManager;
         private readonly IDataSetsManager dataSetsManager;
+
+        private readonly IProgressService progressService;
 
         private List<string> currentVariables;
         private IEnumerable<string> dataSets;
@@ -115,15 +118,17 @@ namespace TNCodeApp.R.ViewModels
             }
         }
 
-        public ChartBuilderViewModel(IEventAggregator eventAggr, IRegionManager regMngr, IRManager rMngr, IXmlConverter converter, IDataSetsManager setsManager)
+        public ChartBuilderViewModel(IEventAggregator eventAggr, IRegionManager regMngr, IRManager rMngr, IXmlConverter converter, IDataSetsManager setsManager, IProgressService progService)
         {
             xmlConverter = converter;
             rManager = rMngr;
             eventAggregator = eventAggr;
             regionManager = regMngr;
             dataSetsManager = setsManager;
+            progressService = progService;
 
-            //eventAggregator.GetEvent<NewDataSetEvent>().Subscribe(DataSetsChanged, ThreadOption.UIThread);
+            eventAggregator.GetEvent<NewDataSetEvent>().Subscribe(DataSetsChanged, ThreadOption.UIThread);
+
             eventAggregator.GetEvent<VariableControlActionEvent>().Subscribe(HandleAction);
 
             layers = new ObservableCollection<ILayer>();
@@ -142,6 +147,11 @@ namespace TNCodeApp.R.ViewModels
             currentVariables = new List<string>();
 
             dataSets = dataSetsManager.DataSetNames();
+        }
+
+        private void DataSetsChanged(DataSet obj)
+        {
+           
         }
 
         private void ExecuteActionCommand(string obj)
@@ -233,7 +243,8 @@ namespace TNCodeApp.R.ViewModels
 
         private async void GControl_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            await GeneratePlotAsync();
+            
+            await progressService.ContinueAsync(GeneratePlotAsync(),"Generating ggplot chart");
         }
 
         private async Task GeneratePlotAsync()

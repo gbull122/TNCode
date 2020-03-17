@@ -15,7 +15,10 @@ namespace TNCodeApp.R
         private IROperations rOperations;
         private readonly IRHostSessionCallback rHostSessionCallback;
         private ILoggerFacade logger;
-        
+
+        public event EventHandler RConnected;
+        public event EventHandler RDisconnected;
+
         public string WindowsDirectory
         {
             get;
@@ -49,6 +52,8 @@ namespace TNCodeApp.R
             try
             {
                 var rHostSession = RHostSession.Create("TNCode");
+                rHostSession.Connected += RHostSession_Connected;
+                rHostSession.Disconnected += RHostSession_Disconnected;
                 rOperations = new ROperations(rHostSession, logger);
 
                 await rOperations.StartHostAsync(rHostSessionCallback);
@@ -65,7 +70,28 @@ namespace TNCodeApp.R
                 logger.Log(ex.Message, Category.Exception, Priority.High);
                 return false;
             }
+
             return true;
+        }
+
+        private void RHostSession_Disconnected(object sender, EventArgs e)
+        {
+            OnRaiseRDisconnected();
+        }
+
+        public void OnRaiseRDisconnected()
+        {
+            RDisconnected?.Invoke(this, new EventArgs());
+        }
+
+        private void RHostSession_Connected(object sender, EventArgs e)
+        {
+            OnRaiseRConnected();
+        }
+
+        public void OnRaiseRConnected()
+        {
+            RConnected?.Invoke(this, new EventArgs());
         }
 
         public async Task DeleteVariablesAsync(List<string> names)
@@ -255,6 +281,12 @@ namespace TNCodeApp.R
         {
             string temp = path.Replace('\\', '/');
             return string.Format("\"{0}\"", temp);
+        }
+
+        public async Task<List<object>> ListWorkspaceItems()
+        {
+            await rOperations.ExecuteAsync("vars<-ls()");
+            return await rOperations.GetListAsync("vars");
         }
 
         public async Task LoadToTempEnv(string fullFileName)

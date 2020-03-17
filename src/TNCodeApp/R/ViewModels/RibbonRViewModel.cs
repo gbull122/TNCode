@@ -75,10 +75,7 @@ namespace TNCodeApp.R.ViewModels
 
         private void CreateChart()
         {
-            
-
             regionManager.AddToRegion("MainRegion", new ChartBuilderView());
-
         }
     }
 }

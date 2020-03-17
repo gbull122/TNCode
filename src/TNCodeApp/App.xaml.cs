@@ -22,9 +22,26 @@ namespace TNCodeApp
     /// </summary>
     public partial class App : PrismApplication
     {
+        private bool showGui = true;
+        protected override void OnStartup(StartupEventArgs e)
+        {
+           
+            //if (e.Args.Length > 0)
+                //showGui = false;
+
+            base.OnStartup(e);
+        }
+
+        protected override void InitializeShell(Window shell)
+        {
+            base.InitializeShell(shell);
+        }
         protected override Window CreateShell()
         {
-            return Container.Resolve<MainWindow>();
+            //if (showGui)
+                return Container.Resolve<MainWindow>();
+
+            //return null;
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
