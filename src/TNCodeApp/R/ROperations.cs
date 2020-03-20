@@ -53,12 +53,12 @@ namespace TNCodeApp.R
 
         public async Task ExecuteAsync(string command)
         {
-            logger.Log(command, Category.Info, Priority.None);
             await rHostSession.ExecuteAsync(command);
         }
 
         public async Task CreateDataFrameAsync(string name, DataFrame dataFrame)
         {
+            logger.Log("Creating DataFrame: "+name, Category.Info, Priority.None);
             await rHostSession.CreateDataFrameAsync(name, dataFrame);
         }
     }

@@ -9,9 +9,9 @@ namespace TNCodeApp.Logger
     public class LoggerViewModel : BindableBase, ITnPanel, ILoggerFacade
     {
 
-        private ObservableCollection<string> logEntries;
+        private ObservableCollection<LogEntry> logEntries;
 
-        public ObservableCollection<string> LogEntries
+        public ObservableCollection<LogEntry> LogEntries
         {
             get { return logEntries; }
             set
@@ -27,13 +27,17 @@ namespace TNCodeApp.Logger
 
         public LoggerViewModel()
         {
-            logEntries = new ObservableCollection<string>();
+            logEntries = new ObservableCollection<LogEntry>();
         }
 
         public void Log(string message, Category category, Priority priority)
         {
-            //var text = message + Environment.NewLine;
-            LogEntries.Add (message);
+            var newEntry = new LogEntry()
+            {
+                Category = category.ToString(),
+                Message = message
+            };
+            LogEntries.Add(newEntry);
         }
     }
 }

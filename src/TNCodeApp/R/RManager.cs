@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TNCode.Core.Data;
 
@@ -51,23 +50,24 @@ namespace TNCodeApp.R
         {
             try
             {
+                logger.Log("Connecting to R...", Category.Info, Priority.None);
+
                 var rHostSession = RHostSession.Create("TNCode");
                 rHostSession.Connected += RHostSession_Connected;
                 rHostSession.Disconnected += RHostSession_Disconnected;
                 rOperations = new ROperations(rHostSession, logger);
-
+                
                 await rOperations.StartHostAsync(rHostSessionCallback);
-
                 await rOperations.ExecuteAsync("library(" + string.Format("\"{0}\"", "R.devices") + ")");
-
                 await rOperations.ExecuteAsync("library(" + string.Format("\"{0}\"", "ggplot2") + ")");
 
                 await rOperations.ExecuteAndOutputAsync("setwd(" + ConvertPathToR(WindowsDirectory) + ")");
+                logger.Log("Connected to R", Category.Info, Priority.None);
 
             }
             catch (Exception ex)
             {
-                logger.Log(ex.Message, Category.Exception, Priority.High);
+                logger.Log("Failed to connect to R: " +ex.Message, Category.Exception, Priority.High);
                 return false;
             }
 
@@ -307,7 +307,6 @@ namespace TNCodeApp.R
         {
             await rOperations.ExecuteAsync("rm(tempEnv)");
         }
-
 
         public async Task<bool> IsDataFrame(string name)
         {

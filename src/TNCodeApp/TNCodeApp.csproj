@@ -160,6 +160,7 @@
     <Compile Include="Dialogs\Views\ConfirmationDialogView.xaml.cs">
       <DependentUpon>ConfirmationDialogView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Logger\LogEntry.cs" />
     <Compile Include="Logger\LoggerView.xaml.cs">
       <DependentUpon>LoggerView.xaml</DependentUpon>
     </Compile>
