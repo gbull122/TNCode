@@ -40,10 +40,11 @@ namespace TNCode.Core.Data
         public Variable(object[] rawData)
         {
             Name = FormatName(rawData[0].ToString());
-            Values = ArrayToCollection(rawData, true);
-
-            if (CanConvertObjectArrayToDoubleArray(rawData))
+            //Values = ArrayToCollection(rawData, true);
+            var conversionResult = CanConvertObjectArrayToDoubleArray(rawData);
+            if (conversionResult.Item1)
             {
+                Values = conversionResult.Item2;
                 Data = DataType.Numeric;
             }
             else
@@ -57,7 +58,7 @@ namespace TNCode.Core.Data
                 }
                 else
                 {
-
+                    Values = ArrayToCollection(rawData, true);
                     Data = DataType.Text;
                 }
             }
@@ -94,8 +95,11 @@ namespace TNCode.Core.Data
             }
         }
 
-        public bool CanConvertObjectArrayToDoubleArray(object[] testStringArray)
+        public Tuple<bool, IReadOnlyCollection<object>> CanConvertObjectArrayToDoubleArray(object[] testStringArray)
         {
+            IReadOnlyCollection<object> convertedArray = null;
+            var didDataConvert = false;
+
             var t = testStringArray.ToList<object>();
             t.RemoveAt(0);
             try
@@ -105,13 +109,16 @@ namespace TNCode.Core.Data
                                 .Select(x => double.Parse(x.ToString(), CultureInfo.InvariantCulture))
                                 .ToList();
 
-                return true;
+                convertedArray = str.Cast<object>().ToList().AsReadOnly();
+                didDataConvert = true;
 
             }
             catch
             {
-                return false;
+                ///Do nothing
             }
+
+            return new Tuple<bool, IReadOnlyCollection<object>>(didDataConvert, convertedArray);
         }
 
         public IReadOnlyCollection<object> TrimNansFromList(List<object> data)

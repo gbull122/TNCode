@@ -17,13 +17,13 @@ namespace TnCodeApp_Tests.R.ViewModels
         public void Test()
         {
 
-            var eventAggregator = A.Fake<IEventAggregator>();
-            var regionManager = A.Fake<IRegionManager>();
-            var rManager = A.Fake<IRManager>();
-            var xmlConverter = A.Fake<IXmlConverter>();
-            var dataSetsManager = A.Fake<IDataSetsManager>();
+            //var eventAggregator = A.Fake<IEventAggregator>();
+            //var regionManager = A.Fake<IRegionManager>();
+            //var rManager = A.Fake<IRManager>();
+            //var xmlConverter = A.Fake<IXmlConverter>();
+            //var dataSetsManager = A.Fake<IDataSetsManager>();
 
-            var chartBuilderViewModel = new ChartBuilderViewModel(eventAggregator, regionManager, rManager, xmlConverter, dataSetsManager);
+            //var chartBuilderViewModel = new ChartBuilderViewModel(eventAggregator, regionManager, rManager, xmlConverter, dataSetsManager);
         }
     }
 }

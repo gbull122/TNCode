@@ -34,7 +34,7 @@ namespace TnCodeApp_Tests.Data
         public void SelectedData_ReturnsVariable()
         {
             var expectedCount = 1;
-            var selectedVariable = new List<string>() { "Variable1"};
+            var selectedVariable = new List<string>() { "Variable1" };
 
             var dataSet = A.Fake<IDataSet>();
             A.CallTo(() => dataSet.IsSelected).Returns(false);
@@ -47,6 +47,34 @@ namespace TnCodeApp_Tests.Data
             var actualSelectedData = dataSetManager.SelectedData();
 
             actualSelectedData.Count().Should().Be(expectedCount);
+        }
+
+        [TestMethod]
+        public void RowWiseToColumnWise_Test()
+        {
+            var expectedData = new List<string[]>()
+            {
+                new string[]{"Header1", "R1C1","R2C1","R3C1" },
+                new string[]{"Header2", "R1C2","R2C2","R3C2" },
+                new string[]{"Header3", "R1C3","R2C3","R3C3" },
+                new string[]{"Header4", "R1C4", "R2C4", "R3C4" }
+            };
+
+            var testData = new List<string[]>()
+            {
+                new string[]{"Header1","Header2","Header3","Header4" },
+                new string[]{"R1C1","R1C2","R1C3","R1C4" },
+                new string[]{ "R2C1", "R2C2", "R2C3", "R2C4" },
+                new string[]{ "R3C1", "R3C2", "R3C3", "R3C4" }
+            };
+
+            var dataSetManager = new DataSetsManager();
+            var actualData = dataSetManager.RowWiseToColumnWise(testData);
+
+            actualData[0].Should().Equal(expectedData[0]);
+            actualData[1].Should().Equal(expectedData[1]);
+            actualData[2].Should().Equal(expectedData[2]);
+            actualData[3].Should().Equal(expectedData[3]);
         }
 
     }

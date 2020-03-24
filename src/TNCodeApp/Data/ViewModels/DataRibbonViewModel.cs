@@ -71,7 +71,7 @@ namespace TNCodeApp.Data.ViewModels
             openFileDialog.Filter = "Csv files (*.csv)|*.csv";
             if (openFileDialog.ShowDialog() == true)
             {
-                var dataSetName = Path.GetFileName(openFileDialog.FileName);
+                var dataSetName = Path.GetFileNameWithoutExtension(openFileDialog.FileName);
 
                 if (dataSetsManager.DatasetNameExists(dataSetName))
                 {
