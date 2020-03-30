@@ -156,6 +156,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Data\Events\DataSetEventArgs.cs" />
     <Compile Include="Dialogs\ViewModels\ConfirmationDialogViewModel.cs" />
     <Compile Include="Dialogs\Views\ConfirmationDialogView.xaml.cs">
       <DependentUpon>ConfirmationDialogView.xaml</DependentUpon>
@@ -239,7 +240,7 @@
       <DependentUpon>ChartView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Data\DataSetsManager.cs" />
-    <Compile Include="Data\Events\NewDataSetEvent.cs" />
+    <Compile Include="Data\Events\DataSetChangedEvent.cs" />
     <Compile Include="Data\Events\DataSetsSelectedChangedEvent.cs" />
     <Compile Include="Data\Events\VariablesSelectedChangedEvent.cs" />
     <Compile Include="Data\IDataSetsManager.cs" />

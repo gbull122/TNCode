@@ -108,7 +108,11 @@ namespace TNCodeApp.Data.ViewModels
             var colWiseData = dataSetsManager.RowWiseToColumnWise(rowWiseRawData);
             var newDataSet = new DataSet(colWiseData, datasetName);
 
-            eventAggregator.GetEvent<NewDataSetEvent>().Publish(newDataSet);
+            
+            var dataSetEventArgs = new DataSetEventArgs();
+            dataSetEventArgs.Modification = DataSetChange.Added;
+            dataSetEventArgs.Data = newDataSet;
+            eventAggregator.GetEvent<DataSetChangedEvent>().Publish(dataSetEventArgs);
         }
 
         private async void LoadRData()
@@ -118,27 +122,10 @@ namespace TNCodeApp.Data.ViewModels
             openFileDialog.Filter = "R Workspace (*.RData)|*.RData";
             if (openFileDialog.ShowDialog() == true)
             {
-                var fileFullPath = openFileDialog.FileName;
-                await progressService.ContinueAsync(rManager.LoadToTempEnv(fileFullPath),"Loading workspace");
+               var fileFullPath = openFileDialog.FileName;
 
-                var tempItems = await rManager.TempEnvObjects();
-                var workspaceItems = await rManager.ListWorkspaceItems();
-
-                foreach (string thing in tempItems)
-                {
-                    ///TODO give option to overwrite
-                    if (!workspaceItems.Contains(thing))
-                    {
-                        var isDataFrame = await rManager.IsDataFrame(thing);
-                        if (isDataFrame)
-                        {
-                            var importedData = await progressService.ContinueAsync(rManager.GetDataFrameAsDataSetAsync(thing), "Importing dataframe: " + thing);
-                            eventAggregator.GetEvent<NewDataSetEvent>().Publish(importedData);
-                        }
-                    }
-                }
-
-                await rManager.RemoveTempEnviroment();
+               await progressService.ExecuteAsync(rManager.LoadRWorkSpace, fileFullPath);
+               //await rManager.LoadRWorkSpace(fileFullPath, progress);
             }
         }
 

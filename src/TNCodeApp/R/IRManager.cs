@@ -22,5 +22,6 @@ namespace TNCodeApp.R
         Task<bool> IsDataFrame(string name);
         Task<DataSet> GetDataFrameAsDataSetAsync(string name);
         Task<List<object>> ListWorkspaceItems();
+        Task LoadRWorkSpace(IProgress<string> progress, string fileName);
     }
 }

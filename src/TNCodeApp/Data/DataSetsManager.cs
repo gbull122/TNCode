@@ -9,7 +9,7 @@ namespace TNCodeApp.Data
     {
         private ObservableCollection<IDataSet> dataSets;
 
-        public ObservableCollection<IDataSet> DataSets
+        private ObservableCollection<IDataSet> DataSets
         {
             get { return dataSets; }
             set
@@ -129,5 +129,25 @@ namespace TNCodeApp.Data
 
             return colWiseData;
         }
+
+        public bool DataSetAdd(IDataSet dataSet)
+        {
+            if (dataSets.Contains(dataSet))
+                return false;
+
+            dataSets.Add(dataSet);
+            return true;
+        }
+
+        public IDataSet DataSetGet(string name)
+        {
+            foreach (var dataSet in dataSets)
+            {
+                if (dataSet.Name.Equals(name))
+                    return dataSet;
+            }
+            return null;
+        }
+       
     }
 }

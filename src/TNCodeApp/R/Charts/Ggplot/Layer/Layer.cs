@@ -72,6 +72,8 @@ namespace TNCodeApp.R.Charts.Ggplot.Layer
             Statistic = new Stat();
             Pos = new Position();
             labels = new List<Parameter>();
+            showLegend = true;
+            showInPlot = true;
         }
 
         public string Command()

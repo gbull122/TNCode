@@ -27,9 +27,12 @@ namespace TNCodeApp.R.Charts.Ggplot
             command.Append("p<-ggplot()");
             foreach (var layer in layers)
             {
-                var layerCommand = layer.Command();
-                if (!string.IsNullOrEmpty(layerCommand))
-                    command.Append("+" + layerCommand);
+                if(layer.ShowInPlot)
+                {
+                    var layerCommand = layer.Command();
+                    if (!string.IsNullOrEmpty(layerCommand))
+                        command.Append("+" + layerCommand);
+                }  
             }
 
             return command.ToString();

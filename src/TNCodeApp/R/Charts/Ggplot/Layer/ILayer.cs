@@ -7,6 +7,7 @@ namespace TNCodeApp.R.Charts.Ggplot.Layer
         string Geom { get; set; }
         string Data { get; set; }
         bool ShowLegend { get; set; }
+        bool ShowInPlot { get; set; }
         string Command();
         Aesthetic Aes { get; set; }
         event PropertyChangedEventHandler PropertyChanged;

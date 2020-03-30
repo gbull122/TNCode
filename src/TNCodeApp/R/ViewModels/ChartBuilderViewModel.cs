@@ -127,7 +127,7 @@ namespace TNCodeApp.R.ViewModels
             dataSetsManager = setsManager;
             progressService = progService;
 
-            eventAggregator.GetEvent<NewDataSetEvent>().Subscribe(DataSetsChanged, ThreadOption.UIThread);
+            //eventAggregator.GetEvent<DataSetEventArgs>().Subscribe(DataSetsChanged, ThreadOption.UIThread);
 
             eventAggregator.GetEvent<VariableControlActionEvent>().Subscribe(HandleAction);
 
@@ -149,9 +149,9 @@ namespace TNCodeApp.R.ViewModels
             dataSets = dataSetsManager.DataSetNames();
         }
 
-        private void DataSetsChanged(DataSet obj)
+        private void DataSetsChanged(DataSetEventArgs dataSetEventArgs)
         {
-           
+            DataSets = dataSetsManager.DataSetNames();
         }
 
         private void ExecuteActionCommand(string obj)
@@ -209,7 +209,7 @@ namespace TNCodeApp.R.ViewModels
                 currentVariables = varibleNames;
             }
 
-            if (e.PropertyName.Equals(nameof(Layer.Geom)))
+            //if (e.PropertyName.Equals(nameof(Layer.Geom)))
                 Update();
 
             await GeneratePlotAsync();
@@ -275,6 +275,8 @@ namespace TNCodeApp.R.ViewModels
                     ChartImage = bitmap;
                 }
             }
+            else
+                ChartImage = null;
         }
 
         public string GetGgplotChartPath()
@@ -324,6 +326,8 @@ namespace TNCodeApp.R.ViewModels
         private void ClearLayers()
         {
             Layers.Clear();
+            selectedLayer = null;
+            Update();
         }
 
         private bool CanNewLayer()

@@ -15,5 +15,7 @@ namespace TNCodeApp.Progress
         Task ContinueAsync(Task task, string v);
 
         Task<T> ContinueAsync<T>(Task<T> task, string v);
+
+        Task ExecuteAsync(Func<IProgress<string>, string, Task> task, string arg);
     }
 }

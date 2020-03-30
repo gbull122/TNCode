@@ -91,12 +91,12 @@
 
                         <DataGridCheckBoxColumn
                                 Header="Legend"
-                                Binding="{Binding Path=ShowLegend}"
+                                Binding="{Binding Path=ShowLegend, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 Width="*"/>
 
                         <DataGridCheckBoxColumn
                                 Header="Show"
-                                Binding="{Binding Path=ShowInPlot}"
+                                Binding="{Binding Path=ShowInPlot, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 Width="*"/>
 
                     </DataGrid.Columns>

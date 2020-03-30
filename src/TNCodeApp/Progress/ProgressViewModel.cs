@@ -9,7 +9,7 @@ using Unity;
 
 namespace TNCodeApp.Progress
 {
-    public class ProgressViewModel : BindableBase, IProgressService, INavigationAware, IRegionMemberLifetime
+    public class ProgressViewModel : BindableBase, IProgressService, IRegionMemberLifetime//, INavigationAware
     {
         public IProgress<int> Progress { get; set; }
 
@@ -63,10 +63,24 @@ namespace TNCodeApp.Progress
 
         public bool KeepAlive => true;
 
+        public async Task ExecuteAsync(Func<IProgress<string>,string,Task> task,string arg)
+        {
+            var progress = new Progress<string>(taskMessage =>
+            {
+                Message = taskMessage;
+            });
+
+            await Task.Run(() => task(progress,arg));
+        }
+
+        public void ReportProgress(string pregress)
+        {
+
+        }
+
         public async Task ExecuteAsync(IProgress<int> action, string message)
         {
-            Progress = action;
-
+            
             await Task.Run(() => action);
             
         }
@@ -82,20 +96,20 @@ namespace TNCodeApp.Progress
             Message = "Ready";
         }
 
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
+        //public void OnNavigatedTo(NavigationContext navigationContext)
+        //{
             
-        }
+        //}
 
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return true;
-        }
+        //public bool IsNavigationTarget(NavigationContext navigationContext)
+        //{
+        //    return true;
+        //}
 
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
+        //public void OnNavigatedFrom(NavigationContext navigationContext)
+        //{
             
-        }
+        //}
 
         public async Task ExecuteAsync(Task task, string v)
         {

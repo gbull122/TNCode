@@ -30,16 +30,6 @@ namespace TNCodeApp.Data.ViewModels
         public DelegateCommand DeleteDataSetCommand { get; private set; }
         public DelegateCommand CloseCommand { get; private set; }
 
-        public ObservableCollection<IDataSet> DataSets
-        {
-            get { return datasetsManager.DataSets; }
-            set
-            {
-                datasetsManager.DataSets = value;
-                RaisePropertyChanged("DataSets");
-            }
-        }
-
         public IDataSet SelectedDataSet
         {
             get { return selectedDataSet; }
@@ -75,7 +65,7 @@ namespace TNCodeApp.Data.ViewModels
             VariableSelectionChangedCommand = new DelegateCommand(VariableSelectionChanged);
             CloseCommand = new DelegateCommand(Close);
 
-            eventAggregator.GetEvent<NewDataSetEvent>().Subscribe(AddNewDataset, ThreadOption.UIThread);
+            eventAggregator.GetEvent<DataSetChangedEvent>().Subscribe(AddNewDataset, ThreadOption.UIThread);
 
         }
 
@@ -91,13 +81,22 @@ namespace TNCodeApp.Data.ViewModels
 
         private void DeleteDataSet()
         {
-            DataSets.Remove(selectedDataSet);
+            //DataSets.Remove(selectedDataSet);
         }
 
-        private async void AddNewDataset(DataSet dataSet)
+        private async void AddNewDataset(DataSetEventArgs dataSet)
         {
-            await rManager.DataSetToRAsDataFrameAsync(dataSet);
-            datasetsManager.DataSets.Add(dataSet);
+            if (dataSet.Modification == DataSetChange.Added)
+            {
+                await rManager.DataSetToRAsDataFrameAsync(dataSet.Data);
+                //datasetsManager.DataSets.Add(dataSet.Data);
+            }
+
+            //var dataSetEventArgs = new DataSetEventArgs();
+            //dataSetEventArgs.Modification = DataSetChange.Added;
+            //dataSetEventArgs.Data = dataSet;
+
+            //eventAggregator.GetEvent<DataSetChangedEvent>().Publish(dataSetEventArgs);
         }
 
         private void DatasetSelectionChanged()
@@ -107,7 +106,7 @@ namespace TNCodeApp.Data.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            SelectedDataSet = datasetsManager.DataSets[0];
+            //SelectedDataSet = datasetsManager.DataSets[0];
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

@@ -324,5 +324,37 @@ namespace TNCodeApp.R
             return false;
         }
 
+        public async Task LoadRWorkSpace( IProgress<string> progress, string fileName)
+        {
+            progress.Report("Loading workspace");
+
+            await LoadToTempEnv(fileName);
+
+            var tempItems = await TempEnvObjects();
+            var workspaceItems = await ListWorkspaceItems();
+
+            foreach (string thing in tempItems)
+            {
+                ///TODO give option to overwrite
+                if (!workspaceItems.Contains(thing))
+                {
+                    var isDataFrame = await IsDataFrame(thing);
+                    if (isDataFrame)
+                    {
+                        progress.Report("Loading dataframe " + thing);
+                        var importedData = await GetDataFrameAsDataSetAsync(thing);
+
+                        //var dataSetEventArgs = new DataSetEventArgs();
+                        //dataSetEventArgs.Modification = DataSetChange.Added;
+                        //dataSetEventArgs.Data = importedData;
+
+                        //eventAggregator.GetEvent<DataSetChangedEvent>().Publish(dataSetEventArgs);
+                    }
+                }
+            }
+
+            await RemoveTempEnviroment();
+        }
+
     }
 }
