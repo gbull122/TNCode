@@ -72,7 +72,7 @@ namespace TNCodeApp
             IChartManager chartManager = new ChartManager(eventAggregator, xmlConverter, regionManager);
             container.RegisterInstance<IChartManager>(chartManager);
 
-            rManager = new RManager(new RHostSessionCallback(), loggerFacade);
+            rManager = new RManager(new RHostSessionCallback(), loggerFacade, eventAggregator);
             container.RegisterInstance<IRManager>(rManager);
 
             regionManager.RegisterViewWithRegion("RibbonRegion", typeof(DataRibbonView));

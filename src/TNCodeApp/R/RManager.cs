@@ -1,4 +1,5 @@
 ﻿using Microsoft.R.Host.Client;
+using Prism.Events;
 using Prism.Logging;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using TNCode.Core.Data;
+using TNCodeApp.Data.Events;
 
 namespace TNCodeApp.R
 {
@@ -14,6 +16,7 @@ namespace TNCodeApp.R
         private IROperations rOperations;
         private readonly IRHostSessionCallback rHostSessionCallback;
         private ILoggerFacade logger;
+        private IEventAggregator eventAggregator;
 
         public event EventHandler RConnected;
         public event EventHandler RDisconnected;
@@ -32,10 +35,12 @@ namespace TNCodeApp.R
             }
         }
 
-        public RManager(IRHostSessionCallback rhostSession, ILoggerFacade loggerFacade)
+        public RManager(IRHostSessionCallback rhostSession, ILoggerFacade loggerFacade, IEventAggregator evtAggregator)
         {
             logger = loggerFacade;
             rHostSessionCallback = rhostSession;
+            eventAggregator = evtAggregator;
+
             WindowsDirectory = Path.GetTempPath();
         }
 
@@ -333,22 +338,22 @@ namespace TNCodeApp.R
             var tempItems = await TempEnvObjects();
             var workspaceItems = await ListWorkspaceItems();
 
-            foreach (string thing in tempItems)
+            foreach (string tempItem in tempItems)
             {
                 ///TODO give option to overwrite
-                if (!workspaceItems.Contains(thing))
+                if (!workspaceItems.Contains(tempItem))
                 {
-                    var isDataFrame = await IsDataFrame(thing);
+                    var isDataFrame = await IsDataFrame(tempItem);
                     if (isDataFrame)
                     {
-                        progress.Report("Loading dataframe " + thing);
-                        var importedData = await GetDataFrameAsDataSetAsync(thing);
+                        progress.Report("Loading dataframe " + tempItem);
+                        var importedData = await GetDataFrameAsDataSetAsync(tempItem);
 
-                        //var dataSetEventArgs = new DataSetEventArgs();
-                        //dataSetEventArgs.Modification = DataSetChange.Added;
-                        //dataSetEventArgs.Data = importedData;
+                        var dataSetEventArgs = new DataSetEventArgs();
+                        dataSetEventArgs.Modification = DataSetChange.AddedFromR;
+                        dataSetEventArgs.Data = importedData;
 
-                        //eventAggregator.GetEvent<DataSetChangedEvent>().Publish(dataSetEventArgs);
+                        eventAggregator.GetEvent<DataSetChangedEvent>().Publish(dataSetEventArgs);
                     }
                 }
             }

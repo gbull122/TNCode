@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Prism.Events;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using TNCode.Core.Data;
+using TNCodeApp.Data.Events;
 
 namespace TNCodeApp.Data
 {
@@ -9,7 +12,7 @@ namespace TNCodeApp.Data
     {
         private ObservableCollection<IDataSet> dataSets;
 
-        private ObservableCollection<IDataSet> DataSets
+        public  ObservableCollection<IDataSet> DataSets
         {
             get { return dataSets; }
             set
@@ -135,7 +138,7 @@ namespace TNCodeApp.Data
             if (dataSets.Contains(dataSet))
                 return false;
 
-            dataSets.Add(dataSet);
+            DataSets.Add(dataSet);
             return true;
         }
 

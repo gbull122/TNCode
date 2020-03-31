@@ -1,10 +1,8 @@
 ﻿using Prism.Events;
-using Prism.Logging;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Threading.Tasks;
-using TNCodeApp.Docking;
 using Unity;
 
 namespace TNCodeApp.Progress
@@ -63,27 +61,45 @@ namespace TNCodeApp.Progress
 
         public bool KeepAlive => true;
 
-        public async Task ExecuteAsync(Func<IProgress<string>,string,Task> task,string arg)
+        public async Task ExecuteAsync(Func<IProgress<string>, string, Task> task, string arg1)
         {
             var progress = new Progress<string>(taskMessage =>
             {
                 Message = taskMessage;
             });
 
-            await Task.Run(() => task(progress,arg));
+            ProgressIndeterminate = true;
+
+            await Task.Run(() => task(progress, arg1));
+
+            ProgressIndeterminate = false;
+            Message = "Ready";
         }
 
-        public void ReportProgress(string pregress)
+        public async Task ExecuteAsync(Func<IProgress<string>, string, string, Task> task, string arg1, string arg2)
         {
+            var progress = new Progress<string>(taskMessage =>
+            {
+                Message = taskMessage;
+            });
 
+            ProgressIndeterminate = true;
+
+            await Task.Run(() => task(progress, arg1, arg2));
+
+            ProgressIndeterminate = false;
+            Message = "Ready";
         }
 
-        public async Task ExecuteAsync(IProgress<int> action, string message)
-        {
-            
-            await Task.Run(() => action);
-            
-        }
+        //public async Task ExecuteAsync(Func<IProgress<int>> action, string message)
+        //{
+        //    //var progress = new Progress<int>(actionProgress =>
+        //    //{
+        //    //    ProgressValue = actionProgress;
+        //    //});
+
+        //    //await Task.Run(() => action(progress));
+        //}
 
         public async Task ExecuteAsync(Task<bool> task, string v)
         {
@@ -96,32 +112,17 @@ namespace TNCodeApp.Progress
             Message = "Ready";
         }
 
-        //public void OnNavigatedTo(NavigationContext navigationContext)
+        //public async Task ExecuteAsync(Task task, string v)
         //{
-            
+        //    Message = v;
+        //    ProgressIndeterminate = true;
+
+        //    task.Start();
+        //    await task;
+
+        //    ProgressIndeterminate = false;
+        //    Message = "Ready";
         //}
-
-        //public bool IsNavigationTarget(NavigationContext navigationContext)
-        //{
-        //    return true;
-        //}
-
-        //public void OnNavigatedFrom(NavigationContext navigationContext)
-        //{
-            
-        //}
-
-        public async Task ExecuteAsync(Task task, string v)
-        {
-            Message = v;
-            ProgressIndeterminate = true;
-
-            task.Start();
-            await task;
-
-            ProgressIndeterminate = false;
-            Message = "Ready";
-        }
 
         public async Task ContinueAsync(Task task, string v)
         {
@@ -135,17 +136,18 @@ namespace TNCodeApp.Progress
 
         }
 
-        public async Task<T> ContinueAsync<T>(Task<T> task, string v)
-        {
-            Message = v;
-            ProgressIndeterminate = true;
+        //public async Task<T> ContinueAsync<T>(Task<T> task, string v)
+        //{
+        //    Message = v;
+        //    ProgressIndeterminate = true;
 
-            var result  = await task;
+        //    var result  = await task;
 
-            ProgressIndeterminate = false;
-            Message = "Ready";
+        //    ProgressIndeterminate = false;
+        //    Message = "Ready";
 
-            return result;
-        }
+        //    return result;
+        //}
+
     }
 }

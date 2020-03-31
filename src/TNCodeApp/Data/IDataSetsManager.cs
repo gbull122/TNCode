@@ -6,7 +6,7 @@ namespace TNCodeApp.Data
 {
     public interface IDataSetsManager
     {
-        bool DataSetAdd(IDataSet dataSet);
+        ObservableCollection<IDataSet> DataSets { get; set; }
         IDataSet DataSetGet(string name);
         Dictionary<string, ICollection<string>> SelectedData();
         IList<IVariable> SelectedVariables();

@@ -30,6 +30,16 @@ namespace TNCodeApp.Data.ViewModels
         public DelegateCommand DeleteDataSetCommand { get; private set; }
         public DelegateCommand CloseCommand { get; private set; }
 
+        public ObservableCollection<IDataSet> DataSets
+        {
+            get { return datasetsManager.DataSets; }
+            set
+            {
+                datasetsManager.DataSets = value;
+                RaisePropertyChanged("DataSets");
+            }
+        }
+
         public IDataSet SelectedDataSet
         {
             get { return selectedDataSet; }
@@ -86,12 +96,17 @@ namespace TNCodeApp.Data.ViewModels
 
         private async void AddNewDataset(DataSetEventArgs dataSet)
         {
+            if (dataSet.Modification == DataSetChange.AddedFromR)
+            {
+                //await rManager.DataSetToRAsDataFrameAsync(dataSet.Data);
+                datasetsManager.DataSets.Add(dataSet.Data);
+            }
+
             if (dataSet.Modification == DataSetChange.Added)
             {
                 await rManager.DataSetToRAsDataFrameAsync(dataSet.Data);
-                //datasetsManager.DataSets.Add(dataSet.Data);
+                datasetsManager.DataSets.Add(dataSet.Data);
             }
-
             //var dataSetEventArgs = new DataSetEventArgs();
             //dataSetEventArgs.Modification = DataSetChange.Added;
             //dataSetEventArgs.Data = dataSet;

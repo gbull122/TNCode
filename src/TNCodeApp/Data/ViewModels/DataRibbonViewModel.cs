@@ -96,18 +96,18 @@ namespace TNCodeApp.Data.ViewModels
                     return;
                 }
 
-                var task = new Task(() => LoadCsvFile(openFileDialog.FileName, dataSetName));
-
-                await progressService.ExecuteAsync(task, "Loading CSV file ");
+                await progressService.ExecuteAsync(LoadCsvFile, openFileDialog.FileName, dataSetName);
             }
         }
 
-        private void LoadCsvFile(string path, string datasetName)
+        private async Task LoadCsvFile(IProgress<string> progress,string path, string datasetName)
         {
+            progress.Report("Reading File...");
             var rowWiseRawData = dataSetsManager.ReadCsvFileRowWise(path);
             var colWiseData = dataSetsManager.RowWiseToColumnWise(rowWiseRawData);
-            var newDataSet = new DataSet(colWiseData, datasetName);
 
+            progress.Report("Importing Data...");
+            var newDataSet = new DataSet(colWiseData, datasetName);
             
             var dataSetEventArgs = new DataSetEventArgs();
             dataSetEventArgs.Modification = DataSetChange.Added;
@@ -117,18 +117,16 @@ namespace TNCodeApp.Data.ViewModels
 
         private async void LoadRData()
         {
-            ///TODO move into model
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "R Workspace (*.RData)|*.RData";
+            openFileDialog.Multiselect = false;
+
             if (openFileDialog.ShowDialog() == true)
             {
                var fileFullPath = openFileDialog.FileName;
 
                await progressService.ExecuteAsync(rManager.LoadRWorkSpace, fileFullPath);
-               //await rManager.LoadRWorkSpace(fileFullPath, progress);
             }
         }
-
-        
     }
 }

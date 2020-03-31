@@ -5,6 +5,7 @@ namespace TNCodeApp.Data.Events
     public enum DataSetChange
     {
         Added,
+        AddedFromR,
         Removed,
         Updated
     }
