@@ -4,6 +4,7 @@ using Prism.Events;
 using Prism.Regions;
 using TNCode.Core.Data;
 using TNCodeApp.Data;
+using TNCodeApp.Progress;
 using TNCodeApp.R;
 using TNCodeApp.R.ViewModels;
 
@@ -17,13 +18,16 @@ namespace TnCodeApp_Tests.R.ViewModels
         public void Test()
         {
 
-            //var eventAggregator = A.Fake<IEventAggregator>();
-            //var regionManager = A.Fake<IRegionManager>();
-            //var rManager = A.Fake<IRManager>();
-            //var xmlConverter = A.Fake<IXmlConverter>();
-            //var dataSetsManager = A.Fake<IDataSetsManager>();
+            var eventAggregator = A.Fake<IEventAggregator>();
+            var regionManager = A.Fake<IRegionManager>();
+            var rManager = A.Fake<IRManager>();
+            var xmlConverter = A.Fake<IXmlConverter>();
+            var dataSetsManager = A.Fake<IDataSetsManager>();
+            var progressService = A.Fake<IProgressService>();
 
-            //var chartBuilderViewModel = new ChartBuilderViewModel(eventAggregator, regionManager, rManager, xmlConverter, dataSetsManager);
+            var chartBuilderViewModel = new ChartBuilderViewModel(eventAggregator, regionManager, rManager, xmlConverter, dataSetsManager, progressService);
+
+            
         }
     }
 }

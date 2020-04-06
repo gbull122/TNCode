@@ -201,7 +201,7 @@
                                                         <CheckBox 
                                                                 Grid.Column="1"
                                                                 Margin="2"
-                                                                IsChecked="{Binding Factor, UpdateSourceTrigger=PropertyChanged}"
+                                                                IsChecked="{Binding Factor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                 VerticalAlignment="Center">
                                                         </CheckBox>
 
@@ -238,24 +238,30 @@
                         <TabItem
                             Header="Stat"
                             Width="{Binding ElementName=tabWidthSizer, Path=ActualWidth}">
+                            <ContentControl 
+                                prism:RegionManager.RegionName="StatRegion" />
 
                         </TabItem>
 
                         <TabItem
                             Header="Position"
                             Width="{Binding ElementName=tabWidthSizer, Path=ActualWidth}">
-
+                            <ContentControl 
+                                prism:RegionManager.RegionName="PositionRegion" />
                         </TabItem>
 
                         <TabItem
                             Header="Titles"
                             Width="{Binding ElementName=tabWidthSizer, Path=ActualWidth}">
-
+                            <ContentControl 
+                                prism:RegionManager.RegionName="TitleRegion" />
                         </TabItem>
 
                         <TabItem
                             Header="Facet"
                             Width="{Binding ElementName=tabWidthSizer, Path=ActualWidth}">
+                            <ContentControl 
+                                prism:RegionManager.RegionName="FacetRegion" />
 
                         </TabItem>
 

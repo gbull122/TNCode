@@ -202,7 +202,9 @@
     <Compile Include="R\ViewModels\ChartBuilderViewModel.cs" />
     <Compile Include="R\ViewModels\FunctionViewModel.cs" />
     <Compile Include="R\ViewModels\GgplotFacetViewModel.cs" />
+    <Compile Include="R\ViewModels\GgplotPositionViewModel.cs" />
     <Compile Include="R\ViewModels\GgplotScaleViewModel.cs" />
+    <Compile Include="R\ViewModels\GgplotStatViewModel.cs" />
     <Compile Include="R\ViewModels\GgplotTitleViewModel.cs" />
     <Compile Include="R\ViewModels\RibbonRViewModel.cs" />
     <Compile Include="R\Views\ChartBuilderView.xaml.cs">
@@ -214,6 +216,9 @@
     <Compile Include="R\Views\GgplotFacetView.xaml.cs">
       <DependentUpon>GgplotFacetView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="R\Views\GgplotPositionViewModel.xaml.cs">
+      <DependentUpon>GgplotPositionViewModel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="R\Views\GgplotScaleView.xaml.cs">
       <DependentUpon>GgplotScaleView.xaml</DependentUpon>
     </Compile>
@@ -222,6 +227,9 @@
     </Compile>
     <Compile Include="R\Views\RibbonRView.xaml.cs">
       <DependentUpon>RibbonRView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="R\Views\GgplotStatView.xaml.cs">
+      <DependentUpon>GgplotStatView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -355,6 +363,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="R\Views\GgplotPositionViewModel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="R\Views\GgplotScaleView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -366,6 +378,10 @@
     <Page Include="R\Views\RibbonRView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="R\Views\GgplotStatView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

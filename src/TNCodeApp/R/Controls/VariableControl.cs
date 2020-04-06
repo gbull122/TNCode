@@ -28,6 +28,7 @@ namespace TNCodeApp.R.Controls
             aestheticValue = aesValue;
             variables = variableNames;
 
+            OnPropertyChanged("");
             ActionCommand = new DelegateCommand(DoAction, CanDoAction);
         }
 

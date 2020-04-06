@@ -53,9 +53,9 @@ namespace TNCodeApp
             containerRegistry.RegisterForNavigation<ChartView>();
 
             containerRegistry.RegisterForNavigation<ChartBuilderView>();
-            containerRegistry.RegisterForNavigation<GgplotTitleView>();
-            containerRegistry.RegisterForNavigation<GgplotScaleView>();
-            containerRegistry.RegisterForNavigation<GgplotFacetView>();
+            //containerRegistry.RegisterForNavigation<GgplotTitleView>();
+            //containerRegistry.RegisterForNavigation<GgplotScaleView>();
+            //containerRegistry.RegisterForNavigation<GgplotFacetView>();
 
             containerRegistry.RegisterDialog<ConfirmationDialogView, ConfirmationDialogViewModel>();
         }

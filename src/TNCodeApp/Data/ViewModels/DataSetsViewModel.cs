@@ -98,20 +98,19 @@ namespace TNCodeApp.Data.ViewModels
         {
             if (dataSet.Modification == DataSetChange.AddedFromR)
             {
-                //await rManager.DataSetToRAsDataFrameAsync(dataSet.Data);
                 datasetsManager.DataSets.Add(dataSet.Data);
+                dataSet.Modification = DataSetChange.Updated;
+                eventAggregator.GetEvent<DataSetChangedEvent>().Publish(dataSet);
             }
 
             if (dataSet.Modification == DataSetChange.Added)
             {
                 await rManager.DataSetToRAsDataFrameAsync(dataSet.Data);
-                datasetsManager.DataSets.Add(dataSet.Data);
+                dataSet.Modification = DataSetChange.Updated;
+                eventAggregator.GetEvent<DataSetChangedEvent>().Publish(dataSet);
             }
-            //var dataSetEventArgs = new DataSetEventArgs();
-            //dataSetEventArgs.Modification = DataSetChange.Added;
-            //dataSetEventArgs.Data = dataSet;
+           
 
-            //eventAggregator.GetEvent<DataSetChangedEvent>().Publish(dataSetEventArgs);
         }
 
         private void DatasetSelectionChanged()

@@ -1,5 +1,6 @@
 ﻿using Prism.Commands;
 using Prism.Events;
+using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
@@ -29,6 +30,7 @@ namespace TNCodeApp.R.ViewModels
     {
         private readonly IEventAggregator eventAggregator;
         private readonly IRegionManager regionManager;
+        private readonly IContainerExtension containerExtension;
 
         private readonly IRManager rManager;
         private readonly IDataSetsManager dataSetsManager;
@@ -49,6 +51,11 @@ namespace TNCodeApp.R.ViewModels
         public DelegateCommand<string> ActionCommand { get; private set; }
 
         private ObservableCollection<VariableControl> variableControls;
+
+        private GgplotFacetView facetView;
+        private GgplotScaleView scaleView;
+        private GgplotTitleView titleView;
+        private GgplotStatView statView;
 
         public object OptionsView
         {
@@ -118,16 +125,17 @@ namespace TNCodeApp.R.ViewModels
             }
         }
 
-        public ChartBuilderViewModel(IEventAggregator eventAggr, IRegionManager regMngr, IRManager rMngr, IXmlConverter converter, IDataSetsManager setsManager, IProgressService progService)
+        public ChartBuilderViewModel(IContainerExtension container, IEventAggregator eventAggr, IRegionManager regMngr, IRManager rMngr, IXmlConverter converter, IDataSetsManager setsManager, IProgressService progService)
         {
             xmlConverter = converter;
             rManager = rMngr;
             eventAggregator = eventAggr;
             regionManager = regMngr;
+            containerExtension = container;
             dataSetsManager = setsManager;
             progressService = progService;
 
-            //eventAggregator.GetEvent<DataSetEventArgs>().Subscribe(DataSetsChanged, ThreadOption.UIThread);
+            eventAggregator.GetEvent<DataSetChangedEvent>().Subscribe(DataSetsChanged, ThreadOption.UIThread);
 
             eventAggregator.GetEvent<VariableControlActionEvent>().Subscribe(HandleAction);
 
@@ -147,11 +155,18 @@ namespace TNCodeApp.R.ViewModels
             currentVariables = new List<string>();
 
             dataSets = dataSetsManager.DataSetNames();
+            if (dataSets.Count() > 0)
+                NewLayer();
+
+            //var view = containerExtension.Resolve<GgplotFacetEvent>();
+            //IRegion region = regionManager.Regions["FacetRegion"];
+            //region.Add(view);
         }
 
         private void DataSetsChanged(DataSetEventArgs dataSetEventArgs)
         {
             DataSets = dataSetsManager.DataSetNames();
+            NewLayerCommand.RaiseCanExecuteChanged();
         }
 
         private void ExecuteActionCommand(string obj)
@@ -159,8 +174,7 @@ namespace TNCodeApp.R.ViewModels
             var navigationParameters = new NavigationParameters();
 
             OptionsView = new GgplotFacetView();
-            //regionManager.RequestNavigate("OptionsRegion",
-            //   new Uri("Ggplot" + obj + "View" + navigationParameters.ToString(), UriKind.Relative));
+
         }
 
         private void HandleAction(string aestheticName)
@@ -190,6 +204,10 @@ namespace TNCodeApp.R.ViewModels
                 vc.PropertyChanged -= GControl_PropertyChanged;
             }
             variableControls.Clear();
+
+            if (currentVariables == null || currentVariables.Count()==0)
+                UpdateVariables();
+
             foreach (var aValue in SelectedLayer.Aes.AestheticValues)
             {
                 var gControl = new VariableControl(eventAggregator, aValue, currentVariables);
@@ -204,15 +222,20 @@ namespace TNCodeApp.R.ViewModels
         {
             if (e.PropertyName.Equals(nameof(Layer.Data)))
             {
-                var varibleNames = dataSetsManager.DataSetVariableNames(selectedLayer.Data);
-                varibleNames.Insert(0, "");
-                currentVariables = varibleNames;
+                UpdateVariables();
             }
 
-            //if (e.PropertyName.Equals(nameof(Layer.Geom)))
+            if (e.PropertyName.Equals(nameof(Layer.Geom)))
                 Update();
 
             await GeneratePlotAsync();
+        }
+
+        private void UpdateVariables()
+        {
+            var varibleNames = dataSetsManager.DataSetVariableNames(selectedLayer.Data);
+            varibleNames.Insert(0, "");
+            currentVariables = varibleNames;
         }
 
         private void Update()
@@ -243,8 +266,8 @@ namespace TNCodeApp.R.ViewModels
 
         private async void GControl_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            
-            await progressService.ContinueAsync(GeneratePlotAsync(),"Generating ggplot chart");
+
+            await progressService.ContinueAsync(GeneratePlotAsync(), "Generating ggplot chart");
         }
 
         private async Task GeneratePlotAsync()
@@ -315,7 +338,7 @@ namespace TNCodeApp.R.ViewModels
             }
             SelectedLayer.Aes = mergedAesthetic;
 
-            RaisePropertyChanged("");
+            RaisePropertyChanged(string.Empty);
         }
 
         private bool CanClearLayers()
@@ -345,19 +368,15 @@ namespace TNCodeApp.R.ViewModels
             var aestheticXml = Properties.Resources.ResourceManager.GetObject("geom_point");
             var aesthetic = xmlConverter.ToObject<Aesthetic>(aestheticXml.ToString());
             newLayer.Aes = aesthetic;
+            newLayer.Data = dataSets.First();
 
             layers.Add(newLayer);
 
-            ClearLayersCommand.RaiseCanExecuteChanged();
             LayerSelected(newLayer);
+            SelectedLayer_PropertyChanged(null, new System.ComponentModel.PropertyChangedEventArgs(nameof(Layer.Data)));
 
+            ClearLayersCommand.RaiseCanExecuteChanged();
         }
-
-        //private async void PutDataSetInR(DataSet data)
-        //{
-
-        //    await rManager.DataSetToRAsDataFrameAsync(data);
-        //}
 
         //private void DataSetsChanged(DataSet dataSet)
         //{

@@ -82,6 +82,11 @@ namespace TNCodeApp
             regionManager.RegisterViewWithRegion("MainRegion", typeof(DataSetsView));
             regionManager.RegisterViewWithRegion("MainRegion", typeof(LoggerView));
 
+            regionManager.RegisterViewWithRegion("FacetRegion", typeof(GgplotFacetView));
+            regionManager.RegisterViewWithRegion("StatRegion", typeof(GgplotStatView));
+            regionManager.RegisterViewWithRegion("TitleRegion", typeof(GgplotTitleView));
+            regionManager.RegisterViewWithRegion("ScaleRegion", typeof(GgplotScaleView));
+
             regionManager.RegisterViewWithRegion("StatusBarRegion", typeof(ProgressView));
         }
 
