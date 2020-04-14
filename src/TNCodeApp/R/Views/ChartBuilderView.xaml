@@ -23,7 +23,7 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
-
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
                 <!--Buttons-->
@@ -152,62 +152,62 @@
                                         Margin="2"
                                         ItemsSource="{Binding Geoms}"
                                         SelectedItem="{Binding SelectedLayer.Geom}"/>
-                               
 
-                                <ItemsControl 
+
+                                    <ItemsControl 
                                     Grid.Row="1"
                                     Grid.ColumnSpan="2"
                                     ItemsSource="{Binding Path=VariableControls}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <WrapPanel
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel
                                            Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollViewer}}, Path=ActualWidth}"/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <Border
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border
                                             x:Name="MainBorder"
                                             BorderBrush="Black"
                                             BorderThickness="1"
                                             Margin="1">
 
-                                                <Grid>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="Auto"/>
-                                                        <RowDefinition Height="Auto"/>
-                                                    </Grid.RowDefinitions>
-
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                    </Grid.ColumnDefinitions>
-
-                                                    <Grid
-                                                            Grid.Row="0" 
-                                                            Grid.Column="0">
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="Auto"/>
+                                                        </Grid.RowDefinitions>
 
                                                         <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="Auto"/>
                                                             <ColumnDefinition Width="Auto"/>
                                                         </Grid.ColumnDefinitions>
 
-                                                        <TextBlock 
+                                                        <Grid
+                                                            Grid.Row="0" 
+                                                            Grid.Column="0">
+
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <TextBlock 
                                                                 Grid.Column="0"
                                                                 Margin="2" 
                                                                 Text="{Binding PropertyName}"
                                                                 VerticalAlignment="Center"/>
 
-                                                        <CheckBox 
+                                                            <CheckBox 
                                                                 Grid.Column="1"
                                                                 Margin="2"
                                                                 IsChecked="{Binding Factor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                                 VerticalAlignment="Center">
-                                                        </CheckBox>
+                                                            </CheckBox>
 
-                                                    </Grid>
+                                                        </Grid>
 
-                                                    <ComboBox 
+                                                        <ComboBox 
                                                             Grid.Row="1"  
                                                             Grid.Column="0"
                                                             Margin="2" 
@@ -216,7 +216,7 @@
                                                             SelectedItem="{Binding Path=SelectedVariable ,UpdateSourceTrigger=PropertyChanged}"
                                                             IsSynchronizedWithCurrentItem="False"/>
 
-                                                    <Button 
+                                                        <Button 
                                                             Name="ActionButton"
                                                             Grid.Row="1"  
                                                             Grid.Column="1"
@@ -224,13 +224,13 @@
                                                             MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
                                                             Command="{Binding ActionCommand}"/>
 
-                                                </Grid>
+                                                    </Grid>
 
 
-                                            </Border>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
                                 </Grid>
                             </ScrollViewer>
                         </TabItem>
@@ -238,8 +238,43 @@
                         <TabItem
                             Header="Stat"
                             Width="{Binding ElementName=tabWidthSizer, Path=ActualWidth}">
-                            <ContentControl 
-                                prism:RegionManager.RegionName="StatRegion" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="43*"/>
+                                    <ColumnDefinition Width="66*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <ComboBox
+                                    Margin="2,2,2.2,2"
+                                    ItemsSource="{Binding Stats}"
+                                    SelectedItem="{Binding SelectedStat}" Grid.ColumnSpan="2">
+                                </ComboBox>
+
+
+                                <GroupBox
+                                    Grid.Row="1"
+                                    Header="Controls" Grid.ColumnSpan="2" Margin="0,0,0.2,0.2">
+
+                                    <Grid>
+                                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                            <ItemsControl ItemsSource="{Binding ExtraControls}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <WrapPanel/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                            </ItemsControl>
+                                        </ScrollViewer>
+                                    </Grid>
+
+                                </GroupBox>
+
+                            </Grid>
 
                         </TabItem>
 
@@ -250,23 +285,193 @@
                                 prism:RegionManager.RegionName="PositionRegion" />
                         </TabItem>
 
-                        <TabItem
-                            Header="Titles"
-                            Width="{Binding ElementName=tabWidthSizer, Path=ActualWidth}">
-                            <ContentControl 
-                                prism:RegionManager.RegionName="TitleRegion" />
-                        </TabItem>
 
                         <TabItem
                             Header="Facet"
-                            Width="{Binding ElementName=tabWidthSizer, Path=ActualWidth}">
-                            <ContentControl 
-                                prism:RegionManager.RegionName="FacetRegion" />
+                            Width="{Binding ElementName=tabWidthSizer, Path=ActualWidth}"
+                            DataContext="{Binding FacetViewModel}">
+                            <Grid>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Margin="2"
+                                    Text="Vertical"/>
+
+                                <ComboBox 
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    MinWidth="75"
+                                    Margin="2" 
+                                    MaxDropDownHeight="150"
+                                    ItemsSource="{Binding Path=Variables}" 
+                                    IsSynchronizedWithCurrentItem="False"
+                                    SelectedItem="{Binding Path=XVariable ,UpdateSourceTrigger=PropertyChanged}"
+                                    ToolTip="Select the vertical variable."/>
+
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Margin="2"
+                                    Text="Horizontal"/>
+
+                                <ComboBox 
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    MinWidth="75"
+                                    Margin="2" 
+                                    MaxDropDownHeight="150"
+                                    ItemsSource="{Binding Path=Variables}" 
+                                    IsSynchronizedWithCurrentItem="False"
+                                    SelectedItem="{Binding Path=YVariable ,UpdateSourceTrigger=PropertyChanged}"
+                                    ToolTip="Select the Horizontal variable."/>
+
+                                <CheckBox
+                                    Grid.Row="2"
+                                    Grid.Column="0"
+                                    Margin="2"
+                                    Content="Free Scale"
+                                    IsChecked="{Binding Path=IsFreeScale}"
+                                    ToolTip="Check for each plot to have a seperate scale."/>
+
+                                <CheckBox
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    Margin="2"
+                                    Content="Free Space"
+                                    IsChecked="{Binding Path=IsFreeSpace}"
+                                    ToolTip="Check for each plot to have different size."/>
+
+                            </Grid>
 
                         </TabItem>
 
                     </TabControl>
+
+
                 </Grid>
+
+                <GroupBox
+                    Grid.Row="3"
+                    Header="Titles">
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="2"
+            Text="Main Title"/>
+
+                        <TextBox
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="2"
+            Width="250"
+            Text="{Binding Path=MainTitle}"
+            ToolTip="The text of the title."/>
+
+                        <StackPanel
+            Grid.Row="3"
+            Grid.Column="0"
+            Margin="2"
+            Orientation="Horizontal"/>
+
+                        <TextBlock
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="2"
+            Text="X Axis Title"/>
+
+                        <TextBox
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="2"
+            Text="{Binding Path=XAxisTitle}"
+            ToolTip="The X Axis title."/>
+
+                        <TextBlock
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="2"
+            Text="Y Axis Title"/>
+
+                        <TextBox
+            Grid.Row="3"
+            Grid.Column="1"
+            Margin="2"
+            Text="{Binding Path=YAxisTitle}"
+            ToolTip="The Y axis title."/>
+
+                        <Grid
+            Grid.Row="2"
+            Grid.RowSpan="2"
+            Grid.Column="0">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="2"
+                Text="Subtitle"/>
+
+                            <TextBlock
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="2"
+                Text="Caption"/>
+
+                            <TextBox
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="2"
+                Text="{Binding Path=Subtitle}"
+                ToolTip="The subtitle text."/>
+
+                            <TextBox
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="2"
+                Text="{Binding Path=Caption}"
+                ToolTip="The caption text."
+                VerticalAlignment="Center"/>
+
+                        </Grid>
+                    </Grid>
+
+                </GroupBox>
+
             </Grid>
 
         </GroupBox>

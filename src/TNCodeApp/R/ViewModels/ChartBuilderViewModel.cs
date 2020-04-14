@@ -21,7 +21,6 @@ using TNCodeApp.R.Charts.Ggplot;
 using TNCodeApp.R.Charts.Ggplot.Enums;
 using TNCodeApp.R.Charts.Ggplot.Layer;
 using TNCodeApp.R.Controls;
-using TNCodeApp.R.Events;
 using TNCodeApp.R.Views;
 
 namespace TNCodeApp.R.ViewModels
@@ -52,18 +51,15 @@ namespace TNCodeApp.R.ViewModels
 
         private ObservableCollection<VariableControl> variableControls;
 
-        private GgplotFacetView facetView;
-        private GgplotScaleView scaleView;
-        private GgplotTitleView titleView;
-        private GgplotStatView statView;
+        private GgplotFacetViewModel ggplotFacetViewModel;
 
-        public object OptionsView
+        public GgplotFacetViewModel FacetViewModel
         {
-            get { return optionsView; }
+            get { return ggplotFacetViewModel; }
             set
             {
-                optionsView = value;
-                RaisePropertyChanged(nameof(OptionsView));
+                ggplotFacetViewModel = value;
+                RaisePropertyChanged(nameof(FacetViewModel));
             }
         }
         public IEnumerable<string> DataSets
@@ -137,7 +133,7 @@ namespace TNCodeApp.R.ViewModels
 
             eventAggregator.GetEvent<DataSetChangedEvent>().Subscribe(DataSetsChanged, ThreadOption.UIThread);
 
-            eventAggregator.GetEvent<VariableControlActionEvent>().Subscribe(HandleAction);
+            ggplotFacetViewModel = new GgplotFacetViewModel();
 
             layers = new ObservableCollection<ILayer>();
             variableControls = new ObservableCollection<VariableControl>();
@@ -150,7 +146,7 @@ namespace TNCodeApp.R.ViewModels
             ClearLayersCommand = new DelegateCommand(ClearLayers, CanClearLayers);
             LayerSelectedCommand = new DelegateCommand<ILayer>(LayerSelected);
             CopyChartCommand = new DelegateCommand(CopyChart);
-            ActionCommand = new DelegateCommand<string>(ExecuteActionCommand);
+            //ActionCommand = new DelegateCommand<string>(ExecuteActionCommand);
 
             currentVariables = new List<string>();
 
@@ -158,9 +154,7 @@ namespace TNCodeApp.R.ViewModels
             if (dataSets.Count() > 0)
                 NewLayer();
 
-            //var view = containerExtension.Resolve<GgplotFacetEvent>();
-            //IRegion region = regionManager.Regions["FacetRegion"];
-            //region.Add(view);
+            
         }
 
         private void DataSetsChanged(DataSetEventArgs dataSetEventArgs)
@@ -169,18 +163,14 @@ namespace TNCodeApp.R.ViewModels
             NewLayerCommand.RaiseCanExecuteChanged();
         }
 
-        private void ExecuteActionCommand(string obj)
-        {
-            var navigationParameters = new NavigationParameters();
+        //private void ExecuteActionCommand(string obj)
+        //{
+        //    var navigationParameters = new NavigationParameters();
 
-            OptionsView = new GgplotFacetView();
+        //    OptionsView = new GgplotFacetView();
 
-        }
+        //}
 
-        private void HandleAction(string aestheticName)
-        {
-
-        }
 
         private void CopyChart()
         {
@@ -236,6 +226,7 @@ namespace TNCodeApp.R.ViewModels
             var varibleNames = dataSetsManager.DataSetVariableNames(selectedLayer.Data);
             varibleNames.Insert(0, "");
             currentVariables = varibleNames;
+            ggplotFacetViewModel.Variables = varibleNames;
         }
 
         private void Update()

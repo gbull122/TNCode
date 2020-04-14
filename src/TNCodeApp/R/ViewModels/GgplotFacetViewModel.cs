@@ -1,4 +1,6 @@
-﻿using Prism.Mvvm;
+﻿using Prism.Events;
+using Prism.Mvvm;
+using System;
 using System.Collections.Generic;
 
 namespace TNCodeApp.R.ViewModels
@@ -43,5 +45,6 @@ namespace TNCodeApp.R.ViewModels
         {
 
         }
+
     }
 }

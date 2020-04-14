@@ -3,7 +3,6 @@ using Prism.Events;
 using System.Collections.Generic;
 using System.ComponentModel;
 using TNCodeApp.R.Charts.Ggplot.Layer;
-using TNCodeApp.R.Events;
 
 namespace TNCodeApp.R.Controls
 {
@@ -42,7 +41,7 @@ namespace TNCodeApp.R.Controls
             if (string.IsNullOrEmpty(aestheticValue.Entry))
                 return;
 
-            eventAggregator.GetEvent<VariableControlActionEvent>().Publish(aestheticValue.Name);
+            //eventAggregator.GetEvent<VariableControlActionEvent>().Publish(aestheticValue.Name);
 
         }
 
