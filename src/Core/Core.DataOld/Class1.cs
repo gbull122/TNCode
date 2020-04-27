@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Core.CData
+namespace Core.Data
 {
     public class Class1
     {

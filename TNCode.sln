@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TNCodeApp", "src\TNCodeApp\TNCodeApp.csproj", "{0D11040B-A2C8-497D-AC48-F8E9E1CB9A54}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{AEC054BD-B944-4338-A722-BBC5CCD7EE7D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Data", "src\Core\Core.Data\Core.Data.csproj", "{2107AA65-B7B1-4498-858F-C878FFCD2375}"
@@ -19,16 +17,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UITests", "Tests\UITests\UI
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TnCodeApp_Tests", "Tests\TnCodeApp_Tests\TnCodeApp_Tests.csproj", "{53295941-6D3C-4499-B884-61059C857049}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "src\Core\Data\Data.csproj", "{F29EF4C7-175B-43D2-875E-2B297C7B5EAF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TnCodeApp", "src\TnCodeApp\TnCodeApp.csproj", "{180DC02F-1622-4D3F-97C8-BB9F5D9F2C76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "R", "src\Core\R\R\R.csproj", "{329626DC-2857-4242-8D4D-110FD7432E38}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0D11040B-A2C8-497D-AC48-F8E9E1CB9A54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0D11040B-A2C8-497D-AC48-F8E9E1CB9A54}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0D11040B-A2C8-497D-AC48-F8E9E1CB9A54}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0D11040B-A2C8-497D-AC48-F8E9E1CB9A54}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2107AA65-B7B1-4498-858F-C878FFCD2375}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2107AA65-B7B1-4498-858F-C878FFCD2375}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2107AA65-B7B1-4498-858F-C878FFCD2375}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +45,18 @@ Global
 		{53295941-6D3C-4499-B884-61059C857049}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53295941-6D3C-4499-B884-61059C857049}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53295941-6D3C-4499-B884-61059C857049}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F29EF4C7-175B-43D2-875E-2B297C7B5EAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F29EF4C7-175B-43D2-875E-2B297C7B5EAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F29EF4C7-175B-43D2-875E-2B297C7B5EAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F29EF4C7-175B-43D2-875E-2B297C7B5EAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{180DC02F-1622-4D3F-97C8-BB9F5D9F2C76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{180DC02F-1622-4D3F-97C8-BB9F5D9F2C76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{180DC02F-1622-4D3F-97C8-BB9F5D9F2C76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{180DC02F-1622-4D3F-97C8-BB9F5D9F2C76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{329626DC-2857-4242-8D4D-110FD7432E38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{329626DC-2857-4242-8D4D-110FD7432E38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{329626DC-2857-4242-8D4D-110FD7432E38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{329626DC-2857-4242-8D4D-110FD7432E38}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,6 +66,8 @@ Global
 		{CE50257B-7F5D-4454-BF05-76D54D2B80D4} = {F123B869-EF52-45E0-BECB-ECF06DE78499}
 		{88F66216-F539-48ED-921B-717CD9245AFA} = {7D1C5E63-5AD4-4267-95BA-B0057C94E26F}
 		{53295941-6D3C-4499-B884-61059C857049} = {F123B869-EF52-45E0-BECB-ECF06DE78499}
+		{F29EF4C7-175B-43D2-875E-2B297C7B5EAF} = {AEC054BD-B944-4338-A722-BBC5CCD7EE7D}
+		{329626DC-2857-4242-8D4D-110FD7432E38} = {AEC054BD-B944-4338-A722-BBC5CCD7EE7D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F6830CDF-4D4F-480A-B40E-A0A7F23DC4A9}
