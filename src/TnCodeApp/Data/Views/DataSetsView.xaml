@@ -1,0 +1,70 @@
+﻿<UserControl 
+    x:Class="TnCode.TnCodeApp.Data.Views.DataSetsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:local="clr-namespace:TnCode.TnCodeApp.Data.Views"
+    xmlns:data="clr-namespace:TnCode.Core.Data"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:ie="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:ie1="http://schemas.microsoft.com/xaml/behaviors"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    Name="DatasetsView">
+
+    <Grid>
+        <TreeView
+                x:Name="DataSetsTreeView"
+                Margin="2" 
+                ItemsSource="{Binding Path=DataSets}" 
+                ScrollViewer.VerticalScrollBarVisibility="Visible"
+                Width="Auto"
+                ToolTip="Use to select a data set.">
+
+            <TreeView.Resources>
+                <HierarchicalDataTemplate 
+                        DataType="{x:Type data:DataSet}" 
+                        ItemsSource="{Binding Variables}">
+
+                    <StackPanel 
+                            Orientation="Horizontal">
+                        <CheckBox 
+                                IsChecked="{Binding IsSelected}"
+                                Command="{Binding DataContext.DatasetSelectionChangedCommand,RelativeSource={RelativeSource AncestorType={x:Type local:DataSetsView}}}"/>
+                        <TextBlock 
+                                Text="{Binding Name}"/>
+                    </StackPanel>
+
+                </HierarchicalDataTemplate>
+
+                <HierarchicalDataTemplate
+                        DataType="{x:Type data:Variable}">
+
+                    <StackPanel 
+                        Orientation="Horizontal">
+                        <CheckBox 
+                                IsChecked="{Binding IsSelected}"
+                               Command="{Binding DataContext.VariableSelectionChangedCommand,RelativeSource={RelativeSource AncestorType={x:Type local:DataSetsView}}}"/>
+                        <TextBlock 
+                                Text="{Binding Name}"/>
+                        <!--<TextBlock 
+                                Text="{Binding VariableType}"/>
+                            <TextBlock 
+                                Text="{Binding Length}"/>-->
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+
+            </TreeView.Resources>
+
+            <TreeView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem 
+                            Header="Delete"
+                            Command="{Binding DeleteDataSetCommand}" 
+                            CommandParameter="{Binding ElementName=DataSetsTreeView, Path=SelectedItem}"/>
+                </ContextMenu>
+            </TreeView.ContextMenu>
+
+        </TreeView>
+
+    </Grid>
+</UserControl>

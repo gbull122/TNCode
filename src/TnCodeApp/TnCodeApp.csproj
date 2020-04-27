@@ -19,8 +19,4 @@
     <ProjectReference Include="..\Core\R\R\R.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="R\" />
-  </ItemGroup>
-
 </Project>

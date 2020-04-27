@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Aesthetic Name="smooth">
+  <AestheticValues>
+    <AestheticValue Name="X"/>
+    <AestheticValue Name="Y"/>
+    <AestheticValue Name="Alpha"/>
+    <AestheticValue Name="Colour"/>
+    <AestheticValue Name="Fill"/>
+    <AestheticValue Name="Group"/>
+    <AestheticValue Name="LineType"/>
+    <AestheticValue Name="Size"/>
+    <AestheticValue Name="Weight"/>
+  </AestheticValues>
+  <DefaultStat>Smooth</DefaultStat>
+  <DefaultPosition>Identity</DefaultPosition>
+</Aesthetic>

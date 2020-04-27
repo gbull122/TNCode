@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Statistic Name="ydensity">
+  <Properties>
+    <Property Tag="Bandwidth" Name="bw" Value="nrd0">
+      <Options>
+        <Option Name="Silverman" Value="nrd0"/>
+        <Option Name="Scott" Value="nrd"/>
+        <Option Name="Unbiased Cross Validation" Value="ucv"/>
+        <Option Name="Biased Cross Validation" Value="bcv"/>
+      </Options>
+    </Property>
+    <Property Tag="Scale" Name="scale" Value="area">
+      <Options>
+        <Option Name="Area" Value="area"/>
+        <Option Name="Count" Value="count"/>
+        <Option Name="Unbiased Cross Validation" Value="width"/>
+      </Options>
+    </Property>
+  </Properties>
+</Statistic>

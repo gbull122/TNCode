@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Aesthetic Name="errorbar">
+  <AestheticValues>
+    <AestheticValue Name="X"/>
+    <AestheticValue Name="YMin"/>
+    <AestheticValue Name="YMax"/>
+    <AestheticValue Name="Alpha"/>
+    <AestheticValue Name="Colour"/>
+    <AestheticValue Name="Group"/>
+    <AestheticValue Name="Height"/>
+    <AestheticValue Name="LineType"/>
+    <AestheticValue Name="Size"/>
+  </AestheticValues>
+  <DefaultStat>Identity</DefaultStat>
+  <DefaultPosition>Identity</DefaultPosition>
+  <Values>
+    <Property Tag="Fatten" Name="fatten" Value="1"/>
+  </Values>
+</Aesthetic>
