@@ -9,6 +9,7 @@ using System.Text;
 using TnCode.Core.Data;
 using TnCode.TnCodeApp.Data.Events;
 using TnCode.TnCodeApp.Docking;
+using TnCode.TnCodeApp.R;
 
 namespace TnCode.TnCodeApp.Data.ViewModels
 {
@@ -19,7 +20,7 @@ namespace TnCode.TnCodeApp.Data.ViewModels
         private IRegionManager regionManager;
         private IList<object> selectedVariables;
         private IDataSetsManager datasetsManager;
-        private IRManager rManager;
+        private IRService rService;
 
         public string Title { get => "Data"; }
 
@@ -62,10 +63,10 @@ namespace TnCode.TnCodeApp.Data.ViewModels
 
         public bool KeepAlive => true;
 
-        public DataSetsViewModel(IEventAggregator eventAggregator, IRegionManager regionManager, IDataSetsManager dataMgr, IRManager rMgr)
+        public DataSetsViewModel(IEventAggregator eventAggregator, IRegionManager regionManager, IDataSetsManager dataMgr, IRService rSer)
         {
             datasetsManager = dataMgr;
-            rManager = rMgr;
+            rService = rSer;
 
             this.eventAggregator = eventAggregator;
             this.regionManager = regionManager;
@@ -105,7 +106,7 @@ namespace TnCode.TnCodeApp.Data.ViewModels
 
             if (dataSet.Modification == DataSetChange.Added)
             {
-                await rManager.DataSetToRAsDataFrameAsync(dataSet.Data);
+                await rService.DataSetToRAsDataFrameAsync(dataSet.Data);
                 dataSet.Modification = DataSetChange.Updated;
                 eventAggregator.GetEvent<DataSetChangedEvent>().Publish(dataSet);
             }

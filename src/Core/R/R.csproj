@@ -10,12 +10,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Data\Data.csproj" />
+    <Folder Include="Charts\Ggplot\Theme\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Charts\Ggplot\Layer\" />
-    <Folder Include="Charts\Ggplot\Theme\" />
+    <ProjectReference Include="..\Data\Data.csproj" />
   </ItemGroup>
 
 </Project>

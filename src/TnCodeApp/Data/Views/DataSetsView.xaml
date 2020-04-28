@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:local="clr-namespace:TnCode.TnCodeApp.Data.Views"
-    xmlns:data="clr-namespace:TnCode.Core.Data"
+    xmlns:data="clr-namespace:TnCode.Core.Data;assembly=Data"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:ie="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:ie1="http://schemas.microsoft.com/xaml/behaviors"

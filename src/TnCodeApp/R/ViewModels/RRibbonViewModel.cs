@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 using TnCode.TnCodeApp.Progress;
+using TnCode.TnCodeApp.R.Views;
 
 namespace TnCode.TnCodeApp.R.ViewModels
 {
@@ -14,7 +15,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
     {
         private IEventAggregator eventAggregator;
         private IRegionManager regionManager;
-        private IRManager rManager;
+        private IRService rService;
         private IProgressService progressService;
 
         public bool IsMainRibbon => false;
@@ -40,11 +41,11 @@ namespace TnCode.TnCodeApp.R.ViewModels
             return !isRRunning;
         }
 
-        public RRibbonViewModel(IEventAggregator eventAggr, IRegionManager regionMgr, IRManager rMgr, IProgressService pService)
+        public RRibbonViewModel(IEventAggregator eventAggr, IRegionManager regionMgr, IRService rMgr, IProgressService pService)
         {
             eventAggregator = eventAggr;
             regionManager = regionMgr;
-            rManager = rMgr;
+            rService = rMgr;
             progressService = pService;
 
             ChartBuilderCommand = new DelegateCommand(CreateChart).ObservesCanExecute(() => IsRRunning);
@@ -59,24 +60,24 @@ namespace TnCode.TnCodeApp.R.ViewModels
             StringBuilder message = new StringBuilder();
 
             message.AppendLine("TNCode is connected to R:");
-            message.AppendLine("R Home : " + await rManager.RHomeFromConnectedRAsync());
-            message.AppendLine("R Version :" + await rManager.RVersionFromConnectedRAsync());
-            message.AppendLine("R Platform :" + await rManager.RPlatformFromConnectedRAsync());
+            message.AppendLine("R Home : " + await rService.RHomeFromConnectedRAsync());
+            message.AppendLine("R Version :" + await rService.RVersionFromConnectedRAsync());
+            message.AppendLine("R Platform :" + await rService.RPlatformFromConnectedRAsync());
 
             MessageBox.Show(message.ToString(), "TNCode", MessageBoxButton.OK);
         }
 
         private async void StartR()
         {
-            await progressService.ExecuteAsync(rManager.InitialiseAsync(), "Starting R...");
+            await progressService.ExecuteAsync(rService.InitialiseAsync(), "Starting R...");
 
-            IsRRunning = rManager.IsRRunning;
+            IsRRunning = rService.IsRRunning;
         }
 
         private void CreateChart()
         {
-            regionManager.AddToRegion("MainRegion", new ChartBuilderView());
+            regionManager.AddToRegion("MainRegion", new GgplotBuilderView());
         }
     }
 }
-}
+

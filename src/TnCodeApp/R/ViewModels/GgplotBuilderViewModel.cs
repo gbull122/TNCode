@@ -12,10 +12,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using TnCode.Core.R.Charts.Ggplot;
+using TnCode.Core.R.Charts.Ggplot.Layer;
+using TnCode.Core.Utilities;
 using TnCode.TnCodeApp.Data;
 using TnCode.TnCodeApp.Data.Events;
 using TnCode.TnCodeApp.Docking;
 using TnCode.TnCodeApp.Progress;
+using TnCode.TnCodeApp.R.Controls;
 
 namespace TnCode.TnCodeApp.R.ViewModels
 {
@@ -25,7 +29,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
         private readonly IRegionManager regionManager;
         private readonly IContainerExtension containerExtension;
 
-        private readonly IRManager rManager;
+        private readonly IRService rService;
         private readonly IDataSetsManager dataSetsManager;
 
         private readonly IProgressService progressService;
@@ -45,17 +49,17 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
         private ObservableCollection<VariableControl> variableControls;
 
-        private GgplotFacetViewModel ggplotFacetViewModel;
+        //private GgplotFacetViewModel ggplotFacetViewModel;
 
-        public GgplotFacetViewModel FacetViewModel
-        {
-            get { return ggplotFacetViewModel; }
-            set
-            {
-                ggplotFacetViewModel = value;
-                RaisePropertyChanged(nameof(FacetViewModel));
-            }
-        }
+        //public GgplotFacetViewModel FacetViewModel
+        //{
+        //    get { return ggplotFacetViewModel; }
+        //    set
+        //    {
+        //        ggplotFacetViewModel = value;
+        //        RaisePropertyChanged(nameof(FacetViewModel));
+        //    }
+        //}
         public IEnumerable<string> DataSets
         {
             get { return dataSets; }
@@ -115,10 +119,10 @@ namespace TnCode.TnCodeApp.R.ViewModels
             }
         }
 
-        public GgplotBuilderViewModel(IContainerExtension container, IEventAggregator eventAggr, IRegionManager regMngr, IRManager rMngr, IXmlConverter converter, IDataSetsManager setsManager, IProgressService progService)
+        public GgplotBuilderViewModel(IContainerExtension container, IEventAggregator eventAggr, IRegionManager regMngr, IRService rSer, IXmlConverter converter, IDataSetsManager setsManager, IProgressService progService)
         {
             xmlConverter = converter;
-            rManager = rMngr;
+            rService = rSer;
             eventAggregator = eventAggr;
             regionManager = regMngr;
             containerExtension = container;
@@ -127,13 +131,13 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
             eventAggregator.GetEvent<DataSetChangedEvent>().Subscribe(DataSetsChanged, ThreadOption.UIThread);
 
-            ggplotFacetViewModel = new GgplotFacetViewModel();
+            //ggplotFacetViewModel = new GgplotFacetViewModel();
 
             layers = new ObservableCollection<ILayer>();
             variableControls = new ObservableCollection<VariableControl>();
             titleParameters = new List<Parameter>();
 
-            Geoms = Enum.GetNames(typeof(Geoms)).ToList();
+            Geoms = Enum.GetNames(typeof(Ggplot.Geoms)).ToList();
             Geoms.Remove("tile");
 
             NewLayerCommand = new DelegateCommand(NewLayer, CanNewLayer);
@@ -220,7 +224,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
             var varibleNames = dataSetsManager.DataSetVariableNames(selectedLayer.Data);
             varibleNames.Insert(0, "");
             currentVariables = varibleNames;
-            ggplotFacetViewModel.Variables = varibleNames;
+            //ggplotFacetViewModel.Variables = varibleNames;
         }
 
         private void Update()
@@ -261,7 +265,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
             plot.Layers.AddRange(layers);
             var plotCommand = plot.Command();
 
-            await rManager.GenerateGgplotAsync(plotCommand);
+            await rService.GenerateGgplotAsync(plotCommand);
 
             var imagePath = GetGgplotChartPath();
 
@@ -370,29 +374,29 @@ namespace TnCode.TnCodeApp.R.ViewModels
         //    NewLayerCommand.RaiseCanExecuteChanged();
         //}
 
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            if (navigationContext == null)
-                return;
+        //public void OnNavigatedTo(NavigationContext navigationContext)
+        //{
+        //    if (navigationContext == null)
+        //        return;
 
-            var chart = (IChart)navigationContext.Parameters["chart"];
+        //    var chart = (IChart)navigationContext.Parameters["chart"];
 
-            layers.Add(chart.ChartLayer);
+        //    layers.Add(chart.ChartLayer);
 
-            ClearLayersCommand.RaiseCanExecuteChanged();
-            LayerSelected(chart.ChartLayer);
-            Update();
-        }
+        //    ClearLayersCommand.RaiseCanExecuteChanged();
+        //    LayerSelected(chart.ChartLayer);
+        //    Update();
+        //}
 
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return false;
-        }
+        //public bool IsNavigationTarget(NavigationContext navigationContext)
+        //{
+        //    return false;
+        //}
 
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
+        //public void OnNavigatedFrom(NavigationContext navigationContext)
+        //{
 
-        }
+        //}
     }
 }
 

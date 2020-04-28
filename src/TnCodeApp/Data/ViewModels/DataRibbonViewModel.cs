@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using TnCode.Core.Data;
 using TnCode.TnCodeApp.Data.Events;
 using TnCode.TnCodeApp.Progress;
+using TnCode.TnCodeApp.R;
 
 namespace TnCode.TnCodeApp.Data.ViewModels
 {
@@ -18,7 +19,7 @@ namespace TnCode.TnCodeApp.Data.ViewModels
     {
         private readonly IEventAggregator eventAggregator;
         private readonly IDataSetsManager dataSetsManager;
-        private readonly IRManager rManager;
+        private readonly IRService rService;
         private IProgressService progressService;
         private IDialogService dialogService;
 
@@ -30,18 +31,18 @@ namespace TnCode.TnCodeApp.Data.ViewModels
 
         public bool IsRRunning
         {
-            get => rManager.IsRRunning;
+            get => rService.IsRRunning;
             set
             {
                 SetProperty(ref isRRunning, value);
             }
         }
 
-        public DataRibbonViewModel(IEventAggregator eventAgg, IDataSetsManager dataMgr, IRManager rMgr, IProgressService pService, IDialogService dService)
+        public DataRibbonViewModel(IEventAggregator eventAgg, IDataSetsManager dataMgr, IRService rSer, IProgressService pService, IDialogService dService)
         {
             eventAggregator = eventAgg;
             dataSetsManager = dataMgr;
-            rManager = rMgr;
+            rService = rSer;
             progressService = pService;
             dialogService = dService;
 
@@ -49,14 +50,14 @@ namespace TnCode.TnCodeApp.Data.ViewModels
             LoadCsvCommand = new DelegateCommand(LoadCsvData).ObservesCanExecute(() => IsRRunning); ;
             SaveCommand = new DelegateCommand(Save).ObservesCanExecute(() => IsRRunning);
 
-            rManager.RConnected += RManager_ConnectionChanged;
-            rManager.RDisconnected += RManager_ConnectionChanged;
+            rService.RConnected += RManager_ConnectionChanged;
+            rService.RDisconnected += RManager_ConnectionChanged;
         }
 
 
         private void RManager_ConnectionChanged(object sender, EventArgs e)
         {
-            IsRRunning = rManager.IsRRunning;
+            IsRRunning = rService.IsRRunning;
         }
 
         private void Save()
@@ -124,7 +125,7 @@ namespace TnCode.TnCodeApp.Data.ViewModels
             {
                 var fileFullPath = openFileDialog.FileName;
 
-                await progressService.ExecuteAsync(rManager.LoadRWorkSpace, fileFullPath);
+                await progressService.ExecuteAsync(rService.LoadRWorkSpace, fileFullPath);
             }
         }
     }

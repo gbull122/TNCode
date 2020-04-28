@@ -6,9 +6,12 @@ using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Windows;
-using TnCode.Core.R;
+using TnCode.Core.Utilities;
+using TnCode.TnCodeApp.Data.Views;
 using TnCode.TnCodeApp.Logger;
 using TnCode.TnCodeApp.Progress;
+using TnCode.TnCodeApp.R;
+using TnCode.TnCodeApp.R.Views;
 using Unity;
 
 namespace TnCode.TnCodeApp
@@ -19,7 +22,7 @@ namespace TnCode.TnCodeApp
         private IRegionManager regionManager;
         private IEventAggregator eventAggregator;
         private IUnityContainer container;
-        private IRManager rManager;
+        private IRService rService;
 
         private string title = "TNCode";
         private string statusMessage = "Ready";
@@ -55,8 +58,8 @@ namespace TnCode.TnCodeApp
             ShowStatusCommand = new DelegateCommand(ShowLogView);
             ShowDataSetsCommand = new DelegateCommand(ShowDataSetsView);
 
-            //IXmlConverter xmlConverter = new XmlConverter();
-            //container.RegisterInstance<IXmlConverter>(xmlConverter);
+            IXmlConverter xmlConverter = new XmlConverter();
+            container.RegisterInstance<IXmlConverter>(xmlConverter);
 
             //IDataSetsManager dataSetsManager = new DataSetsManager();
             //container.RegisterInstance<IDataSetsManager>(dataSetsManager);
@@ -64,12 +67,12 @@ namespace TnCode.TnCodeApp
             //IChartManager chartManager = new ChartManager(eventAggregator, xmlConverter, regionManager);
             //container.RegisterInstance<IChartManager>(chartManager);
 
-            //rManager = new RManager(new RHostSessionCallback(), loggerFacade, eventAggregator);
-            //container.RegisterInstance<IRManager>(rManager);
+            rService = new RService(loggerFacade, eventAggregator);
+            container.RegisterInstance<IRService>(rService);
 
-            //regionManager.RegisterViewWithRegion("RibbonRegion", typeof(DataRibbonView));
+            regionManager.RegisterViewWithRegion("RibbonRegion", typeof(DataRibbonView));
             //regionManager.RegisterViewWithRegion("RibbonRegion", typeof(ChartRibbonView));
-            //regionManager.RegisterViewWithRegion("RibbonRegion", typeof(RibbonRView));
+            regionManager.RegisterViewWithRegion("RibbonRegion", typeof(RRibbonView));
 
             //regionManager.RegisterViewWithRegion("MainRegion", typeof(DataSetsView));
             regionManager.RegisterViewWithRegion("MainRegion", typeof(LoggerView));
