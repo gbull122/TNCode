@@ -31,18 +31,18 @@ namespace TnCode.TnCodeApp.Data.ViewModels
 
         public bool IsRRunning
         {
-            get => rService.IsRRunning;
+            get => false;
             set
             {
                 SetProperty(ref isRRunning, value);
             }
         }
 
-        public DataRibbonViewModel(IEventAggregator eventAgg, IDataSetsManager dataMgr, IRService rSer, IProgressService pService, IDialogService dService)
+        public DataRibbonViewModel(IEventAggregator eventAgg, IDataSetsManager dataMgr, IProgressService pService, IDialogService dService)
         {
             eventAggregator = eventAgg;
             dataSetsManager = dataMgr;
-            rService = rSer;
+            //rService = rSer;
             progressService = pService;
             dialogService = dService;
 
@@ -50,8 +50,8 @@ namespace TnCode.TnCodeApp.Data.ViewModels
             LoadCsvCommand = new DelegateCommand(LoadCsvData).ObservesCanExecute(() => IsRRunning); ;
             SaveCommand = new DelegateCommand(Save).ObservesCanExecute(() => IsRRunning);
 
-            rService.RConnected += RManager_ConnectionChanged;
-            rService.RDisconnected += RManager_ConnectionChanged;
+            //rService.RConnected += RManager_ConnectionChanged;
+            //rService.RDisconnected += RManager_ConnectionChanged;
         }
 
 

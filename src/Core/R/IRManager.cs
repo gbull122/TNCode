@@ -7,10 +7,9 @@ namespace TnCode.Core.R
 {
     public interface IRManager
     {
-        Task<bool> InitialiseAsync();
+        bool InitialiseAsync();
         bool IsRRunning { get; }
-        event EventHandler RConnected;
-        event EventHandler RDisconnected;
+
         Task<bool> GenerateGgplotAsync(string ggplotCommand);
         Task<bool> DataSetToRAsDataFrameAsync(DataSet data);
         Task<string> RHomeFromConnectedRAsync();

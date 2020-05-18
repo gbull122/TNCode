@@ -4,8 +4,10 @@ using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Windows;
+using TnCode.Core.R;
 using TnCode.TnCodeApp.Progress;
 using TnCode.TnCodeApp.R.Views;
 
@@ -41,18 +43,16 @@ namespace TnCode.TnCodeApp.R.ViewModels
             return !isRRunning;
         }
 
-        public RRibbonViewModel(IEventAggregator eventAggr, IRegionManager regionMgr, IRService rMgr, IProgressService pService)
+        public RRibbonViewModel(IEventAggregator eventAggr, IRegionManager regionMgr, IProgressService pService)
         {
             eventAggregator = eventAggr;
             regionManager = regionMgr;
-            rService = rMgr;
+            //rService = rMgr;
             progressService = pService;
 
             ChartBuilderCommand = new DelegateCommand(CreateChart).ObservesCanExecute(() => IsRRunning);
             RStartCommand = new DelegateCommand(StartR, IsRNotRunning);
             RDetailsCommand = new DelegateCommand(ShowRDetails).ObservesCanExecute(() => IsRRunning);
-
-            StartR();
         }
 
         private async void ShowRDetails()
@@ -67,9 +67,13 @@ namespace TnCode.TnCodeApp.R.ViewModels
             MessageBox.Show(message.ToString(), "TNCode", MessageBoxButton.OK);
         }
 
-        private async void StartR()
+        private void StartR()
         {
-            await progressService.ExecuteAsync(rService.InitialiseAsync(), "Starting R...");
+            var rm = new RManager(Path.GetTempPath());
+
+            rm.InitialiseAsync();
+            //rService.InitialiseAsync();
+            //; ; await progressService.ExecuteAsync(rService.InitialiseAsync(), "Starting R...");
 
             IsRRunning = rService.IsRRunning;
         }

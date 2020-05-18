@@ -2,39 +2,38 @@
 using Prism.Logging;
 using System;
 using System.Threading.Tasks;
+using System.Windows.Navigation;
 using TnCode.Core.Data;
+using TnCode.Core.R;
 
 namespace TnCode.TnCodeApp.R
 {
     public interface IRService
     {
-        Action<object, EventArgs> RDisconnected { get; set; }
-        Action<object, EventArgs> RConnected { get; set; }
-        bool IsRRunning { get; set; }
-
+        bool IsRRunning { get; }
         Task LoadRWorkSpace(IProgress<string> arg1, string arg2);
         Task DataSetToRAsDataFrameAsync(DataSet data);
         Task GenerateGgplotAsync(string plotCommand);
         Task<string> RHomeFromConnectedRAsync();
         Task<string> RVersionFromConnectedRAsync();
         Task<string> RPlatformFromConnectedRAsync();
-        Func<IProgress<string>, string, Task> InitialiseAsync();
+        bool InitialiseAsync();
     }
 
     public class RService: IRService
     {
         private ILoggerFacade loggerFacade;
         private IEventAggregator eventAggregator;
+        private IRManager rManager;
 
-        public RService(ILoggerFacade loggerFacade, IEventAggregator eventAggregator)
+        public RService(ILoggerFacade loggerFacd, IEventAggregator eventAgg, IRManager rMgr)
         {
-            this.loggerFacade = loggerFacade;
-            this.eventAggregator = eventAggregator;
+            loggerFacade = loggerFacd;
+            eventAggregator = eventAgg;
+            rManager = rMgr;
         }
 
-        public Action<object, EventArgs> RDisconnected { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public Action<object, EventArgs> RConnected { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public bool IsRRunning { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public bool IsRRunning { get => rManager.IsRRunning; }
 
         public Task DataSetToRAsDataFrameAsync(DataSet data)
         {
@@ -46,9 +45,9 @@ namespace TnCode.TnCodeApp.R
             throw new NotImplementedException();
         }
 
-        public Func<IProgress<string>, string, Task> InitialiseAsync()
+        public bool InitialiseAsync()
         {
-            throw new NotImplementedException();
+            return rManager.InitialiseAsync();
         }
 
         public Task LoadRWorkSpace(IProgress<string> arg1, string arg2)

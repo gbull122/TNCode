@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TnCode.Core.R
+namespace TnCode.TnCodeApp.Dialogs.ViewModels
 {
-    public interface IROperation
+    class RSettingsViewModel
     {
     }
 }

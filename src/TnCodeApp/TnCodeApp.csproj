@@ -5,6 +5,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
     <RootNamespace>TnCode.TnCodeApp</RootNamespace>
+    <Platforms>AnyCPU;x64</Platforms>
+    <StartupObject>TnCode.TnCodeApp.App</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

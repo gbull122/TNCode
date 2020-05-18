@@ -63,10 +63,10 @@ namespace TnCode.TnCodeApp.Data.ViewModels
 
         public bool KeepAlive => true;
 
-        public DataSetsViewModel(IEventAggregator eventAggregator, IRegionManager regionManager, IDataSetsManager dataMgr, IRService rSer)
+        public DataSetsViewModel(IEventAggregator eventAggregator, IRegionManager regionManager, IDataSetsManager dataMgr)
         {
             datasetsManager = dataMgr;
-            rService = rSer;
+            //rService = rSer;
 
             this.eventAggregator = eventAggregator;
             this.regionManager = regionManager;

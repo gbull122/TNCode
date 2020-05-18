@@ -65,11 +65,15 @@
             <Fluent:Ribbon.Menu>
                 <Fluent:Backstage>
                     <Fluent:BackstageTabControl>
-                        <Fluent:Button
-                        Header="Settings" 
-                        Command="{Binding Path=SettingsCommand}"
-                        IsEnabled="False"
-                        />
+                        <Fluent:BackstageTabItem 
+                            Header="Settings">
+                            <TabControl 
+                                Margin="20,5,20,5">
+                                <TabItem 
+                                    Header="R Settings" />
+
+                            </TabControl>
+                        </Fluent:BackstageTabItem>
 
                         <Fluent:Button 
                         Header="About"  
@@ -79,7 +83,12 @@
                         <Fluent:Button
                         Header="Close"
                         Command="{Binding Path=CloseCommand}"/>
+
+                       
                     </Fluent:BackstageTabControl>
+
+                   
+                    
                 </Fluent:Backstage>
             </Fluent:Ribbon.Menu>
 

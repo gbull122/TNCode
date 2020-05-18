@@ -5,8 +5,11 @@ using Prism.Logging;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
+using System.IO;
 using System.Windows;
+using TnCode.Core.R;
 using TnCode.Core.Utilities;
+using TnCode.TnCodeApp.Data;
 using TnCode.TnCodeApp.Data.Views;
 using TnCode.TnCodeApp.Logger;
 using TnCode.TnCodeApp.Progress;
@@ -61,20 +64,23 @@ namespace TnCode.TnCodeApp
             IXmlConverter xmlConverter = new XmlConverter();
             container.RegisterInstance<IXmlConverter>(xmlConverter);
 
-            //IDataSetsManager dataSetsManager = new DataSetsManager();
-            //container.RegisterInstance<IDataSetsManager>(dataSetsManager);
+            IDataSetsManager dataSetsManager = new DataSetsManager();
+            container.RegisterInstance<IDataSetsManager>(dataSetsManager);
 
             //IChartManager chartManager = new ChartManager(eventAggregator, xmlConverter, regionManager);
             //container.RegisterInstance<IChartManager>(chartManager);
 
-            rService = new RService(loggerFacade, eventAggregator);
-            container.RegisterInstance<IRService>(rService);
+
+            //var rManager = new RManager(tempFolder);
+
+            //rService = new RService(loggerFacade, eventAggregator, rManager);
+            //container.RegisterInstance<IRService>(rService);
 
             regionManager.RegisterViewWithRegion("RibbonRegion", typeof(DataRibbonView));
             //regionManager.RegisterViewWithRegion("RibbonRegion", typeof(ChartRibbonView));
             regionManager.RegisterViewWithRegion("RibbonRegion", typeof(RRibbonView));
 
-            //regionManager.RegisterViewWithRegion("MainRegion", typeof(DataSetsView));
+            regionManager.RegisterViewWithRegion("MainRegion", typeof(DataSetsView));
             regionManager.RegisterViewWithRegion("MainRegion", typeof(LoggerView));
 
             regionManager.RegisterViewWithRegion("StatusBarRegion", typeof(ProgressView));
@@ -84,21 +90,21 @@ namespace TnCode.TnCodeApp
         {
             var region = regionManager.Regions["MainRegion"];
 
-            //foreach (var view in region.Views)
-            //{
-            //    Type viewType = view.GetType();
-            //    if (viewType.Equals(typeof(DataSetsView)))
-            //    {
-            //        var actualView = (DataSetsView)view;
+            foreach (var view in region.Views)
+            {
+                Type viewType = view.GetType();
+                if (viewType.Equals(typeof(DataSetsView)))
+                {
+                    var actualView = (DataSetsView)view;
 
-            //        if (!actualView.IsVisible)
-            //        {
-            //            region.Remove(view);
-            //            regionManager.AddToRegion("MainRegion", new DataSetsView());
-            //        }
-            //        regionManager.RequestNavigate("MainRegion", "DataSetsView");
-            //    }
-            //}
+                    if (!actualView.IsVisible)
+                    {
+                        region.Remove(view);
+                        regionManager.AddToRegion("MainRegion", new DataSetsView());
+                    }
+                    regionManager.RequestNavigate("MainRegion", "DataSetsView");
+                }
+            }
         }
 
         private void ShowLogView()
