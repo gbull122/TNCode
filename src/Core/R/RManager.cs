@@ -1,130 +1,63 @@
-﻿using RDotNet;
-using System;
+﻿using Microsoft.R.Host.Client;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TnCode.Core.Data;
 
 namespace TnCode.Core.R
 {
     public class RManager : IRManager
     {
-        private REngine rEngine;
-        private string workingDirectory = string.Empty;
-        private string rHomePath = "C:\\Program Files\\R\\R-4.0.0";
-        private string rInstallationPath = "C:\\Program Files\\R\\R-4.0.0\\bin\\x64";
+        private IRHostSession rHostSession;
+        private IRHostSessionCallback rHostSessionCallback;
 
-        public bool IsRRunning => false;
-
-        public string RHome
+        public RManager(IRHostSession session, IRHostSessionCallback sessionCallback)
         {
-            get { return rHomePath; }
-            set { rHomePath = value; }
+            rHostSession = session;
+            rHostSessionCallback = sessionCallback;
         }
 
-        public string RPath
+        public bool IsHostRunning()
         {
-            get { return rInstallationPath; }
-            set { rInstallationPath = value; }
+            return rHostSession.IsHostRunning;
         }
 
-        public RManager(string tempPath)
+        public async Task StartHostAsync()
         {
-            workingDirectory = tempPath;
+            await rHostSession.StartHostAsync(rHostSessionCallback);
         }
 
-        public Task<bool> DataSetToRAsDataFrameAsync(DataSet data)
+        public async Task ExecuteCommandAsync(string command)
         {
-            throw new NotImplementedException();
+            await rHostSession.ExecuteAsync(command);
         }
 
-        public Task<bool> GenerateGgplotAsync(string ggplotCommand)
+        public async Task<DataFrame> GetDataFrameAsync(string name)
         {
-            throw new NotImplementedException();
+            return await rHostSession.GetDataFrameAsync(name);
         }
 
-        public Task<DataSet> GetDataFrameAsDataSetAsync(string name)
+        public async Task<RSessionOutput> ExecuteAndOutputAsync(string command)
         {
-            throw new NotImplementedException();
+            return await rHostSession.ExecuteAndOutputAsync(command);
         }
 
-        public bool InitialiseAsync()
+        public async Task<List<object>> GetListAsync(string command)
         {
-            var result = true;
-            try
-            {
-                //if (!string.IsNullOrEmpty(rHomePath)
-                //    && !string.IsNullOrEmpty(rInstallationPath))
-                //{
-                //    REngine.SetEnvironmentVariables(rInstallationPath, rHomePath);
-                //}
-                rEngine = REngine.GetInstance();
-                //SetWorkingDirectory(ConverPathToR(workingDirectory));
-                result = true;
-            }
-            catch (Exception ex)
-            {
-                //startUpError = ex.Message;
-                result = false;
-            }
-            return result;
-
-      
+            return await rHostSession.GetListAsync(command);
         }
 
-        public Task<bool> IsDataFrame(string name)
+        public async Task<string> EvaluateAsync<T>(string command)
         {
-            throw new NotImplementedException();
+            return await rHostSession.EvaluateAsync<string>(command);
         }
 
-        public Task<List<object>> ListWorkspaceItems()
+        public async Task ExecuteAsync(string command)
         {
-            throw new NotImplementedException();
+            await rHostSession.ExecuteAsync(command);
         }
 
-        public Task LoadRWorkSpace(IProgress<string> progress, string fileName)
+        public async Task CreateDataFrameAsync(string name, DataFrame dataFrame)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task LoadToTempEnv(string fullFileName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task RemoveTempEnviroment()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<string> RHomeFromConnectedRAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<string> RPlatformFromConnectedRAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<string> RVersionFromConnectedRAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<object>> TempEnvObjects()
-        {
-            throw new NotImplementedException();
-        }
-
-        private string ConverPathToR(string path)
-        {
-            string temp = path.Replace('\\', '/');
-            return string.Format("\"{0}\"", temp);
-        }
-
-        private void SetWorkingDirectory(string rPath)
-        {
-            rEngine.Evaluate("setwd(" + rPath + ")");
+            await rHostSession.CreateDataFrameAsync(name, dataFrame);
         }
     }
 }

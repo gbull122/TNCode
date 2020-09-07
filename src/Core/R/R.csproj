@@ -7,14 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="R.NET" Version="1.8.2" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Charts\Ggplot\Theme\" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\vscode-r\src\Host\API\Microsoft.R.Host.Client.Api\Microsoft.R.Host.Client.Api.csproj" />
     <ProjectReference Include="..\Data\Data.csproj" />
   </ItemGroup>
 

@@ -43,11 +43,11 @@ namespace TnCode.TnCodeApp.R.ViewModels
             return !isRRunning;
         }
 
-        public RRibbonViewModel(IEventAggregator eventAggr, IRegionManager regionMgr, IProgressService pService)
+        public RRibbonViewModel(IEventAggregator eventAggr, IRegionManager regionMgr, IProgressService pService, IRService rServ)
         {
             eventAggregator = eventAggr;
             regionManager = regionMgr;
-            //rService = rMgr;
+            rService = rServ;
             progressService = pService;
 
             ChartBuilderCommand = new DelegateCommand(CreateChart).ObservesCanExecute(() => IsRRunning);
@@ -67,13 +67,11 @@ namespace TnCode.TnCodeApp.R.ViewModels
             MessageBox.Show(message.ToString(), "TNCode", MessageBoxButton.OK);
         }
 
-        private void StartR()
+        private async void StartR()
         {
-            var rm = new RManager(Path.GetTempPath());
 
-            rm.InitialiseAsync();
             //rService.InitialiseAsync();
-            //; ; await progressService.ExecuteAsync(rService.InitialiseAsync(), "Starting R...");
+            await progressService.ExecuteAsync(rService.InitialiseAsync(), "Starting R...");
 
             IsRRunning = rService.IsRRunning;
         }

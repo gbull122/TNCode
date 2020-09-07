@@ -1,5 +1,6 @@
 ﻿using AvalonDock;
 using CommonServiceLocator;
+using Microsoft.R.Host.Client;
 using Prism.Ioc;
 using Prism.Logging;
 using Prism.Modularity;
@@ -7,8 +8,10 @@ using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Unity;
 using System.Windows;
+using TnCode.Core.R;
 using TnCode.TnCodeApp.Docking;
 using TnCode.TnCodeApp.Logger;
+using TnCode.TnCodeApp.R;
 using TnCode.TnCodeApp.Ribbon;
 
 namespace TnCode.TnCodeApp
@@ -46,6 +49,10 @@ namespace TnCode.TnCodeApp
             containerRegistry.RegisterInstance<ILoggerFacade>(logViewModel);
             ViewModelLocationProvider.Register<LoggerView>(() => logViewModel);
 
+            var rHostSession = RHostSession.Create("TNCode");
+            var rManager = new RManager(rHostSession, new RHostSessionCallback());
+            var rService = new RService(logViewModel, rManager);
+            containerRegistry.RegisterInstance<IRService>(rService);
             //containerRegistry.RegisterForNavigation<ChartBuilderView>();
 
             //containerRegistry.RegisterDialog<ConfirmationDialogView, ConfirmationDialogViewModel>();
