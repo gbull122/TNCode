@@ -38,11 +38,11 @@ namespace TnCode.TnCodeApp.Data.ViewModels
             }
         }
 
-        public DataRibbonViewModel(IEventAggregator eventAgg, IDataSetsManager dataMgr, IProgressService pService, IDialogService dService)
+        public DataRibbonViewModel(IEventAggregator eventAgg, IDataSetsManager dataMgr, IProgressService pService, IDialogService dService,IRService rSer)
         {
             eventAggregator = eventAgg;
             dataSetsManager = dataMgr;
-            //rService = rSer;
+            rService = rSer;
             progressService = pService;
             dialogService = dService;
 

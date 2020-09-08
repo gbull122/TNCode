@@ -1,11 +1,13 @@
-﻿using Prism.Events;
+﻿using Microsoft.R.Host.Client;
+using Prism.Events;
 using Prism.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
-using System.Windows.Navigation;
 using TnCode.Core.Data;
 using TnCode.Core.R;
+using TnCode.TnCodeApp.Data.Events;
 
 namespace TnCode.TnCodeApp.R
 {
@@ -32,7 +34,6 @@ namespace TnCode.TnCodeApp.R
     public class RService: IRService
     {
         private ILoggerFacade loggerFacade;
-        //private IEventAggregator eventAggregator;
         private IRManager rManager;
 
         public event EventHandler RConnected;
@@ -44,23 +45,62 @@ namespace TnCode.TnCodeApp.R
             set;
         }
 
-        public RService(ILoggerFacade loggerFacd, IRManager rMgr)
+        public RService(ILoggerFacade loggerFacd, IRManager rMgr ,string path)
         {
             loggerFacade = loggerFacd;
-            //eventAggregator = eventAgg;
             rManager = rMgr;
+            WindowsDirectory = path;
         }
 
         public bool IsRRunning { get => rManager.IsHostRunning(); }
 
-        public Task DataSetToRAsDataFrameAsync(DataSet data)
+        public async Task<bool> DataSetToRAsDataFrameAsync(DataSet data)
         {
-            throw new NotImplementedException();
+            DataFrame df = new DataFrame(data.ObservationNames.AsReadOnly(), data.VariableNames(), data.RawData());
+
+            await rManager.CreateDataFrameAsync(data.Name, df);
+
+            return true;
         }
 
-        public Task GenerateGgplotAsync(string plotCommand)
+        public async Task<bool> GenerateGgplotAsync(string plotCommand)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (StringReader reader = new StringReader(plotCommand))
+                {
+                    var plotWidth = 15;
+                    var plotHeight = 12;
+                    var plotRes = 600;
+                    //get code into text file
+                    string fileName = WindowsDirectory + "\\TNGgplot.R";
+                    using (StreamWriter file = new StreamWriter(fileName))
+                    {
+                        file.WriteLine(
+                            "devEval(" + string.Format("\"{0}\"", "png") +
+                            ", path = " + ConvertPathToR(WindowsDirectory) +
+                            ", name = \"TNGgplot\", width = " + plotWidth +
+                            ", height = " + plotHeight + ", units =" +
+                            string.Format("\"{0}\"", "cm") + ", res = " + plotRes + ", pointsize = 12, {");
+
+                        string line;
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            file.WriteLine(line);
+                        }
+                        file.WriteLine("plot(p)");
+                        file.WriteLine("})");
+                    }
+
+                    await rManager.ExecuteAsync("source(" + ConvertPathToR(fileName) + ",echo=TRUE, max.deparse.length=10000)");
+                }
+            }
+            catch
+            {
+                //ErrorMessage = "Failed to generate plot " + ex.Message;
+                return false;
+            }
+            return true;
         }
 
         public async Task<bool> InitialiseAsync()
@@ -74,11 +114,14 @@ namespace TnCode.TnCodeApp.R
                 //rHostSession.Disconnected += RHostSession_Disconnected;
 
                 await rManager.StartHostAsync();
+                loggerFacade.Log("Connected to R", Category.Info, Priority.None);
                 await rManager.ExecuteAsync("library(" + string.Format("\"{0}\"", "R.devices") + ")");
+                loggerFacade.Log("Library R.devices loaded", Category.Info, Priority.None);
                 await rManager.ExecuteAsync("library(" + string.Format("\"{0}\"", "ggplot2") + ")");
+                loggerFacade.Log("Library ggplot2 loaded", Category.Info, Priority.None);
 
                 await rManager.ExecuteAndOutputAsync("setwd(" + ConvertPathToR(WindowsDirectory) + ")");
-                loggerFacade.Log("Connected to R", Category.Info, Priority.None);
+                
 
             }
             catch (Exception ex)
@@ -90,24 +133,56 @@ namespace TnCode.TnCodeApp.R
             return true;
         }
 
-        public Task LoadRWorkSpace(IProgress<string> arg1, string arg2)
+        public async Task<string> RunRCommnadAsync(string code)
         {
-            throw new NotImplementedException();
+            return await rManager.EvaluateAsync<string>(code);
         }
 
-        public Task<string> RHomeFromConnectedRAsync()
+        public async Task LoadRWorkSpace(IProgress<string> progress, string fileName)
         {
-            throw new NotImplementedException();
+            progress.Report("Loading workspace");
+
+            await LoadToTempEnv(fileName);
+
+            var tempItems = await TempEnvObjects();
+            var workspaceItems = await ListWorkspaceItems();
+
+            foreach (string tempItem in tempItems)
+            {
+                ///TODO give option to overwrite
+                if (!workspaceItems.Contains(tempItem))
+                {
+                    var isDataFrame = await IsDataFrame(tempItem);
+                    if (isDataFrame)
+                    {
+                        progress.Report("Loading dataframe " + tempItem);
+                        var importedData = await GetDataFrameAsDataSetAsync(tempItem);
+
+                        //var dataSetEventArgs = new DataSetEventArgs();
+                        //dataSetEventArgs.Modification = DataSetChange.AddedFromR;
+                        //dataSetEventArgs.Data = importedData;
+
+                        //eventAggregator.GetEvent<DataSetChangedEvent>().Publish(dataSetEventArgs);
+                    }
+                }
+            }
+
+            await RemoveTempEnviroment();
         }
 
-        public Task<string> RPlatformFromConnectedRAsync()
+        public async Task<string> RHomeFromConnectedRAsync()
         {
-            throw new NotImplementedException();
+            return await RunRCommnadAsync("R.home()");
         }
 
-        public Task<string> RVersionFromConnectedRAsync()
+        public async Task<string> RPlatformFromConnectedRAsync()
         {
-            throw new NotImplementedException();
+            return await RunRCommnadAsync("version$platform");
+        }
+
+        public async Task<string> RVersionFromConnectedRAsync()
+        {
+            return await RunRCommnadAsync("R.version$version.string");
         }
 
         public string ConvertPathToR(string path)
@@ -116,44 +191,120 @@ namespace TnCode.TnCodeApp.R
             return string.Format("\"{0}\"", temp);
         }
 
-        Task<bool> IRService.GenerateGgplotAsync(string ggplotCommand)
+        async Task<bool> IRService.GenerateGgplotAsync(string ggplotCommand)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (StringReader reader = new StringReader(ggplotCommand))
+                {
+                    var plotWidth = 15;
+                    var plotHeight = 12;
+                    var plotRes = 600;
+                    //get code into text file
+                    string fileName = WindowsDirectory + "\\TNGgplot.R";
+                    using (StreamWriter file = new StreamWriter(fileName))
+                    {
+                        file.WriteLine(
+                            "devEval(" + string.Format("\"{0}\"", "png") +
+                            ", path = " + ConvertPathToR(WindowsDirectory) +
+                            ", name = \"TNGgplot\", width = " + plotWidth +
+                            ", height = " + plotHeight + ", units =" +
+                            string.Format("\"{0}\"", "cm") + ", res = " + plotRes + ", pointsize = 12, {");
+
+                        string line;
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            file.WriteLine(line);
+                        }
+                        file.WriteLine("plot(p)");
+                        file.WriteLine("})");
+                    }
+
+                    await rManager.ExecuteAsync("source(" + ConvertPathToR(fileName) + ",echo=TRUE, max.deparse.length=10000)");
+                }
+            }
+            catch(Exception ex)
+            {
+                var errorMessage = "Failed to generate plot " + ex.Message;
+                loggerFacade.Log(errorMessage, Category.Exception, Priority.High);
+                
+                return false;
+            }
+            return true;
         }
 
-        Task<bool> IRService.DataSetToRAsDataFrameAsync(DataSet data)
+        public async Task LoadToTempEnv(string fullFileName)
         {
-            throw new NotImplementedException();
+            var rPath = ConvertPathToR(fullFileName);
+
+            await rManager.ExecuteAsync("tempEnv<-new.env()");
+            await rManager.ExecuteAsync("load(" + rPath + ",envir=tempEnv)");
         }
 
-        public Task LoadToTempEnv(string fullFileName)
+        public async Task<List<object>> TempEnvObjects()
         {
-            throw new NotImplementedException();
+            await rManager.ExecuteAsync("tempVars<-ls(tempEnv)");
+            return await rManager.GetListAsync("tempVars");
         }
 
-        public Task<List<object>> TempEnvObjects()
+        public async Task RemoveTempEnviroment()
         {
-            throw new NotImplementedException();
+            await rManager.ExecuteAsync("rm(tempEnv)");
         }
 
-        public Task RemoveTempEnviroment()
+        public async Task<bool> IsDataFrame(string name)
         {
-            throw new NotImplementedException();
+            var classProps = await rManager.GetListAsync("class(tempEnv$" + name + ")");
+            foreach (string prop in classProps)
+            {
+                if (prop.Equals("data.frame"))
+                {
+                    await rManager.ExecuteAsync(name + "<-tempEnv$" + name);
+                    await rManager.ExecuteAsync("rm(" + name + ",envir=tempEnv)");
+                    return true;
+                }
+
+            }
+            return false;
         }
 
-        public Task<bool> IsDataFrame(string name)
+        public async Task<DataSet> GetDataFrameAsDataSetAsync(string name)
         {
-            throw new NotImplementedException();
+            var dataFrame = await GetDataFrameAsync(name);
+
+            var dataSet = ConvertDataFrameToDataSet(dataFrame, name);
+
+            return dataSet;
         }
 
-        public Task<DataSet> GetDataFrameAsDataSetAsync(string name)
+        public DataSet ConvertDataFrameToDataSet(DataFrame data, string name)
         {
-            throw new NotImplementedException();
+            DataSet result = null;
+
+            result = new DataSet(data.Data, data.ColumnNames, name);
+
+            return result;
         }
 
-        public Task<List<object>> ListWorkspaceItems()
+
+        public async Task<DataFrame> GetDataFrameAsync(string name)
         {
-            throw new NotImplementedException();
+            DataFrame result = null;
+            try
+            {
+                result = await rManager.GetDataFrameAsync(name);
+            }
+            catch (Exception ex)
+            {
+                loggerFacade.Log(ex.Message, Category.Exception, Priority.High);
+            }
+            return result;
+        }
+
+        public async Task<List<object>> ListWorkspaceItems()
+        {
+            await rManager.ExecuteAsync("vars<-ls()");
+            return await rManager.GetListAsync("vars");
         }
     }
 }

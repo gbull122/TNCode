@@ -69,8 +69,6 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
         private async void StartR()
         {
-
-            //rService.InitialiseAsync();
             await progressService.ExecuteAsync(rService.InitialiseAsync(), "Starting R...");
 
             IsRRunning = rService.IsRRunning;

@@ -7,6 +7,7 @@ using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Unity;
+using System.IO;
 using System.Windows;
 using TnCode.Core.R;
 using TnCode.TnCodeApp.Docking;
@@ -49,9 +50,10 @@ namespace TnCode.TnCodeApp
             containerRegistry.RegisterInstance<ILoggerFacade>(logViewModel);
             ViewModelLocationProvider.Register<LoggerView>(() => logViewModel);
 
+            var path = Path.GetTempPath();
             var rHostSession = RHostSession.Create("TNCode");
             var rManager = new RManager(rHostSession, new RHostSessionCallback());
-            var rService = new RService(logViewModel, rManager);
+            var rService = new RService(logViewModel, rManager,path);
             containerRegistry.RegisterInstance<IRService>(rService);
             //containerRegistry.RegisterForNavigation<ChartBuilderView>();
 
