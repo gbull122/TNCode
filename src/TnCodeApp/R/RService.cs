@@ -35,6 +35,7 @@ namespace TnCode.TnCodeApp.R
     {
         private ILoggerFacade loggerFacade;
         private IRManager rManager;
+        private IEventAggregator eventAggregator;
 
         public event EventHandler RConnected;
         public event EventHandler RDisconnected;
@@ -45,11 +46,12 @@ namespace TnCode.TnCodeApp.R
             set;
         }
 
-        public RService(ILoggerFacade loggerFacd, IRManager rMgr ,string path)
+        public RService(ILoggerFacade loggerFacd, IRManager rMgr ,string path, IEventAggregator ea)
         {
             loggerFacade = loggerFacd;
             rManager = rMgr;
             WindowsDirectory = path;
+            eventAggregator = ea;
         }
 
         public bool IsRRunning { get => rManager.IsHostRunning(); }
@@ -109,12 +111,12 @@ namespace TnCode.TnCodeApp.R
             {
                 loggerFacade.Log("Connecting to R...", Category.Info, Priority.None);
 
-                //var rHostSession = RHostSession.Create("TNCode");
-                //rHostSession.Connected += RHostSession_Connected;
-                //rHostSession.Disconnected += RHostSession_Disconnected;
+                var rHostSession = rManager.HostSession;
+                rHostSession.Connected += RHostSession_Connected;
+                rHostSession.Disconnected += RHostSession_Disconnected;
 
                 await rManager.StartHostAsync();
-                loggerFacade.Log("Connected to R", Category.Info, Priority.None);
+                
                 await rManager.ExecuteAsync("library(" + string.Format("\"{0}\"", "R.devices") + ")");
                 loggerFacade.Log("Library R.devices loaded", Category.Info, Priority.None);
                 await rManager.ExecuteAsync("library(" + string.Format("\"{0}\"", "ggplot2") + ")");
@@ -129,8 +131,18 @@ namespace TnCode.TnCodeApp.R
                 loggerFacade.Log("Failed to connect to R: " + ex.Message, Category.Exception, Priority.High);
                 return false;
             }
-
+            loggerFacade.Log("Connected to R", Category.Info, Priority.None);
             return true;
+        }
+
+        private void RHostSession_Disconnected(object sender, EventArgs e)
+        {
+            RDisconnected?.Invoke(this, e);
+        }
+
+        private void RHostSession_Connected(object sender, EventArgs e)
+        {
+            RConnected?.Invoke(this, e);
         }
 
         public async Task<string> RunRCommnadAsync(string code)
@@ -158,11 +170,11 @@ namespace TnCode.TnCodeApp.R
                         progress.Report("Loading dataframe " + tempItem);
                         var importedData = await GetDataFrameAsDataSetAsync(tempItem);
 
-                        //var dataSetEventArgs = new DataSetEventArgs();
-                        //dataSetEventArgs.Modification = DataSetChange.AddedFromR;
-                        //dataSetEventArgs.Data = importedData;
+                        var dataSetEventArgs = new DataSetEventArgs();
+                        dataSetEventArgs.Modification = DataSetChange.AddedFromR;
+                        dataSetEventArgs.Data = importedData;
 
-                        //eventAggregator.GetEvent<DataSetChangedEvent>().Publish(dataSetEventArgs);
+                        eventAggregator.GetEvent<DataSetChangedEvent>().Publish(dataSetEventArgs);
                     }
                 }
             }

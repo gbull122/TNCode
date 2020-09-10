@@ -6,6 +6,7 @@ namespace TnCode.Core.R
 {
     public interface IRManager
     {
+        IRHostSession HostSession { get; }
         bool IsHostRunning();
         Task StartHostAsync();
         Task ExecuteCommandAsync(string command);

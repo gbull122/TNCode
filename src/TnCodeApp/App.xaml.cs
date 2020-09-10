@@ -1,6 +1,7 @@
 ﻿using AvalonDock;
 using CommonServiceLocator;
 using Microsoft.R.Host.Client;
+using Prism.Events;
 using Prism.Ioc;
 using Prism.Logging;
 using Prism.Modularity;
@@ -13,7 +14,9 @@ using TnCode.Core.R;
 using TnCode.TnCodeApp.Docking;
 using TnCode.TnCodeApp.Logger;
 using TnCode.TnCodeApp.R;
+using TnCode.TnCodeApp.R.Views;
 using TnCode.TnCodeApp.Ribbon;
+using Unity;
 
 namespace TnCode.TnCodeApp
 {
@@ -53,9 +56,12 @@ namespace TnCode.TnCodeApp
             var path = Path.GetTempPath();
             var rHostSession = RHostSession.Create("TNCode");
             var rManager = new RManager(rHostSession, new RHostSessionCallback());
-            var rService = new RService(logViewModel, rManager,path);
+            var ea = (IEventAggregator)containerRegistry.GetContainer().Resolve(typeof(IEventAggregator));
+            var rService = new RService(logViewModel, rManager,path, ea);
             containerRegistry.RegisterInstance<IRService>(rService);
-            //containerRegistry.RegisterForNavigation<ChartBuilderView>();
+
+            
+            containerRegistry.RegisterForNavigation<GgplotBuilderView>();
 
             //containerRegistry.RegisterDialog<ConfirmationDialogView, ConfirmationDialogViewModel>();
         }

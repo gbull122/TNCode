@@ -31,7 +31,7 @@ namespace TnCode.TnCodeApp.Data.ViewModels
 
         public bool IsRRunning
         {
-            get => false;
+            get => isRRunning;
             set
             {
                 SetProperty(ref isRRunning, value);
@@ -50,8 +50,8 @@ namespace TnCode.TnCodeApp.Data.ViewModels
             LoadCsvCommand = new DelegateCommand(LoadCsvData).ObservesCanExecute(() => IsRRunning); ;
             SaveCommand = new DelegateCommand(Save).ObservesCanExecute(() => IsRRunning);
 
-            //rService.RConnected += RManager_ConnectionChanged;
-            //rService.RDisconnected += RManager_ConnectionChanged;
+            rService.RConnected += RManager_ConnectionChanged;
+            rService.RDisconnected += RManager_ConnectionChanged;
         }
 
 

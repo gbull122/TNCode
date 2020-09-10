@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Aesthetic Name="density_2d">
+  <AestheticValues>
+    <AestheticValue Name="X"/>
+    <AestheticValue Name="Y"/>
+    <AestheticValue Name="Alpha"/>
+    <AestheticValue Name="Colour"/>
+    <AestheticValue Name="Group"/>
+    <AestheticValue Name="LineType"/>
+    <AestheticValue Name="Size"/>
+  </AestheticValues>
+  <DefaultStat>Density_2d</DefaultStat>
+  <DefaultPosition>Identity</DefaultPosition>
+  <Properties>
+    <Property Tag="Line End" Name="lineend" Value="">
+      <Options>
+        <Option Name="Round" Value="round"/>
+        <Option Name="butt" Value="butt"/>
+        <Option Name="Square" Value="square"/>
+      </Options>
+    </Property>
+    <Property Tag="Line join" Name="linejoin" Value="">
+      <Options>
+        <Option Name="Round" Value="round"/>
+        <Option Name="Mitre" Value="mitre"/>
+        <Option Name="Bevel" Value="bevel"/>
+      </Options>
+    </Property>
+  </Properties>
+  <Values>
+    <Property Tag="Line mitre" Name="linemitre" Value="1"/>
+  </Values>
+  <Booleans>
+    <Property Tag="Contour" Name="contour" Value="TRUE"/>
+  </Booleans>
+</Aesthetic>

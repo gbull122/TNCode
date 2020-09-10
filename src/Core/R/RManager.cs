@@ -9,6 +9,8 @@ namespace TnCode.Core.R
         private IRHostSession rHostSession;
         private IRHostSessionCallback rHostSessionCallback;
 
+        public IRHostSession HostSession => rHostSession;
+
         public RManager(IRHostSession session, IRHostSessionCallback sessionCallback)
         {
             rHostSession = session;

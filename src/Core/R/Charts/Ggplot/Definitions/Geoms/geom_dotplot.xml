@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Aesthetic Name="Dotplot">
+  <AestheticValues>
+    <AestheticValue Name="X"/>
+    <AestheticValue Name="Y"/>
+    <AestheticValue Name="Alpha"/>
+    <AestheticValue Name="Colour"/>
+    <AestheticValue Name="Fill"/>
+    <AestheticValue Name="Group"/>
+  </AestheticValues>
+  <DefaultStat>Bindot</DefaultStat>
+  <DefaultPosition>Identity</DefaultPosition>
+  <Properties>
+    <Property Tag="Bin Axis" Name="binaxis" Value="">
+      <Options>
+        <Option Name="X" Value="x"/>
+        <Option Name="Y" Value="y"/>
+      </Options>
+    </Property>
+    <Property Tag="Method" Name="method" Value="">
+    <Options>
+      <Option Name="Dot Density" Value="dotdensity"/>
+      <Option Name="Hist Dot" Value="histdot"/>
+    </Options>
+    </Property>
+    <Property Tag="Bin Positions" Name="binpositions" Value="">
+    <Options>
+      <Option Name="By Group" Value="bygroup"/>
+      <Option Name="All" Value="all"/>
+    </Options>
+    </Property>
+    <Property Tag="Stack Direction" Name="stackdir" Value="">
+    <Options>
+      <Option Name="Up" Value="up"/>
+      <Option Name="Down" Value="down"/>
+      <Option Name="Center" Value="center"/>
+      <Option Name="Center Whole" Value="centerwhole"/>
+    </Options>
+    </Property>
+  </Properties>
+  <Booleans>
+    <Property Tag="Stack as groups" Name="stackgroups" Value="False"/>
+    <Property Tag="Drop Zero counts" Name="drop" Value="False"/>
+  </Booleans>
+  <Values>
+    <Property Tag="Bin Width" Name="binwidth" Value="0"/>
+    <Property Tag="Stack Ratio" Name="stackratio" Value="1"/>
+    <Property Tag="Dot Size" Name="dotsize" Value="1"/>
+    <Property Tag="Width" Name="width" Value="0.9"/>
+  </Values>
+</Aesthetic>
