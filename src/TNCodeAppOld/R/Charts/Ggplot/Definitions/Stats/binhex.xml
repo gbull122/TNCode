@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<Statistic Name="binhex">
-  <Values>
-    <Property Tag="Bin Width" Name="binwidth" Value="0"/>
-    <Property Tag="Bins" Name="bins" Value="30"/>
-  </Values>
-</Statistic>

@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<Position Name="stack">
-  <Booleans>
-    <Property Tag="Reverse" Name="reverse" Value="FALSE"/>
-  </Booleans>
-  <Values>
-    <Property Tag="VJust" Name ="vjust" Value="1"/>
-  </Values>
-</Position>
