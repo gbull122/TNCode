@@ -428,5 +428,333 @@ namespace TnCode.TnCodeApp.Properties {
                 return ResourceManager.GetString("geom_violin", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;Position Name=&quot;dodge&quot;&gt;
+        ///  &lt;Properties&gt;
+        ///    &lt;Property Tag=&quot;Preserve&quot; Name=&quot;bw&quot; Value=&quot;&quot;&gt;
+        ///      &lt;Options&gt;
+        ///        &lt;Option Name=&quot;Total&quot; Value=&quot;total&quot;/&gt;
+        ///        &lt;Option Name=&quot;Single&quot; Value=&quot;single&quot;/&gt;
+        ///      &lt;/Options&gt;
+        ///    &lt;/Property&gt;
+        ///  &lt;/Properties&gt;
+        ///  &lt;Values&gt;
+        ///    &lt;Property Tag=&quot;Width&quot; Name =&quot;width&quot; Value=&quot;0&quot;/&gt;
+        ///  &lt;/Values&gt;
+        ///&lt;/Position&gt;
+        ///.
+        /// </summary>
+        public static string pos_dodge {
+            get {
+                return ResourceManager.GetString("pos_dodge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;Position Name=&quot;dodge2&quot;&gt;
+        ///  &lt;Properties&gt;
+        ///    &lt;Property Tag=&quot;Preserve&quot; Name=&quot;bw&quot; Value=&quot;&quot;&gt;
+        ///      &lt;Options&gt;
+        ///        &lt;Option Name=&quot;Total&quot; Value=&quot;total&quot;/&gt;
+        ///        &lt;Option Name=&quot;Single&quot; Value=&quot;single&quot;/&gt;
+        ///      &lt;/Options&gt;
+        ///    &lt;/Property&gt;
+        ///  &lt;/Properties&gt;
+        ///  &lt;Booleans&gt;
+        ///    &lt;Property Tag=&quot;Reverse&quot; Name=&quot;reverse&quot; Value=&quot;FALSE&quot;/&gt;
+        ///  &lt;/Booleans&gt;
+        ///  &lt;Values&gt;
+        ///    &lt;Property Tag=&quot;Width&quot; Name =&quot;width&quot; Value=&quot;0&quot;/&gt;
+        ///    &lt;Property Tag=&quot;Padding&quot; Name =&quot;padding&quot; Value=&quot;0.1&quot;/&gt;
+        ///  &lt; [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string pos_dodge2 {
+            get {
+                return ResourceManager.GetString("pos_dodge2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;Position Name=&quot;identity&quot;&gt;
+        ///
+        ///&lt;/Position&gt;.
+        /// </summary>
+        public static string pos_identity {
+            get {
+                return ResourceManager.GetString("pos_identity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;Position Name=&quot;jitter&quot;&gt;
+        ///  &lt;Values&gt;
+        ///    &lt;Property Tag=&quot;Width&quot; Name =&quot;width&quot; Value=&quot;0&quot;/&gt;
+        ///    &lt;Property Tag=&quot;Height&quot; Name =&quot;height&quot; Value=&quot;0&quot;/&gt;
+        ///  &lt;/Values&gt;
+        ///&lt;/Position&gt;.
+        /// </summary>
+        public static string pos_jitter {
+            get {
+                return ResourceManager.GetString("pos_jitter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;Position Name=&quot;stack&quot;&gt;
+        ///  &lt;Booleans&gt;
+        ///    &lt;Property Tag=&quot;Reverse&quot; Name=&quot;reverse&quot; Value=&quot;FALSE&quot;/&gt;
+        ///  &lt;/Booleans&gt;
+        ///  &lt;Values&gt;
+        ///    &lt;Property Tag=&quot;VJust&quot; Name =&quot;vjust&quot; Value=&quot;1&quot;/&gt;
+        ///  &lt;/Values&gt;
+        ///&lt;/Position&gt;.
+        /// </summary>
+        public static string pos_stack {
+            get {
+                return ResourceManager.GetString("pos_stack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;Statistic Name=&quot;bin&quot;&gt;
+        ///  &lt;Values&gt;
+        ///    &lt;Property Tag=&quot;Bin Width&quot; Name=&quot;binwidth&quot; Value=&quot;0&quot;/&gt;
+        ///    &lt;Property Tag=&quot;Bins&quot; Name=&quot;bins&quot; Value=&quot;30&quot;/&gt;
+        ///    &lt;Property Tag=&quot;Center&quot; Name=&quot;center&quot; Value=&quot;Null&quot;/&gt;
+        ///    &lt;Property Tag=&quot;Boundary&quot; Name=&quot;boundary&quot; Value=&quot;Null&quot;/&gt;
+        ///  &lt;/Values&gt;
+        ///  &lt;Properties&gt;
+        ///    &lt;Property Tag=&quot;Bandwidth&quot; Name=&quot;bw&quot; Value=&quot;&quot;&gt;
+        ///      &lt;Options&gt;
+        ///        &lt;Option Name=&quot;Silverman&quot; Value=&quot;nrd0&quot;/&gt;
+        ///        &lt;Option Name=&quot;Scott&quot; Value=&quot;nrd&quot;/&gt;
+        ///        &lt;Option N [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string stat_bin {
+            get {
+                return ResourceManager.GetString("stat_bin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;Statistic Name=&quot;bin2d&quot;&gt;
+        ///  &lt;Values&gt;
+        ///    &lt;Property Tag=&quot;Bin Width&quot; Name=&quot;binwidth&quot; Value=&quot;0&quot;/&gt;
+        ///    &lt;Property Tag=&quot;Bins&quot; Name=&quot;bins&quot; Value=&quot;30&quot;/&gt;
+        ///  &lt;/Values&gt;
+        ///  &lt;Booleans&gt;
+        ///    &lt;Property Tag=&quot;Drop zero counts&quot; Name=&quot;drop&quot; Value=&quot;TRUE&quot;/&gt;
+        ///  &lt;/Booleans&gt;
+        ///&lt;/Statistic&gt;.
+        /// </summary>
+        public static string stat_bin2d {
+            get {
+                return ResourceManager.GetString("stat_bin2d", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;Statistic Name=&quot;bindot&quot;&gt;
+        ///
+        ///&lt;/Statistic&gt;.
+        /// </summary>
+        public static string stat_bindot {
+            get {
+                return ResourceManager.GetString("stat_bindot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;Statistic Name=&quot;binhex&quot;&gt;
+        ///  &lt;Values&gt;
+        ///    &lt;Property Tag=&quot;Bin Width&quot; Name=&quot;binwidth&quot; Value=&quot;0&quot;/&gt;
+        ///    &lt;Property Tag=&quot;Bins&quot; Name=&quot;bins&quot; Value=&quot;30&quot;/&gt;
+        ///  &lt;/Values&gt;
+        ///&lt;/Statistic&gt;.
+        /// </summary>
+        public static string stat_binhex {
+            get {
+                return ResourceManager.GetString("stat_binhex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;Statistic Name=&quot;boxplot&quot;&gt;
+        ///  &lt;Values&gt;
+        ///    &lt;Property Tag=&quot;Wisker Length&quot; Name =&quot;coef&quot; Value=&quot;1.5&quot;/&gt;
+        ///  &lt;/Values&gt;
+        ///&lt;/Statistic&gt;.
+        /// </summary>
+        public static string stat_boxplot {
+            get {
+                return ResourceManager.GetString("stat_boxplot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;Statistic Name=&quot;contour&quot;&gt;
+        ///
+        ///&lt;/Statistic&gt;.
+        /// </summary>
+        public static string stat_contour {
+            get {
+                return ResourceManager.GetString("stat_contour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;Statistic Name=&quot;count&quot;&gt;
+        ///
+        ///&lt;/Statistic&gt;.
+        /// </summary>
+        public static string stat_count {
+            get {
+                return ResourceManager.GetString("stat_count", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;Statistic Name=&quot;density&quot;&gt;
+        ///  &lt;Properties&gt;
+        ///    &lt;Property Tag=&quot;Bandwidth&quot; Name=&quot;bw&quot; Value=&quot;&quot;&gt;
+        ///      &lt;Options&gt;
+        ///        &lt;Option Name=&quot;Silverman&quot; Value=&quot;nrd0&quot;/&gt;
+        ///        &lt;Option Name=&quot;Scott&quot; Value=&quot;nrd&quot;/&gt;
+        ///        &lt;Option Name=&quot;Unbiased Cross Validation&quot; Value=&quot;ucv&quot;/&gt;
+        ///        &lt;Option Name=&quot;Biased Cross Validation&quot; Value=&quot;bcv&quot;/&gt;
+        ///      &lt;/Options&gt;
+        ///    &lt;/Property&gt;
+        ///    &lt;Property Tag=&quot;Kernel&quot; Name=&quot;kernel&quot; Value=&quot;&quot;&gt;
+        ///      &lt;Options&gt;
+        ///        &lt;Option Name=&quot;Gaussian&quot; Valu [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string stat_density {
+            get {
+                return ResourceManager.GetString("stat_density", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;Statistic Name=&quot;density_2d&quot;&gt;
+        ///  &lt;Values&gt;
+        ///    &lt;Property Tag=&quot;Number of Points&quot; Name=&quot;n&quot; Value=&quot;0&quot;/&gt;
+        ///  &lt;/Values&gt;
+        ///  &lt;Booleans&gt;
+        ///    &lt;Property Tag=&quot;Contour&quot; Name=&quot;contour&quot; Value=&quot;TRUE&quot;/&gt;
+        ///  &lt;/Booleans&gt;
+        ///&lt;/Statistic&gt;.
+        /// </summary>
+        public static string stat_density_2d {
+            get {
+                return ResourceManager.GetString("stat_density_2d", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;Statistic Name=&quot;identity&quot;&gt;
+        ///
+        ///&lt;/Statistic&gt;.
+        /// </summary>
+        public static string stat_identity {
+            get {
+                return ResourceManager.GetString("stat_identity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;Statistic Name=&quot;quantile&quot;&gt;
+        ///
+        ///&lt;/Statistic&gt;.
+        /// </summary>
+        public static string stat_quantile {
+            get {
+                return ResourceManager.GetString("stat_quantile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;Statistic Name=&quot;smooth&quot;&gt;
+        ///  &lt;Properties&gt;
+        ///    &lt;Property Tag=&quot;Method&quot; Name=&quot;method&quot; Value=&quot;auto&quot;&gt;
+        ///      &lt;Options&gt;
+        ///        &lt;Option Name=&quot;Auto&quot; Value=&quot;auto&quot;/&gt;
+        ///        &lt;Option Name=&quot;LM&quot; Value=&quot;lm&quot;/&gt;
+        ///        &lt;Option Name=&quot;GLM&quot; Value=&quot;glm&quot;/&gt;
+        ///        &lt;Option Name=&quot;GAM&quot; Value=&quot;gam&quot;/&gt;
+        ///        &lt;Option Name=&quot;Loess&quot; Value=&quot;loess&quot;/&gt;
+        ///      &lt;/Options&gt;
+        ///    &lt;/Property&gt;
+        ///    &lt;Property Tag=&quot;Formula&quot; Name=&quot;formula&quot; Value=&quot;y~x&quot;&gt;
+        ///      &lt;Options&gt;
+        ///        &lt;Option Name=&quot;Simple&quot; Va [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string stat_smooth {
+            get {
+                return ResourceManager.GetString("stat_smooth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;Statistic Name=&quot;summary&quot;&gt;
+        ///  &lt;Properties&gt;
+        ///    &lt;Property Tag=&quot;Y Function&quot; Name=&quot;fun.y&quot; Value=&quot;&quot;&gt;
+        ///      &lt;Options&gt;
+        ///        &lt;Option Name=&quot;Min&quot; Value=&quot;min&quot;/&gt;
+        ///        &lt;Option Name=&quot;Max&quot; Value=&quot;max&quot;/&gt;
+        ///        &lt;Option Name=&quot;Mean&quot; Value=&quot;mean&quot;/&gt;
+        ///        &lt;Option Name=&quot;Median&quot; Value=&quot;median&quot;/&gt;
+        ///        &lt;Option Name=&quot;Sum&quot; Value=&quot;sum&quot;/&gt;
+        ///        &lt;Option Name=&quot;StdDev&quot; Value=&quot;sd&quot;/&gt;
+        ///        &lt;Option Name=&quot;Variance&quot; Value=&quot;var&quot;/&gt;
+        ///      &lt;/Options&gt;
+        ///    &lt;/Property&gt;
+        ///  &lt;/Propert [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string stat_summary {
+            get {
+                return ResourceManager.GetString("stat_summary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;Statistic Name=&quot;ydensity&quot;&gt;
+        ///  &lt;Properties&gt;
+        ///    &lt;Property Tag=&quot;Bandwidth&quot; Name=&quot;bw&quot; Value=&quot;nrd0&quot;&gt;
+        ///      &lt;Options&gt;
+        ///        &lt;Option Name=&quot;Silverman&quot; Value=&quot;nrd0&quot;/&gt;
+        ///        &lt;Option Name=&quot;Scott&quot; Value=&quot;nrd&quot;/&gt;
+        ///        &lt;Option Name=&quot;Unbiased Cross Validation&quot; Value=&quot;ucv&quot;/&gt;
+        ///        &lt;Option Name=&quot;Biased Cross Validation&quot; Value=&quot;bcv&quot;/&gt;
+        ///      &lt;/Options&gt;
+        ///    &lt;/Property&gt;
+        ///    &lt;Property Tag=&quot;Scale&quot; Name=&quot;scale&quot; Value=&quot;area&quot;&gt;
+        ///      &lt;Options&gt;
+        ///        &lt;Option Name=&quot;Area&quot; V [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string stat_ydensity {
+            get {
+                return ResourceManager.GetString("stat_ydensity", resourceCulture);
+            }
+        }
     }
 }

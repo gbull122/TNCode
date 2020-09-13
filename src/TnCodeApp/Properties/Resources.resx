@@ -166,4 +166,61 @@
   <data name="geom_violin" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\geom_violin.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="pos_dodge" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pos_dodge.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="pos_dodge2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pos_dodge2.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="pos_identity" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pos_identity.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="pos_jitter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pos_jitter.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="pos_stack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pos_stack.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="stat_bin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stat_bin.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="stat_bin2d" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stat_bin2d.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="stat_bindot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stat_bindot.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="stat_binhex" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stat_binhex.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="stat_boxplot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stat_boxplot.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="stat_contour" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stat_contour.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="stat_count" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stat_count.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="stat_density" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stat_density.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="stat_density_2d" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stat_density_2d.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="stat_identity" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stat_identity.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="stat_quantile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stat_quantile.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="stat_smooth" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stat_smooth.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="stat_summary" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stat_summary.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="stat_ydensity" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stat_ydensity.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

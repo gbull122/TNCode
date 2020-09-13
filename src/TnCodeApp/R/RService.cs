@@ -46,12 +46,12 @@ namespace TnCode.TnCodeApp.R
             set;
         }
 
-        public RService(ILoggerFacade loggerFacd, IRManager rMgr ,string path, IEventAggregator ea)
+        public RService(ILoggerFacade loggerFacd, IRManager rMgr ,string path, IEventAggregator eventAgg)
         {
             loggerFacade = loggerFacd;
             rManager = rMgr;
             WindowsDirectory = path;
-            eventAggregator = ea;
+            eventAggregator = eventAgg;
         }
 
         public bool IsRRunning { get => rManager.IsHostRunning(); }

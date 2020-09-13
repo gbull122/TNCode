@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Automation;
 using System.Windows.Media.Imaging;
 using TnCode.Core.R.Charts.Ggplot;
 using TnCode.Core.R.Charts.Ggplot.Layer;
@@ -60,6 +61,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
         //        RaisePropertyChanged(nameof(FacetViewModel));
         //    }
         //}
+
         public IEnumerable<string> DataSets
         {
             get { return dataSets; }
@@ -230,7 +232,10 @@ namespace TnCode.TnCodeApp.R.ViewModels
         private void Update()
         {
             var aesthetic = LoadAesthetic(SelectedLayer.Geom);
-            MergeAesthetics(aesthetic);
+            var aes = MergeAesthetics(aesthetic);
+
+            var stat = LoadStat(aes.DefaultStat);
+            var pos = LoadPosition(aes.DefaultPosition);
 
             foreach (var vc in variableControls)
             {
@@ -244,6 +249,20 @@ namespace TnCode.TnCodeApp.R.ViewModels
                 variableControls.Add(gControl);
             }
             RaisePropertyChanged("VariableControls");
+        }
+
+        private Position LoadPosition(string pos)
+        {
+            var posXml = Properties.Resources.ResourceManager.GetObject("pos_" + pos);
+            var position = xmlConverter.ToObject<Position>(posXml.ToString());
+            return position;
+        }
+
+        private Stat LoadStat(string stat)
+        {
+            var statXml = Properties.Resources.ResourceManager.GetObject("stat_" + stat);
+            var statistic = xmlConverter.ToObject<Stat>(statXml.ToString());
+            return statistic;
         }
 
         private Aesthetic LoadAesthetic(string geom)
@@ -306,10 +325,10 @@ namespace TnCode.TnCodeApp.R.ViewModels
             return string.Empty;
         }
 
-        private void MergeAesthetics(Aesthetic aestheticFromFile)
+        private Aesthetic MergeAesthetics(Aesthetic aestheticFromFile)
         {
             if (SelectedLayer.Aes == null)
-                return;
+                return null;
 
             var mergedAesthetic = new Aesthetic();
 
@@ -325,9 +344,10 @@ namespace TnCode.TnCodeApp.R.ViewModels
                 }
                 mergedAesthetic.AestheticValues.Add(aesValue);
             }
-            SelectedLayer.Aes = mergedAesthetic;
+            return mergedAesthetic;
+            //SelectedLayer.Aes = mergedAesthetic;
 
-            RaisePropertyChanged(string.Empty);
+            //RaisePropertyChanged(string.Empty);
         }
 
         private bool CanClearLayers()

@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Statistic Name="density">
+  <Properties>
+    <Property Tag="Bandwidth" Name="bw" Value="">
+      <Options>
+        <Option Name="Silverman" Value="nrd0"/>
+        <Option Name="Scott" Value="nrd"/>
+        <Option Name="Unbiased Cross Validation" Value="ucv"/>
+        <Option Name="Biased Cross Validation" Value="bcv"/>
+      </Options>
+    </Property>
+    <Property Tag="Kernel" Name="kernel" Value="">
+      <Options>
+        <Option Name="Gaussian" Value="gaussian"/>
+        <Option Name="Rectangular" Value="rectangular"/>
+        <Option Name="Triangular" Value="triangular"/>
+        <Option Name="Epanechnikov" Value="epanechnikov"/>
+      </Options>
+    </Property>
+  </Properties>
+  <Values>
+    <Property Tag="Number of Points" Name="n" Value="512"/>
+  </Values>
+  <Booleans>
+    <Property Tag="Trim" Name="trim" Value="False"/>
+  </Booleans>
+</Statistic>

@@ -56,8 +56,8 @@ namespace TnCode.TnCodeApp
             var path = Path.GetTempPath();
             var rHostSession = RHostSession.Create("TNCode");
             var rManager = new RManager(rHostSession, new RHostSessionCallback());
-            var ea = (IEventAggregator)containerRegistry.GetContainer().Resolve(typeof(IEventAggregator));
-            var rService = new RService(logViewModel, rManager,path, ea);
+            var eventAgg = (IEventAggregator)containerRegistry.GetContainer().Resolve(typeof(IEventAggregator));
+            var rService = new RService(logViewModel, rManager,path, eventAgg);
             containerRegistry.RegisterInstance<IRService>(rService);
 
             
