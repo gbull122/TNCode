@@ -1,18 +1,65 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Serialization;
 
 namespace TnCode.Core.R.Charts.Ggplot.Layer
 {
+    [Serializable, XmlRoot("Stat")]
     public class Stat
     {
-        private List<Parameter> _params;
+        List<Property> properties = new List<Property>();
+        List<Property> booleans = new List<Property>();
+        List<Property> values = new List<Property>();
 
-        public string Name { get; set; }
+        [XmlAttribute("Name")]
+        public string Name
+        {
+            get; set;
+        }
+
+        [XmlArray("Properties")]
+        [XmlArrayItem("Property")]
+        public List<Property> Properties
+        {
+            get { return properties; }
+            set { properties = value; }
+        }
+
+        public bool ShouldSerializeProperties()
+        {
+            return Properties.Any();
+        }
+
+        [XmlArray("Booleans")]
+        [XmlArrayItem("Property")]
+        public List<Property> Booleans
+        {
+            get { return booleans; }
+            set { booleans = value; }
+        }
+
+        public bool ShouldSerializeBooleans()
+        {
+            return Booleans.Any();
+        }
+
+        [XmlArray("Values")]
+        [XmlArrayItem("Property")]
+        public List<Property> Values
+        {
+            get { return values; }
+            set { values = value; }
+        }
+
+        public bool ShouldSerializeValues()
+        {
+            return Values.Any();
+        }
 
         public Stat()
         {
-            Name = "identity";
-            _params = new List<Parameter>();
+
         }
 
         public string Command()
@@ -20,26 +67,5 @@ namespace TnCode.Core.R.Charts.Ggplot.Layer
             return string.Format("\"{0}\"", Name.ToLower());
         }
 
-        public void ClearParams()
-        {
-            _params.Clear();
-        }
-
-        public void AddParams(Parameter param)
-        {
-            if (!_params.Contains(param))
-                _params.Add(param);
-        }
-
-        public void RemoveParam(Parameter param)
-        {
-            if (_params.Contains(param))
-                _params.Remove(param);
-        }
-
-        public List<Parameter> Params()
-        {
-            return _params.Where(s => !string.IsNullOrWhiteSpace(s.Value)).Distinct().ToList();
-        }
     }
 }

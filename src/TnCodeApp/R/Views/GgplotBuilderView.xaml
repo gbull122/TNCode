@@ -157,7 +157,7 @@
                                     <ItemsControl 
                                     Grid.Row="1"
                                     Grid.ColumnSpan="2"
-                                    ItemsSource="{Binding Path=VariableControls}">
+                                    ItemsSource="{Binding Path=GeomControls}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <WrapPanel
@@ -250,19 +250,15 @@
                                 </Grid.RowDefinitions>
 
                                 <ComboBox
-                                    Margin="2,2,2.2,2"
+                                    Margin="2"
                                     ItemsSource="{Binding Stats}"
-                                    SelectedItem="{Binding SelectedStat}" Grid.ColumnSpan="2">
+                                    SelectedItem="{Binding SelectedStat.Name}" 
+                                    Grid.ColumnSpan="2">
                                 </ComboBox>
-
-
-                                <GroupBox
-                                    Grid.Row="1"
-                                    Header="Controls" Grid.ColumnSpan="2" Margin="0,0,0.2,0.2">
 
                                     <Grid>
                                         <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                            <ItemsControl ItemsSource="{Binding ExtraControls}">
+                                            <ItemsControl ItemsSource="{Binding StatControls}">
                                                 <ItemsControl.ItemsPanel>
                                                     <ItemsPanelTemplate>
                                                         <WrapPanel/>
@@ -272,7 +268,6 @@
                                         </ScrollViewer>
                                     </Grid>
 
-                                </GroupBox>
 
                             </Grid>
 
@@ -281,15 +276,44 @@
                         <TabItem
                             Header="Position"
                             Width="{Binding ElementName=tabWidthSizer, Path=ActualWidth}">
-                            <ContentControl 
-                                prism:RegionManager.RegionName="PositionRegion" />
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="43*"/>
+                                    <ColumnDefinition Width="66*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <ComboBox
+                                    Margin="2"
+                                    ItemsSource="{Binding Positions}"
+                                    SelectedItem="{Binding SelectedPosition.Name}" 
+                                    Grid.ColumnSpan="2">
+                                </ComboBox>
+
+                                <Grid>
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                        <ItemsControl ItemsSource="{Binding PositionControls}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
+                                    </ScrollViewer>
+                                </Grid>
+
+
+                            </Grid>
                         </TabItem>
 
 
                         <TabItem
                             Header="Facet"
-                            Width="{Binding ElementName=tabWidthSizer, Path=ActualWidth}"
-                            DataContext="{Binding FacetViewModel}">
+                            Width="{Binding ElementName=tabWidthSizer, Path=ActualWidth}">
                             <Grid>
 
                                 <Grid.RowDefinitions>
@@ -317,7 +341,7 @@
                                     MaxDropDownHeight="150"
                                     ItemsSource="{Binding Path=Variables}" 
                                     IsSynchronizedWithCurrentItem="False"
-                                    SelectedItem="{Binding Path=XVariable ,UpdateSourceTrigger=PropertyChanged}"
+                                    SelectedItem="{Binding Path=XVariableFacet ,UpdateSourceTrigger=PropertyChanged}"
                                     ToolTip="Select the vertical variable."/>
 
                                 <TextBlock
@@ -334,7 +358,7 @@
                                     MaxDropDownHeight="150"
                                     ItemsSource="{Binding Path=Variables}" 
                                     IsSynchronizedWithCurrentItem="False"
-                                    SelectedItem="{Binding Path=YVariable ,UpdateSourceTrigger=PropertyChanged}"
+                                    SelectedItem="{Binding Path=YVariableFacet ,UpdateSourceTrigger=PropertyChanged}"
                                     ToolTip="Select the Horizontal variable."/>
 
                                 <CheckBox

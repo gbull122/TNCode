@@ -8,10 +8,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Automation;
 using System.Windows.Media.Imaging;
 using TnCode.Core.R.Charts.Ggplot;
 using TnCode.Core.R.Charts.Ggplot.Layer;
@@ -35,32 +33,41 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
         private readonly IProgressService progressService;
 
+        private Ggplot ggplot;
+
         private List<string> currentVariables;
         private IEnumerable<string> dataSets;
         private readonly IXmlConverter xmlConverter;
         private BitmapImage chartImage;
         private List<Parameter> titleParameters;
 
+        public string Title => "Chart Builder";
+
+        public DockingMethod Docking => DockingMethod.Document;
+
         public List<string> Geoms { get; }
+        public List<string> Stats { get; }
+        public List<string> Positions { get; }
         public DelegateCommand NewLayerCommand { get; private set; }
         public DelegateCommand ClearLayersCommand { get; private set; }
         public DelegateCommand<ILayer> LayerSelectedCommand { get; private set; }
         public DelegateCommand CopyChartCommand { get; private set; }
         public DelegateCommand<string> ActionCommand { get; private set; }
 
-        private ObservableCollection<VariableControl> variableControls;
+        private ObservableCollection<VariableControl> geomControls;
+        private ObservableCollection<IOptionControl> statControls;
+        private ObservableCollection<IOptionControl> positionControls;
 
-        //private GgplotFacetViewModel ggplotFacetViewModel;
+        public List<string> Variables
+        {
+            get => currentVariables;
+            set
+            {
+                currentVariables = value;
+                RaisePropertyChanged(nameof(Variables));
+            }
+        }
 
-        //public GgplotFacetViewModel FacetViewModel
-        //{
-        //    get { return ggplotFacetViewModel; }
-        //    set
-        //    {
-        //        ggplotFacetViewModel = value;
-        //        RaisePropertyChanged(nameof(FacetViewModel));
-        //    }
-        //}
 
         public IEnumerable<string> DataSets
         {
@@ -72,13 +79,33 @@ namespace TnCode.TnCodeApp.R.ViewModels
             }
         }
 
-        public ObservableCollection<VariableControl> VariableControls
+        public ObservableCollection<VariableControl> GeomControls
         {
-            get { return variableControls; }
+            get { return geomControls; }
             set
             {
-                variableControls = value;
-                RaisePropertyChanged(nameof(VariableControls));
+                geomControls = value;
+                RaisePropertyChanged(nameof(GeomControls));
+            }
+        }
+
+        public ObservableCollection<IOptionControl> StatControls
+        {
+            get { return statControls; }
+            set
+            {
+                statControls = value;
+                RaisePropertyChanged(nameof(StatControls));
+            }
+        }
+
+        public ObservableCollection<IOptionControl> PositionControls
+        {
+            get { return positionControls; }
+            set
+            {
+                positionControls = value;
+                RaisePropertyChanged(nameof(PositionControls));
             }
         }
 
@@ -92,9 +119,29 @@ namespace TnCode.TnCodeApp.R.ViewModels
             }
         }
 
-        public string Title => "Chart Builder";
+        private string xVariableFacet;
 
-        public DockingMethod Docking => DockingMethod.Document;
+        public string XVariableFacet
+        {
+            get => xVariableFacet;
+            set
+            {
+                xVariableFacet = value;
+                RaisePropertyChanged(nameof(XVariableFacet));
+            }
+        }
+
+        private string yVariableFacet;
+
+        public string YVariableFacet
+        {
+            get => yVariableFacet;
+            set
+            {
+                yVariableFacet = value;
+                RaisePropertyChanged(nameof(YVariableFacet));
+            }
+        }
 
         private ILayer selectedLayer;
 
@@ -103,20 +150,43 @@ namespace TnCode.TnCodeApp.R.ViewModels
             get => selectedLayer;
             set
             {
+                if (selectedLayer != null)
+                    selectedLayer.PropertyChanged -= SelectedLayer_PropertyChanged;
+
+                
                 selectedLayer = value;
+
+                selectedLayer.PropertyChanged += SelectedLayer_PropertyChanged;
                 RaisePropertyChanged(nameof(SelectedLayer));
             }
         }
 
-        private ObservableCollection<ILayer> layers;
-        private object optionsView;
-
-        public ObservableCollection<ILayer> Layers
+        public Stat SelectedStat
         {
-            get { return layers; }
+            get => selectedLayer.Statistic;
             set
             {
-                layers = value;
+                selectedLayer.Statistic = value;
+                RaisePropertyChanged(nameof(SelectedStat));
+            }
+        }
+
+        public Position SelectedPosition
+        {
+            get => selectedLayer.Pos;
+            set
+            {
+                SelectedLayer.Pos = value;
+                RaisePropertyChanged(nameof(SelectedPosition));
+            }
+        }
+
+        public List<ILayer> Layers
+        {
+            get { return ggplot.Layers; }
+            set
+            {
+                ggplot.Layers = value;
                 RaisePropertyChanged(nameof(Layers));
             }
         }
@@ -133,18 +203,23 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
             eventAggregator.GetEvent<DataSetChangedEvent>().Subscribe(DataSetsChanged, ThreadOption.UIThread);
 
-            //ggplotFacetViewModel = new GgplotFacetViewModel();
+            ggplot = new Ggplot();
 
-            layers = new ObservableCollection<ILayer>();
-            variableControls = new ObservableCollection<VariableControl>();
+            geomControls = new ObservableCollection<VariableControl>();
+            statControls = new ObservableCollection<IOptionControl>();
+            positionControls = new ObservableCollection<IOptionControl>();
+
             titleParameters = new List<Parameter>();
 
             Geoms = Enum.GetNames(typeof(Ggplot.Geoms)).ToList();
             Geoms.Remove("tile");
 
+            Stats = Enum.GetNames(typeof(Ggplot.Stats)).ToList();
+            Positions = Enum.GetNames(typeof(Ggplot.Positions)).ToList();
+
             NewLayerCommand = new DelegateCommand(NewLayer, CanNewLayer);
             ClearLayersCommand = new DelegateCommand(ClearLayers, CanClearLayers);
-            LayerSelectedCommand = new DelegateCommand<ILayer>(LayerSelected);
+            //LayerSelectedCommand = new DelegateCommand<ILayer>(LayerSelected);
             CopyChartCommand = new DelegateCommand(CopyChart);
             //ActionCommand = new DelegateCommand<string>(ExecuteActionCommand);
 
@@ -153,8 +228,6 @@ namespace TnCode.TnCodeApp.R.ViewModels
             dataSets = dataSetsManager.DataSetNames();
             if (dataSets.Count() > 0)
                 NewLayer();
-
-
         }
 
         private void DataSetsChanged(DataSetEventArgs dataSetEventArgs)
@@ -162,14 +235,6 @@ namespace TnCode.TnCodeApp.R.ViewModels
             DataSets = dataSetsManager.DataSetNames();
             NewLayerCommand.RaiseCanExecuteChanged();
         }
-
-        //private void ExecuteActionCommand(string obj)
-        //{
-        //    var navigationParameters = new NavigationParameters();
-
-        //    OptionsView = new GgplotFacetView();
-
-        //}
 
 
         private void CopyChart()
@@ -189,11 +254,11 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
             SelectedLayer = layer;
             SelectedLayer.PropertyChanged += SelectedLayer_PropertyChanged;
-            foreach (var vc in variableControls)
+            foreach (var vc in geomControls)
             {
                 vc.PropertyChanged -= GControl_PropertyChanged;
             }
-            variableControls.Clear();
+            geomControls.Clear();
 
             if (currentVariables == null || currentVariables.Count() == 0)
                 UpdateVariables();
@@ -202,21 +267,27 @@ namespace TnCode.TnCodeApp.R.ViewModels
             {
                 var gControl = new VariableControl(eventAggregator, aValue, currentVariables);
                 gControl.PropertyChanged += GControl_PropertyChanged;
-                variableControls.Add(gControl);
+                geomControls.Add(gControl);
             }
 
-            RaisePropertyChanged(nameof(VariableControls));
+            RaisePropertyChanged(nameof(GeomControls));
         }
 
         private async void SelectedLayer_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName.Equals(nameof(Layer.Data)))
+            if(e.PropertyName.Equals(nameof(SelectedLayer)))
             {
-                UpdateVariables();
+                UpdateAesthetic();
+                UpdateStat();
             }
+            if (e.PropertyName.Equals(nameof(Layer.Data)))
+                UpdateVariables();
 
             if (e.PropertyName.Equals(nameof(Layer.Geom)))
-                Update();
+            {
+                UpdateAesthetic();
+                UpdateStat();
+            }
 
             await GeneratePlotAsync();
         }
@@ -225,64 +296,97 @@ namespace TnCode.TnCodeApp.R.ViewModels
         {
             var varibleNames = dataSetsManager.DataSetVariableNames(selectedLayer.Data);
             varibleNames.Insert(0, "");
-            currentVariables = varibleNames;
-            //ggplotFacetViewModel.Variables = varibleNames;
+            Variables = varibleNames;
         }
 
-        private void Update()
+        private void UpdateAesthetic()
         {
             var aesthetic = LoadAesthetic(SelectedLayer.Geom);
+            SelectedStat = LoadStat(aesthetic.DefaultStat);
+            SelectedPosition = LoadPosition(aesthetic.DefaultPosition);
+
             var aes = MergeAesthetics(aesthetic);
 
-            var stat = LoadStat(aes.DefaultStat);
-            var pos = LoadPosition(aes.DefaultPosition);
-
-            foreach (var vc in variableControls)
+            foreach (var control in geomControls)
             {
-                vc.PropertyChanged -= GControl_PropertyChanged;
+                control.PropertyChanged -= GControl_PropertyChanged;
             }
-            variableControls.Clear();
+            geomControls.Clear();
+ 
             foreach (var aValue in SelectedLayer.Aes.AestheticValues)
             {
                 var gControl = new VariableControl(eventAggregator, aValue, currentVariables);
                 gControl.PropertyChanged += GControl_PropertyChanged;
-                variableControls.Add(gControl);
+                geomControls.Add(gControl);
             }
-            RaisePropertyChanged("VariableControls");
+        }
+
+        private void UpdateStat()
+        {
+            foreach (var control in statControls)
+            {
+                control.PropertyChanged -= GControl_PropertyChanged;
+            }
+            statControls.Clear();
+
+            foreach (var aProp in SelectedStat.Properties)
+            {
+                var oControl = new OptionPropertyControl(aProp.Tag,aProp.Name);
+                oControl.PropertyChanged += GControl_PropertyChanged;
+                statControls.Add(oControl);
+            }
+
+            foreach (var prop in SelectedStat.Booleans)
+            {
+                var control = new OptionCheckBoxControl(prop.Tag, prop.Name, bool.Parse(prop.Value));
+                control.PropertyChanged += GControl_PropertyChanged;
+                statControls.Add(control);
+            }
+
+            foreach (var prop in SelectedStat.Values)
+            {
+                var control = new OptionValueControl(prop.Tag, prop.Name, double.Parse(prop.Value));
+                control.PropertyChanged += GControl_PropertyChanged;
+                statControls.Add(control);
+            }
+
+        }
+
+        private void UpdatePosition()
+        {
+
         }
 
         private Position LoadPosition(string pos)
         {
-            var posXml = Properties.Resources.ResourceManager.GetObject("pos_" + pos);
+            var posXml = Properties.Resources.ResourceManager.GetObject("pos_" + pos.ToLower());
             var position = xmlConverter.ToObject<Position>(posXml.ToString());
             return position;
         }
 
         private Stat LoadStat(string stat)
         {
-            var statXml = Properties.Resources.ResourceManager.GetObject("stat_" + stat);
+            var statXml = Properties.Resources.ResourceManager.GetObject("stat_" + stat.ToLower());
             var statistic = xmlConverter.ToObject<Stat>(statXml.ToString());
             return statistic;
         }
 
         private Aesthetic LoadAesthetic(string geom)
         {
-            var aestheticXml = Properties.Resources.ResourceManager.GetObject("geom_" + geom);
+            var aestheticXml = Properties.Resources.ResourceManager.GetObject("geom_" + geom.ToLower());
             var aesthetic = xmlConverter.ToObject<Aesthetic>(aestheticXml.ToString());
             return aesthetic;
         }
 
         private async void GControl_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-
-            await progressService.ContinueAsync(GeneratePlotAsync(), "Generating ggplot chart");
+            if(ggplot.IsValid)
+                await progressService.ContinueAsync(GeneratePlotAsync(), "Generating ggplot chart");
         }
 
         private async Task GeneratePlotAsync()
         {
-            var plot = new Ggplot();
-            plot.Layers.AddRange(layers);
-            var plotCommand = plot.Command();
+            var plotCommand = ggplot.Command();
 
             await rService.GenerateGgplotAsync(plotCommand);
 
@@ -352,14 +456,14 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
         private bool CanClearLayers()
         {
-            return layers.Count > 0;
+            return ggplot.Layers.Count > 0;
         }
 
         private void ClearLayers()
         {
             Layers.Clear();
             selectedLayer = null;
-            Update();
+            UpdateAesthetic();
         }
 
         private bool CanNewLayer()
@@ -379,10 +483,11 @@ namespace TnCode.TnCodeApp.R.ViewModels
             newLayer.Aes = aesthetic;
             newLayer.Data = dataSets.First();
 
-            layers.Add(newLayer);
+            ggplot.Layers.Add(newLayer);
 
-            LayerSelected(newLayer);
-            SelectedLayer_PropertyChanged(null, new System.ComponentModel.PropertyChangedEventArgs(nameof(Layer.Data)));
+            SelectedLayer = newLayer;
+            //LayerSelected(newLayer);
+            //SelectedLayer_PropertyChanged(null, new System.ComponentModel.PropertyChangedEventArgs(nameof(Layer.Data)));
 
             ClearLayersCommand.RaiseCanExecuteChanged();
         }

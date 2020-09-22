@@ -33,18 +33,18 @@ namespace TnCode.Core.Utilities
 
         public T ToObject<T>(string xml)
         {
-            try
-            {
+            //try
+            //{
             using (var stringReader = new StringReader(xml))
             {
                 var serializer = new XmlSerializer(typeof(T));
                 return (T)serializer.Deserialize(stringReader);
             }
-            }
-            catch
-            {
-                throw new Exception("Failed to convert xml to object.");
-            }
+            //}
+            //catch(Exception ex)
+            //{
+            //    throw new Exception("Failed to convert xml to object: "+ex.Message);
+            //}
         }
 
     }

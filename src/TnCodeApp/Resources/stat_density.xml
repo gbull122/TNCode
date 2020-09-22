@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Statistic Name="density">
+<Stat Name="density">
   <Properties>
     <Property Tag="Bandwidth" Name="bw" Value="">
       <Options>
@@ -24,4 +24,4 @@
   <Booleans>
     <Property Tag="Trim" Name="trim" Value="False"/>
   </Booleans>
-</Statistic>
+</Stat>

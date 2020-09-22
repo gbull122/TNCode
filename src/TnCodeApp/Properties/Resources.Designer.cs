@@ -523,7 +523,7 @@ namespace TnCode.TnCodeApp.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-        ///&lt;Statistic Name=&quot;bin&quot;&gt;
+        ///&lt;Stat Name=&quot;bin&quot;&gt;
         ///  &lt;Values&gt;
         ///    &lt;Property Tag=&quot;Bin Width&quot; Name=&quot;binwidth&quot; Value=&quot;0&quot;/&gt;
         ///    &lt;Property Tag=&quot;Bins&quot; Name=&quot;bins&quot; Value=&quot;30&quot;/&gt;
@@ -535,7 +535,7 @@ namespace TnCode.TnCodeApp.Properties {
         ///      &lt;Options&gt;
         ///        &lt;Option Name=&quot;Silverman&quot; Value=&quot;nrd0&quot;/&gt;
         ///        &lt;Option Name=&quot;Scott&quot; Value=&quot;nrd&quot;/&gt;
-        ///        &lt;Option N [rest of string was truncated]&quot;;.
+        ///        &lt;Option Name=&quot; [rest of string was truncated]&quot;;.
         /// </summary>
         public static string stat_bin {
             get {
@@ -545,7 +545,7 @@ namespace TnCode.TnCodeApp.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-        ///&lt;Statistic Name=&quot;bin2d&quot;&gt;
+        ///&lt;Stat Name=&quot;bin2d&quot;&gt;
         ///  &lt;Values&gt;
         ///    &lt;Property Tag=&quot;Bin Width&quot; Name=&quot;binwidth&quot; Value=&quot;0&quot;/&gt;
         ///    &lt;Property Tag=&quot;Bins&quot; Name=&quot;bins&quot; Value=&quot;30&quot;/&gt;
@@ -553,7 +553,7 @@ namespace TnCode.TnCodeApp.Properties {
         ///  &lt;Booleans&gt;
         ///    &lt;Property Tag=&quot;Drop zero counts&quot; Name=&quot;drop&quot; Value=&quot;TRUE&quot;/&gt;
         ///  &lt;/Booleans&gt;
-        ///&lt;/Statistic&gt;.
+        ///&lt;/Stat&gt;.
         /// </summary>
         public static string stat_bin2d {
             get {
@@ -563,9 +563,9 @@ namespace TnCode.TnCodeApp.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-        ///&lt;Statistic Name=&quot;bindot&quot;&gt;
+        ///&lt;Stat Name=&quot;bindot&quot;&gt;
         ///
-        ///&lt;/Statistic&gt;.
+        ///&lt;/Stat&gt;.
         /// </summary>
         public static string stat_bindot {
             get {
@@ -575,12 +575,12 @@ namespace TnCode.TnCodeApp.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-        ///&lt;Statistic Name=&quot;binhex&quot;&gt;
+        ///&lt;Stat Name=&quot;binhex&quot;&gt;
         ///  &lt;Values&gt;
         ///    &lt;Property Tag=&quot;Bin Width&quot; Name=&quot;binwidth&quot; Value=&quot;0&quot;/&gt;
         ///    &lt;Property Tag=&quot;Bins&quot; Name=&quot;bins&quot; Value=&quot;30&quot;/&gt;
         ///  &lt;/Values&gt;
-        ///&lt;/Statistic&gt;.
+        ///&lt;/Stat&gt;.
         /// </summary>
         public static string stat_binhex {
             get {
@@ -590,11 +590,11 @@ namespace TnCode.TnCodeApp.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-        ///&lt;Statistic Name=&quot;boxplot&quot;&gt;
+        ///&lt;Stat Name=&quot;boxplot&quot;&gt;
         ///  &lt;Values&gt;
         ///    &lt;Property Tag=&quot;Wisker Length&quot; Name =&quot;coef&quot; Value=&quot;1.5&quot;/&gt;
         ///  &lt;/Values&gt;
-        ///&lt;/Statistic&gt;.
+        ///&lt;/Stat&gt;.
         /// </summary>
         public static string stat_boxplot {
             get {
@@ -604,9 +604,9 @@ namespace TnCode.TnCodeApp.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-        ///&lt;Statistic Name=&quot;contour&quot;&gt;
+        ///&lt;Stat Name=&quot;contour&quot;&gt;
         ///
-        ///&lt;/Statistic&gt;.
+        ///&lt;/Stat&gt;.
         /// </summary>
         public static string stat_contour {
             get {
@@ -616,9 +616,9 @@ namespace TnCode.TnCodeApp.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-        ///&lt;Statistic Name=&quot;count&quot;&gt;
+        ///&lt;Stat Name=&quot;count&quot;&gt;
         ///
-        ///&lt;/Statistic&gt;.
+        ///&lt;/Stat&gt;.
         /// </summary>
         public static string stat_count {
             get {
@@ -628,7 +628,7 @@ namespace TnCode.TnCodeApp.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-        ///&lt;Statistic Name=&quot;density&quot;&gt;
+        ///&lt;Stat Name=&quot;density&quot;&gt;
         ///  &lt;Properties&gt;
         ///    &lt;Property Tag=&quot;Bandwidth&quot; Name=&quot;bw&quot; Value=&quot;&quot;&gt;
         ///      &lt;Options&gt;
@@ -640,7 +640,7 @@ namespace TnCode.TnCodeApp.Properties {
         ///    &lt;/Property&gt;
         ///    &lt;Property Tag=&quot;Kernel&quot; Name=&quot;kernel&quot; Value=&quot;&quot;&gt;
         ///      &lt;Options&gt;
-        ///        &lt;Option Name=&quot;Gaussian&quot; Valu [rest of string was truncated]&quot;;.
+        ///        &lt;Option Name=&quot;Gaussian&quot; Value=&quot;ga [rest of string was truncated]&quot;;.
         /// </summary>
         public static string stat_density {
             get {
@@ -650,14 +650,14 @@ namespace TnCode.TnCodeApp.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-        ///&lt;Statistic Name=&quot;density_2d&quot;&gt;
+        ///&lt;Stat Name=&quot;density_2d&quot;&gt;
         ///  &lt;Values&gt;
         ///    &lt;Property Tag=&quot;Number of Points&quot; Name=&quot;n&quot; Value=&quot;0&quot;/&gt;
         ///  &lt;/Values&gt;
         ///  &lt;Booleans&gt;
         ///    &lt;Property Tag=&quot;Contour&quot; Name=&quot;contour&quot; Value=&quot;TRUE&quot;/&gt;
         ///  &lt;/Booleans&gt;
-        ///&lt;/Statistic&gt;.
+        ///&lt;/Stat&gt;.
         /// </summary>
         public static string stat_density_2d {
             get {
@@ -667,9 +667,9 @@ namespace TnCode.TnCodeApp.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-        ///&lt;Statistic Name=&quot;identity&quot;&gt;
+        ///&lt;Stat Name=&quot;identity&quot;&gt;
         ///
-        ///&lt;/Statistic&gt;.
+        ///&lt;/Stat&gt;.
         /// </summary>
         public static string stat_identity {
             get {
@@ -679,9 +679,9 @@ namespace TnCode.TnCodeApp.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-        ///&lt;Statistic Name=&quot;quantile&quot;&gt;
+        ///&lt;Stat Name=&quot;quantile&quot;&gt;
         ///
-        ///&lt;/Statistic&gt;.
+        ///&lt;/Stat&gt;.
         /// </summary>
         public static string stat_quantile {
             get {
@@ -691,7 +691,7 @@ namespace TnCode.TnCodeApp.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-        ///&lt;Statistic Name=&quot;smooth&quot;&gt;
+        ///&lt;Stat Name=&quot;smooth&quot;&gt;
         ///  &lt;Properties&gt;
         ///    &lt;Property Tag=&quot;Method&quot; Name=&quot;method&quot; Value=&quot;auto&quot;&gt;
         ///      &lt;Options&gt;
@@ -704,7 +704,7 @@ namespace TnCode.TnCodeApp.Properties {
         ///    &lt;/Property&gt;
         ///    &lt;Property Tag=&quot;Formula&quot; Name=&quot;formula&quot; Value=&quot;y~x&quot;&gt;
         ///      &lt;Options&gt;
-        ///        &lt;Option Name=&quot;Simple&quot; Va [rest of string was truncated]&quot;;.
+        ///        &lt;Option Name=&quot;Simple&quot; Value=&quot; [rest of string was truncated]&quot;;.
         /// </summary>
         public static string stat_smooth {
             get {
@@ -714,7 +714,7 @@ namespace TnCode.TnCodeApp.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-        ///&lt;Statistic Name=&quot;summary&quot;&gt;
+        ///&lt;Stat Name=&quot;summary&quot;&gt;
         ///  &lt;Properties&gt;
         ///    &lt;Property Tag=&quot;Y Function&quot; Name=&quot;fun.y&quot; Value=&quot;&quot;&gt;
         ///      &lt;Options&gt;
@@ -727,7 +727,7 @@ namespace TnCode.TnCodeApp.Properties {
         ///        &lt;Option Name=&quot;Variance&quot; Value=&quot;var&quot;/&gt;
         ///      &lt;/Options&gt;
         ///    &lt;/Property&gt;
-        ///  &lt;/Propert [rest of string was truncated]&quot;;.
+        ///  &lt;/Properties&gt;        /// [rest of string was truncated]&quot;;.
         /// </summary>
         public static string stat_summary {
             get {
@@ -737,7 +737,7 @@ namespace TnCode.TnCodeApp.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
-        ///&lt;Statistic Name=&quot;ydensity&quot;&gt;
+        ///&lt;Stat Name=&quot;ydensity&quot;&gt;
         ///  &lt;Properties&gt;
         ///    &lt;Property Tag=&quot;Bandwidth&quot; Name=&quot;bw&quot; Value=&quot;nrd0&quot;&gt;
         ///      &lt;Options&gt;
@@ -749,7 +749,7 @@ namespace TnCode.TnCodeApp.Properties {
         ///    &lt;/Property&gt;
         ///    &lt;Property Tag=&quot;Scale&quot; Name=&quot;scale&quot; Value=&quot;area&quot;&gt;
         ///      &lt;Options&gt;
-        ///        &lt;Option Name=&quot;Area&quot; V [rest of string was truncated]&quot;;.
+        ///        &lt;Option Name=&quot;Area&quot; Value= [rest of string was truncated]&quot;;.
         /// </summary>
         public static string stat_ydensity {
             get {

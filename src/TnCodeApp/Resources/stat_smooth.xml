@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Statistic Name="smooth">
+<Stat Name="smooth">
   <Properties>
     <Property Tag="Method" Name="method" Value="auto">
       <Options>
@@ -27,4 +27,4 @@
   <Booleans>
     <Property Tag="Full range" Name="fullrange" Value="TRUE"/>
   </Booleans>
-</Statistic>
+</Stat>

@@ -2,12 +2,8 @@
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Text;
 using System.Windows;
-using TnCode.Core.R;
 using TnCode.TnCodeApp.Progress;
 using TnCode.TnCodeApp.R.Views;
 
