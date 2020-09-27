@@ -1,8 +1,8 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ModuleR.Charts.Ggplot.Layer;
+using TnCode.Core.R.Charts.Ggplot.Layer;
 
-namespace ModuleR_Tests
+namespace Core.R_Tests
 {
     [TestClass]
     public class Aesthetic_Tests

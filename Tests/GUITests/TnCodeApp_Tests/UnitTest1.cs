@@ -1,14 +1,13 @@
-﻿using FlaUI.UIA3;
+using FlaUI.UIA3;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.IO;
 
-namespace UITests
+namespace TnCodeApp_Tests
 {
     [TestClass]
     public class ApplicationWindow_Tests
     {
-        const string APPPATH= "..\\..\\..\\..\\src\\TNCodeApp\\bin\\Debug\\TNCodeApp.exe";
+        const string APPPATH = "..\\..\\..\\..\\src\\TNCodeApp\\bin\\Debug\\TNCodeApp.exe";
 
         [TestMethod]
         public void MainWindowOpens()
@@ -17,9 +16,9 @@ namespace UITests
             using (var automation = new UIA3Automation())
             {
                 var window = app.GetMainWindow(automation);
-                window.Title.Should().Be("TNCode"); 
-	        }
-            app.Close();  
+                window.Title.Should().Be("TNCode");
+            }
+            app.Close();
         }
     }
 }

@@ -1,8 +1,11 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TNCodeApp.R.Charts.Ggplot.Layer;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using TnCode.Core.R.Charts.Ggplot.Layer;
 
-namespace TnCodeApp_Tests.R.Charts.Ggplot.Layer
+namespace Core.R_Tests
 {
     [TestClass]
     public class Layer_Tests
@@ -10,7 +13,7 @@ namespace TnCodeApp_Tests.R.Charts.Ggplot.Layer
         [TestMethod]
         public void Empty_returns_empty()
         {
-            var layer = new TNCodeApp.R.Charts.Ggplot.Layer.Layer("point");
+            var layer = new Layer("point");
 
             var actualValue = layer.Command();
 
@@ -29,7 +32,7 @@ namespace TnCodeApp_Tests.R.Charts.Ggplot.Layer
             aesthetic.DefaultStat = "identity";
             aesthetic.DefaultPosition = "identity";
 
-            var layer = new TNCodeApp.R.Charts.Ggplot.Layer.Layer("point");
+            var layer = new Layer("point");
             layer.Data = "DataFrame";
             layer.Aes = aesthetic;
 
@@ -56,7 +59,7 @@ namespace TnCodeApp_Tests.R.Charts.Ggplot.Layer
             aesthetic.DefaultStat = "identity";
             aesthetic.DefaultPosition = "identity";
 
-            var layer = new TNCodeApp.R.Charts.Ggplot.Layer.Layer("point");
+            var layer = new Layer("point");
             layer.Data = "DataFrame";
             layer.Aes = aesthetic;
 
@@ -81,7 +84,7 @@ namespace TnCodeApp_Tests.R.Charts.Ggplot.Layer
             aesthetic.DefaultStat = "identity";
             aesthetic.DefaultPosition = "identity";
 
-            var layer = new TNCodeApp.R.Charts.Ggplot.Layer.Layer("point");
+            var layer = new Layer("point");
             layer.Data = "DataFrame";
             layer.Aes = aesthetic;
 
@@ -105,7 +108,7 @@ namespace TnCodeApp_Tests.R.Charts.Ggplot.Layer
             aesthetic.AestheticValues.Add(aVal1);
             aesthetic.AestheticValues.Add(aVal2);
 
-            var layer = new TNCodeApp.R.Charts.Ggplot.Layer.Layer("point");
+            var layer = new Layer("point");
             layer.Data = "DataFrame";
             layer.Aes = aesthetic;
 
@@ -133,9 +136,11 @@ namespace TnCodeApp_Tests.R.Charts.Ggplot.Layer
             aesthetic.DefaultStat = "identity";
             aesthetic.DefaultPosition = "identity";
 
-            var layer = new TNCodeApp.R.Charts.Ggplot.Layer.Layer("point");
+            var layer = new Layer("point");
             layer.Data = "DataFrame";
             layer.Aes = aesthetic;
+            layer.ShowInPlot = true;
+            layer.ShowLegend = false;
 
             var actualValue = layer.Command();
 
@@ -159,7 +164,7 @@ namespace TnCodeApp_Tests.R.Charts.Ggplot.Layer
             aesthetic.DefaultStat = "identity";
             aesthetic.DefaultPosition = "identity";
 
-            var layer = new TNCodeApp.R.Charts.Ggplot.Layer.Layer("point");
+            var layer = new Layer("point");
             layer.Data = "DataFrame";
             layer.Aes = aesthetic;
 

@@ -1,13 +1,8 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TNCodeApp.R.Charts.Ggplot.Layer;
+using TnCode.Core.R.Charts.Ggplot.Layer;
 
-namespace TnCodeApp_Tests.R.Charts.Ggplot.Layer
+namespace Core.R_Tests
 {
     [TestClass]
     public class AestheticValue_Tests
