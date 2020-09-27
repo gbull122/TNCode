@@ -74,11 +74,11 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <ItemContainerTemplate>
                                     <ComboBox
+                                        x:Name="comboData"
                                         materialDesign:HintAssist.Hint="Data set"
                                         ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},  Path=DataContext.DataSets}"
                                         SelectedItem="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},  Path=DataContext.SelectedLayer.Data}"
                                         Background="{DynamicResource MaterialDesignPaper}">
-
                                     </ComboBox>
                                 </ItemContainerTemplate>
                             </DataGridTemplateColumn.CellTemplate>
@@ -147,11 +147,21 @@
                                         Content="Geom"
                                         VerticalAlignment="Center"/>
                                     <ComboBox
+                                        x:Name="comboGeom"
                                         Grid.Row="0"
                                         Grid.Column="1"
                                         Margin="2"
                                         ItemsSource="{Binding Geoms}"
-                                        SelectedItem="{Binding SelectedLayer.Geom}"/>
+                                        SelectedItem="{Binding SelectedLayer.Geom}">
+                                        <i1:Interaction.Triggers>
+                                            <i1:EventTrigger
+                                            EventName="SelectionChanged">
+                                                <i1:InvokeCommandAction 
+                                                Command="{Binding SelectedGeomChangedCommand}"
+                                                CommandParameter="{Binding ElementName=comboGeom,Path=SelectedValue}"/>
+                                            </i1:EventTrigger>
+                                        </i1:Interaction.Triggers>
+                                    </ComboBox>
 
 
                                     <ItemsControl 
@@ -250,23 +260,36 @@
                                 </Grid.RowDefinitions>
 
                                 <ComboBox
+                                    x:Name="comboStat"
+                                    Grid.Row="0"
                                     Margin="2"
                                     ItemsSource="{Binding Stats}"
-                                    SelectedItem="{Binding SelectedStat.Name}" 
+                                    SelectedItem="{Binding SelectedStat}" 
                                     Grid.ColumnSpan="2">
+                                    <i1:Interaction.Triggers>
+                                        <i1:EventTrigger
+                                            EventName="SelectionChanged">
+                                            <i1:InvokeCommandAction 
+                                                Command="{Binding SelectedStatChangedCommand}"
+                                                CommandParameter="{Binding ElementName=comboStat,Path=SelectedItem}"/>
+                                        </i1:EventTrigger>
+                                    </i1:Interaction.Triggers>
                                 </ComboBox>
 
-                                    <Grid>
-                                        <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                            <ItemsControl ItemsSource="{Binding StatControls}">
-                                                <ItemsControl.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <WrapPanel/>
-                                                    </ItemsPanelTemplate>
-                                                </ItemsControl.ItemsPanel>
-                                            </ItemsControl>
-                                        </ScrollViewer>
-                                    </Grid>
+                                <Grid
+                                    Grid.Row="1"
+                                    Grid.ColumnSpan="2">
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                        <ItemsControl ItemsSource="{Binding StatControls}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel
+                                           Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollViewer}}, Path=ActualWidth}"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
+                                    </ScrollViewer>
+                                </Grid>
 
 
                             </Grid>
@@ -288,18 +311,31 @@
                                 </Grid.RowDefinitions>
 
                                 <ComboBox
+                                    x:Name="comboPos"
+                                    Grid.Row="0"
                                     Margin="2"
                                     ItemsSource="{Binding Positions}"
-                                    SelectedItem="{Binding SelectedPosition.Name}" 
+                                    SelectedItem="{Binding SelectedPosition}" 
                                     Grid.ColumnSpan="2">
+                                    <i1:Interaction.Triggers>
+                                        <i1:EventTrigger
+                                            EventName="SelectionChanged">
+                                            <i1:InvokeCommandAction 
+                                                Command="{Binding SelectedPositionChangedCommand}"
+                                                CommandParameter="{Binding ElementName=comboPos,Path=SelectedItem}"/>
+                                        </i1:EventTrigger>
+                                    </i1:Interaction.Triggers>
                                 </ComboBox>
 
-                                <Grid>
+                                <Grid
+                                    Grid.Row="1"
+                                    Grid.ColumnSpan="2">
                                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                                         <ItemsControl ItemsSource="{Binding PositionControls}">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
-                                                    <WrapPanel/>
+                                                    <WrapPanel
+                                           Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollViewer}}, Path=ActualWidth}"/>
                                                 </ItemsPanelTemplate>
                                             </ItemsControl.ItemsPanel>
                                         </ItemsControl>

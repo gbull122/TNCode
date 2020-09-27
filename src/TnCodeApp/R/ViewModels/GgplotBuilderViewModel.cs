@@ -51,6 +51,9 @@ namespace TnCode.TnCodeApp.R.ViewModels
         public DelegateCommand NewLayerCommand { get; private set; }
         public DelegateCommand ClearLayersCommand { get; private set; }
         public DelegateCommand<ILayer> LayerSelectedCommand { get; private set; }
+        public DelegateCommand<string> SelectedStatChangedCommand { get; private set; }
+        public DelegateCommand<string> SelectedGeomChangedCommand { get; private set; }
+        public DelegateCommand<string> SelectedPositionChangedCommand { get; private set; }
         public DelegateCommand CopyChartCommand { get; private set; }
         public DelegateCommand<string> ActionCommand { get; private set; }
 
@@ -161,22 +164,26 @@ namespace TnCode.TnCodeApp.R.ViewModels
             }
         }
 
-        public Stat SelectedStat
+        private string selectedStat;
+
+        public string SelectedStat
         {
-            get => selectedLayer.Statistic;
+            get => selectedStat;
             set
             {
-                selectedLayer.Statistic = value;
+                selectedStat = value;
                 RaisePropertyChanged(nameof(SelectedStat));
             }
         }
 
-        public Position SelectedPosition
+        private string selectedPosition;
+
+        public string SelectedPosition
         {
-            get => selectedLayer.Pos;
+            get => selectedPosition;
             set
             {
-                SelectedLayer.Pos = value;
+                selectedPosition = value;
                 RaisePropertyChanged(nameof(SelectedPosition));
             }
         }
@@ -184,11 +191,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
         public List<ILayer> Layers
         {
             get { return ggplot.Layers; }
-            set
-            {
-                ggplot.Layers = value;
-                RaisePropertyChanged(nameof(Layers));
-            }
+
         }
 
         public GgplotBuilderViewModel(IContainerExtension container, IEventAggregator eventAggr, IRegionManager regMngr, IRService rSer, IXmlConverter converter, IDataSetsManager setsManager, IProgressService progService)
@@ -219,7 +222,10 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
             NewLayerCommand = new DelegateCommand(NewLayer, CanNewLayer);
             ClearLayersCommand = new DelegateCommand(ClearLayers, CanClearLayers);
-            //LayerSelectedCommand = new DelegateCommand<ILayer>(LayerSelected);
+            SelectedStatChangedCommand = new DelegateCommand<string>(StatChanged);
+            SelectedGeomChangedCommand = new DelegateCommand<string>(GeomChanged);
+            SelectedPositionChangedCommand = new DelegateCommand<string>(PositionChanged);
+            LayerSelectedCommand = new DelegateCommand<ILayer>(LayerSelected);
             CopyChartCommand = new DelegateCommand(CopyChart);
             //ActionCommand = new DelegateCommand<string>(ExecuteActionCommand);
 
@@ -227,7 +233,32 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
             dataSets = dataSetsManager.DataSetNames();
             if (dataSets.Count() > 0)
+            {
                 NewLayer();
+                UpdateVariables();
+                UpdateAesthetic();
+            }
+        }
+
+        private void PositionChanged(string obj)
+        {
+            var position = LoadPosition(SelectedPosition);
+            UpdatePosition(position);
+            SelectedLayer.Pos = position;
+        }
+
+        private async void GeomChanged(string obj)
+        {
+            UpdateAesthetic();
+            await GeneratePlotAsync();
+        }
+
+        private async void StatChanged(string obj)
+        {
+            var stat = LoadStat(SelectedStat);
+            UpdateStat(stat);
+            SelectedLayer.Statistic = stat;
+            await GeneratePlotAsync();
         }
 
         private void DataSetsChanged(DataSetEventArgs dataSetEventArgs)
@@ -235,7 +266,6 @@ namespace TnCode.TnCodeApp.R.ViewModels
             DataSets = dataSetsManager.DataSetNames();
             NewLayerCommand.RaiseCanExecuteChanged();
         }
-
 
         private void CopyChart()
         {
@@ -275,19 +305,8 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
         private async void SelectedLayer_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if(e.PropertyName.Equals(nameof(SelectedLayer)))
-            {
-                UpdateAesthetic();
-                UpdateStat();
-            }
-            if (e.PropertyName.Equals(nameof(Layer.Data)))
+            if (e.PropertyName.Equals(nameof(Data)))
                 UpdateVariables();
-
-            if (e.PropertyName.Equals(nameof(Layer.Geom)))
-            {
-                UpdateAesthetic();
-                UpdateStat();
-            }
 
             await GeneratePlotAsync();
         }
@@ -302,8 +321,10 @@ namespace TnCode.TnCodeApp.R.ViewModels
         private void UpdateAesthetic()
         {
             var aesthetic = LoadAesthetic(SelectedLayer.Geom);
-            SelectedStat = LoadStat(aesthetic.DefaultStat);
-            SelectedPosition = LoadPosition(aesthetic.DefaultPosition);
+            var stat = LoadStat(aesthetic.DefaultStat);
+            SelectedLayer.Statistic = stat;
+            var position = LoadPosition(aesthetic.DefaultPosition);
+            SelectedLayer.Pos = position;
 
             var aes = MergeAesthetics(aesthetic);
 
@@ -321,40 +342,74 @@ namespace TnCode.TnCodeApp.R.ViewModels
             }
         }
 
-        private void UpdateStat()
+        private void UpdateStat(Stat stat)
         {
+            var newControls = new ObservableCollection<IOptionControl>();
+
             foreach (var control in statControls)
             {
                 control.PropertyChanged -= GControl_PropertyChanged;
             }
             statControls.Clear();
 
-            foreach (var aProp in SelectedStat.Properties)
+            foreach (var aProp in stat.Properties)
             {
                 var oControl = new OptionPropertyControl(aProp.Tag,aProp.Name);
+                oControl.SetValues(aProp.Options);
                 oControl.PropertyChanged += GControl_PropertyChanged;
-                statControls.Add(oControl);
+                newControls.Add(oControl);
             }
 
-            foreach (var prop in SelectedStat.Booleans)
+            foreach (var prop in stat.Booleans)
             {
                 var control = new OptionCheckBoxControl(prop.Tag, prop.Name, bool.Parse(prop.Value));
                 control.PropertyChanged += GControl_PropertyChanged;
-                statControls.Add(control);
+                newControls.Add(control);
             }
 
-            foreach (var prop in SelectedStat.Values)
+            foreach (var prop in stat.Values)
             {
-                var control = new OptionValueControl(prop.Tag, prop.Name, double.Parse(prop.Value));
+                double.TryParse(prop.Value, out double result);
+                var control = new OptionValueControl(prop.Tag, prop.Name, result);
                 control.PropertyChanged += GControl_PropertyChanged;
-                statControls.Add(control);
+                newControls.Add(control);
             }
-
+            StatControls = newControls;
         }
 
-        private void UpdatePosition()
+        private void UpdatePosition(Position pos)
         {
+            var newControls = new ObservableCollection<IOptionControl>();
 
+            foreach (var control in positionControls)
+            {
+                control.PropertyChanged -= GControl_PropertyChanged;
+            }
+            positionControls.Clear();
+
+            foreach (var aProp in pos.Properties)
+            {
+                var oControl = new OptionPropertyControl(aProp.Tag, aProp.Name);
+                oControl.SetValues(aProp.Options);
+                oControl.PropertyChanged += GControl_PropertyChanged;
+                newControls.Add(oControl);
+            }
+
+            foreach (var prop in pos.Booleans)
+            {
+                var control = new OptionCheckBoxControl(prop.Tag, prop.Name, bool.Parse(prop.Value));
+                control.PropertyChanged += GControl_PropertyChanged;
+                newControls.Add(control);
+            }
+
+            foreach (var prop in pos.Values)
+            {
+                double.TryParse(prop.Value, out double result);
+                var control = new OptionValueControl(prop.Tag, prop.Name, result);
+                control.PropertyChanged += GControl_PropertyChanged;
+                newControls.Add(control);
+            }
+            PositionControls = newControls;
         }
 
         private Position LoadPosition(string pos)
@@ -388,27 +443,31 @@ namespace TnCode.TnCodeApp.R.ViewModels
         {
             var plotCommand = ggplot.Command();
 
-            await rService.GenerateGgplotAsync(plotCommand);
+            var isPlotGenerated = await rService.GenerateGgplotAsync(plotCommand);
 
-            var imagePath = GetGgplotChartPath();
-
-            if (!string.IsNullOrEmpty(imagePath))
+            if (isPlotGenerated)
             {
-                using (var stream = new FileStream(
-                            imagePath,
-                            FileMode.Open,
-                            FileAccess.Read,
-                            FileShare.Read))
-                {
-                    var bitmap = new BitmapImage();
-                    bitmap.BeginInit();
-                    bitmap.StreamSource = stream;
-                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                    bitmap.EndInit();
-                    bitmap.Freeze();
+                var imagePath = GetGgplotChartPath();
 
-                    ChartImage = bitmap;
+                if (!string.IsNullOrEmpty(imagePath))
+                {
+                    using (var stream = new FileStream(
+                                imagePath,
+                                FileMode.Open,
+                                FileAccess.Read,
+                                FileShare.Read))
+                    {
+                        var bitmap = new BitmapImage();
+                        bitmap.BeginInit();
+                        bitmap.StreamSource = stream;
+                        bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                        bitmap.EndInit();
+                        bitmap.Freeze();
+
+                        ChartImage = bitmap;
+                    }
                 }
+               
             }
             else
                 ChartImage = null;

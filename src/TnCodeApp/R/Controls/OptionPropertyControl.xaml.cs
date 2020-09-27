@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Controls;
+using TnCode.Core.R.Charts.Ggplot.Layer;
 
 namespace TnCode.TnCodeApp.R.Controls
 {
@@ -66,17 +67,17 @@ namespace TnCode.TnCodeApp.R.Controls
             selectionLookup = new Dictionary<string, string>();
         }
 
-        //public void SetValues(List<Option> newValues)
-        //{
-        //    options.Clear();
-        //    selectionLookup.Clear();
-        //    foreach (var newItem in newValues)
-        //    {
-        //        selectionLookup.Add(newItem.Name, newItem.Value);
-        //        options.Add(newItem.Name);
-        //    }
-        //    selectedOption = options[0];
-        //}
+        public void SetValues(List<Option> newValues)
+        {
+            options.Clear();
+            selectionLookup.Clear();
+            foreach (var newItem in newValues)
+            {
+                selectionLookup.Add(newItem.Name, newItem.Value);
+                options.Add(newItem.Name);
+            }
+            selectedOption = options[0];
+        }
 
         public string GetRCode()
         {

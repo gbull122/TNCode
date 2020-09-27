@@ -71,6 +71,7 @@ namespace TnCode.TnCodeApp.Docking
                         var layoutDocumentPane = (LayoutDocumentPane)layoutDocumentPaneControl.Model;
 
                         layoutDocumentPane.Children.Add(document);
+                        document.IsActive = true;
                         return;
                     }
 

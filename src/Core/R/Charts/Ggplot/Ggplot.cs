@@ -53,19 +53,30 @@ namespace TnCode.Core.R.Charts.Ggplot
             ydensity
         }
 
+        private bool valid;
+
         private List<ILayer> layers;
+
+        public void AddLayer(ILayer layer)
+        {
+            layers.Add(layer);
+        }
 
         public List<ILayer> Layers
         {
             get { return layers; }
-            set { layers = value; }
         }
 
-        public bool IsValid { get; set; }
+        public bool IsValid
+        {
+            get { return valid; }
+            set { valid = value; }
+        }
 
         public Ggplot()
         {
             layers = new List<ILayer>();
+            valid = true;
         }
 
         public string Command()
