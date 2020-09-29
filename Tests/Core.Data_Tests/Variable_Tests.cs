@@ -31,7 +31,7 @@ namespace Core.Data_Tests
         [TestMethod]
         public void Variable_Numeric_Test()
         {
-            var expectedCount = 4;
+            var expectedCount = 5;
             var expectedElement = 2.2;
             var expectedVariableType = Variable.Format.Numeric;
 

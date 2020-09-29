@@ -1,0 +1,54 @@
+﻿<UserControl 
+    x:Class="TnCode.TnCodeApp.R.Views.StatView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i1="http://schemas.microsoft.com/xaml/behaviors"
+    prism:ViewModelLocator.AutoWireViewModel="True">
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="43*"/>
+            <ColumnDefinition Width="66*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ComboBox
+                                    x:Name="comboStat"
+                                    Grid.Row="0"
+                                    Margin="2"
+                                    ItemsSource="{Binding Stats}"
+                                    SelectedItem="{Binding Path=SelectedStat}" 
+                                    Grid.ColumnSpan="2">
+            <i1:Interaction.Triggers>
+                <i1:EventTrigger
+                                            EventName="SelectionChanged">
+                    <i1:InvokeCommandAction 
+                                                Command="{Binding SelectedStatChangedCommand}"
+                                                CommandParameter="{Binding ElementName=comboStat,Path=SelectedItem}"/>
+                </i1:EventTrigger>
+            </i1:Interaction.Triggers>
+        </ComboBox>
+
+        <Grid
+                                    Grid.Row="1"
+                                    Grid.ColumnSpan="2">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding StatControls}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel
+                                           Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollViewer}}, Path=ActualWidth}"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
+
+
+    </Grid>
+</UserControl>

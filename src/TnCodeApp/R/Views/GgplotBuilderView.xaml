@@ -120,7 +120,8 @@
                         Columns="6">
                         <FrameworkElement x:Name="tabWidthSizer"/>
                     </UniformGrid>
-                    <TabControl>
+                    <TabControl
+                        x:Name="tabControl_Layer">
 
                         <TabItem                                    
                             Header="Geom"
@@ -246,9 +247,12 @@
                         </TabItem>
 
                         <TabItem
+                            x:Name="StatTab"
                             Header="Stat"
                             Width="{Binding ElementName=tabWidthSizer, Path=ActualWidth}">
-                            <Grid>
+                            <ContentControl
+                                Content="{Binding StatViewContent}"/>
+                            <!--<Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="43*"/>
                                     <ColumnDefinition Width="66*"/>
@@ -264,7 +268,7 @@
                                     Grid.Row="0"
                                     Margin="2"
                                     ItemsSource="{Binding Stats}"
-                                    SelectedItem="{Binding SelectedStat}" 
+                                    SelectedItem="{Binding Path=SelectedStat}" 
                                     Grid.ColumnSpan="2">
                                     <i1:Interaction.Triggers>
                                         <i1:EventTrigger
@@ -292,7 +296,7 @@
                                 </Grid>
 
 
-                            </Grid>
+                            </Grid>-->
 
                         </TabItem>
 

@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Net.NetworkInformation;
 using System.Text;
 using TnCode.Core.R.Charts.Ggplot.Layer;
 
@@ -136,11 +137,19 @@ namespace Core.R_Tests
             aesthetic.DefaultStat = "identity";
             aesthetic.DefaultPosition = "identity";
 
+            var stat = new Stat();
+            stat.Name = "identity";
+
+            var pos = new Position();
+            pos.Name  = "identity";
+
             var layer = new Layer("point");
             layer.Data = "DataFrame";
             layer.Aes = aesthetic;
             layer.ShowInPlot = true;
             layer.ShowLegend = false;
+            layer.Statistic = stat;
+            layer.Pos = pos;
 
             var actualValue = layer.Command();
 

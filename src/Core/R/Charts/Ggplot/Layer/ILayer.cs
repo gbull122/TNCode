@@ -13,5 +13,6 @@ namespace TnCode.Core.R.Charts.Ggplot.Layer
         event PropertyChangedEventHandler PropertyChanged;
         Stat Statistic { get; set; }
         Position Pos { get; set; }
+        bool IsValid();
     }
 }

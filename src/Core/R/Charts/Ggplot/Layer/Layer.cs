@@ -117,7 +117,7 @@ namespace TnCode.Core.R.Charts.Ggplot.Layer
             return "+labs(" + string.Join(",", titles) + ")";
         }
 
-        private bool IsValid()
+        public bool IsValid()
         {
             foreach(var val in Aes.AestheticValues)
             {
