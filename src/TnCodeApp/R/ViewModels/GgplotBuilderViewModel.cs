@@ -231,10 +231,15 @@ namespace TnCode.TnCodeApp.R.ViewModels
                 NewLayer();
                 UpdateVariables();
                 UpdateAesthetic();
-                statViewModel.StatChanged("bin");
-                //StatChanged(SelectedStat);
+                
+                StatChanged(LayerSelected);
                 PositionChanged(SelectedPosition);
             }
+        }
+
+        private void StatChanged(object selectedStat)
+        {
+            statViewModel.StatChanged("bin");
         }
 
         private async void PositionChanged(string obj)
