@@ -52,9 +52,14 @@ namespace TnCode.TnCodeApp.R.ViewModels
             SelectedStatChangedCommand = new DelegateCommand<string>(StatChanged);
         }
 
-        public async void StatChanged(string statName)
+        public void StatChanged(string stat)
         {
-            var stat = LoadStat(statName);
+            var statistic = LoadStat(stat);
+            UpdateStat(statistic);
+        }
+
+        public async void StatChanged(Stat stat)
+        {
             UpdateStat(stat);
         }
 

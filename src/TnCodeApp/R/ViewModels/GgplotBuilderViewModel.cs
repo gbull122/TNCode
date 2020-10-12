@@ -232,14 +232,14 @@ namespace TnCode.TnCodeApp.R.ViewModels
                 UpdateVariables();
                 UpdateAesthetic();
                 
-                StatChanged(LayerSelected);
+                StatChanged(SelectedLayer.Statistic);
                 PositionChanged(SelectedPosition);
             }
         }
 
-        private void StatChanged(object selectedStat)
+        private void StatChanged(Stat selectedStat)
         {
-            statViewModel.StatChanged("bin");
+            statViewModel.StatChanged(selectedStat);
         }
 
         private async void PositionChanged(string obj)
@@ -280,6 +280,8 @@ namespace TnCode.TnCodeApp.R.ViewModels
                 SelectedLayer.PropertyChanged -= SelectedLayer_PropertyChanged;
 
             SelectedLayer = layer;
+            StatChanged(SelectedLayer.Statistic);
+
             SelectedLayer.PropertyChanged += SelectedLayer_PropertyChanged;
             foreach (var vc in geomControls)
             {
@@ -374,14 +376,19 @@ namespace TnCode.TnCodeApp.R.ViewModels
             PositionControls = newControls;
         }
 
+        private Stat LoadStat(string stat)
+        {
+            var statXml = Properties.Resources.ResourceManager.GetObject("stat_" + stat.ToLower());
+            var statistic = xmlConverter.ToObject<Stat>(statXml.ToString());
+            return statistic;
+        }
+
         private Position LoadPosition(string pos)
         {
             var posXml = Properties.Resources.ResourceManager.GetObject("pos_" + pos.ToLower());
             var position = xmlConverter.ToObject<Position>(posXml.ToString());
             return position;
         }
-
-      
 
         private Aesthetic LoadAesthetic(string geom)
         {
@@ -493,11 +500,14 @@ namespace TnCode.TnCodeApp.R.ViewModels
         private void NewLayer()
         {
             var newLayer = new Layer("point");
-
-            var aestheticXml = Properties.Resources.ResourceManager.GetObject("geom_point");
-            var aesthetic = xmlConverter.ToObject<Aesthetic>(aestheticXml.ToString());
-            newLayer.Aes = aesthetic;
+            newLayer.Aes = LoadAesthetic("point");
             newLayer.Data = dataSets.First();
+
+            var stat = LoadStat(newLayer.Aes.DefaultStat);
+            newLayer.Statistic = stat;
+
+            var pos= LoadPosition(newLayer.Aes.DefaultPosition);
+            newLayer.Pos = pos;
 
             ggplot.Layers.Add(newLayer);
 
