@@ -67,23 +67,19 @@ namespace TnCode.TnCodeApp
             IDataSetsManager dataSetsManager = new DataSetsManager();
             container.RegisterInstance<IDataSetsManager>(dataSetsManager);
 
-            //IChartManager chartManager = new ChartManager(eventAggregator, xmlConverter, regionManager);
-            //container.RegisterInstance<IChartManager>(chartManager);
-
-
-            //var rManager = new RManager(tempFolder);
-
-            //rService = new RService(loggerFacade, eventAggregator, rManager);
-            //container.RegisterInstance<IRService>(rService);
-
             regionManager.RegisterViewWithRegion("RibbonRegion", typeof(DataRibbonView));
-            //regionManager.RegisterViewWithRegion("RibbonRegion", typeof(ChartRibbonView));
             regionManager.RegisterViewWithRegion("RibbonRegion", typeof(RRibbonView));
 
             regionManager.RegisterViewWithRegion("MainRegion", typeof(DataSetsView));
             regionManager.RegisterViewWithRegion("MainRegion", typeof(LoggerView));
 
             regionManager.RegisterViewWithRegion("StatusBarRegion", typeof(ProgressView));
+
+            regionManager.RegisterViewWithRegion("GeomRegion", typeof(GeomView));
+            regionManager.RegisterViewWithRegion("StatRegion", typeof(StatView));
+            regionManager.RegisterViewWithRegion("PositionRegion", typeof(PositionView));
+            regionManager.RegisterViewWithRegion("FacetRegion", typeof(FacetView));
+            regionManager.RegisterViewWithRegion("TitlesRegion", typeof(TitlesView));
         }
 
         private void ShowDataSetsView()

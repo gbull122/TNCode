@@ -60,8 +60,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
         public DelegateCommand<string> ActionCommand { get; private set; }
 
         private ObservableCollection<VariableControl> geomControls;
-        private ObservableCollection<IOptionControl> statControls;
-        private ObservableCollection<IOptionControl> positionControls;
+        
 
         public List<string> Variables
         {
@@ -95,16 +94,6 @@ namespace TnCode.TnCodeApp.R.ViewModels
         }
 
       
-
-        public ObservableCollection<IOptionControl> PositionControls
-        {
-            get { return positionControls; }
-            set
-            {
-                positionControls = value;
-                RaisePropertyChanged(nameof(PositionControls));
-            }
-        }
 
         public BitmapImage ChartImage
         {
@@ -158,8 +147,6 @@ namespace TnCode.TnCodeApp.R.ViewModels
             }
         }
 
-       
-
         private string selectedPosition;
 
         public string SelectedPosition
@@ -178,12 +165,12 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
         }
 
-        private StatView statViewContent;
+        //private StatView statViewContent;
 
-        public StatView StatViewContent
-        {
-            get { return statViewContent; }
-        }
+        //public StatView StatViewContent
+        //{
+        //    get { return statViewContent; }
+        //}
 
 
         public GgplotBuilderViewModel(IContainerExtension container, IEventAggregator eventAggr, IRegionManager regMngr, IRService rSer, IXmlConverter converter, IDataSetsManager setsManager, IProgressService progService)
@@ -202,15 +189,16 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
             geomControls = new ObservableCollection<VariableControl>();
             
-            positionControls = new ObservableCollection<IOptionControl>();
+           
 
             titleParameters = new List<Parameter>();
 
             Geoms = Enum.GetNames(typeof(Ggplot.Geoms)).ToList();
             Geoms.Remove("tile");
 
-            statViewContent = new StatView();
-            statViewModel = (StatViewModel)statViewContent.DataContext;
+            IRegion region = regionManager.Regions["MainRegion"];
+
+            //statViewModel = (StatViewModel)statViewContent.DataContext;
 
             Positions = Enum.GetNames(typeof(Ggplot.Positions)).ToList();
 
@@ -232,22 +220,22 @@ namespace TnCode.TnCodeApp.R.ViewModels
                 UpdateVariables();
                 UpdateAesthetic();
                 
-                StatChanged(SelectedLayer.Statistic);
+                //StatChanged(SelectedLayer.Statistic);
                 PositionChanged(SelectedPosition);
             }
         }
 
         private void StatChanged(Stat selectedStat)
         {
-            statViewModel.StatChanged(selectedStat);
+            //statViewModel.StatChanged(selectedStat);
         }
 
         private async void PositionChanged(string obj)
         {
-            var position = LoadPosition(SelectedPosition);
-            UpdatePosition(position);
-            SelectedLayer.Pos = position;
-            await GeneratePlotAsync();
+            //var position = LoadPosition(SelectedPosition);
+            //UpdatePosition(position);
+            //SelectedLayer.Pos = position;
+            //await GeneratePlotAsync();
         }
 
         private async void GeomChanged(string obj)
@@ -280,7 +268,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
                 SelectedLayer.PropertyChanged -= SelectedLayer_PropertyChanged;
 
             SelectedLayer = layer;
-            StatChanged(SelectedLayer.Statistic);
+            //StatChanged(SelectedLayer.Statistic);
 
             SelectedLayer.PropertyChanged += SelectedLayer_PropertyChanged;
             foreach (var vc in geomControls)
@@ -341,40 +329,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
       
 
-        private void UpdatePosition(Position pos)
-        {
-            var newControls = new ObservableCollection<IOptionControl>();
-
-            foreach (var control in positionControls)
-            {
-                control.PropertyChanged -= GControl_PropertyChanged;
-            }
-            positionControls.Clear();
-
-            foreach (var aProp in pos.Properties)
-            {
-                var oControl = new OptionPropertyControl(aProp.Tag, aProp.Name);
-                oControl.SetValues(aProp.Options);
-                oControl.PropertyChanged += GControl_PropertyChanged;
-                newControls.Add(oControl);
-            }
-
-            foreach (var prop in pos.Booleans)
-            {
-                var control = new OptionCheckBoxControl(prop.Tag, prop.Name, bool.Parse(prop.Value));
-                control.PropertyChanged += GControl_PropertyChanged;
-                newControls.Add(control);
-            }
-
-            foreach (var prop in pos.Values)
-            {
-                double.TryParse(prop.Value, out double result);
-                var control = new OptionValueControl(prop.Tag, prop.Name, result);
-                control.PropertyChanged += GControl_PropertyChanged;
-                newControls.Add(control);
-            }
-            PositionControls = newControls;
-        }
+       
 
         private Stat LoadStat(string stat)
         {
@@ -513,7 +468,6 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
             SelectedLayer = newLayer;
             LayerSelected(newLayer);
-            //SelectedLayer_PropertyChanged(null, new System.ComponentModel.PropertyChangedEventArgs(nameof(Layer.Data)));
 
             ClearLayersCommand.RaiseCanExecuteChanged();
         }
