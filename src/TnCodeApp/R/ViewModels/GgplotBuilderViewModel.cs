@@ -36,42 +36,25 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
         private Ggplot ggplot;
 
-        private List<string> currentVariables;
         private IEnumerable<string> dataSets;
-        private readonly IXmlConverter xmlConverter;
-        private BitmapImage chartImage;
-        private List<Parameter> titleParameters;
-        private StatViewModel statViewModel;
 
+        private BitmapImage chartImage;
+        
         public string Title => "Chart Builder";
 
         public DockingMethod Docking => DockingMethod.Document;
 
-        public List<string> Geoms { get; }
-        
-        public List<string> Positions { get; }
         public DelegateCommand NewLayerCommand { get; private set; }
         public DelegateCommand ClearLayersCommand { get; private set; }
         public DelegateCommand<ILayer> LayerSelectedCommand { get; private set; }
-       
-        public DelegateCommand<string> SelectedGeomChangedCommand { get; private set; }
-        public DelegateCommand<string> SelectedPositionChangedCommand { get; private set; }
         public DelegateCommand CopyChartCommand { get; private set; }
-        public DelegateCommand<string> ActionCommand { get; private set; }
 
-        private ObservableCollection<VariableControl> geomControls;
-        
 
-        public List<string> Variables
-        {
-            get => currentVariables;
-            set
-            {
-                currentVariables = value;
-                RaisePropertyChanged(nameof(Variables));
-            }
-        }
-
+        private StatViewModel statViewModel;
+        private GeomViewModel geomViewModel;
+        private PositionViewModel positionViewModel;
+        private FacetViewModel facetViewModel;
+        private TitlesViewModel titlesViewModel;
 
         public IEnumerable<string> DataSets
         {
@@ -83,18 +66,6 @@ namespace TnCode.TnCodeApp.R.ViewModels
             }
         }
 
-        public ObservableCollection<VariableControl> GeomControls
-        {
-            get { return geomControls; }
-            set
-            {
-                geomControls = value;
-                RaisePropertyChanged(nameof(GeomControls));
-            }
-        }
-
-      
-
         public BitmapImage ChartImage
         {
             get { return chartImage; }
@@ -102,30 +73,6 @@ namespace TnCode.TnCodeApp.R.ViewModels
             {
                 chartImage = value;
                 RaisePropertyChanged(nameof(ChartImage));
-            }
-        }
-
-        private string xVariableFacet;
-
-        public string XVariableFacet
-        {
-            get => xVariableFacet;
-            set
-            {
-                xVariableFacet = value;
-                RaisePropertyChanged(nameof(XVariableFacet));
-            }
-        }
-
-        private string yVariableFacet;
-
-        public string YVariableFacet
-        {
-            get => yVariableFacet;
-            set
-            {
-                yVariableFacet = value;
-                RaisePropertyChanged(nameof(YVariableFacet));
             }
         }
 
@@ -147,35 +94,14 @@ namespace TnCode.TnCodeApp.R.ViewModels
             }
         }
 
-        private string selectedPosition;
-
-        public string SelectedPosition
-        {
-            get => selectedPosition;
-            set
-            {
-                selectedPosition = value;
-                RaisePropertyChanged(nameof(SelectedPosition));
-            }
-        }
-
         public List<ILayer> Layers
         {
             get { return ggplot.Layers; }
 
         }
 
-        //private StatView statViewContent;
-
-        //public StatView StatViewContent
-        //{
-        //    get { return statViewContent; }
-        //}
-
-
-        public GgplotBuilderViewModel(IContainerExtension container, IEventAggregator eventAggr, IRegionManager regMngr, IRService rSer, IXmlConverter converter, IDataSetsManager setsManager, IProgressService progService)
+        public GgplotBuilderViewModel(IContainerExtension container, IEventAggregator eventAggr, IRegionManager regMngr, IRService rSer, IDataSetsManager setsManager, IProgressService progService)
         {
-            xmlConverter = converter;
             rService = rSer;
             eventAggregator = eventAggr;
             regionManager = regMngr;
@@ -187,31 +113,12 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
             ggplot = new Ggplot();
 
-            geomControls = new ObservableCollection<VariableControl>();
-            
-           
-
-            titleParameters = new List<Parameter>();
-
-            Geoms = Enum.GetNames(typeof(Ggplot.Geoms)).ToList();
-            Geoms.Remove("tile");
-
             IRegion region = regionManager.Regions["MainRegion"];
-
-            //statViewModel = (StatViewModel)statViewContent.DataContext;
-
-            Positions = Enum.GetNames(typeof(Ggplot.Positions)).ToList();
 
             NewLayerCommand = new DelegateCommand(NewLayer, CanNewLayer);
             ClearLayersCommand = new DelegateCommand(ClearLayers, CanClearLayers);
-            
-            SelectedGeomChangedCommand = new DelegateCommand<string>(GeomChanged);
-            SelectedPositionChangedCommand = new DelegateCommand<string>(PositionChanged);
             LayerSelectedCommand = new DelegateCommand<ILayer>(LayerSelected);
             CopyChartCommand = new DelegateCommand(CopyChart);
-            //ActionCommand = new DelegateCommand<string>(ExecuteActionCommand);
-
-            currentVariables = new List<string>();
 
             dataSets = dataSetsManager.DataSetNames();
             if (dataSets.Count() > 0)
@@ -219,23 +126,8 @@ namespace TnCode.TnCodeApp.R.ViewModels
                 NewLayer();
                 UpdateVariables();
                 UpdateAesthetic();
-                
-                //StatChanged(SelectedLayer.Statistic);
-                PositionChanged(SelectedPosition);
+               
             }
-        }
-
-        private void StatChanged(Stat selectedStat)
-        {
-            //statViewModel.StatChanged(selectedStat);
-        }
-
-        private async void PositionChanged(string obj)
-        {
-            //var position = LoadPosition(SelectedPosition);
-            //UpdatePosition(position);
-            //SelectedLayer.Pos = position;
-            //await GeneratePlotAsync();
         }
 
         private async void GeomChanged(string obj)
@@ -243,8 +135,6 @@ namespace TnCode.TnCodeApp.R.ViewModels
             UpdateAesthetic();
             await GeneratePlotAsync();
         }
-
-      
 
         private void DataSetsChanged(DataSetEventArgs dataSetEventArgs)
         {
@@ -270,24 +160,24 @@ namespace TnCode.TnCodeApp.R.ViewModels
             SelectedLayer = layer;
             //StatChanged(SelectedLayer.Statistic);
 
-            SelectedLayer.PropertyChanged += SelectedLayer_PropertyChanged;
-            foreach (var vc in geomControls)
-            {
-                vc.PropertyChanged -= GControl_PropertyChanged;
-            }
-            geomControls.Clear();
+            //SelectedLayer.PropertyChanged += SelectedLayer_PropertyChanged;
+            //foreach (var vc in geomControls)
+            //{
+            //    vc.PropertyChanged -= GControl_PropertyChanged;
+            //}
+            //geomControls.Clear();
 
-            if (currentVariables == null || currentVariables.Count() == 0)
-                UpdateVariables();
+            //if (currentVariables == null || currentVariables.Count() == 0)
+            //    UpdateVariables();
 
-            foreach (var aValue in SelectedLayer.Aes.AestheticValues)
-            {
-                var gControl = new VariableControl(eventAggregator, aValue, currentVariables);
-                gControl.PropertyChanged += GControl_PropertyChanged;
-                geomControls.Add(gControl);
-            }
+            //foreach (var aValue in SelectedLayer.Aes.AestheticValues)
+            //{
+            //    var gControl = new VariableControl(eventAggregator, aValue, currentVariables);
+            //    gControl.PropertyChanged += GControl_PropertyChanged;
+            //    geomControls.Add(gControl);
+            //}
 
-            RaisePropertyChanged(nameof(GeomControls));
+            //RaisePropertyChanged(nameof(GeomControls));
         }
 
         private async void SelectedLayer_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -302,54 +192,29 @@ namespace TnCode.TnCodeApp.R.ViewModels
         {
             var varibleNames = dataSetsManager.DataSetVariableNames(selectedLayer.Data);
             varibleNames.Insert(0, "");
-            Variables = varibleNames;
+           // Variables = varibleNames;
         }
 
         private void UpdateAesthetic()
         {
-            var aesthetic = LoadAesthetic(SelectedLayer.Geom);
-            //SelectedStat = aesthetic.DefaultStat;
-            SelectedPosition = aesthetic.DefaultPosition;
+            //var aesthetic = LoadAesthetic(SelectedLayer.Geom);
+            ////SelectedStat = aesthetic.DefaultStat;
+            //SelectedPosition = aesthetic.DefaultPosition;
 
-            var aes = MergeAesthetics(aesthetic);
+            //var aes = MergeAesthetics(aesthetic);
 
-            foreach (var control in geomControls)
-            {
-                control.PropertyChanged -= GControl_PropertyChanged;
-            }
-            geomControls.Clear();
+            //foreach (var control in geomControls)
+            //{
+            //    control.PropertyChanged -= GControl_PropertyChanged;
+            //}
+            //geomControls.Clear();
  
-            foreach (var aValue in SelectedLayer.Aes.AestheticValues)
-            {
-                var gControl = new VariableControl(eventAggregator, aValue, currentVariables);
-                gControl.PropertyChanged += GControl_PropertyChanged;
-                geomControls.Add(gControl);
-            }
-        }
-
-      
-
-       
-
-        private Stat LoadStat(string stat)
-        {
-            var statXml = Properties.Resources.ResourceManager.GetObject("stat_" + stat.ToLower());
-            var statistic = xmlConverter.ToObject<Stat>(statXml.ToString());
-            return statistic;
-        }
-
-        private Position LoadPosition(string pos)
-        {
-            var posXml = Properties.Resources.ResourceManager.GetObject("pos_" + pos.ToLower());
-            var position = xmlConverter.ToObject<Position>(posXml.ToString());
-            return position;
-        }
-
-        private Aesthetic LoadAesthetic(string geom)
-        {
-            var aestheticXml = Properties.Resources.ResourceManager.GetObject("geom_" + geom.ToLower());
-            var aesthetic = xmlConverter.ToObject<Aesthetic>(aestheticXml.ToString());
-            return aesthetic;
+            //foreach (var aValue in SelectedLayer.Aes.AestheticValues)
+            //{
+            //    var gControl = new VariableControl(eventAggregator, aValue, currentVariables);
+            //    gControl.PropertyChanged += GControl_PropertyChanged;
+            //    geomControls.Add(gControl);
+            //}
         }
 
         private async void GControl_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -407,30 +272,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
             return string.Empty;
         }
 
-        private Aesthetic MergeAesthetics(Aesthetic aestheticFromFile)
-        {
-            if (SelectedLayer.Aes == null)
-                return null;
-
-            var mergedAesthetic = new Aesthetic();
-
-            mergedAesthetic.DefaultStat = aestheticFromFile.DefaultStat;
-            mergedAesthetic.DefaultPosition = aestheticFromFile.DefaultPosition;
-
-            foreach (var aesValue in aestheticFromFile.AestheticValues)
-            {
-                if (SelectedLayer.Aes.DoesAestheticContainValue(aesValue.Name))
-                {
-                    var existingValue = SelectedLayer.Aes.GetAestheticValueByName(aesValue.Name);
-                    aesValue.Entry = existingValue.Entry;
-                }
-                mergedAesthetic.AestheticValues.Add(aesValue);
-            }
-            return mergedAesthetic;
-            //SelectedLayer.Aes = mergedAesthetic;
-
-            //RaisePropertyChanged(string.Empty);
-        }
+        
 
         private bool CanClearLayers()
         {
@@ -446,62 +288,32 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
         private bool CanNewLayer()
         {
-            if ((currentVariables != null || currentVariables.Count > 0) && dataSets.Any())
+            //if ((currentVariables != null || currentVariables.Count > 0) && dataSets.Any())
                 return true;
 
-            return false;
+            //return false;
         }
 
         private void NewLayer()
         {
-            var newLayer = new Layer("point");
-            newLayer.Aes = LoadAesthetic("point");
-            newLayer.Data = dataSets.First();
+            //var newLayer = new Layer("point");
+            //newLayer.Aes = LoadAesthetic("point");
+            //newLayer.Data = dataSets.First();
 
-            var stat = LoadStat(newLayer.Aes.DefaultStat);
-            newLayer.Statistic = stat;
+            //var stat = LoadStat(newLayer.Aes.DefaultStat);
+            //newLayer.Statistic = stat;
 
-            var pos= LoadPosition(newLayer.Aes.DefaultPosition);
-            newLayer.Pos = pos;
+            ////var pos= LoadPosition(newLayer.Aes.DefaultPosition);
+            ////newLayer.Pos = pos;
 
-            ggplot.Layers.Add(newLayer);
+            //ggplot.Layers.Add(newLayer);
 
-            SelectedLayer = newLayer;
-            LayerSelected(newLayer);
+            //SelectedLayer = newLayer;
+            //LayerSelected(newLayer);
 
-            ClearLayersCommand.RaiseCanExecuteChanged();
+            //ClearLayersCommand.RaiseCanExecuteChanged();
         }
 
-        //private void DataSetsChanged(DataSet dataSet)
-        //{
-        //    PutDataSetInR(dataSet);
-        //    DataSets = dataSetsManager.DataSetNames();
-        //    NewLayerCommand.RaiseCanExecuteChanged();
-        //}
-
-        //public void OnNavigatedTo(NavigationContext navigationContext)
-        //{
-        //    if (navigationContext == null)
-        //        return;
-
-        //    var chart = (IChart)navigationContext.Parameters["chart"];
-
-        //    layers.Add(chart.ChartLayer);
-
-        //    ClearLayersCommand.RaiseCanExecuteChanged();
-        //    LayerSelected(chart.ChartLayer);
-        //    Update();
-        //}
-
-        //public bool IsNavigationTarget(NavigationContext navigationContext)
-        //{
-        //    return false;
-        //}
-
-        //public void OnNavigatedFrom(NavigationContext navigationContext)
-        //{
-
-        //}
     }
 }
 
