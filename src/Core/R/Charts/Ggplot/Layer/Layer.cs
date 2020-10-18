@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using TnCode.Core.Utilities;
 
 namespace TnCode.Core.R.Charts.Ggplot.Layer
 {
@@ -40,12 +41,6 @@ namespace TnCode.Core.R.Charts.Ggplot.Layer
             }
         }
 
-        public Aesthetic Aes { get; set; }
-
-        public Stat Statistic { get; set; }
-
-        public Position Pos { get; set; }
-
         public bool ShowLegend
         {
             get { return showLegend; }
@@ -66,11 +61,19 @@ namespace TnCode.Core.R.Charts.Ggplot.Layer
             }
         }
 
-        public Layer(string geom)
+        public Aesthetic Aes { get; set; }
+
+        public Stat Statistic { get; set; }
+
+        public Position Pos { get; set; }
+
+        public Layer(string geom, Aesthetic aes, Stat stat, Position pos)
         {
             Geom = geom;
-            Statistic = new Stat();
-            Pos = new Position();
+
+            Aes = aes;
+            Statistic = stat;
+            Pos = pos;
             labels = new List<Parameter>();
             showLegend = true;
             showInPlot = true;

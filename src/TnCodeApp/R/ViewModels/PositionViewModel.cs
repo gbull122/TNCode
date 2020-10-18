@@ -100,11 +100,6 @@ namespace TnCode.TnCodeApp.R.ViewModels
             throw new NotImplementedException();
         }
 
-        private Position LoadPosition(string pos)
-        {
-            var posXml = Properties.Resources.ResourceManager.GetObject("pos_" + pos.ToLower());
-            var position = xmlConverter.ToObject<Position>(posXml.ToString());
-            return position;
-        }
+
     }
 }

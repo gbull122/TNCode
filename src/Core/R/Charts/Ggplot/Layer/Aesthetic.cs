@@ -23,6 +23,11 @@ namespace TnCode.Core.R.Charts.Ggplot.Layer
         [XmlElement("DefaultPosition")]
         public string DefaultPosition { get; set; }
 
+        public Aesthetic()
+        {
+
+        }
+
         public string Command()
         {
             var command = new StringBuilder();

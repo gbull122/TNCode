@@ -54,8 +54,8 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
         public void StatChanged(string stat)
         {
-            var statistic = LoadStat(stat);
-            UpdateStat(statistic);
+            //var statistic = LoadStat(stat);
+            //UpdateStat(statistic);
         }
 
         public async void StatChanged(Stat stat)
@@ -98,12 +98,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
             StatControls = newControls;
         }
 
-        private Stat LoadStat(string stat)
-        {
-            var statXml = Properties.Resources.ResourceManager.GetObject("stat_" + stat.ToLower());
-            var statistic = xmlConverter.ToObject<Stat>(statXml.ToString());
-            return statistic;
-        }
+
 
         private async void GControl_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {

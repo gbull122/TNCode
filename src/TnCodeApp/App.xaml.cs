@@ -11,6 +11,7 @@ using Prism.Unity;
 using System.IO;
 using System.Windows;
 using TnCode.Core.R;
+using TnCode.Core.Utilities;
 using TnCode.TnCodeApp.Docking;
 using TnCode.TnCodeApp.Logger;
 using TnCode.TnCodeApp.R;
@@ -60,7 +61,10 @@ namespace TnCode.TnCodeApp
             var rService = new RService(logViewModel, rManager,path, eventAgg);
             containerRegistry.RegisterInstance<IRService>(rService);
 
-            
+            var XmlConverter = new XmlConverter();
+            var xmlService = new XmlService(XmlConverter);
+            containerRegistry.RegisterInstance<IXmlService>(xmlService);
+
             containerRegistry.RegisterForNavigation<GgplotBuilderView>();
 
             //containerRegistry.RegisterDialog<ConfirmationDialogView, ConfirmationDialogViewModel>();

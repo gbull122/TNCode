@@ -75,11 +75,11 @@ namespace TnCode.TnCodeApp
 
             regionManager.RegisterViewWithRegion("StatusBarRegion", typeof(ProgressView));
 
-            regionManager.RegisterViewWithRegion("GeomRegion", typeof(GeomView));
-            regionManager.RegisterViewWithRegion("StatRegion", typeof(StatView));
-            regionManager.RegisterViewWithRegion("PositionRegion", typeof(PositionView));
-            regionManager.RegisterViewWithRegion("FacetRegion", typeof(FacetView));
-            regionManager.RegisterViewWithRegion("TitlesRegion", typeof(TitlesView));
+            //regionManager.RegisterViewWithRegion("GeomRegion", typeof(GeomView));
+            //regionManager.RegisterViewWithRegion("StatRegion", typeof(StatView));
+            //regionManager.RegisterViewWithRegion("PositionRegion", typeof(PositionView));
+            //regionManager.RegisterViewWithRegion("FacetRegion", typeof(FacetView));
+            //regionManager.RegisterViewWithRegion("TitlesRegion", typeof(TitlesView));
         }
 
         private void ShowDataSetsView()

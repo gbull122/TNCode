@@ -63,13 +63,6 @@ namespace TnCode.TnCodeApp.R.ViewModels
             throw new NotImplementedException();
         }
 
-        private Aesthetic LoadAesthetic(string geom)
-        {
-            var aestheticXml = Properties.Resources.ResourceManager.GetObject("geom_" + geom.ToLower());
-            var aesthetic = xmlConverter.ToObject<Aesthetic>(aestheticXml.ToString());
-            return aesthetic;
-        }
-
         private Aesthetic MergeAesthetics(Aesthetic aestheticFromFile)
         {
             //if (SelectedLayer.Aes == null)

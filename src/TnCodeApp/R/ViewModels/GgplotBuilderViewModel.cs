@@ -20,11 +20,14 @@ using TnCode.TnCodeApp.Docking;
 using TnCode.TnCodeApp.Progress;
 using TnCode.TnCodeApp.R.Controls;
 using TnCode.TnCodeApp.R.Views;
+using Unity;
 
 namespace TnCode.TnCodeApp.R.ViewModels
 {
     public class GgplotBuilderViewModel:BindableBase, IDockingPanel
     {
+        private const string DEFAULT_GEOM = "point";
+
         private readonly IEventAggregator eventAggregator;
         private readonly IRegionManager regionManager;
         private readonly IContainerExtension containerExtension;
@@ -33,6 +36,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
         private readonly IDataSetsManager dataSetsManager;
 
         private readonly IProgressService progressService;
+        private readonly IXmlService xmlService;
 
         private Ggplot ggplot;
 
@@ -78,21 +82,21 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
         private ILayer selectedLayer;
 
-        public ILayer SelectedLayer
-        {
-            get => selectedLayer;
-            set
-            {
-                if (selectedLayer != null)
-                    selectedLayer.PropertyChanged -= SelectedLayer_PropertyChanged;
+        //public ILayer SelectedLayer
+        //{
+        //    get => selectedLayer;
+        //    set
+        //    {
+        //        if (selectedLayer != null)
+        //            selectedLayer.PropertyChanged -= SelectedLayer_PropertyChanged;
 
                 
-                selectedLayer = value;
+        //        selectedLayer = value;
 
-                selectedLayer.PropertyChanged += SelectedLayer_PropertyChanged;
-                RaisePropertyChanged(nameof(SelectedLayer));
-            }
-        }
+        //        selectedLayer.PropertyChanged += SelectedLayer_PropertyChanged;
+        //        RaisePropertyChanged(nameof(SelectedLayer));
+        //    }
+        //}
 
         public List<ILayer> Layers
         {
@@ -100,7 +104,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
         }
 
-        public GgplotBuilderViewModel(IContainerExtension container, IEventAggregator eventAggr, IRegionManager regMngr, IRService rSer, IDataSetsManager setsManager, IProgressService progService)
+        public GgplotBuilderViewModel(IContainerExtension container, IEventAggregator eventAggr, IRegionManager regMngr, IRService rSer, IDataSetsManager setsManager, IProgressService progService, IXmlService xml)
         {
             rService = rSer;
             eventAggregator = eventAggr;
@@ -108,12 +112,11 @@ namespace TnCode.TnCodeApp.R.ViewModels
             containerExtension = container;
             dataSetsManager = setsManager;
             progressService = progService;
+            xmlService = xml;
 
             eventAggregator.GetEvent<DataSetChangedEvent>().Subscribe(DataSetsChanged, ThreadOption.UIThread);
 
             ggplot = new Ggplot();
-
-            IRegion region = regionManager.Regions["MainRegion"];
 
             NewLayerCommand = new DelegateCommand(NewLayer, CanNewLayer);
             ClearLayersCommand = new DelegateCommand(ClearLayers, CanClearLayers);
@@ -121,19 +124,6 @@ namespace TnCode.TnCodeApp.R.ViewModels
             CopyChartCommand = new DelegateCommand(CopyChart);
 
             dataSets = dataSetsManager.DataSetNames();
-            if (dataSets.Count() > 0)
-            {
-                NewLayer();
-                UpdateVariables();
-                UpdateAesthetic();
-               
-            }
-        }
-
-        private async void GeomChanged(string obj)
-        {
-            UpdateAesthetic();
-            await GeneratePlotAsync();
         }
 
         private void DataSetsChanged(DataSetEventArgs dataSetEventArgs)
@@ -149,18 +139,51 @@ namespace TnCode.TnCodeApp.R.ViewModels
             Clipboard.SetImage(chartImage);
         }
 
+        private void SetViewModels()
+        {
+            IRegion geomRegion = regionManager.Regions["GeomRegion"];
+            var geomView = new GeomView();
+            geomRegion.Add(geomView, "GeomView", true);
+            geomViewModel = (GeomViewModel)geomView.DataContext;
+
+            IRegion statRegion = regionManager.Regions["StatRegion"];
+            var statView = new StatView();
+            statRegion.Add(statView, "StatView", true);
+            statViewModel = (StatViewModel)statView.DataContext;
+
+        }
+
+        private void NewLayer()
+        {
+
+            SetViewModels();
+
+            var aes = xmlService.LoadAesthetic(DEFAULT_GEOM);
+            var stat = xmlService.LoadStat(aes.DefaultStat);
+            var pos = xmlService.LoadPosition(aes.DefaultPosition);
+
+            var newLayer = new Layer(DEFAULT_GEOM, aes, stat, pos);
+            newLayer.Data = dataSets.First();
+
+            ggplot.Layers.Add(newLayer);
+
+            LayerSelected(newLayer);
+
+            ClearLayersCommand.RaiseCanExecuteChanged();
+        }
+
         private void LayerSelected(ILayer layer)
         {
             if (layer == null)
                 return;
 
-            if (SelectedLayer != null)
-                SelectedLayer.PropertyChanged -= SelectedLayer_PropertyChanged;
+            if (selectedLayer != null)
+                selectedLayer.PropertyChanged -= SelectedLayer_PropertyChanged;
 
-            SelectedLayer = layer;
+            selectedLayer = layer;
             //StatChanged(SelectedLayer.Statistic);
 
-            //SelectedLayer.PropertyChanged += SelectedLayer_PropertyChanged;
+            selectedLayer.PropertyChanged += SelectedLayer_PropertyChanged;
             //foreach (var vc in geomControls)
             //{
             //    vc.PropertyChanged -= GControl_PropertyChanged;
@@ -272,8 +295,6 @@ namespace TnCode.TnCodeApp.R.ViewModels
             return string.Empty;
         }
 
-        
-
         private bool CanClearLayers()
         {
             return ggplot.Layers.Count > 0;
@@ -288,32 +309,11 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
         private bool CanNewLayer()
         {
-            //if ((currentVariables != null || currentVariables.Count > 0) && dataSets.Any())
+            if ( dataSets.Any())
                 return true;
 
-            //return false;
+            return false;
         }
-
-        private void NewLayer()
-        {
-            //var newLayer = new Layer("point");
-            //newLayer.Aes = LoadAesthetic("point");
-            //newLayer.Data = dataSets.First();
-
-            //var stat = LoadStat(newLayer.Aes.DefaultStat);
-            //newLayer.Statistic = stat;
-
-            ////var pos= LoadPosition(newLayer.Aes.DefaultPosition);
-            ////newLayer.Pos = pos;
-
-            //ggplot.Layers.Add(newLayer);
-
-            //SelectedLayer = newLayer;
-            //LayerSelected(newLayer);
-
-            //ClearLayersCommand.RaiseCanExecuteChanged();
-        }
-
     }
 }
 

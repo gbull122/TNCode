@@ -19,16 +19,16 @@ namespace TnCodeApp_Tests
         [STAThread]
         public void NewLayer_GeneratesPointLayer()
         {
-            IContainerExtension container = A.Fake<IContainerExtension>();
-            IEventAggregator eventAggr = A.Fake<IEventAggregator>();
-            IRegionManager regMngr = A.Fake<IRegionManager>();
-            IRService rSer = A.Fake<IRService>();
-            IDataSetsManager setsManager = A.Fake<IDataSetsManager>();
-            IProgressService progService = A.Fake<IProgressService>();
+            //IContainerExtension container = A.Fake<IContainerExtension>();
+            //IEventAggregator eventAggr = A.Fake<IEventAggregator>();
+            //IRegionManager regMngr = A.Fake<IRegionManager>();
+            //IRService rSer = A.Fake<IRService>();
+            //IDataSetsManager setsManager = A.Fake<IDataSetsManager>();
+            //IProgressService progService = A.Fake<IProgressService>();
 
-            var ggplotBuilder = new GgplotBuilderViewModel(container, eventAggr, regMngr, rSer,setsManager, progService);
+            //var ggplotBuilder = new GgplotBuilderViewModel(container, eventAggr, regMngr, rSer,setsManager, progService);
 
-            ggplotBuilder.NewLayerCommand.Execute();
+            //ggplotBuilder.NewLayerCommand.Execute();
         }
     }
 }
