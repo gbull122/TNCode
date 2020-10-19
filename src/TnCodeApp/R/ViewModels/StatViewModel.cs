@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using TnCode.Core.R.Charts.Ggplot;
 using TnCode.Core.R.Charts.Ggplot.Layer;
 using TnCode.Core.Utilities;
@@ -16,7 +15,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
     {
         public DelegateCommand<string> SelectedStatChangedCommand { get; private set; }
         private ObservableCollection<IOptionControl> statControls;
-        private readonly IXmlConverter xmlConverter;
+        private readonly IXmlService xmlService;
 
         public List<string> Stats { get; }
         private string selectedStat;
@@ -41,15 +40,25 @@ namespace TnCode.TnCodeApp.R.ViewModels
             }
         }
 
-        public StatViewModel(IXmlConverter converter)
+        public StatViewModel(IXmlService xService)
         {
-            xmlConverter = converter;
+            xmlService = xService;
 
             Stats = Enum.GetNames(typeof(Ggplot.Stats)).ToList();
 
             statControls = new ObservableCollection<IOptionControl>();
 
             SelectedStatChangedCommand = new DelegateCommand<string>(StatChanged);
+        }
+
+        internal void SetStat(Stat statistic)
+        {
+            
+        }
+
+        internal void SetControls()
+        {
+            
         }
 
         public void StatChanged(string stat)
@@ -104,5 +113,6 @@ namespace TnCode.TnCodeApp.R.ViewModels
         {
 
         }
+
     }
 }

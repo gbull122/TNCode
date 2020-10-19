@@ -74,20 +74,46 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <ItemContainerTemplate>
                                     <ComboBox
-                                        x:Name="comboData"
-                                        materialDesign:HintAssist.Hint="Data set"
+                                        x:Name="ComboData"
+                                        materialDesign:HintAssist.Hint="Selelct Data set"
                                         ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},  Path=DataContext.DataSets}"
                                         SelectedItem="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},  Path=DataContext.SelectedLayer.Data}"
                                         Background="{DynamicResource MaterialDesignPaper}">
+                                        <i1:Interaction.Triggers>
+                                            <i1:EventTrigger EventName="SelectionChanged">
+                                                <i1:InvokeCommandAction 
+                                                    Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.DataSelectedCommand}" 
+                                                    CommandParameter="{Binding Path=SelectedValue, ElementName=ComboData}" />
+                                            </i1:EventTrigger>
+                                        </i1:Interaction.Triggers>
                                     </ComboBox>
                                 </ItemContainerTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
 
-                        <DataGridTextColumn
-                                Header="Geom"
-                                Binding="{Binding Path=Geom}"
-                                Width="*"/>
+                        <DataGridTemplateColumn
+                            x:Name="ComboGeom"
+                            Header="Geom"
+                            Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <ItemContainerTemplate>
+                                    <ComboBox
+                                        x:Name="ComboGeom"
+                                        materialDesign:HintAssist.Hint="Select geom"
+                                        ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},  Path=DataContext.Geoms}"
+                                        SelectedItem="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},  Path=DataContext.SelectedLayer.Geom}"
+                                        Background="{DynamicResource MaterialDesignPaper}">
+                                        <i1:Interaction.Triggers>
+                                            <i1:EventTrigger EventName="SelectionChanged">
+                                                <i1:InvokeCommandAction 
+                                                    Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Path=DataContext.GeomSelectedCommand}" 
+                                                    CommandParameter="{Binding Path=SelectedValue, ElementName=ComboGeom}" />
+                                            </i1:EventTrigger>
+                                        </i1:Interaction.Triggers>
+                                    </ComboBox>
+                                </ItemContainerTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
 
                         <DataGridCheckBoxColumn
                                 Header="Legend"

@@ -7,7 +7,7 @@
     prism:ViewModelLocator.AutoWireViewModel="True">
 
     <ScrollViewer 
-                            VerticalScrollBarVisibility="Auto">
+        VerticalScrollBarVisibility="Auto">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
@@ -19,46 +19,46 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Label
-                                        Grid.Row="0"
-                                        Grid.Column="0"
-                                        Content="Geom"
-                                        VerticalAlignment="Center"/>
-            <ComboBox
-                                        x:Name="comboGeom"
-                                        Grid.Row="0"
-                                        Grid.Column="1"
-                                        Margin="2"
-                                        ItemsSource="{Binding Geoms}"
-                                        SelectedItem="{Binding SelectedLayer.Geom}">
+            <!--<Label
+                Grid.Row="0"
+                Grid.Column="0"
+                Content="Geom"
+                VerticalAlignment="Center"/>-->
+            <!--<ComboBox
+                x:Name="comboGeom"
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="2"
+                ItemsSource="{Binding Geoms}"
+                SelectedItem="{Binding SelectedGeom}">
                 <i1:Interaction.Triggers>
                     <i1:EventTrigger
-                                            EventName="SelectionChanged">
+                            EventName="SelectionChanged">
                         <i1:InvokeCommandAction 
-                                                Command="{Binding SelectedGeomChangedCommand}"
-                                                CommandParameter="{Binding ElementName=comboGeom,Path=SelectedValue}"/>
+                            Command="{Binding SelectedGeomChangedCommand}"
+                            CommandParameter="{Binding ElementName=comboGeom,Path=SelectedValue}"/>
                     </i1:EventTrigger>
                 </i1:Interaction.Triggers>
-            </ComboBox>
+            </ComboBox>-->
 
 
             <ItemsControl 
-                                    Grid.Row="1"
-                                    Grid.ColumnSpan="2"
-                                    ItemsSource="{Binding Path=GeomControls}">
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                ItemsSource="{Binding Path=GeomControls, UpdateSourceTrigger=PropertyChanged}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel
-                                           Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollViewer}}, Path=ActualWidth}"/>
+                            Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollViewer}}, Path=ActualWidth}"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border
-                                            x:Name="MainBorder"
-                                            BorderBrush="Black"
-                                            BorderThickness="1"
-                                            Margin="1">
+                            x:Name="MainBorder"
+                            BorderBrush="Black"
+                            BorderThickness="1"
+                            Margin="1">
 
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -72,8 +72,8 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Grid
-                                                            Grid.Row="0" 
-                                                            Grid.Column="0">
+                                    Grid.Row="0" 
+                                    Grid.Column="0">
 
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
@@ -81,36 +81,36 @@
                                     </Grid.ColumnDefinitions>
 
                                     <TextBlock 
-                                                                Grid.Column="0"
-                                                                Margin="2" 
-                                                                Text="{Binding PropertyName}"
-                                                                VerticalAlignment="Center"/>
+                                        Grid.Column="0"
+                                        Margin="2" 
+                                        Text="{Binding PropertyName}"
+                                        VerticalAlignment="Center"/>
 
                                     <CheckBox 
-                                                                Grid.Column="1"
-                                                                Margin="2"
-                                                                IsChecked="{Binding Factor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                                VerticalAlignment="Center">
+                                        Grid.Column="1"
+                                        Margin="2"
+                                        IsChecked="{Binding Factor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        VerticalAlignment="Center">
                                     </CheckBox>
 
                                 </Grid>
 
                                 <ComboBox 
-                                                            Grid.Row="1"  
-                                                            Grid.Column="0"
-                                                            Margin="2" 
-                                                            MinWidth="75"
-                                                            ItemsSource="{Binding Path=Variables}"
-                                                            SelectedItem="{Binding Path=SelectedVariable ,UpdateSourceTrigger=PropertyChanged}"
-                                                            IsSynchronizedWithCurrentItem="False"/>
+                                    Grid.Row="1"  
+                                    Grid.Column="0"
+                                    Margin="2" 
+                                    MinWidth="75"
+                                    ItemsSource="{Binding Path=Variables}"
+                                    SelectedItem="{Binding Path=SelectedVariable ,UpdateSourceTrigger=PropertyChanged}"
+                                    IsSynchronizedWithCurrentItem="False"/>
 
                                 <Button 
-                                                            Name="ActionButton"
-                                                            Grid.Row="1"  
-                                                            Grid.Column="1"
-                                                            Margin="2"
-                                                            MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
-                                                            Command="{Binding ActionCommand}"/>
+                                    Name="ActionButton"
+                                    Grid.Row="1"  
+                                    Grid.Column="1"
+                                    Margin="2"
+                                    MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                                    Command="{Binding ActionCommand}"/>
 
                             </Grid>
 

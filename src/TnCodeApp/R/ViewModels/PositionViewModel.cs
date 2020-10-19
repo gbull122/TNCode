@@ -15,7 +15,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
 {
     public class PositionViewModel:BindableBase
     {
-        private readonly IXmlConverter xmlConverter;
+        private readonly IXmlService xmlService;
 
         private ObservableCollection<IOptionControl> positionControls;
 
@@ -44,9 +44,9 @@ namespace TnCode.TnCodeApp.R.ViewModels
                 RaisePropertyChanged(nameof(SelectedPosition));
             }
         }
-        public PositionViewModel(IXmlConverter converter)
+        public PositionViewModel(IXmlService xService)
         {
-            xmlConverter = converter;
+            xmlService = xService;
 
             positionControls = new ObservableCollection<IOptionControl>();
 
@@ -55,9 +55,20 @@ namespace TnCode.TnCodeApp.R.ViewModels
             SelectedPositionChangedCommand = new DelegateCommand<string>(PositionChanged);
         }
 
+
+        internal void SetPosition(Position pos)
+        {
+            
+        }
+
+        internal void SetControls()
+        {
+            
+        }
+
         private void PositionChanged(string obj)
         {
-            throw new NotImplementedException();
+            
         }
 
         private void UpdatePosition(Position pos)
@@ -99,7 +110,6 @@ namespace TnCode.TnCodeApp.R.ViewModels
         {
             throw new NotImplementedException();
         }
-
 
     }
 }

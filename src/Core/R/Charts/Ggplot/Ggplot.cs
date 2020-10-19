@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using TnCode.Core.R.Charts.Ggplot.Layer;
 
@@ -53,14 +54,14 @@ namespace TnCode.Core.R.Charts.Ggplot
             ydensity
         }
 
-        private List<ILayer> layers;
+        private ObservableCollection<ILayer> layers;
 
         public void AddLayer(ILayer layer)
         {
             layers.Add(layer);
         }
 
-        public List<ILayer> Layers
+        public ObservableCollection<ILayer> Layers
         {
             get { return layers; }
         }
@@ -79,7 +80,7 @@ namespace TnCode.Core.R.Charts.Ggplot
 
         public Ggplot()
         {
-            layers = new List<ILayer>();
+            layers = new ObservableCollection<ILayer>();
         }
 
         public string Command()
