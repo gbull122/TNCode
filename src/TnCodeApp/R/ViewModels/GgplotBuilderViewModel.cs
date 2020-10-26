@@ -54,7 +54,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
         public DelegateCommand<string> DataSelectedCommand { get; private set; }
 
         private StatViewModel statViewModel;
-        private GeomViewModel geomViewModel;
+        private AestheticViewModel aesViewModel;
         private PositionViewModel positionViewModel;
         private FacetViewModel facetViewModel;
         private TitlesViewModel titlesViewModel;
@@ -135,7 +135,9 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
         private void DataSelected(string DataSetName)
         {
-            geomViewModel.Variables = UpdateVariables();
+            selectedLayer.Data = DataSetName;
+            aesViewModel.UpdateVariables(UpdateVariables(DataSetName));
+
         }
 
         private void GeomSelected(string geom)
@@ -144,18 +146,14 @@ namespace TnCode.TnCodeApp.R.ViewModels
             var stat = xmlService.LoadStat(aes.DefaultStat);
             var pos = xmlService.LoadPosition(aes.DefaultPosition);
 
+            selectedLayer.Geom = geom;
             selectedLayer.Aes = aes;
             selectedLayer.Statistic = stat;
             selectedLayer.Pos = pos;
 
-            geomViewModel.SetAesthetics(aes);
-            geomViewModel.SetControls();
-
+            aesViewModel.SetAesthetic(aes);
             statViewModel.SetStat(stat);
-            statViewModel.SetControls();
-
             positionViewModel.SetPosition(pos);
-            positionViewModel.SetControls();
         }
 
         private void DataSetsChanged(DataSetEventArgs dataSetEventArgs)
@@ -173,21 +171,35 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
         private void SetViewModels()
         {
-            IRegion geomRegion = regionManager.Regions["GeomRegion"];
-            var geomView = new GeomView();
-            geomRegion.Add(geomView, "GeomView", true);
-            geomViewModel = (GeomViewModel)geomView.DataContext;
-            geomViewModel.GeomChanged += GeomViewModel_GeomChanged;
+            IRegion aesRegion = regionManager.Regions["AestheticRegion"];
+            var aesView = new AestheticView();
+            aesRegion.Add(aesView, Guid.NewGuid().ToString(), true);
+            aesViewModel = (AestheticViewModel)aesView.DataContext;
+            aesViewModel.AesChanged += ViewModel_Changed;
 
             IRegion statRegion = regionManager.Regions["StatRegion"];
             var statView = new StatView();
-            statRegion.Add(statView, "StatView", true);
+            statRegion.Add(statView, Guid.NewGuid().ToString(), true);
             statViewModel = (StatViewModel)statView.DataContext;
+            statViewModel.StatChanged += ViewModel_Changed;
 
             IRegion posRegion = regionManager.Regions["PositionRegion"];
             var posView = new PositionView();
-            posRegion.Add(posView, "PositionView", true);
+            posRegion.Add(posView, Guid.NewGuid().ToString(), true);
             positionViewModel = (PositionViewModel)posView.DataContext;
+            positionViewModel.PositionChanged += ViewModel_Changed;
+
+            IRegion titlesRegion = regionManager.Regions["TitlesRegion"];
+            var titlesView = new TitlesView();
+            titlesRegion.Add(titlesView, "TitlesView", true);
+            titlesViewModel = (TitlesViewModel)titlesView.DataContext;
+            titlesViewModel.PropertyChanged += ViewModel_Changed;
+
+            IRegion facetRegion = regionManager.Regions["FacetRegion"];
+            var facetView = new FacetView();
+            facetRegion.Add(facetView, "FacetView", true);
+            facetViewModel = (FacetViewModel)facetView.DataContext;
+            facetViewModel.PropertyChanged+= ViewModel_Changed;
         }
 
         private void NewLayer()
@@ -219,20 +231,18 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
             SelectedLayer = layer;
 
-            geomViewModel.Variables = UpdateVariables();
-            geomViewModel.SetAesthetics(layer.Aes);
-            geomViewModel.SetControls();
-
+            var variables = UpdateVariables(SelectedLayer.Data);
+            aesViewModel.Variables = variables;
+            aesViewModel.SetAesthetic(layer.Aes);
             statViewModel.SetStat(layer.Statistic);
-            statViewModel.SetControls();
-
             positionViewModel.SetPosition(layer.Pos);
-            positionViewModel.SetControls();
+
+            facetViewModel.Variables = variables;
 
             selectedLayer.PropertyChanged += SelectedLayer_PropertyChanged;
         }
 
-        private async void GeomViewModel_GeomChanged(object sender, EventArgs e)
+        private async void ViewModel_Changed(object sender, EventArgs e)
         {
             if (ggplot.IsValid())
                 await progressService.ContinueAsync(GeneratePlotAsync(), "Generating ggplot chart");
@@ -244,9 +254,9 @@ namespace TnCode.TnCodeApp.R.ViewModels
                 await progressService.ContinueAsync(GeneratePlotAsync(), "Generating ggplot chart");
         }
 
-        private List<string> UpdateVariables()
+        private List<string> UpdateVariables(string dataSet)
         {
-            var varibleNames = dataSetsManager.DataSetVariableNames(selectedLayer.Data);
+            var varibleNames = dataSetsManager.DataSetVariableNames(dataSet);
             varibleNames.Insert(0, "");
             return varibleNames;
         }
@@ -309,6 +319,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
         {
             Layers.Clear();
             selectedLayer = null;
+
             await progressService.ContinueAsync(GeneratePlotAsync(), "Clearing ggplot chart");
         }
 

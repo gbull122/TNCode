@@ -18,31 +18,32 @@
         </Grid.RowDefinitions>
 
         <ComboBox
-                                    x:Name="comboStat"
-                                    Grid.Row="0"
-                                    Margin="2"
-                                    ItemsSource="{Binding Stats}"
-                                    SelectedItem="{Binding Path=SelectedStat}" 
-                                    Grid.ColumnSpan="2">
-            <i1:Interaction.Triggers>
+            x:Name="comboStat"
+            Grid.Row="0"
+            Margin="2"
+            ItemsSource="{Binding Stats}"
+            SelectedItem="{Binding Path=CurrentStatName}" 
+            Grid.ColumnSpan="2">
+            
+            <!--<i1:Interaction.Triggers>
                 <i1:EventTrigger
-                                            EventName="SelectionChanged">
+                    EventName="SelectionChanged">
                     <i1:InvokeCommandAction 
-                                                Command="{Binding SelectedStatChangedCommand}"
-                                                CommandParameter="{Binding ElementName=comboStat,Path=SelectedItem}"/>
+                        Command="{Binding SelectedStatChangedCommand}"
+                        CommandParameter="{Binding ElementName=comboStat,Path=SelectedItem}"/>
                 </i1:EventTrigger>
-            </i1:Interaction.Triggers>
+            </i1:Interaction.Triggers>-->
         </ComboBox>
 
         <Grid
-                                    Grid.Row="1"
-                                    Grid.ColumnSpan="2">
+            Grid.Row="1"
+            Grid.ColumnSpan="2">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <ItemsControl ItemsSource="{Binding StatControls}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel
-                                           Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollViewer}}, Path=ActualWidth}"/>
+                                 Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollViewer}}, Path=ActualWidth}"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>

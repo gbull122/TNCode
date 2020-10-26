@@ -95,7 +95,7 @@
                 Grid.Row="1"
                 Grid.Column="0"
                 Margin="2"
-                Text="{Binding Path=Subtitle}"
+                Text="{Binding Path=SubTitle}"
                 ToolTip="The subtitle text."/>
 
             <TextBox

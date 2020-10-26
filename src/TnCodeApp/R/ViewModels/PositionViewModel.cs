@@ -5,10 +5,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using TnCode.Core.R.Charts.Ggplot;
 using TnCode.Core.R.Charts.Ggplot.Layer;
-using TnCode.Core.Utilities;
 using TnCode.TnCodeApp.R.Controls;
 
 namespace TnCode.TnCodeApp.R.ViewModels
@@ -19,9 +17,11 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
         private ObservableCollection<IOptionControl> positionControls;
 
-        public List<string> Positions { get; }
+        public event EventHandler PositionChanged;
 
-        public DelegateCommand<string> SelectedPositionChangedCommand { get; private set; }
+        private Position currentPosition;
+        private bool posSet;
+        public List<string> Positions { get; }
 
         public ObservableCollection<IOptionControl> PositionControls
         {
@@ -33,15 +33,16 @@ namespace TnCode.TnCodeApp.R.ViewModels
             }
         }
 
-        private string selectedPosition;
+        private string currrentPositionName;
 
-        public string SelectedPosition
+        public string CurrentPositionName
         {
-            get => selectedPosition;
+            get => currrentPositionName;
             set
             {
-                selectedPosition = value;
-                RaisePropertyChanged(nameof(SelectedPosition));
+                currrentPositionName = value;
+                SelectedPositionChanged();
+                RaisePropertyChanged(nameof(CurrentPositionName));
             }
         }
         public PositionViewModel(IXmlService xService)
@@ -51,64 +52,68 @@ namespace TnCode.TnCodeApp.R.ViewModels
             positionControls = new ObservableCollection<IOptionControl>();
 
             Positions = Enum.GetNames(typeof(Ggplot.Positions)).ToList();
-
-            SelectedPositionChangedCommand = new DelegateCommand<string>(PositionChanged);
         }
 
+        internal void SelectedPositionChanged()
+        {
+            if (posSet)
+                return;
+
+            var newPos = xmlService.LoadPosition(currrentPositionName);
+            currentPosition = newPos;
+
+            SetControls();
+
+            posSet = false;
+        }
 
         internal void SetPosition(Position pos)
         {
-            
+            currentPosition = pos;
+
+            posSet = true;
+            CurrentPositionName = pos.Name;
+            SetControls();
         }
 
         internal void SetControls()
-        {
-            
-        }
-
-        private void PositionChanged(string obj)
-        {
-            
-        }
-
-        private void UpdatePosition(Position pos)
         {
             var newControls = new ObservableCollection<IOptionControl>();
 
             foreach (var control in positionControls)
             {
-                control.PropertyChanged -= GControl_PropertyChanged;
+                control.PropertyChanged -= VariableControl_PropertyChanged;
             }
             positionControls.Clear();
 
-            foreach (var aProp in pos.Properties)
+            foreach (var aProp in currentPosition.Properties)
             {
                 var oControl = new OptionPropertyControl(aProp.Tag, aProp.Name);
                 oControl.SetValues(aProp.Options);
-                oControl.PropertyChanged += GControl_PropertyChanged;
+                oControl.PropertyChanged += VariableControl_PropertyChanged;
                 newControls.Add(oControl);
             }
 
-            foreach (var prop in pos.Booleans)
+            foreach (var prop in currentPosition.Booleans)
             {
                 var control = new OptionCheckBoxControl(prop.Tag, prop.Name, bool.Parse(prop.Value));
-                control.PropertyChanged += GControl_PropertyChanged;
+                control.PropertyChanged += VariableControl_PropertyChanged;
                 newControls.Add(control);
             }
 
-            foreach (var prop in pos.Values)
+            foreach (var prop in currentPosition.Values)
             {
                 double.TryParse(prop.Value, out double result);
                 var control = new OptionValueControl(prop.Tag, prop.Name, result);
-                control.PropertyChanged += GControl_PropertyChanged;
+                control.PropertyChanged += VariableControl_PropertyChanged;
                 newControls.Add(control);
             }
             PositionControls = newControls;
         }
 
-        private void GControl_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void VariableControl_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            throw new NotImplementedException();
+            PositionChanged?.Invoke(this, new EventArgs());
         }
 
     }

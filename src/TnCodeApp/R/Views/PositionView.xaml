@@ -22,17 +22,17 @@
             Grid.Row="0"
             Margin="2"
             ItemsSource="{Binding Positions}"
-            SelectedItem="{Binding SelectedPosition}" 
+            SelectedItem="{Binding CurrentPositionName}" 
             Grid.ColumnSpan="2">
             
-            <i1:Interaction.Triggers>
+            <!--<i1:Interaction.Triggers>
                 <i1:EventTrigger
                     EventName="SelectionChanged">
                     <i1:InvokeCommandAction 
                         Command="{Binding SelectedPositionChangedCommand}"
                         CommandParameter="{Binding ElementName=comboPos,Path=SelectedItem}"/>
                 </i1:EventTrigger>
-            </i1:Interaction.Triggers>
+            </i1:Interaction.Triggers>-->
             
         </ComboBox>
 

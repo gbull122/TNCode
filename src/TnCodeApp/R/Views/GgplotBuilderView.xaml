@@ -77,7 +77,7 @@
                                         x:Name="ComboData"
                                         materialDesign:HintAssist.Hint="Selelct Data set"
                                         ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},  Path=DataContext.DataSets}"
-                                        SelectedItem="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},  Path=DataContext.SelectedLayer.Data}"
+                                        SelectedItem="{Binding Path=Data}"
                                         Background="{DynamicResource MaterialDesignPaper}">
                                         <i1:Interaction.Triggers>
                                             <i1:EventTrigger EventName="SelectionChanged">
@@ -101,7 +101,7 @@
                                         x:Name="ComboGeom"
                                         materialDesign:HintAssist.Hint="Select geom"
                                         ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},  Path=DataContext.Geoms}"
-                                        SelectedItem="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},  Path=DataContext.SelectedLayer.Geom}"
+                                        SelectedItem="{Binding Path=Geom}"
                                         Background="{DynamicResource MaterialDesignPaper}">
                                         <i1:Interaction.Triggers>
                                             <i1:EventTrigger EventName="SelectionChanged">
@@ -117,12 +117,12 @@
 
                         <DataGridCheckBoxColumn
                                 Header="Legend"
-                                Binding="{Binding Path=ShowLegend, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},   Path=DataContext.SelectedLayer.ShowLegend}"
                                 Width="*"/>
 
                         <DataGridCheckBoxColumn
                                 Header="Show"
-                                Binding="{Binding Path=ShowInPlot, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},   Path=DataContext.SelectedLayer.ShowInPlot}"
                                 Width="*"/>
 
                     </DataGrid.Columns>
@@ -150,10 +150,10 @@
                         x:Name="tabControl_Layer">
 
                         <TabItem                                    
-                            Header="Geom"
+                            Header="Aesthetic"
                             Width="{Binding ElementName=tabWidthSizer, Path=ActualWidth}">
                             <ContentControl
-                                prism:RegionManager.RegionName="GeomRegion"/>
+                                prism:RegionManager.RegionName="AestheticRegion"/>
 
                         </TabItem>
 

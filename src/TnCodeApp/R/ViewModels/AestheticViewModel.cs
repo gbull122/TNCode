@@ -8,18 +8,18 @@ using TnCode.TnCodeApp.R.Controls;
 
 namespace TnCode.TnCodeApp.R.ViewModels
 {
-    public class GeomViewModel: BindableBase
+    public class AestheticViewModel : BindableBase
     {
         private readonly IEventAggregator eventAggregator;
         private readonly IXmlService xmlService;
 
-        private ObservableCollection<VariableControl> geomControls;
+        private ObservableCollection<VariableControl> aesControls;
 
         private List<string> variables;
 
         private Aesthetic currentAesthetic;
 
-        public event EventHandler GeomChanged;
+        public event EventHandler AesChanged;
 
         public List<string> Variables
         {
@@ -31,72 +31,81 @@ namespace TnCode.TnCodeApp.R.ViewModels
             }
         }
 
-        public ObservableCollection<VariableControl> GeomControls
+        public ObservableCollection<VariableControl> AesControls
         {
-            get { return geomControls; }
+            get { return aesControls; }
             set
             {
-                geomControls = value;
-                RaisePropertyChanged(nameof(GeomControls));
+                aesControls = value;
+                RaisePropertyChanged(nameof(AesControls));
             }
         }
 
-        public GeomViewModel(IXmlService xService, IEventAggregator eventAggr)
+        public AestheticViewModel(IXmlService xService, IEventAggregator eventAggr)
         {
             xmlService = xService;
             eventAggregator = eventAggr;
 
-            geomControls = new ObservableCollection<VariableControl>();
+            aesControls = new ObservableCollection<VariableControl>();
             variables = new List<string>();
         }
 
-        public void SetAesthetics(Aesthetic aesthetic)
+        public void SetAesthetic(Aesthetic aesthetic)
         {
-            var mergedAesthetic = new Aesthetic();
-
             if (currentAesthetic == null)
             {
                 currentAesthetic = aesthetic;
-                return;
             }
-
-            mergedAesthetic.DefaultStat = aesthetic.DefaultStat;
-            mergedAesthetic.DefaultPosition = aesthetic.DefaultPosition;
-
-            foreach (var aesValue in aesthetic.AestheticValues)
+            else
             {
-                if (currentAesthetic.DoesAestheticContainValue(aesValue.Name))
+                var mergedAesthetic = new Aesthetic();
+
+                foreach (var aesValue in aesthetic.AestheticValues)
                 {
-                    var existingValue = currentAesthetic.GetAestheticValueByName(aesValue.Name);
-                    aesValue.Entry = existingValue.Entry;
+                    if (currentAesthetic.DoesAestheticContainValue(aesValue.Name))
+                    {
+                        var existingValue = currentAesthetic.GetAestheticValueByName(aesValue.Name);
+                        aesValue.Entry = existingValue.Entry;
+                    }
+                    mergedAesthetic.AestheticValues.Add(aesValue);
                 }
-                mergedAesthetic.AestheticValues.Add(aesValue);
+                currentAesthetic = mergedAesthetic;
             }
-            currentAesthetic = mergedAesthetic;
+
+            SetControls();
+
+            //TODO property controls
         }
 
 
         public void SetControls()
         {
-            var newControls = new ObservableCollection<VariableControl>();
-            foreach (var variableControl in geomControls)
+            foreach (var variableControl in aesControls)
             {
                 variableControl.PropertyChanged -= VariableControl_PropertyChanged;
             }
+
+            AesControls.Clear();
 
             foreach (var aValue in currentAesthetic.AestheticValues)
             {
                 var variableControl = new VariableControl(eventAggregator, aValue, variables);
                 variableControl.PropertyChanged += VariableControl_PropertyChanged;
-                newControls.Add(variableControl);
+                AesControls.Add(variableControl);
             }
 
-            GeomControls = newControls;
+            //AesControls = newControls;
         }
 
         private void VariableControl_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            GeomChanged?.Invoke(this,new EventArgs());
+            AesChanged?.Invoke(this, new EventArgs());
+        }
+
+        internal void UpdateVariables(List<string> lists)
+        {
+            Variables = lists;
+            SetControls();
         }
     }
 }

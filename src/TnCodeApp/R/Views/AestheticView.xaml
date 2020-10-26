@@ -1,5 +1,5 @@
 ﻿<UserControl 
-    x:Class="TnCode.TnCodeApp.R.Views.GeomView"
+    x:Class="TnCode.TnCodeApp.R.Views.AestheticView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -45,7 +45,7 @@
             <ItemsControl 
                 Grid.Row="1"
                 Grid.ColumnSpan="2"
-                ItemsSource="{Binding Path=GeomControls, UpdateSourceTrigger=PropertyChanged}">
+                ItemsSource="{Binding Path=AesControls, UpdateSourceTrigger=PropertyChanged}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel

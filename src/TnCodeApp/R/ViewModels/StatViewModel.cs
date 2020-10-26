@@ -4,29 +4,34 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 using TnCode.Core.R.Charts.Ggplot;
 using TnCode.Core.R.Charts.Ggplot.Layer;
-using TnCode.Core.Utilities;
 using TnCode.TnCodeApp.R.Controls;
 
 namespace TnCode.TnCodeApp.R.ViewModels
 {
     public class StatViewModel:BindableBase
     {
-        public DelegateCommand<string> SelectedStatChangedCommand { get; private set; }
         private ObservableCollection<IOptionControl> statControls;
         private readonly IXmlService xmlService;
 
         public List<string> Stats { get; }
-        private string selectedStat;
+        private Stat currentStat;
+        private string currentStatName;
 
-        public string SelectedStat
+        private bool statSet;
+
+        public event EventHandler StatChanged;
+
+        public string CurrentStatName
         {
-            get => selectedStat;
+            get => currentStatName;
             set
             {
-                selectedStat = value;
-                RaisePropertyChanged(nameof(SelectedStat));
+                currentStatName = value;
+                SelectedStatChanged();
+                RaisePropertyChanged(nameof(CurrentStatName));
             }
         }
 
@@ -48,70 +53,67 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
             statControls = new ObservableCollection<IOptionControl>();
 
-            SelectedStatChangedCommand = new DelegateCommand<string>(StatChanged);
+            currentStat = new Stat();
+        }
+
+        private void SelectedStatChanged()
+        {
+            if (statSet)
+                return;
+            
+            var newStat = xmlService.LoadStat(currentStatName);
+            currentStat = newStat;
+
+            SetControls();
+            
+            statSet = false;
         }
 
         internal void SetStat(Stat statistic)
         {
-            
+            currentStat = statistic;
+
+            statSet = true;
+            CurrentStatName = statistic.Name;
+            SetControls();
         }
 
         internal void SetControls()
         {
-            
-        }
-
-        public void StatChanged(string stat)
-        {
-            //var statistic = LoadStat(stat);
-            //UpdateStat(statistic);
-        }
-
-        public async void StatChanged(Stat stat)
-        {
-            UpdateStat(stat);
-        }
-
-        private void UpdateStat(Stat stat)
-        {
-            var newControls = new ObservableCollection<IOptionControl>();
-
             foreach (var control in statControls)
             {
-                control.PropertyChanged -= GControl_PropertyChanged;
+                control.PropertyChanged -= ControlChanged;
             }
-            statControls.Clear();
+            StatControls.Clear();
 
-            foreach (var aProp in stat.Properties)
+            foreach (var aProp in currentStat.Properties)
             {
                 var oControl = new OptionPropertyControl(aProp.Tag, aProp.Name);
                 oControl.SetValues(aProp.Options);
-                oControl.PropertyChanged += GControl_PropertyChanged;
-                newControls.Add(oControl);
+                oControl.PropertyChanged += ControlChanged;
+                StatControls.Add(oControl);
             }
 
-            foreach (var prop in stat.Booleans)
+            foreach (var prop in currentStat.Booleans)
             {
                 var control = new OptionCheckBoxControl(prop.Tag, prop.Name, bool.Parse(prop.Value));
-                control.PropertyChanged += GControl_PropertyChanged;
-                newControls.Add(control);
+                control.PropertyChanged += ControlChanged;
+                StatControls.Add(control);
             }
 
-            foreach (var prop in stat.Values)
+            foreach (var prop in currentStat.Values)
             {
                 double.TryParse(prop.Value, out double result);
                 var control = new OptionValueControl(prop.Tag, prop.Name, result);
-                control.PropertyChanged += GControl_PropertyChanged;
-                newControls.Add(control);
+                control.PropertyChanged += ControlChanged;
+                StatControls.Add(control);
             }
-            StatControls = newControls;
+
         }
 
-
-
-        private async void GControl_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private  void ControlChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-
+            StatChanged?.Invoke(this, new EventArgs());
         }
 
     }
