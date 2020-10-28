@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
@@ -9,6 +10,10 @@ namespace TnCode.Core.R.Charts.Ggplot.Layer
     [XmlRoot("Aesthetic")]
     public class Aesthetic
     {
+        List<Property> properties = new List<Property>();
+        List<Property> booleans = new List<Property>();
+        List<Property> values = new List<Property>();
+
         [XmlArray("AestheticValues")]
         [XmlArrayItem("AestheticValue")]
         public List<AestheticValue> AestheticValues
@@ -23,6 +28,39 @@ namespace TnCode.Core.R.Charts.Ggplot.Layer
         [XmlElement("DefaultPosition")]
         public string DefaultPosition { get; set; }
 
+        [XmlArray("Properties")]
+        [XmlArrayItem("Property")]
+        public List<Property> Properties
+        {
+            get { return properties; }
+            set { properties = value; }
+        }
+
+        public bool ShouldSerializeProperties()
+        {
+            return Properties.Any();
+        }
+
+        [XmlArray("Booleans")]
+        [XmlArrayItem("Property")]
+        public List<Property> Booleans
+        {
+            get { return booleans; }
+            set { booleans = value; }
+        }
+
+        public bool ShouldSerializeBooleans()
+        {
+            return Booleans.Any();
+        }
+
+        [XmlArray("Values")]
+        [XmlArrayItem("Property")]
+        public List<Property> Values
+        {
+            get { return values; }
+            set { values = value; }
+        }
         public Aesthetic()
         {
 
@@ -72,6 +110,15 @@ namespace TnCode.Core.R.Charts.Ggplot.Layer
                 if (aesValue.Name.Equals(name))
                     AestheticValues.Remove(aesValue);
             }
+        }
+
+        public List<Parameter> GetParameters()
+        {
+            var parameters = new List<Parameter>();
+
+
+
+            return parameters;
         }
     }
 }

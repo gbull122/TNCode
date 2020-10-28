@@ -68,5 +68,14 @@ namespace TnCode.Core.R.Charts.Ggplot.Layer
         {
             return string.Format("\"{0}\"", Name.ToLower());
         }
+
+        public List<Parameter> GetParameters()
+        {
+            var parameters = new List<Parameter>();
+
+
+
+            return parameters;
+        }
     }
 }

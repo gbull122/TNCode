@@ -12,7 +12,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
     {
         private readonly IEventAggregator eventAggregator;
         private readonly IXmlService xmlService;
-
+        private ObservableCollection<IOptionControl> optionControls;
         private ObservableCollection<VariableControl> aesControls;
 
         private List<string> variables;
@@ -28,6 +28,15 @@ namespace TnCode.TnCodeApp.R.ViewModels
             {
                 variables = value;
                 RaisePropertyChanged(nameof(Variables));
+            }
+        }
+        public ObservableCollection<IOptionControl> OptionControls
+        {
+            get { return optionControls; }
+            set
+            {
+                optionControls = value;
+                RaisePropertyChanged(nameof(OptionControls));
             }
         }
 
@@ -47,6 +56,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
             eventAggregator = eventAggr;
 
             aesControls = new ObservableCollection<VariableControl>();
+            optionControls = new ObservableCollection<IOptionControl>();
             variables = new List<string>();
         }
 
@@ -69,12 +79,19 @@ namespace TnCode.TnCodeApp.R.ViewModels
                     }
                     mergedAesthetic.AestheticValues.Add(aesValue);
                 }
+
+                mergedAesthetic.DefaultPosition = aesthetic.DefaultPosition;
+                mergedAesthetic.DefaultStat = aesthetic.DefaultStat;
+                mergedAesthetic.Properties = aesthetic.Properties;
+                mergedAesthetic.Booleans = aesthetic.Booleans;
+                mergedAesthetic.Values = aesthetic.Values;
+                
                 currentAesthetic = mergedAesthetic;
             }
 
             SetControls();
 
-            //TODO property controls
+            SetOptionControls();
         }
 
 
@@ -93,8 +110,38 @@ namespace TnCode.TnCodeApp.R.ViewModels
                 variableControl.PropertyChanged += VariableControl_PropertyChanged;
                 AesControls.Add(variableControl);
             }
+        }
 
-            //AesControls = newControls;
+        public void SetOptionControls()
+        {
+            foreach (var control in optionControls)
+            {
+                control.PropertyChanged -= VariableControl_PropertyChanged;
+            }
+            OptionControls.Clear();
+
+            foreach (var aProp in currentAesthetic.Properties)
+            {
+                var oControl = new OptionPropertyControl(aProp.Tag, aProp.Name);
+                oControl.SetValues(aProp.Options);
+                oControl.PropertyChanged += VariableControl_PropertyChanged;
+                OptionControls.Add(oControl);
+            }
+
+            foreach (var prop in currentAesthetic.Booleans)
+            {
+                var control = new OptionCheckBoxControl(prop.Tag, prop.Name, bool.Parse(prop.Value));
+                control.PropertyChanged += VariableControl_PropertyChanged;
+                OptionControls.Add(control);
+            }
+
+            foreach (var prop in currentAesthetic.Values)
+            {
+                double.TryParse(prop.Value, out double result);
+                var control = new OptionValueControl(prop.Tag, prop.Name, result);
+                control.PropertyChanged += VariableControl_PropertyChanged;
+                OptionControls.Add(control);
+            }
         }
 
         private void VariableControl_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
