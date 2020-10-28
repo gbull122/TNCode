@@ -10,6 +10,7 @@ namespace TnCodeApp_Tests
         const string APPPATH = "..\\..\\..\\..\\src\\TNCodeApp\\bin\\Debug\\TNCodeApp.exe";
 
         [TestMethod]
+        [Ignore("Work in progress")]
         public void MainWindowOpens()
         {
             var app = FlaUI.Core.Application.Launch(APPPATH);

@@ -12,18 +12,30 @@ namespace Core.R_Tests
     public class Layer_Tests
     {
         [TestMethod]
-        public void Empty_returns_empty()
+        public void Empty_returns_minimum()
         {
-            var layer = new Layer("point");
+            string expectedCommand = @"layer(data=,geom=""point"",mapping=aes(),stat=""identity"",position=""identity"",show.legend=TRUE)";
+            var aesthetic = new Aesthetic();
+            var stat = new Stat();
+            stat.Name = "identity";
+            var pos = new Position();
+            pos.Name = "identity";
 
-            var actualValue = layer.Command();
+            var layer = new Layer("point", aesthetic, stat,pos);
 
-            actualValue.Should().Be(string.Empty);
+            var actualCommand = layer.Command();
+
+            actualCommand.Should().Be(expectedCommand);
         }
 
         [TestMethod]
         public void Set_value_returns_layer()
         {
+            var stat = new Stat();
+            stat.Name = "identity";
+            var pos = new Position();
+            pos.Name = "identity";
+
             var aesthetic = new Aesthetic();
             var aVal1 = new AestheticValue();
             aVal1.Name = "X";
@@ -33,19 +45,24 @@ namespace Core.R_Tests
             aesthetic.DefaultStat = "identity";
             aesthetic.DefaultPosition = "identity";
 
-            var layer = new Layer("point");
+            var layer = new Layer("point", aesthetic, stat, pos);
             layer.Data = "DataFrame";
             layer.Aes = aesthetic;
 
             var actualValue = layer.Command();
 
-            actualValue.Should().Be(@"layer(data=DataFrame,geom=""point"",mapping=aes(x=xvar),stat=""identity"",position=""identity"",show.legend=FALSE)");
+            actualValue.Should().Be(@"layer(data=DataFrame,geom=""point"",mapping=aes(x=xvar),stat=""identity"",position=""identity"",show.legend=TRUE)");
         }
 
 
         [TestMethod]
         public void Set_values_returns_layer()
         {
+            var stat = new Stat();
+            stat.Name = "identity";
+            var pos = new Position();
+            pos.Name = "identity";
+
             var aesthetic = new Aesthetic();
             var aVal1 = new AestheticValue();
             aVal1.Name = "X";
@@ -60,18 +77,23 @@ namespace Core.R_Tests
             aesthetic.DefaultStat = "identity";
             aesthetic.DefaultPosition = "identity";
 
-            var layer = new Layer("point");
+            var layer = new Layer("point", aesthetic, stat, pos);
             layer.Data = "DataFrame";
             layer.Aes = aesthetic;
 
             var actualValue = layer.Command();
 
-            actualValue.Should().Be(@"layer(data=DataFrame,geom=""point"",mapping=aes(x=xvar,y=yvar),stat=""identity"",position=""identity"",show.legend=FALSE)");
+            actualValue.Should().Be(@"layer(data=DataFrame,geom=""point"",mapping=aes(x=xvar,y=yvar),stat=""identity"",position=""identity"",show.legend=TRUE)");
         }
 
         [TestMethod]
         public void Unset_value_not_in_layer()
         {
+            var stat = new Stat();
+            stat.Name = "identity";
+            var pos = new Position();
+            pos.Name = "identity";
+
             var aesthetic = new Aesthetic();
             var aVal1 = new AestheticValue();
             aVal1.Name = "X";
@@ -85,18 +107,21 @@ namespace Core.R_Tests
             aesthetic.DefaultStat = "identity";
             aesthetic.DefaultPosition = "identity";
 
-            var layer = new Layer("point");
+            var layer = new Layer("point", aesthetic, stat, pos);
             layer.Data = "DataFrame";
             layer.Aes = aesthetic;
 
             var actualValue = layer.Command();
 
-            actualValue.Should().Be(@"layer(data=DataFrame,geom=""point"",mapping=aes(x=xvar),stat=""identity"",position=""identity"",show.legend=FALSE)");
+            actualValue.Should().Be(@"layer(data=DataFrame,geom=""point"",mapping=aes(x=xvar),stat=""identity"",position=""identity"",show.legend=TRUE)");
         }
 
         [TestMethod]
         public void Unset_required_returns_empty()
         {
+            var stat = new Stat();
+            var pos = new Position();
+
             var aesthetic = new Aesthetic();
             var aVal1 = new AestheticValue();
             aVal1.Name = "X";
@@ -109,7 +134,7 @@ namespace Core.R_Tests
             aesthetic.AestheticValues.Add(aVal1);
             aesthetic.AestheticValues.Add(aVal2);
 
-            var layer = new Layer("point");
+            var layer = new Layer("point", aesthetic, stat, pos);
             layer.Data = "DataFrame";
             layer.Aes = aesthetic;
 
@@ -143,7 +168,7 @@ namespace Core.R_Tests
             var pos = new Position();
             pos.Name  = "identity";
 
-            var layer = new Layer("point");
+            var layer = new Layer("point",aesthetic,stat,pos);
             layer.Data = "DataFrame";
             layer.Aes = aesthetic;
             layer.ShowInPlot = true;
@@ -159,6 +184,11 @@ namespace Core.R_Tests
         [TestMethod]
         public void Required_set_returns_layer1()
         {
+            var stat = new Stat();
+            stat.Name = "identity";
+            var pos = new Position();
+            pos.Name = "identity";
+
             var aesthetic = new Aesthetic();
             var aVal1 = new AestheticValue();
             aVal1.Name = "X";
@@ -173,13 +203,13 @@ namespace Core.R_Tests
             aesthetic.DefaultStat = "identity";
             aesthetic.DefaultPosition = "identity";
 
-            var layer = new Layer("point");
+            var layer = new Layer("point",aesthetic,stat,pos);
             layer.Data = "DataFrame";
             layer.Aes = aesthetic;
 
             var actualValue = layer.Command();
 
-            actualValue.Should().Be(@"layer(data=DataFrame,geom=""point"",mapping=aes(x=xvar),stat=""identity"",position=""identity"",show.legend=FALSE)");
+            actualValue.Should().Be(@"layer(data=DataFrame,geom=""point"",mapping=aes(x=xvar),stat=""identity"",position=""identity"",show.legend=TRUE)");
         }
     }
 }
