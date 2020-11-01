@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Input;
+using TnCode.Core.R.Charts.Ggplot.Layer;
 
 namespace TnCode.TnCodeApp.R.Controls
 {
@@ -9,8 +10,8 @@ namespace TnCode.TnCodeApp.R.Controls
     public partial class OptionValueControl : UserControl, INotifyPropertyChanged, IOptionControl
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        private double _userText;
-        private string _label;
+
+        private Property property;
 
         protected void OnPropertyChanged(string propertyName = null)
         {
@@ -21,63 +22,37 @@ namespace TnCode.TnCodeApp.R.Controls
             }
         }
 
-        public string VariableName { get; set; }
-
         public string Label
         {
-            get { return _label; }
+            get { return property.Tag; }
             set
             {
-                _label = value;
+                property.Tag = value;
                 OnPropertyChanged("Label");
             }
         }
 
-        public double UserText
+        public string PropertyValue
         {
-            get { return _userText; }
+            get { return property.Value; }
             set
             {
-                if (_userText != value)
-                {
-                    _userText = value;
-                    OnPropertyChanged("UserText");
-                }
+                property.Value = value;
+                OnPropertyChanged("PropertyValue");
             }
         }
 
-        public OptionValueControl(string label, string variable, double defaultValue)
+        public OptionValueControl(Property prop)
         {
             InitializeComponent();
             ControlPanel.DataContext = this;
-            Label = label;
-            VariableName = variable;
-            UserText = defaultValue;
+            property = prop;
         }
 
         public string GetRCode()
         {
-            return VariableName + "=" + _userText.ToString();
+            return property.Name + "=" + property.Value;
         }
 
-        private void MyTextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                if (IsTextAllowed(MyTextBox.Text))
-                    UserText = double.Parse(MyTextBox.Text);
-            }
-        }
-
-        private void MyTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            e.Handled = !IsTextAllowed(e.Text);
-        }
-
-        private static bool IsTextAllowed(string text)
-        {
-            Regex regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
-            return !regex.IsMatch(text);
-        }
     }
 }

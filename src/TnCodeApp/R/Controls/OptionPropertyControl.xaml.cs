@@ -12,10 +12,11 @@ namespace TnCode.TnCodeApp.R.Controls
     public partial class OptionPropertyControl : UserControl, INotifyPropertyChanged, IOptionControl
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        private string _propertyName;
+        //private string _propertyName;
         private List<string> options;
         private Dictionary<string, string> selectionLookup;
         private string selectedOption;
+        private Property property;
 
         protected void OnPropertyChanged(string propertyName = null)
         {
@@ -28,7 +29,12 @@ namespace TnCode.TnCodeApp.R.Controls
 
         public string Label
         {
-            get;
+            get { return property.Tag; }
+            set
+            {
+                property.Tag = value;
+                OnPropertyChanged("Label");
+            }
         }
 
         public List<string> Options
@@ -57,12 +63,11 @@ namespace TnCode.TnCodeApp.R.Controls
             }
         }
 
-        public OptionPropertyControl(string property, string label)
+        public OptionPropertyControl(Property prop)
         {
             InitializeComponent();
             ControlPanel.DataContext = this;
-            Label = label;
-            _propertyName = property;
+            property = prop;
             options = new List<string>();
             selectionLookup = new Dictionary<string, string>();
         }
@@ -82,7 +87,7 @@ namespace TnCode.TnCodeApp.R.Controls
         public string GetRCode()
         {
             var result = new StringBuilder();
-            result.Append(_propertyName + "=");
+            result.Append(property.Tag + "=");
             result.Append(string.Format("\"{0}\"", selectionLookup[SelectedOption].ToString()));
             return result.ToString();
         }

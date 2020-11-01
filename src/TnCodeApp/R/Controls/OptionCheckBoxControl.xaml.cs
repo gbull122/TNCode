@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Windows.Controls;
+using TnCode.Core.R.Charts.Ggplot.Layer;
 
 namespace TnCode.TnCodeApp.R.Controls
 {
@@ -9,6 +10,8 @@ namespace TnCode.TnCodeApp.R.Controls
     public partial class OptionCheckBoxControl : UserControl, INotifyPropertyChanged, IOptionControl
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private Property property;
         private bool _selected;
 
         protected void OnPropertyChanged(string propertyName = null)
@@ -20,9 +23,15 @@ namespace TnCode.TnCodeApp.R.Controls
             }
         }
 
-        public string VariableName { get; set; }
-
-        public string Label { get; set; }
+        public string Label
+        {
+            get { return property.Tag; }
+            set
+            {
+                property.Tag = value;
+                OnPropertyChanged("Label");
+            }
+        }
 
         public bool Selected
         {
@@ -37,13 +46,12 @@ namespace TnCode.TnCodeApp.R.Controls
             }
         }
 
-        public OptionCheckBoxControl(string label, string variable, bool selected)
+        public OptionCheckBoxControl(Property prop)
         {
             InitializeComponent();
             ControlPanel.DataContext = this;
-            Label = label;
-            VariableName = variable;
-            _selected = selected;
+            property = prop;
+            _selected = bool.Parse(property.Value);
         }
 
         public string GetRCode()
@@ -51,11 +59,11 @@ namespace TnCode.TnCodeApp.R.Controls
             string rCode = null;
             if (_selected)
             {
-                rCode = VariableName + "=TRUE";
+                rCode = property.Name + "=TRUE";
             }
             else
             {
-                rCode = VariableName + "=FALSE";
+                rCode = property.Name + "=FALSE";
             }
             return rCode;
         }

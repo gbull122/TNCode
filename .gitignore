@@ -332,3 +332,10 @@ ASALocalRun/
 
 # Local History for Visual Studio
 .localhistory/
+/docs/TnCodeManual.synctex.gz
+/docs/TnCodeManual.aux
+/docs/TnCodeManual.bbl
+/docs/TnCodeManual.blg
+/docs/TnCodeManual.log
+/docs/TnCodeManual.pdf
+/docs/TnCodeManual.toc

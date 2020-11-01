@@ -122,7 +122,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
             foreach (var aProp in currentAesthetic.Properties)
             {
-                var oControl = new OptionPropertyControl(aProp.Tag, aProp.Name);
+                var oControl = new OptionPropertyControl(aProp);
                 oControl.SetValues(aProp.Options);
                 oControl.PropertyChanged += VariableControl_PropertyChanged;
                 OptionControls.Add(oControl);
@@ -130,7 +130,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
             foreach (var prop in currentAesthetic.Booleans)
             {
-                var control = new OptionCheckBoxControl(prop.Tag, prop.Name, bool.Parse(prop.Value));
+                var control = new OptionCheckBoxControl(prop);
                 control.PropertyChanged += VariableControl_PropertyChanged;
                 OptionControls.Add(control);
             }
@@ -138,7 +138,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
             foreach (var prop in currentAesthetic.Values)
             {
                 double.TryParse(prop.Value, out double result);
-                var control = new OptionValueControl(prop.Tag, prop.Name, result);
+                var control = new OptionValueControl(prop);
                 control.PropertyChanged += VariableControl_PropertyChanged;
                 OptionControls.Add(control);
             }

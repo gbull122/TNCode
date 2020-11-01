@@ -88,7 +88,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
             foreach (var aProp in currentStat.Properties)
             {
-                var oControl = new OptionPropertyControl(aProp.Tag, aProp.Name);
+                var oControl = new OptionPropertyControl(aProp);
                 oControl.SetValues(aProp.Options);
                 oControl.PropertyChanged += ControlChanged;
                 StatControls.Add(oControl);
@@ -96,7 +96,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
             foreach (var prop in currentStat.Booleans)
             {
-                var control = new OptionCheckBoxControl(prop.Tag, prop.Name, bool.Parse(prop.Value));
+                var control = new OptionCheckBoxControl(prop);
                 control.PropertyChanged += ControlChanged;
                 StatControls.Add(control);
             }
@@ -104,7 +104,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
             foreach (var prop in currentStat.Values)
             {
                 double.TryParse(prop.Value, out double result);
-                var control = new OptionValueControl(prop.Tag, prop.Name, result);
+                var control = new OptionValueControl(prop);
                 control.PropertyChanged += ControlChanged;
                 StatControls.Add(control);
             }

@@ -263,7 +263,9 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
         private async Task GeneratePlotAsync()
         {
+
             var plotCommand = ggplot.Command();
+
 
             var isPlotGenerated = await rService.GenerateGgplotAsync(plotCommand);
 
