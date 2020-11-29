@@ -91,14 +91,13 @@ namespace TnCode.Core.R.Charts.Ggplot.Layer
             command.Append("mapping=" + Aes.Command() + ",");
             command.Append("stat=" + Statistic.Command() + ",");
             command.Append("position=" + Pos.Command() + ",");
-            command.Append(ParametersCommand() + ",");
+            command.Append(ParametersCommand());
             command.Append("show.legend=" + ShowLegend.ToString().ToUpper());
             command.Append(")");
             command.Append(DoLabels());
-            //command.Append(DoScales());
             //command.Append(DoFacet());
 
-            return command.ToString();
+            return command.ToString().Replace("\r\n", "");
         }
 
         private string DoLabels()
@@ -133,16 +132,20 @@ namespace TnCode.Core.R.Charts.Ggplot.Layer
 
         private string ParametersCommand()
         {
+            var parameters = BuildParamList();
+            if (parameters.Count == 0)
+                return string.Empty;
+
             var command = new StringBuilder();
             command.AppendLine("params=list(");
-            var parameters = BuildParamList();
+           
             List<string> ps = new List<string>();
             foreach (var p in parameters)
             {
                 ps.Add(p.Command());
             }
             command.Append(string.Join(",", ps));
-            command.Append(")");
+            command.Append("),");
             return command.ToString();
         }
 
@@ -150,22 +153,10 @@ namespace TnCode.Core.R.Charts.Ggplot.Layer
         {
             List<Parameter> allParameters = new List<Parameter>();
 
-            var allProps = Aes.Properties;
+            allParameters.AddRange(Aes.GetParameters());
+            allParameters.AddRange(Statistic.GetParameters());
+            //allParameters.AddRange(Pos.GetParameters());
 
-            //if (Params().Count > 0)
-            //{
-            //    allParameters.AddRange(Params());
-            //}
-            //if (Statistic != null && Statistic.GetParameters().Count > 0)
-            //{
-            //    allParameters.AddRange(Statistic.GetParameters());
-            //}
-            //foreach (var scale in _scales)
-            //{
-            //    var scalePrameter = ScaleParameters(scale);
-            //    if (scalePrameter != null && !string.IsNullOrEmpty(scalePrameter.Value))
-            //        allParameters.Add(ScaleParameters(scale));
-            //}
             return allParameters;
         }
     }

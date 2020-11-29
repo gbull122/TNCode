@@ -6,6 +6,7 @@ using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -59,6 +60,19 @@ namespace TnCode.TnCodeApp.R.ViewModels
         private FacetViewModel facetViewModel;
         private TitlesViewModel titlesViewModel;
 
+        private bool areControlsEnabaled= true;
+
+        public bool AreControlsEnabaled
+        {
+            get { return areControlsEnabaled; }
+            set 
+            { 
+                areControlsEnabaled = value;
+                RaisePropertyChanged(nameof(AreControlsEnabaled));
+            }
+        }
+
+
         public IEnumerable<string> DataSets
         {
             get { return dataSets; }
@@ -87,13 +101,13 @@ namespace TnCode.TnCodeApp.R.ViewModels
             get => selectedLayer;
             set
             {
-                if (selectedLayer != null)
-                    selectedLayer.PropertyChanged -= SelectedLayer_PropertyChanged;
+                //if (selectedLayer != null)
+                //    selectedLayer.PropertyChanged -= SelectedLayer_PropertyChanged;
 
 
                 selectedLayer = value;
 
-                selectedLayer.PropertyChanged += SelectedLayer_PropertyChanged;
+                //selectedLayer.PropertyChanged += SelectedLayer_PropertyChanged;
                 RaisePropertyChanged(nameof(SelectedLayer));
             }
         }
@@ -115,7 +129,6 @@ namespace TnCode.TnCodeApp.R.ViewModels
             progressService = progService;
             xmlService = xml;
 
-            //TODO
             ggplot = new Ggplot();
 
             eventAggregator.GetEvent<DataSetChangedEvent>().Subscribe(DataSetsChanged, ThreadOption.UIThread);
@@ -127,7 +140,6 @@ namespace TnCode.TnCodeApp.R.ViewModels
             GeomSelectedCommand = new DelegateCommand<string>(GeomSelected);
             DataSelectedCommand = new DelegateCommand<string>(DataSelected);
             dataSets = dataSetsManager.DataSetNames();
-
 
             Geoms = Enum.GetNames(typeof(Ggplot.Geoms)).ToList();
             Geoms.Remove("tile");
@@ -226,8 +238,8 @@ namespace TnCode.TnCodeApp.R.ViewModels
             if (layer == null || selectedLayer==layer)
                 return;
 
-            if (selectedLayer != null)
-                selectedLayer.PropertyChanged -= SelectedLayer_PropertyChanged;
+            //if (selectedLayer != null)
+            //    selectedLayer.PropertyChanged -= SelectedLayer_PropertyChanged;
 
             SelectedLayer = layer;
 
@@ -239,20 +251,24 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
             facetViewModel.Variables = variables;
 
-            selectedLayer.PropertyChanged += SelectedLayer_PropertyChanged;
+            Update();
+            //selectedLayer.PropertyChanged += SelectedLayer_PropertyChanged;
         }
 
-        private async void ViewModel_Changed(object sender, EventArgs e)
+        private void ViewModel_Changed(object sender, EventArgs e)
         {
-            if (ggplot.IsValid())
-                await progressService.ContinueAsync(GeneratePlotAsync(), "Generating ggplot chart");
+            Update();
         }
 
-        private async void SelectedLayer_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (ggplot.IsValid())
-                await progressService.ContinueAsync(GeneratePlotAsync(), "Generating ggplot chart");
-        }
+        //private async void SelectedLayer_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        //{
+        //    if (ggplot.IsValid())
+        //    {
+        //        AreControlsEnabaled = false;
+        //        await progressService.ContinueAsync(GeneratePlotAsync(), "Generating ggplot chart");
+        //        AreControlsEnabaled = true;
+        //    }
+        //}
 
         private List<string> UpdateVariables(string dataSet)
         {
@@ -261,11 +277,19 @@ namespace TnCode.TnCodeApp.R.ViewModels
             return varibleNames;
         }
 
+        private async void Update()
+        {
+            if (ggplot.IsValid())
+            {
+                AreControlsEnabaled = false;
+                await progressService.ContinueAsync(GeneratePlotAsync(), "Generating ggplot chart");
+                AreControlsEnabaled = true;
+            }
+        }
+
         private async Task GeneratePlotAsync()
         {
-
             var plotCommand = ggplot.Command();
-
 
             var isPlotGenerated = await rService.GenerateGgplotAsync(plotCommand);
 

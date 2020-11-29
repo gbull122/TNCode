@@ -116,7 +116,20 @@ namespace TnCode.Core.R.Charts.Ggplot.Layer
         {
             var parameters = new List<Parameter>();
 
+            foreach(var v in Values)
+            {
+                parameters.Add(new Parameter(v.Name, v.Value));
+            }
 
+            foreach(var b in Booleans)
+            {
+                parameters.Add(new Parameter(b.Name, b.Value, true));
+            }
+
+            foreach(var p in Properties)
+            {
+                parameters.Add(new Parameter(p.Name, p.Value,false,true));
+            }
 
             return parameters;
         }

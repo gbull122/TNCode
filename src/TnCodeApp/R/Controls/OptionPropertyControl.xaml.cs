@@ -84,12 +84,5 @@ namespace TnCode.TnCodeApp.R.Controls
             selectedOption = options[0];
         }
 
-        public string GetRCode()
-        {
-            var result = new StringBuilder();
-            result.Append(property.Tag + "=");
-            result.Append(string.Format("\"{0}\"", selectionLookup[SelectedOption].ToString()));
-            return result.ToString();
-        }
     }
 }

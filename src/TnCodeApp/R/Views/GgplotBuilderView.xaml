@@ -16,7 +16,8 @@
         <!--Controls-->
         <GroupBox
             Grid.Column="0"
-            Header="Controls">
+            Header="Controls"
+            IsEnabled="{Binding AreControlsEnabaled}">
 
             <Grid>
                 <Grid.RowDefinitions>

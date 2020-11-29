@@ -12,7 +12,6 @@ namespace TnCode.TnCodeApp.R.Controls
         public event PropertyChangedEventHandler PropertyChanged;
 
         private Property property;
-        private bool _selected;
 
         protected void OnPropertyChanged(string propertyName = null)
         {
@@ -35,14 +34,11 @@ namespace TnCode.TnCodeApp.R.Controls
 
         public bool Selected
         {
-            get { return _selected; }
+            get { return bool.Parse(property.Value); }
             set
             {
-                if (_selected != value)
-                {
-                    _selected = value;
-                    OnPropertyChanged("Selected");
-                }
+                property.Value = value.ToString();
+                OnPropertyChanged("Selected");
             }
         }
 
@@ -51,21 +47,6 @@ namespace TnCode.TnCodeApp.R.Controls
             InitializeComponent();
             ControlPanel.DataContext = this;
             property = prop;
-            _selected = bool.Parse(property.Value);
-        }
-
-        public string GetRCode()
-        {
-            string rCode = null;
-            if (_selected)
-            {
-                rCode = property.Name + "=TRUE";
-            }
-            else
-            {
-                rCode = property.Name + "=FALSE";
-            }
-            return rCode;
         }
     }
 }

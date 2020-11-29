@@ -49,10 +49,5 @@ namespace TnCode.TnCodeApp.R.Controls
             property = prop;
         }
 
-        public string GetRCode()
-        {
-            return property.Name + "=" + property.Value;
-        }
-
     }
 }
