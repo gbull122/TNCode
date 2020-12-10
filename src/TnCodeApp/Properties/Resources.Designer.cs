@@ -433,11 +433,11 @@ namespace TnCode.TnCodeApp.Properties {
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;Position Name=&quot;dodge&quot;&gt;
         ///  &lt;Properties&gt;
-        ///    &lt;Property Tag=&quot;Preserve&quot; Name=&quot;bw&quot; Value=&quot;&quot;&gt;
-        ///      &lt;Options&gt;
+        ///    &lt;Property Tag=&quot;Preserve&quot; Name=&quot;preserve&quot; Value=&quot;&quot;&gt;
+        ///      &lt;MultiOptions&gt;
         ///        &lt;Option Name=&quot;Total&quot; Value=&quot;total&quot;/&gt;
         ///        &lt;Option Name=&quot;Single&quot; Value=&quot;single&quot;/&gt;
-        ///      &lt;/Options&gt;
+        ///      &lt;/MultiOptions&gt;
         ///    &lt;/Property&gt;
         ///  &lt;/Properties&gt;
         ///  &lt;Values&gt;
@@ -456,20 +456,19 @@ namespace TnCode.TnCodeApp.Properties {
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
         ///&lt;Position Name=&quot;dodge2&quot;&gt;
         ///  &lt;Properties&gt;
-        ///    &lt;Property Tag=&quot;Preserve&quot; Name=&quot;bw&quot; Value=&quot;&quot;&gt;
-        ///      &lt;Options&gt;
-        ///        &lt;Option Name=&quot;Total&quot; Value=&quot;total&quot;/&gt;
-        ///        &lt;Option Name=&quot;Single&quot; Value=&quot;single&quot;/&gt;
-        ///      &lt;/Options&gt;
+        ///    &lt;Property Tag=&quot;Preserve&quot; Name=&quot;preserve&quot; Value=&quot;&quot;&gt;
+        ///      &lt;MultiOptions&gt;
+        ///        &lt;Option Name=&quot;Total&quot; Value=&quot;total&quot; Selected=&quot;1&quot;/&gt;
+        ///        &lt;Option Name=&quot;Single&quot; Value=&quot;single&quot; Selected=&quot;1&quot;/&gt;
+        ///      &lt;/MultiOptions&gt;
         ///    &lt;/Property&gt;
         ///  &lt;/Properties&gt;
         ///  &lt;Booleans&gt;
         ///    &lt;Property Tag=&quot;Reverse&quot; Name=&quot;reverse&quot; Value=&quot;FALSE&quot;/&gt;
         ///  &lt;/Booleans&gt;
         ///  &lt;Values&gt;
-        ///    &lt;Property Tag=&quot;Width&quot; Name =&quot;width&quot; Value=&quot;0&quot;/&gt;
-        ///    &lt;Property Tag=&quot;Padding&quot; Name =&quot;padding&quot; Value=&quot;0.1&quot;/&gt;
-        ///  &lt; [rest of string was truncated]&quot;;.
+        ///    &lt;Property Tag=&quot;Width&quot; Name =&quot;width&quot; Value=&quot;NULL&quot;/&gt;
+        ///    &lt;Property Tag [rest of string was truncated]&quot;;.
         /// </summary>
         public static string pos_dodge2 {
             get {

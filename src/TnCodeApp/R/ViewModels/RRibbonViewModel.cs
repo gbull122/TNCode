@@ -65,6 +65,8 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
         private async void StartR()
         {
+            //TODO
+            //Need Microsoft.R.Host.Broker.dll,*.deps.json,  *.exe, *.runtimeconfig.json, runtimeconfig.dev.json in install folder 
             await progressService.ExecuteAsync(rService.InitialiseAsync(), "Starting R...");
 
             IsRRunning = rService.IsRRunning;

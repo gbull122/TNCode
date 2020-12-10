@@ -27,5 +27,13 @@ namespace TnCode.Core.R.Charts.Ggplot.Layer
             get { return options; }
             set { options = value; }
         }
+
+        [XmlArray("MultiOptions")]
+        [XmlArrayItem("Option")]
+        public List<Option> MultiOptions
+        {
+            get { return options; }
+            set { options = value; }
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Prism.Commands;
 using Prism.Events;
 using Prism.Ioc;
+using Prism.Logging;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
@@ -35,6 +36,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
         private readonly IProgressService progressService;
         private readonly IXmlService xmlService;
+        private readonly ILoggerFacade loggerFacade;
 
         private Ggplot ggplot;
 
@@ -119,7 +121,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
         public List<string> Geoms { get; }
 
-        public GgplotBuilderViewModel(IContainerExtension container, IEventAggregator eventAggr, IRegionManager regMngr, IRService rSer, IDataSetsManager setsManager, IProgressService progService, IXmlService xml)
+        public GgplotBuilderViewModel(IContainerExtension container, IEventAggregator eventAggr, IRegionManager regMngr, IRService rSer, IDataSetsManager setsManager, IProgressService progService, IXmlService xml, ILoggerFacade logger)
         {
             rService = rSer;
             eventAggregator = eventAggr;
@@ -128,6 +130,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
             dataSetsManager = setsManager;
             progressService = progService;
             xmlService = xml;
+            loggerFacade = logger;
 
             ggplot = new Ggplot();
 
@@ -202,12 +205,14 @@ namespace TnCode.TnCodeApp.R.ViewModels
             positionViewModel.PositionChanged += ViewModel_Changed;
 
             IRegion titlesRegion = regionManager.Regions["TitlesRegion"];
+            titlesRegion.RemoveAll();
             var titlesView = new TitlesView();
             titlesRegion.Add(titlesView, "TitlesView", true);
             titlesViewModel = (TitlesViewModel)titlesView.DataContext;
             titlesViewModel.PropertyChanged += ViewModel_Changed;
 
             IRegion facetRegion = regionManager.Regions["FacetRegion"];
+            facetRegion.RemoveAll();
             var facetView = new FacetView();
             facetRegion.Add(facetView, "FacetView", true);
             facetViewModel = (FacetViewModel)facetView.DataContext;
@@ -291,6 +296,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
         {
             var plotCommand = ggplot.Command();
 
+            loggerFacade.Log(plotCommand, Category.Debug, Priority.None);
             var isPlotGenerated = await rService.GenerateGgplotAsync(plotCommand);
 
             if (isPlotGenerated)

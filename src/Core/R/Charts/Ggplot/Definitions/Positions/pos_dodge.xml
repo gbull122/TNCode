@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Position Name="dodge">
   <Properties>
-    <Property Tag="Preserve" Name="bw" Value="">
-      <Options>
+    <Property Tag="Preserve" Name="preserve" Value="">
+      <MultiOptions>
         <Option Name="Total" Value="total"/>
         <Option Name="Single" Value="single"/>
-      </Options>
+      </MultiOptions>
     </Property>
   </Properties>
   <Values>

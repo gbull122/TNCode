@@ -10,7 +10,7 @@ namespace Core.R_Tests
         [TestMethod]
         public void Empty_returns_minimum()
         {
-            string expectedCommand = @"layer(data=,geom=""point"",mapping=aes(),stat=""identity"",position=""identity"",show.legend=TRUE)";
+            string expectedCommand = @"layer(data=,geom=""point"",mapping=aes(),stat=""identity"",position_identity(),show.legend=TRUE)";
             var aesthetic = new Aesthetic();
             var stat = new Stat();
             stat.Name = "identity";
@@ -47,7 +47,7 @@ namespace Core.R_Tests
 
             var actualValue = layer.Command();
 
-            actualValue.Should().Be(@"layer(data=DataFrame,geom=""point"",mapping=aes(x=xvar),stat=""identity"",position=""identity"",show.legend=TRUE)");
+            actualValue.Should().Be(@"layer(data=DataFrame,geom=""point"",mapping=aes(x=xvar),stat=""identity"",position_identity(),show.legend=TRUE)");
         }
 
 
@@ -79,7 +79,7 @@ namespace Core.R_Tests
 
             var actualValue = layer.Command();
 
-            actualValue.Should().Be(@"layer(data=DataFrame,geom=""point"",mapping=aes(x=xvar,y=yvar),stat=""identity"",position=""identity"",show.legend=TRUE)");
+            actualValue.Should().Be(@"layer(data=DataFrame,geom=""point"",mapping=aes(x=xvar,y=yvar),stat=""identity"",position_identity(),show.legend=TRUE)");
         }
 
         [TestMethod]
@@ -109,7 +109,7 @@ namespace Core.R_Tests
 
             var actualValue = layer.Command();
 
-            actualValue.Should().Be(@"layer(data=DataFrame,geom=""point"",mapping=aes(x=xvar),stat=""identity"",position=""identity"",show.legend=TRUE)");
+            actualValue.Should().Be(@"layer(data=DataFrame,geom=""point"",mapping=aes(x=xvar),stat=""identity"",position_identity(),show.legend=TRUE)");
         }
 
         [TestMethod]
@@ -174,7 +174,7 @@ namespace Core.R_Tests
 
             var actualValue = layer.Command();
 
-            actualValue.Should().Be(@"layer(data=DataFrame,geom=""point"",mapping=aes(x=xvar,y=yvar),stat=""identity"",position=""identity"",show.legend=TRUE)");
+            actualValue.Should().Be(@"layer(data=DataFrame,geom=""point"",mapping=aes(x=xvar,y=yvar),stat=""identity"",position_identity(),show.legend=TRUE)");
         }
 
         [TestMethod]
@@ -205,7 +205,7 @@ namespace Core.R_Tests
 
             var actualValue = layer.Command();
 
-            actualValue.Should().Be(@"layer(data=DataFrame,geom=""point"",mapping=aes(x=xvar),stat=""identity"",position=""identity"",show.legend=TRUE)");
+            actualValue.Should().Be(@"layer(data=DataFrame,geom=""point"",mapping=aes(x=xvar),stat=""identity"",position_identity(),show.legend=TRUE)");
         }
 
         [TestMethod]
@@ -242,7 +242,7 @@ namespace Core.R_Tests
 
             var actualValue = layer.Command();
 
-            actualValue.Should().Be(@"layer(data=DataFrame,geom=""point"",mapping=aes(x=xvar),stat=""identity"",position=""identity"",params=list(Prop=1.2),show.legend=TRUE)");
+            actualValue.Should().Be(@"layer(data=DataFrame,geom=""point"",mapping=aes(x=xvar),stat=""identity"",position_identity(),params=list(Prop=1.2),show.legend=TRUE)");
         }
     }
 }

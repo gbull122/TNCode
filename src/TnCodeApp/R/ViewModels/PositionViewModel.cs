@@ -88,10 +88,20 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
             foreach (var aProp in currentPosition.Properties)
             {
-                var oControl = new OptionPropertyControl(aProp);
-                oControl.SetValues(aProp.Options);
-                oControl.PropertyChanged += VariableControl_PropertyChanged;
-                newControls.Add(oControl);
+                if (aProp.MultiOptions.Count > 0)
+                {
+                    var oControl = new OptionMultiControl(aProp);
+                    oControl.SetValues(aProp.Options);
+                    oControl.PropertyChanged += VariableControl_PropertyChanged;
+                    newControls.Add(oControl);
+                }
+                else
+                {
+                    var oControl = new OptionPropertyControl(aProp);
+                    oControl.SetValues(aProp.Options);
+                    oControl.PropertyChanged += VariableControl_PropertyChanged;
+                    newControls.Add(oControl);
+                }
             }
 
             foreach (var prop in currentPosition.Booleans)

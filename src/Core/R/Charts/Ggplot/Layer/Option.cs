@@ -12,5 +12,8 @@ namespace TnCode.Core.R.Charts.Ggplot.Layer
 
         [XmlAttribute("Value")]
         public string Value { get; set; }
+
+        [XmlAttribute("Selected")]
+        public bool Selected { get; set; }
     }
 }

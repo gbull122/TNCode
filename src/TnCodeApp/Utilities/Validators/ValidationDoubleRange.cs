@@ -12,8 +12,10 @@ namespace TnCode.TnCodeApp.Utilities.Validators
 
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-            double parameter = 0;
+            double? parameter = 0;
 
+            if(((string)value).Equals("NULL"))
+                return new ValidationResult(true, null);
             try
             {
                 if (((string)value).Length > 0)
@@ -23,8 +25,7 @@ namespace TnCode.TnCodeApp.Utilities.Validators
             }
             catch (Exception e)
             {
-                return new ValidationResult(false, "Illegal characters or "
-                                             + e.Message);
+                return new ValidationResult(false, "Illegal characters or " + e.Message);
             }
 
             if ((parameter < this.Min) || (parameter > this.Max))

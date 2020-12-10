@@ -90,7 +90,7 @@ namespace TnCode.Core.R.Charts.Ggplot.Layer
             command.Append("geom=\"" + Geom.ToString() + "\",");
             command.Append("mapping=" + Aes.Command() + ",");
             command.Append("stat=" + Statistic.Command() + ",");
-            command.Append("position=" + Pos.Command() + ",");
+            command.Append(Pos.Command() + ",");
             command.Append(ParametersCommand());
             command.Append("show.legend=" + ShowLegend.ToString().ToUpper());
             command.Append(")");

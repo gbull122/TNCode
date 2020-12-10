@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel;
-using System.Text.RegularExpressions;
 using System.Windows.Controls;
-using System.Windows.Input;
 using TnCode.Core.R.Charts.Ggplot.Layer;
 
 namespace TnCode.TnCodeApp.R.Controls

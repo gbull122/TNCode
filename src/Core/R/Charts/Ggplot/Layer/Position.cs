@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Xml.Serialization;
 
 namespace TnCode.Core.R.Charts.Ggplot.Layer
@@ -66,7 +67,21 @@ namespace TnCode.Core.R.Charts.Ggplot.Layer
 
         public string Command()
         {
-            return string.Format("\"{0}\"", Name.ToLower());
+            var parameters = GetParameters();
+
+            var command = new StringBuilder();
+
+            command.Append(string.Format("position_{0}(", Name.ToLower()));
+
+            List<string> paramCommands = new List<string>();
+            foreach(var param in parameters)
+            {
+                paramCommands.Add(param.Command());
+            }
+
+            command.Append(string.Join(",", paramCommands));
+            command.Append(")");
+            return command.ToString();
         }
 
         public List<Parameter> GetParameters()
@@ -85,7 +100,22 @@ namespace TnCode.Core.R.Charts.Ggplot.Layer
 
             foreach (var p in Properties)
             {
-                parameters.Add(new Parameter(p.Name, p.Value, false, true));
+                if (p.MultiOptions.Count > 0)
+                {
+                    List<string> selected = new List<string>();
+                    foreach (var o in p.MultiOptions)
+                    {
+                        if (o.Selected)
+                            selected.Add(String.Format("\"{0}\"", o.Value));
+                    }
+
+                    var command = "c("+string.Join(",", selected)+")";
+                    parameters.Add(new Parameter(p.Name, command));
+                }
+                else
+                {
+                    parameters.Add(new Parameter(p.Name, p.Value, false, true));
+                }
             }
 
             return parameters;

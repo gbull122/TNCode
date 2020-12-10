@@ -128,7 +128,7 @@ namespace TnCode.TnCodeApp.R
             }
             catch (Exception ex)
             {
-                loggerFacade.Log("Failed to connect to R: " + ex.Message, Category.Exception, Priority.High);
+                loggerFacade.Log("Failed to connect to R: " + ex.Message + ex.StackTrace, Category.Exception, Priority.High);
                 return false;
             }
             loggerFacade.Log("Connected to R", Category.Info, Priority.None);
