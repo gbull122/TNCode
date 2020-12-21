@@ -26,7 +26,8 @@
             Grid.Row="1" 
             Margin="2" 
             ItemsSource="{Binding Path=Options}"
-            SelectionMode="Multiple">
+            SelectionMode="Multiple"
+            SelectionChanged="ListBox_SelectionChanged">
             <ListBox.Resources>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="OverridesDefaultStyle" Value="true" />

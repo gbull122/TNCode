@@ -20,11 +20,7 @@ namespace TnCode.TnCodeApp.R.Controls
 
         protected void OnPropertyChanged(string propertyName = null)
         {
-            PropertyChangedEventHandler eventHandler = this.PropertyChanged;
-            if (eventHandler != null)
-            {
-                eventHandler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public string Label

@@ -23,6 +23,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
@@ -50,6 +51,7 @@
                         ToolTip="Clear all the layers from the plot."/>
                 </Grid>
 
+                <!--Layers-->
                 <DataGrid 
                     x:Name="layersList"
                     Grid.Row="1" 
@@ -68,11 +70,24 @@
                     </i1:Interaction.Triggers>
 
                     <DataGrid.Columns>
-
-                        <DataGridTemplateColumn
+                        <DataGridTextColumn
                             Header="Data"
-                            Width="*">
-                            <DataGridTemplateColumn.CellTemplate>
+                            Width="*"
+                            Binding="{Binding Path=Data}">
+                            
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn
+                            Header="Geom"
+                            Width="*"
+                            Binding="{Binding Path=Geom}">
+                            
+                        </DataGridTextColumn>
+                        <!--<DataGridTemplateColumn
+                            Header="Data"
+                            Width="*"
+                            >
+                            --><!--<DataGridTemplateColumn.CellTemplate>
                                 <ItemContainerTemplate>
                                     <ComboBox
                                         x:Name="ComboData"
@@ -89,10 +104,10 @@
                                         </i1:Interaction.Triggers>
                                     </ComboBox>
                                 </ItemContainerTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
+                            </DataGridTemplateColumn.CellTemplate>--><!--
+                        </DataGridTemplateColumn>-->
 
-                        <DataGridTemplateColumn
+                        <!--<DataGridTemplateColumn
                             x:Name="ComboGeom"
                             Header="Geom"
                             Width="*">
@@ -114,16 +129,16 @@
                                     </ComboBox>
                                 </ItemContainerTemplate>
                             </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
+                        </DataGridTemplateColumn>-->
 
                         <DataGridCheckBoxColumn
                                 Header="Legend"
-                                Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},   Path=DataContext.SelectedLayer.ShowLegend}"
+                                Binding="{Binding Path=ShowLegend}"
                                 Width="*"/>
 
                         <DataGridCheckBoxColumn
                                 Header="Show"
-                                Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},   Path=DataContext.SelectedLayer.ShowInPlot}"
+                                Binding="{Binding Path=ShowInPlot}"
                                 Width="*"/>
 
                     </DataGrid.Columns>
@@ -132,15 +147,54 @@
                         <ContextMenu>
                             <MenuItem 
                                 Header="Delete Layer" 
-                                Command="{Binding DeleteMenuItemCommand}"/>
+                                Command="{Binding DeleteLayerCommand}"/>
                         </ContextMenu>
                     </DataGrid.ContextMenu>
                     
                 </DataGrid>
 
+                <!--Data and Geom-->
+                <Grid
+                    Grid.Row="2">
+                    
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <ComboBox
+                        x:Name="ComboData"
+                        Grid.Column="0"
+                        ItemsSource="{Binding DataSets}"
+                        SelectedItem="{Binding SelectedLayer.Data}">
+                        <i1:Interaction.Triggers>
+                            <i1:EventTrigger EventName="SelectionChanged">
+                                <i1:InvokeCommandAction 
+                                        Command="{Binding DataSelectedCommand}" 
+                                        CommandParameter="{Binding Path=SelectedValue, ElementName=ComboData}" />
+                            </i1:EventTrigger>
+                        </i1:Interaction.Triggers>
+                    </ComboBox>
+
+                    <ComboBox
+                        x:Name="ComboGeom"
+                        Grid.Column="1"
+                        ItemsSource="{Binding Geoms}"
+                        SelectedItem="{Binding SelectedLayer.Geom}">
+                        <i1:Interaction.Triggers>
+                            <i1:EventTrigger EventName="SelectionChanged">
+                                <i1:InvokeCommandAction 
+                                        Command="{Binding GeomSelectedCommand}" 
+                                        CommandParameter="{Binding Path=SelectedValue, ElementName=ComboGeom}" />
+                            </i1:EventTrigger>
+                        </i1:Interaction.Triggers>
+                    </ComboBox>
+                </Grid>
+                
+                <!--</StackPanel>-->
                 <!--Dynamic variable controls-->
                 <Grid
-                    Grid.Row="2"
+                    Grid.Row="3"
                     Grid.Column="0">
 
                     <UniformGrid 
@@ -180,7 +234,7 @@
 
                 <!-- Chart controls -->
                 <TabControl
-                    Grid.Row="3">
+                    Grid.Row="4">
 
                     <TabItem
                         Header="Titles"

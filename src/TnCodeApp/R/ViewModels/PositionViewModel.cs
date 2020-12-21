@@ -57,7 +57,11 @@ namespace TnCode.TnCodeApp.R.ViewModels
         internal void SelectedPositionChanged()
         {
             if (posSet)
+            {
+                posSet = false;
                 return;
+            }
+                
 
             var newPos = xmlService.LoadPosition(currrentPositionName);
             currentPosition = newPos;
@@ -82,7 +86,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
             foreach (var control in positionControls)
             {
-                control.PropertyChanged -= VariableControl_PropertyChanged;
+                control.PropertyChanged -= OptionControlChanged;
             }
             positionControls.Clear();
 
@@ -92,14 +96,14 @@ namespace TnCode.TnCodeApp.R.ViewModels
                 {
                     var oControl = new OptionMultiControl(aProp);
                     oControl.SetValues(aProp.Options);
-                    oControl.PropertyChanged += VariableControl_PropertyChanged;
+                    oControl.PropertyChanged += OptionControlChanged;
                     newControls.Add(oControl);
                 }
                 else
                 {
                     var oControl = new OptionPropertyControl(aProp);
                     oControl.SetValues(aProp.Options);
-                    oControl.PropertyChanged += VariableControl_PropertyChanged;
+                    oControl.PropertyChanged += OptionControlChanged;
                     newControls.Add(oControl);
                 }
             }
@@ -107,7 +111,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
             foreach (var prop in currentPosition.Booleans)
             {
                 var control = new OptionCheckBoxControl(prop);
-                control.PropertyChanged += VariableControl_PropertyChanged;
+                control.PropertyChanged += OptionControlChanged;
                 newControls.Add(control);
             }
 
@@ -115,13 +119,13 @@ namespace TnCode.TnCodeApp.R.ViewModels
             {
                 double.TryParse(prop.Value, out double result);
                 var control = new OptionValueControl(prop);
-                control.PropertyChanged += VariableControl_PropertyChanged;
+                control.PropertyChanged += OptionControlChanged;
                 newControls.Add(control);
             }
             PositionControls = newControls;
         }
 
-        private void VariableControl_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void OptionControlChanged(object sender, PropertyChangedEventArgs e)
         {
             PositionChanged?.Invoke(this, new EventArgs());
         }

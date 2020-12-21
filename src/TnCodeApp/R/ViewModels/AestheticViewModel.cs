@@ -97,6 +97,9 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
         public void SetControls()
         {
+            if (currentAesthetic == null)
+                return;
+
             foreach (var variableControl in aesControls)
             {
                 variableControl.PropertyChanged -= VariableControl_PropertyChanged;

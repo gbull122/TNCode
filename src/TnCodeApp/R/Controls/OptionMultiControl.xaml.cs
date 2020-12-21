@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Prism.Commands;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Controls;
 using TnCode.Core.R.Charts.Ggplot.Layer;
@@ -19,11 +20,7 @@ namespace TnCode.TnCodeApp.R.Controls
 
         protected void OnPropertyChanged(string propertyName = null)
         {
-            PropertyChangedEventHandler eventHandler = this.PropertyChanged;
-            if (eventHandler != null)
-            {
-                eventHandler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         public string Label
         {
@@ -66,5 +63,9 @@ namespace TnCode.TnCodeApp.R.Controls
 
         }
 
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            OnPropertyChanged();
+        }
     }
 }

@@ -50,6 +50,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
         public DelegateCommand NewLayerCommand { get; private set; }
         public DelegateCommand ClearLayersCommand { get; private set; }
+        public DelegateCommand DeleteLayerCommand { get; private set; }
         public DelegateCommand<ILayer> LayerSelectedCommand { get; private set; }
         public DelegateCommand CopyChartCommand { get; private set; }
 
@@ -119,7 +120,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
             get { return ggplot.Layers; }
         }
 
-        public List<string> Geoms { get; }
+        public List<string> Geoms { get; set; }
 
         public GgplotBuilderViewModel(IContainerExtension container, IEventAggregator eventAggr, IRegionManager regMngr, IRService rSer, IDataSetsManager setsManager, IProgressService progService, IXmlService xml, ILoggerFacade logger)
         {
@@ -138,6 +139,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
             NewLayerCommand = new DelegateCommand(NewLayer, CanNewLayer);
             ClearLayersCommand = new DelegateCommand(ClearLayers, CanClearLayers);
+            DeleteLayerCommand = new DelegateCommand(DeleteLayer);
             LayerSelectedCommand = new DelegateCommand<ILayer>(LayerSelected);
             CopyChartCommand = new DelegateCommand(CopyChart);
             GeomSelectedCommand = new DelegateCommand<string>(GeomSelected);
@@ -148,11 +150,16 @@ namespace TnCode.TnCodeApp.R.ViewModels
             Geoms.Remove("tile");
         }
 
+        private void DeleteLayer()
+        {
+            Layers.Remove(SelectedLayer);
+            Update();
+        }
+
         private void DataSelected(string DataSetName)
         {
             selectedLayer.Data = DataSetName;
             aesViewModel.UpdateVariables(UpdateVariables(DataSetName));
-
         }
 
         private void GeomSelected(string geom)
