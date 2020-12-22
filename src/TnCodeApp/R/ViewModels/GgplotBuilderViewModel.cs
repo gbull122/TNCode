@@ -38,7 +38,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
         private readonly IXmlService xmlService;
         private readonly ILoggerFacade loggerFacade;
 
-        private Ggplot ggplot;
+        //private IGgplot ggplot;
 
         private IEnumerable<string> dataSets;
 
@@ -97,7 +97,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
         }
 
         private ILayer selectedLayer;
-        private List<ILayer> layers = new List<ILayer>();
+        //private List<ILayer> layers = new List<ILayer>();
 
         public ILayer SelectedLayer
         {
@@ -115,9 +115,11 @@ namespace TnCode.TnCodeApp.R.ViewModels
             }
         }
 
+        private ObservableCollection<ILayer> layers;
+
         public ObservableCollection<ILayer> Layers
         {
-            get { return ggplot.Layers; }
+            get { return layers; }
         }
 
         public List<string> Geoms { get; set; }
@@ -133,8 +135,6 @@ namespace TnCode.TnCodeApp.R.ViewModels
             xmlService = xml;
             loggerFacade = logger;
 
-            ggplot = new Ggplot();
-
             eventAggregator.GetEvent<DataSetChangedEvent>().Subscribe(DataSetsChanged, ThreadOption.UIThread);
 
             NewLayerCommand = new DelegateCommand(NewLayer, CanNewLayer);
@@ -148,6 +148,8 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
             Geoms = Enum.GetNames(typeof(Ggplot.Geoms)).ToList();
             Geoms.Remove("tile");
+
+            layers = new ObservableCollection<ILayer>();
         }
 
         private void DeleteLayer()
@@ -173,9 +175,11 @@ namespace TnCode.TnCodeApp.R.ViewModels
             selectedLayer.Statistic = stat;
             selectedLayer.Pos = pos;
 
-            aesViewModel.SetAesthetic(aes);
+            aesViewModel.MergeAesthetic(aes);
             statViewModel.SetStat(stat);
             positionViewModel.SetPosition(pos);
+
+            Update();
         }
 
         private void DataSetsChanged(DataSetEventArgs dataSetEventArgs)
@@ -250,9 +254,6 @@ namespace TnCode.TnCodeApp.R.ViewModels
             if (layer == null || selectedLayer==layer)
                 return;
 
-            //if (selectedLayer != null)
-            //    selectedLayer.PropertyChanged -= SelectedLayer_PropertyChanged;
-
             SelectedLayer = layer;
 
             var variables = UpdateVariables(SelectedLayer.Data);
@@ -264,23 +265,12 @@ namespace TnCode.TnCodeApp.R.ViewModels
             facetViewModel.Variables = variables;
 
             Update();
-            //selectedLayer.PropertyChanged += SelectedLayer_PropertyChanged;
         }
 
         private void ViewModel_Changed(object sender, EventArgs e)
         {
             Update();
         }
-
-        //private async void SelectedLayer_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        //{
-        //    if (ggplot.IsValid())
-        //    {
-        //        AreControlsEnabaled = false;
-        //        await progressService.ContinueAsync(GeneratePlotAsync(), "Generating ggplot chart");
-        //        AreControlsEnabaled = true;
-        //    }
-        //}
 
         private List<string> UpdateVariables(string dataSet)
         {
@@ -291,15 +281,17 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
         private async void Update()
         {
+            var ggplot = rService.GetGgplot(Layers);
+
             if (ggplot.IsValid())
             {
                 AreControlsEnabaled = false;
-                await progressService.ContinueAsync(GeneratePlotAsync(), "Generating ggplot chart");
+                await progressService.ContinueAsync(GeneratePlotAsync(ggplot), "Generating ggplot chart");
                 AreControlsEnabaled = true;
             }
         }
 
-        private async Task GeneratePlotAsync()
+        private async Task GeneratePlotAsync(IGgplot ggplot)
         {
             var plotCommand = ggplot.Command();
 
@@ -354,12 +346,12 @@ namespace TnCode.TnCodeApp.R.ViewModels
             return Layers.Count > 0;
         }
 
-        private async void ClearLayers()
+        private void ClearLayers()
         {
             Layers.Clear();
             selectedLayer = null;
 
-            await progressService.ContinueAsync(GeneratePlotAsync(), "Clearing ggplot chart");
+            Update();
         }
 
         private bool CanNewLayer()

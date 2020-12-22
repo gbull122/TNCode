@@ -3,10 +3,13 @@ using Prism.Events;
 using Prism.Logging;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
 using TnCode.Core.Data;
 using TnCode.Core.R;
+using TnCode.Core.R.Charts.Ggplot;
+using TnCode.Core.R.Charts.Ggplot.Layer;
 using TnCode.TnCodeApp.Data.Events;
 
 namespace TnCode.TnCodeApp.R
@@ -29,6 +32,7 @@ namespace TnCode.TnCodeApp.R
         Task<DataSet> GetDataFrameAsDataSetAsync(string name);
         Task<List<object>> ListWorkspaceItems();
         Task LoadRWorkSpace(IProgress<string> progress, string fileName);
+        IGgplot GetGgplot(ObservableCollection<ILayer> layers);
     }
 
     public class RService: IRService
@@ -317,6 +321,17 @@ namespace TnCode.TnCodeApp.R
         {
             await rManager.ExecuteAsync("vars<-ls()");
             return await rManager.GetListAsync("vars");
+        }
+
+        public IGgplot GetGgplot(ObservableCollection<ILayer> layers)
+        {
+            Ggplot plot = new Ggplot();
+            foreach(ILayer layer in layers)
+            {
+                plot.AddLayer(layer);
+            }
+
+            return plot;
         }
     }
 }

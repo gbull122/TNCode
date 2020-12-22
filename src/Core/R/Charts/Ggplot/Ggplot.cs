@@ -5,7 +5,16 @@ using TnCode.Core.R.Charts.Ggplot.Layer;
 
 namespace TnCode.Core.R.Charts.Ggplot
 {
-    public class Ggplot : IRChart
+    public interface IGgplot
+    {
+        void AddLayer(ILayer layer);
+        string Command();
+        bool IsValid();
+
+        ObservableCollection<ILayer> Layers { get; }
+    }
+
+    public class Ggplot : IRChart, IGgplot
     {
         public enum Geoms
         {

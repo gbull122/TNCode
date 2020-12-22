@@ -36,7 +36,7 @@ namespace TnCode.TnCodeApp.Logger
                 Category = category.ToString(),
                 Message = message
             };
-            LogEntries.Add(newEntry);
+            LogEntries.Insert(0,newEntry);
         }
     }
 }

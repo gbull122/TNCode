@@ -11,6 +11,7 @@ using Prism.Unity;
 using System.IO;
 using System.Windows;
 using TnCode.Core.R;
+using TnCode.Core.R.Charts.Ggplot;
 using TnCode.Core.Utilities;
 using TnCode.TnCodeApp.Docking;
 using TnCode.TnCodeApp.Logger;

@@ -62,6 +62,15 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
         public void SetAesthetic(Aesthetic aesthetic)
         {
+            currentAesthetic = aesthetic;
+
+            SetControls();
+
+            SetOptionControls();
+        }
+
+        public void MergeAesthetic(Aesthetic aesthetic)
+        {
             if (currentAesthetic == null)
             {
                 currentAesthetic = aesthetic;
@@ -85,15 +94,13 @@ namespace TnCode.TnCodeApp.R.ViewModels
                 mergedAesthetic.Properties = aesthetic.Properties;
                 mergedAesthetic.Booleans = aesthetic.Booleans;
                 mergedAesthetic.Values = aesthetic.Values;
-                
+
                 currentAesthetic = mergedAesthetic;
             }
-
             SetControls();
 
             SetOptionControls();
         }
-
 
         public void SetControls()
         {
