@@ -63,6 +63,8 @@ namespace TnCode.Core.R.Charts.Ggplot
             ydensity
         }
 
+        private List<Parameter> labels;
+
         private ObservableCollection<ILayer> layers;
 
         public void AddLayer(ILayer layer)
@@ -90,6 +92,7 @@ namespace TnCode.Core.R.Charts.Ggplot
         public Ggplot()
         {
             layers = new ObservableCollection<ILayer>();
+            labels = new List<Parameter>();
         }
 
         public string Command()
@@ -106,7 +109,27 @@ namespace TnCode.Core.R.Charts.Ggplot
                 }
             }
 
+            command.Append(DoLabels());
+
             return command.ToString();
+        }
+
+        private string DoLabels()
+        {
+            List<string> titles = new List<string>();
+            if (labels.Count == 0)
+                return string.Empty;
+
+            foreach (var l in labels)
+            {
+                if (!string.IsNullOrEmpty(l.Command()))
+                    titles.Add(l.Command());
+            }
+
+            if (titles.Count == 0)
+                return string.Empty;
+
+            return "+labs(" + string.Join(",", titles) + ")";
         }
     }
 }

@@ -97,20 +97,13 @@ namespace TnCode.TnCodeApp.R.ViewModels
         }
 
         private ILayer selectedLayer;
-        //private List<ILayer> layers = new List<ILayer>();
 
         public ILayer SelectedLayer
         {
             get => selectedLayer;
             set
             {
-                //if (selectedLayer != null)
-                //    selectedLayer.PropertyChanged -= SelectedLayer_PropertyChanged;
-
-
                 selectedLayer = value;
-
-                //selectedLayer.PropertyChanged += SelectedLayer_PropertyChanged;
                 RaisePropertyChanged(nameof(SelectedLayer));
             }
         }
@@ -154,7 +147,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
         private void DeleteLayer()
         {
-            Layers.Remove(SelectedLayer);
+            Layers.Remove(selectedLayer);
             Update();
         }
 
@@ -251,16 +244,16 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
         private void LayerSelected(ILayer layer)
         {
-            if (layer == null || selectedLayer==layer)
+            if (layer == null || selectedLayer == layer)
                 return;
 
             SelectedLayer = layer;
 
-            var variables = UpdateVariables(SelectedLayer.Data);
+            var variables = UpdateVariables(selectedLayer.Data);
             aesViewModel.Variables = variables;
-            aesViewModel.SetAesthetic(layer.Aes);
-            statViewModel.SetStat(layer.Statistic);
-            positionViewModel.SetPosition(layer.Pos);
+            aesViewModel.SetAesthetic(selectedLayer.Aes);
+            statViewModel.SetStat(selectedLayer.Statistic);
+            positionViewModel.SetPosition(selectedLayer.Pos);
 
             facetViewModel.Variables = variables;
 
@@ -282,6 +275,8 @@ namespace TnCode.TnCodeApp.R.ViewModels
         private async void Update()
         {
             var ggplot = rService.GetGgplot(Layers);
+
+           ggplot.
 
             if (ggplot.IsValid())
             {

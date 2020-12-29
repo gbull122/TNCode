@@ -13,7 +13,7 @@ namespace TnCode.Core.R.Charts.Ggplot.Layer
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private List<Parameter> labels;
+        
 
         protected void OnPropertyChanged(string propertyName = null)
         {
@@ -73,7 +73,7 @@ namespace TnCode.Core.R.Charts.Ggplot.Layer
             Aes = aes;
             Statistic = stat;
             Pos = pos;
-            labels = new List<Parameter>();
+            
             showLegend = true;
             showInPlot = true;
         }
@@ -100,23 +100,7 @@ namespace TnCode.Core.R.Charts.Ggplot.Layer
             return command.ToString().Replace("\r\n", "");
         }
 
-        private string DoLabels()
-        {
-            List<string> titles = new List<string>();
-            if (labels.Count == 0)
-                return string.Empty;
-
-            foreach (var l in labels)
-            {
-                if (!string.IsNullOrEmpty(l.Command()))
-                    titles.Add(l.Command());
-            }
-
-            if (titles.Count == 0)
-                return string.Empty;
-
-            return "+labs(" + string.Join(",", titles) + ")";
-        }
+        
 
         public bool IsValid()
         {
@@ -155,7 +139,6 @@ namespace TnCode.Core.R.Charts.Ggplot.Layer
 
             allParameters.AddRange(Aes.GetParameters());
             allParameters.AddRange(Statistic.GetParameters());
-            //allParameters.AddRange(Pos.GetParameters());
 
             return allParameters;
         }

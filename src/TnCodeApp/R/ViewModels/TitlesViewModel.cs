@@ -1,6 +1,5 @@
 ﻿using Prism.Mvvm;
 using System.Collections.Generic;
-using System.Reflection.Metadata;
 
 namespace TnCode.TnCodeApp.R.ViewModels
 {
@@ -62,12 +61,24 @@ namespace TnCode.TnCodeApp.R.ViewModels
             }
         }
 
-        private List<Parameter> TitleParameters { get; }
+        private List<TnCode.Core.R.Charts.Ggplot.Layer.Parameter> titleParameters { get; }
 
         public TitlesViewModel()
         {
-            TitleParameters = new List<Parameter>();
+            titleParameters = new List<Core.R.Charts.Ggplot.Layer.Parameter>();
         }
 
+        public List<Core.R.Charts.Ggplot.Layer.Parameter> GetParameters()
+        {
+            titleParameters.Clear();
+            if (!string.IsNullOrEmpty(xAxisTitle))
+            {
+                Core.R.Charts.Ggplot.Layer.Parameter xParam = new Core.R.Charts.Ggplot.Layer.Parameter("", xAxisTitle);
+                titleParameters.Add(xParam);
+            }
+               
+
+            return titleParameters;
+        }
     }
 }

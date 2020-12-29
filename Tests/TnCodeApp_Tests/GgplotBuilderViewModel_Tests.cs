@@ -30,6 +30,8 @@ namespace TnCodeApp_Tests
             IXmlService xmlService = A.Fake<IXmlService>();
             ILoggerFacade loggerFacade = A.Fake<ILoggerFacade>();
 
+
+           //A.CallTo(()=> xmlService.LoadAesthetic(A._string)
             var ggplotBuilder = new GgplotBuilderViewModel(container, eventAggr, regMngr, rSer, setsManager, progService, xmlService, loggerFacade);
 
             ggplotBuilder.NewLayerCommand.Execute();
