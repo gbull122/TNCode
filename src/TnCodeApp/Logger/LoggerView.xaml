@@ -8,11 +8,12 @@
              
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type local:LogEntry}">
-            <Grid 
-                IsSharedSizeScope="True">
+            <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition SharedSizeGroup="Category" Width="Auto"/>
-                    <ColumnDefinition SharedSizeGroup="Message" Width="*"/>
+                    <ColumnDefinition 
+                        Width="Auto"/>
+                    <ColumnDefinition  
+                        Width="*"/>
                 </Grid.ColumnDefinitions>
 
                 <TextBlock 

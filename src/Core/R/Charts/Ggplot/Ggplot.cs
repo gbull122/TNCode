@@ -10,8 +10,9 @@ namespace TnCode.Core.R.Charts.Ggplot
         void AddLayer(ILayer layer);
         string Command();
         bool IsValid();
-
         ObservableCollection<ILayer> Layers { get; }
+        void UpdateFacet(Facet newFacet);
+        void UpdateTitles(List<Parameter> labels);
     }
 
     public class Ggplot : IRChart, IGgplot
@@ -67,6 +68,8 @@ namespace TnCode.Core.R.Charts.Ggplot
 
         private ObservableCollection<ILayer> layers;
 
+        private Facet facet;
+
         public void AddLayer(ILayer layer)
         {
             layers.Add(layer);
@@ -109,9 +112,18 @@ namespace TnCode.Core.R.Charts.Ggplot
                 }
             }
 
+            command.Append(DoFacet());
             command.Append(DoLabels());
 
             return command.ToString();
+        }
+
+        private string DoFacet()
+        {
+            if (facet == null)
+                return string.Empty;
+
+            return facet.PlotCommand();
         }
 
         private string DoLabels()
@@ -130,6 +142,16 @@ namespace TnCode.Core.R.Charts.Ggplot
                 return string.Empty;
 
             return "+labs(" + string.Join(",", titles) + ")";
+        }
+
+        public void UpdateFacet(Facet newFacet)
+        {
+            facet = newFacet;
+        }
+
+        public void UpdateTitles(List<Parameter> newLabels)
+        {
+            labels = newLabels;
         }
     }
 }

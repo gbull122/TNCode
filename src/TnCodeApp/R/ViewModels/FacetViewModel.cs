@@ -7,11 +7,10 @@ namespace TnCode.TnCodeApp.R.ViewModels
 {
     public class FacetViewModel: BindableBase
     {
+        private List<string> variables;
         public EventHandler FacetChanged;
 
         public Facet CurrentFacet { get; }
-
-        private List<string> variables;
 
         public List<string> Variables
         {

@@ -13,8 +13,6 @@ namespace TnCode.Core.R.Charts.Ggplot.Layer
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        
-
         protected void OnPropertyChanged(string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -94,13 +92,9 @@ namespace TnCode.Core.R.Charts.Ggplot.Layer
             command.Append(ParametersCommand());
             command.Append("show.legend=" + ShowLegend.ToString().ToUpper());
             command.Append(")");
-            command.Append(DoLabels());
-            //command.Append(DoFacet());
 
             return command.ToString().Replace("\r\n", "");
         }
-
-        
 
         public bool IsValid()
         {

@@ -275,9 +275,8 @@ namespace TnCode.TnCodeApp.R.ViewModels
         private async void Update()
         {
             var ggplot = rService.GetGgplot(Layers);
-
-           ggplot.
-
+            ggplot.UpdateFacet(facetViewModel.CurrentFacet);
+            ggplot.UpdateTitles(titlesViewModel.GetParameters());
             if (ggplot.IsValid())
             {
                 AreControlsEnabaled = false;
