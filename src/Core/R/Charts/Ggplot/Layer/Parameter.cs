@@ -29,11 +29,15 @@ namespace TnCode.Core.R.Charts.Ggplot.Layer
 
         public string Command()
         {
-            if (UseQuotes)
-                return Name + "=" + String.Format("\"{0}\"", Value);
+            var value = Value;
 
             if (Capitlise)
-                return Name + "=" + Value.ToUpper();
+                value = Value.ToUpper();
+
+            if (UseQuotes)
+                value = String.Format("\"{0}\"", value);
+
+            return Name + "=" + value;
 
             return Name + "=" + Value;
         }

@@ -73,11 +73,33 @@ namespace TnCode.TnCodeApp.R.ViewModels
             titleParameters.Clear();
             if (!string.IsNullOrEmpty(xAxisTitle))
             {
-                Core.R.Charts.Ggplot.Layer.Parameter xParam = new Core.R.Charts.Ggplot.Layer.Parameter("", xAxisTitle);
-                titleParameters.Add(xParam);
+                Core.R.Charts.Ggplot.Layer.Parameter param = new Core.R.Charts.Ggplot.Layer.Parameter("x", xAxisTitle);
+                titleParameters.Add(param);
             }
-               
 
+            if (!string.IsNullOrEmpty(yAxisTitle))
+            {
+                Core.R.Charts.Ggplot.Layer.Parameter param = new Core.R.Charts.Ggplot.Layer.Parameter("y", yAxisTitle);
+                titleParameters.Add(param);
+            }
+
+            if (!string.IsNullOrEmpty(mainTitle))
+            {
+                Core.R.Charts.Ggplot.Layer.Parameter param = new Core.R.Charts.Ggplot.Layer.Parameter("title", mainTitle);
+                titleParameters.Add(param);
+            }
+
+            if (!string.IsNullOrEmpty(subTitle))
+            {
+                Core.R.Charts.Ggplot.Layer.Parameter param = new Core.R.Charts.Ggplot.Layer.Parameter("sub", subTitle);
+                titleParameters.Add(param);
+            }
+
+            if (!string.IsNullOrEmpty(caption))
+            {
+                Core.R.Charts.Ggplot.Layer.Parameter param = new Core.R.Charts.Ggplot.Layer.Parameter("caption", caption);
+                titleParameters.Add(param);
+            }
             return titleParameters;
         }
     }

@@ -69,46 +69,6 @@ namespace TnCode.TnCodeApp.R
             return true;
         }
 
-        //public async Task<bool> GenerateGgplotAsync(string plotCommand)
-        //{
-        //    try
-        //    {
-        //        using (StringReader reader = new StringReader(plotCommand))
-        //        {
-        //            var plotWidth = 15;
-        //            var plotHeight = 12;
-        //            var plotRes = 600;
-        //            //get code into text file
-        //            string fileName = WindowsDirectory + "\\TNGgplot.R";
-        //            using (StreamWriter file = new StreamWriter(fileName))
-        //            {
-        //                file.WriteLine(
-        //                    "devEval(" + string.Format("\"{0}\"", "png") +
-        //                    ", path = " + ConvertPathToR(WindowsDirectory) +
-        //                    ", name = \"TNGgplot\", width = " + plotWidth +
-        //                    ", height = " + plotHeight + ", units =" +
-        //                    string.Format("\"{0}\"", "cm") + ", res = " + plotRes + ", pointsize = 12, {");
-
-        //                string line;
-        //                while ((line = reader.ReadLine()) != null)
-        //                {
-        //                    file.WriteLine(line);
-        //                }
-        //                file.WriteLine("plot(p)");
-        //                file.WriteLine("})");
-        //            }
-
-        //            await rManager.ExecuteAsync("source(" + ConvertPathToR(fileName) + ",echo=TRUE, max.deparse.length=10000)");
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        //ErrorMessage = "Failed to generate plot " + ex.Message;
-        //        return false;
-        //    }
-        //    return true;
-        //}
-
         public async Task<bool> InitialiseAsync()
         {
             try
