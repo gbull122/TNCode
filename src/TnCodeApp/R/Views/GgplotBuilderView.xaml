@@ -30,8 +30,7 @@
 
                 <!--Buttons-->
                 <Grid
-                    Grid.Row="0"
-                    Grid.Column="0">
+                    Grid.Row="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
@@ -55,7 +54,6 @@
                 <DataGrid 
                     x:Name="layersList"
                     Grid.Row="1" 
-                    Grid.Column="0"
                     ColumnWidth ="*"
                     Margin="2" 
                     ItemsSource="{Binding Path=Layers}" 
@@ -156,14 +154,41 @@
                 <!--Data and Geom-->
                 <Grid
                     Grid.Row="2">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
                     
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
+                    <Grid
+                        Grid.Row="0">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button
+                            Grid.Column="0"
+                            Content="Update"
+                            Command="{Binding UpdateCommand}"/>
+
+                        <CheckBox
+                            Grid.Column="1"
+                            Content="Auto Update"
+                            Command="{Binding ToggleAutoCommand}"
+                            CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
+                        
+                    </Grid>
+                    
                     <ComboBox
                         x:Name="ComboData"
+                        Grid.Row="1"
                         Grid.Column="0"
                         Margin="2"
                         ItemsSource="{Binding DataSets}"
@@ -179,6 +204,7 @@
 
                     <ComboBox
                         x:Name="ComboGeom"
+                        Grid.Row="1"
                         Grid.Column="1"
                         Margin="2"
                         ItemsSource="{Binding Geoms}"
@@ -193,11 +219,9 @@
                     </ComboBox>
                 </Grid>
                 
-                <!--</StackPanel>-->
                 <!--Dynamic variable controls-->
                 <Grid
-                    Grid.Row="3"
-                    Grid.Column="0">
+                    Grid.Row="3">
 
                     <UniformGrid 
                         Columns="5">

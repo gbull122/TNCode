@@ -7,7 +7,6 @@ using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,27 +22,23 @@ using TnCode.TnCodeApp.R.Views;
 
 namespace TnCode.TnCodeApp.R.ViewModels
 {
-    public class GgplotBuilderViewModel:BindableBase, IDockingPanel
+    public class GgplotBuilderViewModel : BindableBase, IDockingPanel
     {
         private const string DEFAULT_GEOM = "point";
 
         private readonly IEventAggregator eventAggregator;
         private readonly IRegionManager regionManager;
-        private readonly IContainerExtension containerExtension;
+        private readonly ILoggerFacade loggerFacade;
 
         private readonly IRService rService;
         private readonly IDataSetsManager dataSetsManager;
-
         private readonly IProgressService progressService;
         private readonly IXmlService xmlService;
-        private readonly ILoggerFacade loggerFacade;
-
-        //private IGgplot ggplot;
 
         private IEnumerable<string> dataSets;
 
         private BitmapImage chartImage;
-        
+
         public string Title => "Chart Builder";
 
         public DockingMethod Docking => DockingMethod.Document;
@@ -53,7 +48,8 @@ namespace TnCode.TnCodeApp.R.ViewModels
         public DelegateCommand DeleteLayerCommand { get; private set; }
         public DelegateCommand<ILayer> LayerSelectedCommand { get; private set; }
         public DelegateCommand CopyChartCommand { get; private set; }
-
+        public DelegateCommand<bool> ToggleAutoCommand { get; private set; }
+        public DelegateCommand UpdateCommand { get; private set; }
         public DelegateCommand<string> GeomSelectedCommand { get; private set; }
         public DelegateCommand<string> DataSelectedCommand { get; private set; }
 
@@ -63,18 +59,28 @@ namespace TnCode.TnCodeApp.R.ViewModels
         private FacetViewModel facetViewModel;
         private TitlesViewModel titlesViewModel;
 
-        private bool areControlsEnabaled= true;
+        private bool areControlsEnabaled = true;
+        private bool isAutoUpdate = false;
+
+        public bool IsAutoUpdate
+        {
+            get { return isAutoUpdate; }
+            set
+            {
+                isAutoUpdate = value;
+                RaisePropertyChanged(nameof(IsAutoUpdate));
+            }
+        }
 
         public bool AreControlsEnabaled
         {
             get { return areControlsEnabaled; }
-            set 
-            { 
+            set
+            {
                 areControlsEnabaled = value;
                 RaisePropertyChanged(nameof(AreControlsEnabaled));
             }
         }
-
 
         public IEnumerable<string> DataSets
         {
@@ -117,12 +123,11 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
         public List<string> Geoms { get; set; }
 
-        public GgplotBuilderViewModel(IContainerExtension container, IEventAggregator eventAggr, IRegionManager regMngr, IRService rSer, IDataSetsManager setsManager, IProgressService progService, IXmlService xml, ILoggerFacade logger)
+        public GgplotBuilderViewModel(IEventAggregator eventAggr, IRegionManager regMngr, IRService rSer, IDataSetsManager setsManager, IProgressService progService, IXmlService xml, ILoggerFacade logger)
         {
             rService = rSer;
             eventAggregator = eventAggr;
             regionManager = regMngr;
-            containerExtension = container;
             dataSetsManager = setsManager;
             progressService = progService;
             xmlService = xml;
@@ -137,6 +142,9 @@ namespace TnCode.TnCodeApp.R.ViewModels
             CopyChartCommand = new DelegateCommand(CopyChart);
             GeomSelectedCommand = new DelegateCommand<string>(GeomSelected);
             DataSelectedCommand = new DelegateCommand<string>(DataSelected);
+            ToggleAutoCommand = new DelegateCommand<bool>(ToggleAuto);
+            UpdateCommand = new DelegateCommand(Update);
+
             dataSets = dataSetsManager.DataSetNames();
 
             Geoms = Enum.GetNames(typeof(Ggplot.Geoms)).ToList();
@@ -145,10 +153,16 @@ namespace TnCode.TnCodeApp.R.ViewModels
             layers = new ObservableCollection<ILayer>();
         }
 
+        private void ToggleAuto(bool isAuto)
+        {
+            IsAutoUpdate = isAuto;
+        }
+
         private void DeleteLayer()
         {
             Layers.Remove(selectedLayer);
-            Update();
+            if(isAutoUpdate)
+                Update();
         }
 
         private void DataSelected(string DataSetName)
@@ -172,7 +186,8 @@ namespace TnCode.TnCodeApp.R.ViewModels
             statViewModel.SetStat(stat);
             positionViewModel.SetPosition(pos);
 
-            Update();
+            if(isAutoUpdate)
+                Update();
         }
 
         private void DataSetsChanged(DataSetEventArgs dataSetEventArgs)
@@ -213,19 +228,19 @@ namespace TnCode.TnCodeApp.R.ViewModels
             var titlesView = new TitlesView();
             titlesRegion.Add(titlesView, "TitlesView", true);
             titlesViewModel = (TitlesViewModel)titlesView.DataContext;
-            titlesViewModel.PropertyChanged += ViewModel_Changed;
+            //titlesViewModel.PropertyChanged += ViewModel_Changed;
 
             IRegion facetRegion = regionManager.Regions["FacetRegion"];
             facetRegion.RemoveAll();
             var facetView = new FacetView();
             facetRegion.Add(facetView, "FacetView", true);
             facetViewModel = (FacetViewModel)facetView.DataContext;
-            facetViewModel.PropertyChanged+= ViewModel_Changed;
+            facetViewModel.PropertyChanged += ViewModel_Changed;
         }
 
         private void NewLayer()
         {
-            if(Layers.Count==0)
+            if (Layers.Count == 0)
                 SetViewModels();
 
             var aes = xmlService.LoadAesthetic(DEFAULT_GEOM);
@@ -257,12 +272,13 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
             facetViewModel.Variables = variables;
 
-            Update();
+            //Update();
         }
 
         private void ViewModel_Changed(object sender, EventArgs e)
         {
-            Update();
+            if(isAutoUpdate)
+                Update();
         }
 
         private List<string> UpdateVariables(string dataSet)
@@ -314,7 +330,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
                         ChartImage = bitmap;
                     }
                 }
-               
+
             }
             else
                 ChartImage = null;
@@ -345,12 +361,13 @@ namespace TnCode.TnCodeApp.R.ViewModels
             Layers.Clear();
             selectedLayer = null;
 
-            Update();
+            if(isAutoUpdate)
+                Update();
         }
 
         private bool CanNewLayer()
         {
-            if ( dataSets.Any())
+            if (dataSets.Any())
                 return true;
 
             return false;
