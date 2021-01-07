@@ -73,31 +73,31 @@ namespace TnCode.TnCodeApp.R.ViewModels
             titleParameters.Clear();
             if (!string.IsNullOrEmpty(xAxisTitle))
             {
-                Core.R.Charts.Ggplot.Layer.Parameter param = new Core.R.Charts.Ggplot.Layer.Parameter("x", xAxisTitle);
+                Core.R.Charts.Ggplot.Layer.Parameter param = new Core.R.Charts.Ggplot.Layer.Parameter("x", xAxisTitle,false,true);
                 titleParameters.Add(param);
             }
 
             if (!string.IsNullOrEmpty(yAxisTitle))
             {
-                Core.R.Charts.Ggplot.Layer.Parameter param = new Core.R.Charts.Ggplot.Layer.Parameter("y", yAxisTitle);
+                Core.R.Charts.Ggplot.Layer.Parameter param = new Core.R.Charts.Ggplot.Layer.Parameter("y", yAxisTitle, false, true);
                 titleParameters.Add(param);
             }
 
             if (!string.IsNullOrEmpty(mainTitle))
             {
-                Core.R.Charts.Ggplot.Layer.Parameter param = new Core.R.Charts.Ggplot.Layer.Parameter("title", mainTitle);
+                Core.R.Charts.Ggplot.Layer.Parameter param = new Core.R.Charts.Ggplot.Layer.Parameter("title", mainTitle, false, true);
                 titleParameters.Add(param);
             }
 
             if (!string.IsNullOrEmpty(subTitle))
             {
-                Core.R.Charts.Ggplot.Layer.Parameter param = new Core.R.Charts.Ggplot.Layer.Parameter("sub", subTitle);
+                Core.R.Charts.Ggplot.Layer.Parameter param = new Core.R.Charts.Ggplot.Layer.Parameter("subtitle", subTitle, false, true);
                 titleParameters.Add(param);
             }
 
             if (!string.IsNullOrEmpty(caption))
             {
-                Core.R.Charts.Ggplot.Layer.Parameter param = new Core.R.Charts.Ggplot.Layer.Parameter("caption", caption);
+                Core.R.Charts.Ggplot.Layer.Parameter param = new Core.R.Charts.Ggplot.Layer.Parameter("caption", caption, false, true);
                 titleParameters.Add(param);
             }
             return titleParameters;

@@ -48,7 +48,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
         public DelegateCommand DeleteLayerCommand { get; private set; }
         public DelegateCommand<ILayer> LayerSelectedCommand { get; private set; }
         public DelegateCommand CopyChartCommand { get; private set; }
-        public DelegateCommand<bool> ToggleAutoCommand { get; private set; }
+        public DelegateCommand<bool?> ToggleAutoCommand { get; private set; }
         public DelegateCommand UpdateCommand { get; private set; }
         public DelegateCommand<string> GeomSelectedCommand { get; private set; }
         public DelegateCommand<string> DataSelectedCommand { get; private set; }
@@ -142,8 +142,8 @@ namespace TnCode.TnCodeApp.R.ViewModels
             CopyChartCommand = new DelegateCommand(CopyChart);
             GeomSelectedCommand = new DelegateCommand<string>(GeomSelected);
             DataSelectedCommand = new DelegateCommand<string>(DataSelected);
-            ToggleAutoCommand = new DelegateCommand<bool>(ToggleAuto);
-            UpdateCommand = new DelegateCommand(Update);
+            ToggleAutoCommand = new DelegateCommand<bool?>(ToggleAuto);
+            UpdateCommand = new DelegateCommand(Update, CanUpdate);
 
             dataSets = dataSetsManager.DataSetNames();
 
@@ -153,9 +153,11 @@ namespace TnCode.TnCodeApp.R.ViewModels
             layers = new ObservableCollection<ILayer>();
         }
 
-        private void ToggleAuto(bool isAuto)
+        
+
+        private void ToggleAuto(bool? isAuto)
         {
-            IsAutoUpdate = isAuto;
+            IsAutoUpdate = isAuto.HasValue?isAuto.Value:false;
         }
 
         private void DeleteLayer()
@@ -255,6 +257,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
             LayerSelected(newLayer);
 
             ClearLayersCommand.RaiseCanExecuteChanged();
+            UpdateCommand.RaiseCanExecuteChanged();
         }
 
         private void LayerSelected(ILayer layer)
@@ -352,6 +355,11 @@ namespace TnCode.TnCodeApp.R.ViewModels
         }
 
         private bool CanClearLayers()
+        {
+            return Layers.Count > 0;
+        }
+
+        private bool CanUpdate()
         {
             return Layers.Count > 0;
         }
