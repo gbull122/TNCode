@@ -16,5 +16,6 @@ namespace TnCode.Core.R
         Task<string> EvaluateAsync<T>(string command);
         Task ExecuteAsync(string command);
         Task CreateDataFrameAsync(string name, DataFrame dataFrame);
+        object GetDefinition(string defeinition, string name);
     }
 }

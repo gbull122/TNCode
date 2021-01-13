@@ -63,7 +63,7 @@ namespace TnCode.TnCodeApp
             containerRegistry.RegisterInstance<IRService>(rService);
 
             var XmlConverter = new XmlConverter();
-            var xmlService = new XmlService(XmlConverter);
+            var xmlService = new XmlService(XmlConverter, rManager);
             containerRegistry.RegisterInstance<IXmlService>(xmlService);
 
             containerRegistry.RegisterForNavigation<GgplotBuilderView>();

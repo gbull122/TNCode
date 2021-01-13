@@ -21,7 +21,6 @@ namespace TnCodeApp_Tests
         [STAThread]
         public void NewLayer_GeneratesPointLayer()
         {
-            IContainerExtension container = A.Fake<IContainerExtension>();
             IEventAggregator eventAggr = A.Fake<IEventAggregator>();
             IRegionManager regMngr = A.Fake<IRegionManager>();
             IRService rSer = A.Fake<IRService>();
@@ -32,7 +31,7 @@ namespace TnCodeApp_Tests
 
 
            //A.CallTo(()=> xmlService.LoadAesthetic(A._string)
-            var ggplotBuilder = new GgplotBuilderViewModel(container, eventAggr, regMngr, rSer, setsManager, progService, xmlService, loggerFacade);
+            var ggplotBuilder = new GgplotBuilderViewModel(eventAggr, regMngr, rSer, setsManager, progService, xmlService, loggerFacade);
 
             ggplotBuilder.NewLayerCommand.Execute();
         }

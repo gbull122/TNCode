@@ -1,4 +1,5 @@
-﻿using TnCode.Core.R.Charts.Ggplot.Layer;
+﻿using TnCode.Core.R;
+using TnCode.Core.R.Charts.Ggplot.Layer;
 using TnCode.Core.Utilities;
 
 namespace TnCode.TnCodeApp.R
@@ -12,30 +13,32 @@ namespace TnCode.TnCodeApp.R
 
     public class XmlService : IXmlService
     {
-        private IXmlConverter xmlConverter;
+        private readonly IXmlConverter xmlConverter;
+        private readonly IRManager rManger;
 
-        public XmlService(IXmlConverter converter)
+        public XmlService(IXmlConverter converter,IRManager manager)
         {
             xmlConverter = converter;
+            rManger = manager;
         }
 
         public Aesthetic LoadAesthetic(string geom)
         {
-            var aestheticXml = Properties.Resources.ResourceManager.GetObject("geom_" + geom.ToLower());
+            var aestheticXml = rManger.GetDefinition("geom",geom);
             var aesthetic = xmlConverter.ToObject<Aesthetic>(aestheticXml.ToString());
             return aesthetic;
         }
 
         public Position LoadPosition(string pos)
         {
-            var posXml = Properties.Resources.ResourceManager.GetObject("pos_" + pos.ToLower());
+            var posXml = rManger.GetDefinition("pos" , pos);
             var position = xmlConverter.ToObject<Position>(posXml.ToString());
             return position;
         }
 
         public Stat LoadStat(string stat)
         {
-            var statXml = Properties.Resources.ResourceManager.GetObject("stat_" + stat.ToLower());
+            var statXml = rManger.GetDefinition("stat" , stat);
             var statistic = xmlConverter.ToObject<Stat>(statXml.ToString());
             return statistic;
         }

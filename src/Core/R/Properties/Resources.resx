@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="geom_bar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Geoms\geom_bar.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="geom_bin2d" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Geoms\geom_bin2d.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="geom_boxplot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Geoms\geom_boxplot.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="geom_contour" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Geoms\geom_contour.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="geom_density" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Geoms\geom_density.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="geom_density_2d" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Geoms\geom_density_2d.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="geom_dotplot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Geoms\geom_dotplot.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="geom_errorbar" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Geoms\geom_errorbar.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="geom_hex" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Geoms\geom_hex.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="geom_histogram" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Geoms\geom_histogram.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="geom_line" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Geoms\geom_line.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="geom_point" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Geoms\geom_point.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="geom_quantile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Geoms\geom_quantile.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="geom_rug" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Geoms\geom_rug.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="geom_smooth" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Geoms\geom_smooth.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="geom_violin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Geoms\geom_violin.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="pos_dodge" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Positions\pos_dodge.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="pos_dodge2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Positions\pos_dodge2.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="pos_identity" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Positions\pos_identity.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="pos_jitter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Positions\pos_jitter.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="pos_stack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Positions\pos_stack.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="stat_bin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Stats\stat_bin.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="stat_bin2d" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Stats\stat_bin2d.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="stat_bindot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Stats\stat_bindot.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="stat_binhex" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Stats\stat_binhex.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="stat_boxplot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Stats\stat_boxplot.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="stat_contour" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Stats\stat_contour.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="stat_count" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Stats\stat_count.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="stat_density" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Stats\stat_density.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="stat_density_2d" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Stats\stat_density_2d.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="stat_identity" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Stats\stat_identity.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="stat_quantile" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Stats\stat_quantile.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="stat_smooth" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Stats\stat_smooth.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="stat_summary" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Stats\stat_summary.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="stat_ydensity" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Charts\Ggplot\Definitions\Stats\stat_ydensity.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+</root>

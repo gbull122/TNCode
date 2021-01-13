@@ -61,5 +61,10 @@ namespace TnCode.Core.R
         {
             await rHostSession.CreateDataFrameAsync(name, dataFrame);
         }
+
+        public object GetDefinition(string definition, string name)
+        {
+            return Properties.Resources.ResourceManager.GetObject(definition + "_" + name.ToLower());
+        }
     }
 }
