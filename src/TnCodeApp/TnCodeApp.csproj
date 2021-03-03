@@ -14,9 +14,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dirkster.AvalonDock" Version="4.0.0" />
-    <PackageReference Include="Fluent.Ribbon" Version="7.1.0" />
-    <PackageReference Include="MaterialDesignThemes" Version="3.1.0" />
+    <Compile Remove="R\RFunctionService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dirkster.AvalonDock" Version="4.50.1" />
+    <PackageReference Include="Fluent.Ribbon" Version="8.0.3" />
+    <PackageReference Include="MaterialDesignThemes" Version="3.2.0" />
+    <PackageReference Include="OxyPlot.Wpf" Version="2.0.0" />
     <PackageReference Include="Prism.Unity" Version="7.2.0.1422" />
   </ItemGroup>
 

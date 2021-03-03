@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Folder Include="Charts\Ggplot\Theme\" />
+    <Folder Include="Functions\" />
   </ItemGroup>
 
   <ItemGroup>

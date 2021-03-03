@@ -4,14 +4,11 @@ using Prism.Events;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using TnCode.Core.Data;
 using TnCode.TnCodeApp.Data.Events;
 using TnCode.TnCodeApp.Progress;
-using TnCode.TnCodeApp.R;
 
 namespace TnCode.TnCodeApp.Data.ViewModels
 {
@@ -19,45 +16,23 @@ namespace TnCode.TnCodeApp.Data.ViewModels
     {
         private readonly IEventAggregator eventAggregator;
         private readonly IDataSetsManager dataSetsManager;
-        private readonly IRService rService;
         private IProgressService progressService;
         private IDialogService dialogService;
 
-        public DelegateCommand LoadRCommand { get; private set; }
+        
         public DelegateCommand LoadCsvCommand { get; private set; }
         public DelegateCommand SaveCommand { get; private set; }
 
-        private bool isRRunning;
-
-        public bool IsRRunning
-        {
-            get => isRRunning;
-            set
-            {
-                SetProperty(ref isRRunning, value);
-            }
-        }
-
-        public DataRibbonViewModel(IEventAggregator eventAgg, IDataSetsManager dataMgr, IProgressService pService, IDialogService dService,IRService rSer)
+        public DataRibbonViewModel(IEventAggregator eventAgg, IDataSetsManager dataMgr, IProgressService pService, IDialogService dService)
         {
             eventAggregator = eventAgg;
             dataSetsManager = dataMgr;
-            rService = rSer;
             progressService = pService;
             dialogService = dService;
 
-            LoadRCommand = new DelegateCommand(LoadRData).ObservesCanExecute(() => IsRRunning);
-            LoadCsvCommand = new DelegateCommand(LoadCsvData).ObservesCanExecute(() => IsRRunning); ;
-            SaveCommand = new DelegateCommand(Save).ObservesCanExecute(() => IsRRunning);
-
-            rService.RConnected += RManager_ConnectionChanged;
-            rService.RDisconnected += RManager_ConnectionChanged;
-        }
-
-
-        private void RManager_ConnectionChanged(object sender, EventArgs e)
-        {
-            IsRRunning = rService.IsRRunning;
+            
+            LoadCsvCommand = new DelegateCommand(LoadCsvData); ;
+            //SaveCommand = new DelegateCommand(Save).ObservesCanExecute(() => IsRRunning);
         }
 
         private void Save()
@@ -115,18 +90,6 @@ namespace TnCode.TnCodeApp.Data.ViewModels
             eventAggregator.GetEvent<DataSetChangedEvent>().Publish(dataSetEventArgs);
         }
 
-        private async void LoadRData()
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "R Workspace (*.RData)|*.RData";
-            openFileDialog.Multiselect = false;
-
-            if (openFileDialog.ShowDialog() == true)
-            {
-                var fileFullPath = openFileDialog.FileName;
-
-                await progressService.ExecuteAsync(rService.LoadRWorkSpace, fileFullPath);
-            }
-        }
+        
     }
 }

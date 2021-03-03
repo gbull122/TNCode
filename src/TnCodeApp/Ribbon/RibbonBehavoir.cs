@@ -55,6 +55,7 @@ namespace TnCode.TnCodeApp.Ribbon
             //MergeQuickAccessToolbar(sourceView, moduleRibbon, ribbon);
             //MergeContextualTabGroups(sourceView, moduleRibbon, ribbon);
             MergeTabs(sourceView, moduleRibbon);
+            
             //var ribbonTabs = ribbon.Tabs.Cast<UIElement>().ToArray();
             //var moduleTabs = moduleRibbon.Tabs.Cast<UIElement>().ToArray();
 
@@ -91,6 +92,11 @@ namespace TnCode.TnCodeApp.Ribbon
 
                     }
                 }
+                else
+                {
+                    DisconnectFromParent(sourceView, tab);
+                    MainRibbon.Tabs.Add(tab);
+                }
             }
             //if (moduleRibbon.QuickAccessToolBar != null)
             //{
@@ -99,6 +105,8 @@ namespace TnCode.TnCodeApp.Ribbon
             //    MergeItemsControl(sourceView, moduleRibbon.QuickAccessToolBar, ribbon.QuickAccessToolBar);
             //}
         }
+
+        
 
         protected Fluent.RibbonTabItem GetHomeTab()
         {
@@ -275,9 +283,27 @@ namespace TnCode.TnCodeApp.Ribbon
             return dataContext;
         }
 
+        private void DisconnectFromParent(object sourceView, RibbonTabItem tab)
+        {
+            //var parent = GetParent(tab) as Panel;
+
+            var s = (FrameworkElement)sourceView;
+
+            var dataContext = s.DataContext;
+
+            //parent.Children.Remove(tab);
+            //var parentAsItemsControl = parent as System.Windows.Controls.ItemsControl;
+            //if (parentAsItemsControl != null)
+            //{
+            //    parentAsItemsControl.Items.Remove(child);
+            //}
+
+            if (tab is FrameworkElement && dataContext != null)
+                ((FrameworkElement)tab).DataContext = dataContext;
+        }
+
         public void DisconnectFromParent(object sourceView, RibbonGroupBox child)
         {
-
             var parent = GetParent(child) as Panel;
 
             var s = (FrameworkElement)sourceView;

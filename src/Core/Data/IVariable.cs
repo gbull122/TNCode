@@ -7,5 +7,6 @@ namespace TnCode.Core.Data
         IReadOnlyCollection<object> Values { get; }
         int Length { get; }
         string Name { get; }
+        Variable.Format DataFormat { get; }
     }
 }

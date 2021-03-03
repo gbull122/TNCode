@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using Microsoft.Win32;
+using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -23,6 +24,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
         public DelegateCommand ChartBuilderCommand { get; private set; }
         public DelegateCommand RStartCommand { get; private set; }
         public DelegateCommand RDetailsCommand { get; private set; }
+        public DelegateCommand LoadRCommand { get; private set; }
 
         public bool IsRRunning
         {
@@ -49,6 +51,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
             ChartBuilderCommand = new DelegateCommand(CreateChart).ObservesCanExecute(() => IsRRunning);
             RStartCommand = new DelegateCommand(StartR, IsRNotRunning);
             RDetailsCommand = new DelegateCommand(ShowRDetails).ObservesCanExecute(() => IsRRunning);
+            LoadRCommand = new DelegateCommand(LoadRData).ObservesCanExecute(() => IsRRunning);
         }
 
         private async void ShowRDetails()
@@ -75,6 +78,20 @@ namespace TnCode.TnCodeApp.R.ViewModels
         private void CreateChart()
         {
             regionManager.AddToRegion("MainRegion", new GgplotBuilderView());
+        }
+
+        private async void LoadRData()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "R Workspace (*.RData)|*.RData";
+            openFileDialog.Multiselect = false;
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                var fileFullPath = openFileDialog.FileName;
+
+                await progressService.ExecuteAsync(rService.LoadRWorkSpace, fileFullPath);
+            }
         }
     }
 }

@@ -13,7 +13,8 @@ namespace TnCode.Core.Data
         {
             Unknown,
             Text,
-            Numeric,
+            Discrete,
+            Continuous,
             DateTime
         }
 
@@ -33,7 +34,7 @@ namespace TnCode.Core.Data
             if (conversionResult.Item1)
             {
                 Values = conversionResult.Item2;
-                DataFormat = Format.Numeric;
+                DataFormat = Format.Continuous;
             }
             else
             {

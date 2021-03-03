@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using TnCode.Core.Data;
@@ -39,30 +40,28 @@ namespace TnCode.TnCodeApp.Data
 
         public List<string> SelectedDataSetsNames()
         {
-            var selection = new List<string>();
-            //foreach (var dataSet in dataSets)
-            //{
-            //    var selectedVariables = dataSet.SelectedVariableNames();
-            //    if (selectedVariables.Count > 0)
-            //        selection.Add(dataSet.Name);
-            //}
+            throw new NotImplementedException();
+            //var dataSetNames = new List<string>();
+            //var selectedData = SelectedData();
+            //fora
 
-            return selection;
+            //return selection;
         }
 
         public IList<IVariable> SelectedVariables()
         {
-            var selection = new List<IVariable>();
-            foreach (var dataSet in dataSets)
-            {
-                //foreach (var vari in dataSet.Variables)
-                //{
-                //    if (vari.IsSelected)
-                //        selection.Add(vari);
-                //}
-            }
+            throw new NotImplementedException();
+            //var selection = new List<IVariable>();
+            //foreach (var dataSet in dataSets)
+            //{
+            //    foreach (var vari in dataSet.Variables)
+            //    {
+            //        if (vari.IsSelected)
+            //            selection.Add(vari);
+            //    }
+            //}
 
-            return selection;
+            //return selection;
         }
 
         public IEnumerable<string> DataSetNames()
@@ -135,7 +134,7 @@ namespace TnCode.TnCodeApp.Data
             if (dataSets.Contains(dataSet))
                 return false;
 
-            DataSets.Add(dataSet);
+            DataSets.Add(new SelectableDataSet(dataSet));
             return true;
         }
 

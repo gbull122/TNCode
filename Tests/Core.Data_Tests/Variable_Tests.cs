@@ -33,7 +33,7 @@ namespace Core.Data_Tests
         {
             var expectedCount = 5;
             var expectedElement = 2.2;
-            var expectedVariableType = Variable.Format.Numeric;
+            var expectedVariableType = Variable.Format.Continuous;
 
             List<object> rawData = new List<object>() { "Name", 1.1, 2.2, 3.3, 4.4, double.NaN };
             var variable = new Variable(rawData.ToArray());
@@ -51,7 +51,7 @@ namespace Core.Data_Tests
         {
             var expectedCount = 3;
             var expectedElement = 1.0;
-            var expectedVariableType = Variable.Format.Numeric;
+            var expectedVariableType = Variable.Format.Continuous;
 
             List<object> rawData = new List<object>() { "Name", 1.0, 2.0, 3.0 };
             var variable = new Variable(rawData.ToArray());

@@ -41,25 +41,25 @@ namespace TnCode.TnCodeApp.Data.ViewModels
             }
         }
 
-        public IDataSet SelectedDataSet
-        {
-            get { return selectedDataSet; }
-            set
-            {
-                selectedDataSet = value;
-                RaisePropertyChanged("SelectedDataSet");
-            }
-        }
+        //public IDataSet SelectedDataSet
+        //{
+        //    get { return selectedDataSet; }
+        //    set
+        //    {
+        //        selectedDataSet = value;
+        //        RaisePropertyChanged("SelectedDataSet");
+        //    }
+        //}
 
-        public IList<object> SelectedVariables
-        {
-            get { return selectedVariables; }
-            set
-            {
-                selectedVariables = value;
-                RaisePropertyChanged("SelectedVariable");
-            }
-        }
+        //public IList<object> SelectedVariables
+        //{
+        //    get { return selectedVariables; }
+        //    set
+        //    {
+        //        selectedVariables = value;
+        //        RaisePropertyChanged("SelectedVariable");
+        //    }
+        //}
 
         public bool KeepAlive => true;
 
@@ -87,6 +87,7 @@ namespace TnCode.TnCodeApp.Data.ViewModels
 
         private void VariableSelectionChanged()
         {
+
             //eventAggregator.GetEvent<VariablesSelectedChangedEvent>().Publish();
         }
 
@@ -95,23 +96,14 @@ namespace TnCode.TnCodeApp.Data.ViewModels
             //DataSets.Remove(selectedDataSet);
         }
 
-        private async void AddNewDataset(DataSetEventArgs dataSet)
+        private void AddNewDataset(DataSetEventArgs dataSetEventArgs)
         {
-            if (dataSet.Modification == DataSetChange.AddedFromR)
+            if (dataSetEventArgs.Modification == DataSetChange.Added)
             {
-                datasetsManager.DataSets.Add(dataSet.Data);
-                dataSet.Modification = DataSetChange.Updated;
-                eventAggregator.GetEvent<DataSetChangedEvent>().Publish(dataSet);
+                datasetsManager.DataSetAdd(dataSetEventArgs.Data);
+                dataSetEventArgs.Modification = DataSetChange.Updated;
+                eventAggregator.GetEvent<DataSetChangedEvent>().Publish(dataSetEventArgs);
             }
-
-            if (dataSet.Modification == DataSetChange.Added)
-            {
-                await rService.DataSetToRAsDataFrameAsync(dataSet.Data);
-                dataSet.Modification = DataSetChange.Updated;
-                eventAggregator.GetEvent<DataSetChangedEvent>().Publish(dataSet);
-            }
-
-
         }
 
         private void DatasetSelectionChanged()
@@ -133,6 +125,8 @@ namespace TnCode.TnCodeApp.Data.ViewModels
         {
 
         }
+
+        
     }
 }
 

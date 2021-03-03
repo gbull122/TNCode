@@ -20,16 +20,9 @@
 
                 <Fluent:Button
                     AutomationProperties.AutomationId="RbBtnLoadCsv"
-                    Header="Load Csv"
+                    Header="Load"
                     Command="{Binding LoadCsvCommand}"
                     ToolTip="Load data from csv">
-                </Fluent:Button>
-
-                <Fluent:Button
-                    AutomationProperties.AutomationId="RbBtnLoadR"
-                    Header="Load Workspace"
-                    Command="{Binding LoadRCommand}"
-                    ToolTip="Load R Workspace">
                 </Fluent:Button>
 
                 <Fluent:Button

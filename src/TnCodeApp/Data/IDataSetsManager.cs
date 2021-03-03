@@ -8,6 +8,7 @@ namespace TnCode.TnCodeApp.Data
     {
         ObservableCollection<IDataSet> DataSets { get; set; }
         IDataSet DataSetGet(string name);
+        bool DataSetAdd(IDataSet dataSet);
         Dictionary<string, ICollection<string>> SelectedData();
         IList<IVariable> SelectedVariables();
         List<string> SelectedDataSetsNames();

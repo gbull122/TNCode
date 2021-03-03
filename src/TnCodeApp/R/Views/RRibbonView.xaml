@@ -10,20 +10,11 @@
         x:Name="MainRibbon"
         x:FieldModifier="protected internal">
 
-        <Fluent:Ribbon.ContextualGroups>
-            <Fluent:RibbonContextualTabGroup
-                x:Name="ChartBuilderGroup"
-                Header="Chart Builder"
-                Visibility="Visible"
-                Background="Green" 
-                BorderBrush="Green"/>
-        </Fluent:Ribbon.ContextualGroups>
-
         <Fluent:RibbonTabItem
-            Header="Home">
+            Header="R">
 
             <Fluent:RibbonGroupBox
-                Header="R">
+                Header="Connection">
 
                 <Fluent:Button
                     AutomationProperties.AutomationId="RbBtnRConnect"
@@ -36,7 +27,13 @@
                     Header="Details"
                     Command="{Binding RDetailsCommand}">
                 </Fluent:Button>
-
+                
+                <Fluent:Button
+                    AutomationProperties.AutomationId="RbBtnLoadR"
+                    Header="Load Workspace"
+                    Command="{Binding LoadRCommand}"
+                    ToolTip="Load R Workspace">
+                </Fluent:Button>
 
                 <Fluent:Button
                     AutomationProperties.AutomationId="RbBtnRCharts"
@@ -44,28 +41,14 @@
                     Command="{Binding ChartBuilderCommand}">
                 </Fluent:Button>
 
-            </Fluent:RibbonGroupBox>
-
-
-        </Fluent:RibbonTabItem>
-
-        <Fluent:RibbonTabItem
-            Header="charts controls"
-            Group="{Binding Source={x:Reference ChartBuilderGroup}}">
-
-            <Fluent:RibbonGroupBox
-                Header="Layer">
                 <Fluent:DropDownButton>
-
+                    
                 </Fluent:DropDownButton>
-
-                <Fluent:Button
-                    AutomationProperties.AutomationId="RbBtnTEST"
-                    Header="Details"
-                    Command="{Binding RDetailsCommand}">
-                </Fluent:Button>
             </Fluent:RibbonGroupBox>
 
+
         </Fluent:RibbonTabItem>
+
+       
     </Fluent:Ribbon>
 </UserControl>
