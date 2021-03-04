@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace TnCode.Core.Data
+namespace TnCode.TnCodeApp.Data
 {
     public interface IDataSet
     {
@@ -11,5 +11,6 @@ namespace TnCode.Core.Data
         ObservableCollection<IVariable> Variables { get; }
         bool AllColumnsEqual();
         IReadOnlyList<IReadOnlyList<object>> RawData();
+        bool IsSelected { get; set; }
     }
 }

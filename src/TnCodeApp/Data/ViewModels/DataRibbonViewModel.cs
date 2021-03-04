@@ -6,7 +6,6 @@ using Prism.Services.Dialogs;
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using TnCode.Core.Data;
 using TnCode.TnCodeApp.Data.Events;
 using TnCode.TnCodeApp.Progress;
 

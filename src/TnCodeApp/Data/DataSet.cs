@@ -1,22 +1,42 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 
-namespace TnCode.Core.Data
+namespace TnCode.TnCodeApp.Data
 {
-    public class DataSet : IDataSet
+    public class DataSet : IDataSet, INotifyPropertyChanged
     {
         private ObservableCollection<IVariable> variables = new ObservableCollection<IVariable>();
         private List<string> observationNames = new List<string>();
         private List<IReadOnlyCollection<object>> rawColumns = new List<IReadOnlyCollection<object>>();
         private int rowCount;
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void RaisePropertyChanged(string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         public string Name { get; set; }
 
         public override string ToString()
         {
             return Name;
+        }
+
+        private bool isSelected;
+
+        public bool IsSelected
+        {
+            get { return isSelected; }
+            set 
+            {
+                isSelected = value;
+                RaisePropertyChanged(nameof(IsSelected));
+            }
         }
 
         public List<string> ObservationNames => observationNames;
@@ -89,12 +109,12 @@ namespace TnCode.Core.Data
 
         public bool AllColumnsEqual()
         {
-            var length = Variables[0].Length;
-            var test = from dc in Variables
+            var length = variables[0].Length;
+            var test = from dc in variables
                        where dc.Length == length
                        select dc;
 
-            return test.Count() == Variables.Count;
+            return test.Count() == variables.Count;
         }
 
         public List<string> VariableNames()

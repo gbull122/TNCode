@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using TnCode.Core.Data;
 
 namespace TnCode.TnCodeApp.Data
 {
@@ -22,20 +21,6 @@ namespace TnCode.TnCodeApp.Data
         public DataSetsManager()
         {
             dataSets = new ObservableCollection<IDataSet>();
-        }
-
-        public Dictionary<string, ICollection<string>> SelectedData()
-        {
-            var selection = new Dictionary<string, ICollection<string>>();
-
-            //foreach (var dataSet in dataSets)
-            //{
-            //    var selectedVariables = dataSet.SelectedVariableNames();
-            //    if (selectedVariables.Count > 0)
-            //        selection.Add(dataSet.Name, selectedVariables);
-            //}
-
-            return selection;
         }
 
         public List<string> SelectedDataSetsNames()
@@ -134,7 +119,7 @@ namespace TnCode.TnCodeApp.Data
             if (dataSets.Contains(dataSet))
                 return false;
 
-            DataSets.Add(new SelectableDataSet(dataSet));
+            DataSets.Add(dataSet);
             return true;
         }
 
@@ -148,5 +133,9 @@ namespace TnCode.TnCodeApp.Data
             return null;
         }
 
+        public IEnumerable<IDataSet> SelectedDataSets()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

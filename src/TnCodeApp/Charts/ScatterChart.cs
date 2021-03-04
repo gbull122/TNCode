@@ -1,10 +1,8 @@
 ﻿using OxyPlot;
 using OxyPlot.Series;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using TnCode.Core.Data;
+using TnCode.TnCodeApp.Data;
 
 namespace TnCode.TnCodeApp.Charts
 {

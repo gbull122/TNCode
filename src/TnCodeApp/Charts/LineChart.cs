@@ -1,7 +1,7 @@
 ﻿using OxyPlot;
 using System;
 using System.Collections.Generic;
-using TnCode.Core.Data;
+using TnCode.TnCodeApp.Data;
 
 namespace TnCode.TnCodeApp.Charts
 {

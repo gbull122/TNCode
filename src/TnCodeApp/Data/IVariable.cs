@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TnCode.Core.Data
+namespace TnCode.TnCodeApp.Data
 {
     public interface IVariable
     {
@@ -8,5 +8,6 @@ namespace TnCode.Core.Data
         int Length { get; }
         string Name { get; }
         Variable.Format DataFormat { get; }
+        bool IsSelected { get; set; }
     }
 }

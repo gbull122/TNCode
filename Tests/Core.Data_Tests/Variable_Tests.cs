@@ -2,7 +2,7 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
-using TnCode.Core.Data;
+using TnCode.TnCodeApp.Data;
 
 namespace Core.Data_Tests
 {

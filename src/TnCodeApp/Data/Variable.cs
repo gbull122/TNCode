@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace TnCode.Core.Data
+namespace TnCode.TnCodeApp.Data
 {
-    public class Variable : IVariable
+    public class Variable : IVariable, INotifyPropertyChanged
     {
         public enum Format
         {
@@ -18,6 +19,12 @@ namespace TnCode.Core.Data
             DateTime
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void RaisePropertyChanged(string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
         public int Length { get; }
 
         public string Name { get; }
@@ -25,6 +32,18 @@ namespace TnCode.Core.Data
         public IReadOnlyCollection<object> Values { get; }
 
         public Format DataFormat { get; }
+        private bool isSelected;
+
+        public bool IsSelected
+        {
+            get { return isSelected; }
+            set
+            {
+                isSelected = value;
+                RaisePropertyChanged(nameof(IsSelected));
+            }
+        }
+
 
         public Variable(object[] rawData)
         {

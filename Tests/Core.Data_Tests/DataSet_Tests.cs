@@ -1,9 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using TnCode.Core.Data;
+using TnCode.TnCodeApp.Data;
 
 namespace Core.Data_Tests
 {

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using TnCode.Core.Data;
 
 namespace TnCode.TnCodeApp.Data
 {
@@ -9,7 +8,7 @@ namespace TnCode.TnCodeApp.Data
         ObservableCollection<IDataSet> DataSets { get; set; }
         IDataSet DataSetGet(string name);
         bool DataSetAdd(IDataSet dataSet);
-        Dictionary<string, ICollection<string>> SelectedData();
+        IEnumerable<IDataSet> SelectedDataSets();
         IList<IVariable> SelectedVariables();
         List<string> SelectedDataSetsNames();
         IEnumerable<string> DataSetNames();

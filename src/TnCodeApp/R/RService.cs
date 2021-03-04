@@ -6,10 +6,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
-using TnCode.Core.Data;
 using TnCode.Core.R;
 using TnCode.Core.R.Charts.Ggplot;
 using TnCode.Core.R.Charts.Ggplot.Layer;
+using TnCode.TnCodeApp.Data;
 using TnCode.TnCodeApp.Data.Events;
 
 namespace TnCode.TnCodeApp.R
@@ -21,7 +21,7 @@ namespace TnCode.TnCodeApp.R
         event EventHandler RConnected;
         event EventHandler RDisconnected;
         Task<bool> GenerateGgplotAsync(string ggplotCommand);
-        Task<bool> DataSetToRAsDataFrameAsync(DataSet data);
+        Task<bool> DataSetToRAsDataFrameAsync(IDataSet data);
         Task<string> RHomeFromConnectedRAsync();
         Task<string> RPlatformFromConnectedRAsync();
         Task<string> RVersionFromConnectedRAsync();
@@ -29,7 +29,7 @@ namespace TnCode.TnCodeApp.R
         Task<List<object>> TempEnvObjects();
         Task RemoveTempEnviroment();
         Task<bool> IsDataFrame(string name);
-        Task<DataSet> GetDataFrameAsDataSetAsync(string name);
+        Task<IDataSet> GetDataFrameAsDataSetAsync(string name);
         Task<List<object>> ListWorkspaceItems();
         Task LoadRWorkSpace(IProgress<string> progress, string fileName);
         IGgplot GetGgplot(ObservableCollection<ILayer> layers);
@@ -60,7 +60,7 @@ namespace TnCode.TnCodeApp.R
 
         public bool IsRRunning { get => rManager.IsHostRunning(); }
 
-        public async Task<bool> DataSetToRAsDataFrameAsync(DataSet data)
+        public async Task<bool> DataSetToRAsDataFrameAsync(IDataSet data)
         {
             DataFrame df = new DataFrame(data.ObservationNames.AsReadOnly(), data.VariableNames(), data.RawData());
 
@@ -244,7 +244,7 @@ namespace TnCode.TnCodeApp.R
             return false;
         }
 
-        public async Task<DataSet> GetDataFrameAsDataSetAsync(string name)
+        public async Task<IDataSet> GetDataFrameAsDataSetAsync(string name)
         {
             var dataFrame = await GetDataFrameAsync(name);
 
@@ -253,7 +253,7 @@ namespace TnCode.TnCodeApp.R
             return dataSet;
         }
 
-        public DataSet ConvertDataFrameToDataSet(DataFrame data, string name)
+        public IDataSet ConvertDataFrameToDataSet(DataFrame data, string name)
         {
             DataSet result = null;
 
