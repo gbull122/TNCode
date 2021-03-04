@@ -23,30 +23,45 @@ namespace TnCode.TnCodeApp.Data
             dataSets = new ObservableCollection<IDataSet>();
         }
 
-        public List<string> SelectedDataSetsNames()
+        public IEnumerable<IDataSet> SelectedDataSets()
         {
-            throw new NotImplementedException();
-            //var dataSetNames = new List<string>();
-            //var selectedData = SelectedData();
-            //fora
+            var dataSetNames = new List<IDataSet>();
 
-            //return selection;
+            foreach (var dataSet in DataSets)
+            {
+                if (dataSet.IsSelected)
+                    dataSetNames.Add(dataSet);
+            }
+
+            return dataSetNames;
+        }
+
+        public IList<string> SelectedDataSetsNames()
+        {
+            var dataSetNames = new List<string>();
+
+            foreach(var dataSet in DataSets)
+            {
+                if (dataSet.IsSelected)
+                    dataSetNames.Add(dataSet.Name);
+            }
+
+            return dataSetNames;
         }
 
         public IList<IVariable> SelectedVariables()
         {
-            throw new NotImplementedException();
-            //var selection = new List<IVariable>();
-            //foreach (var dataSet in dataSets)
-            //{
-            //    foreach (var vari in dataSet.Variables)
-            //    {
-            //        if (vari.IsSelected)
-            //            selection.Add(vari);
-            //    }
-            //}
+            var selection = new List<IVariable>();
+            foreach (var dataSet in dataSets)
+            {
+                foreach (var vari in dataSet.Variables)
+                {
+                    if (vari.IsSelected)
+                        selection.Add(vari);
+                }
+            }
 
-            //return selection;
+            return selection;
         }
 
         public IEnumerable<string> DataSetNames()
@@ -57,7 +72,7 @@ namespace TnCode.TnCodeApp.Data
             }
         }
 
-        public List<string> DataSetVariableNames(string dataSetName)
+        public IList<string> DataSetVariableNames(string dataSetName)
         {
             foreach (var dataSet in dataSets)
             {
@@ -77,7 +92,7 @@ namespace TnCode.TnCodeApp.Data
             return false;
         }
 
-        public List<string[]> ReadCsvFileRowWise(string filePath)
+        public IList<string[]> ReadCsvFileRowWise(string filePath)
         {
             List<string[]> rawDataRowWise = new List<string[]>();
 
@@ -93,7 +108,7 @@ namespace TnCode.TnCodeApp.Data
             return rawDataRowWise;
         }
 
-        public List<string[]> RowWiseToColumnWise(List<string[]> rowWiseData)
+        public List<string[]> RowWiseToColumnWise(IList<string[]> rowWiseData)
         {
             var numberOfColumns = rowWiseData[0].Length;
             var numberOfRows = rowWiseData.Count;
@@ -133,9 +148,6 @@ namespace TnCode.TnCodeApp.Data
             return null;
         }
 
-        public IEnumerable<IDataSet> SelectedDataSets()
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }

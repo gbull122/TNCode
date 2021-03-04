@@ -10,7 +10,7 @@ namespace TnCode.TnCodeApp.R.Controls
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private List<string> variables;
+        private IList<string> variables;
         private AestheticValue aestheticValue;
         private IEventAggregator eventAggregator;
 
@@ -21,7 +21,7 @@ namespace TnCode.TnCodeApp.R.Controls
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public VariableControl(IEventAggregator evtAgg, AestheticValue aesValue, List<string> variableNames)
+        public VariableControl(IEventAggregator evtAgg, AestheticValue aesValue, IList<string> variableNames)
         {
             eventAggregator = evtAgg;
             aestheticValue = aesValue;
@@ -55,7 +55,7 @@ namespace TnCode.TnCodeApp.R.Controls
             }
         }
 
-        public List<string> Variables
+        public IList<string> Variables
         {
             get
             {

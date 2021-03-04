@@ -284,7 +284,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
                 Update();
         }
 
-        private List<string> UpdateVariables(string dataSet)
+        private IList<string> UpdateVariables(string dataSet)
         {
             var varibleNames = dataSetsManager.DataSetVariableNames(dataSet);
             varibleNames.Insert(0, "");

@@ -32,9 +32,22 @@ namespace TnCode.TnCodeApp.Charts.ViewModels
             eventAggregator = eventAggr;
             regionManager = regionMgr;
 
-            ChartCommand = new DelegateCommand<string>(CreateChart).ObservesCanExecute(() => VariablesSelected);
+            ChartCommand = new DelegateCommand<string>(CreateChart,CanCreatChart);
 
             eventAggregator.GetEvent<VariablesSelectedEvent>().Subscribe(VariablesSelection);
+        }
+
+        private bool CanCreatChart(string chartType)
+        {
+            switch (chartType)
+            {
+                case "Scatter":
+                    return true;
+                case "Line":
+                    return false;
+                default:
+                    return false;
+            }
         }
 
         private void VariablesSelection(Dictionary<string, ICollection<string>> variableList)

@@ -10,11 +10,11 @@ namespace TnCode.TnCodeApp.Data
         bool DataSetAdd(IDataSet dataSet);
         IEnumerable<IDataSet> SelectedDataSets();
         IList<IVariable> SelectedVariables();
-        List<string> SelectedDataSetsNames();
+        IList<string> SelectedDataSetsNames();
         IEnumerable<string> DataSetNames();
-        List<string> DataSetVariableNames(string dataSetName);
+        IList<string> DataSetVariableNames(string dataSetName);
         bool DatasetNameExists(string name);
-        List<string[]> ReadCsvFileRowWise(string filePath);
-        List<string[]> RowWiseToColumnWise(List<string[]> rowWiseData);
+        IList<string[]> ReadCsvFileRowWise(string filePath);
+        List<string[]> RowWiseToColumnWise(IList<string[]> rowWiseData);
     }
 }

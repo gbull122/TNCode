@@ -15,13 +15,13 @@ namespace TnCode.TnCodeApp.R.ViewModels
         private ObservableCollection<IOptionControl> optionControls;
         private ObservableCollection<VariableControl> aesControls;
 
-        private List<string> variables;
+        private IList<string> variables;
 
         private Aesthetic currentAesthetic;
 
         public event EventHandler AesChanged;
 
-        public List<string> Variables
+        public IList<string> Variables
         {
             get => variables;
             set
@@ -159,7 +159,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
             AesChanged?.Invoke(this, new EventArgs());
         }
 
-        internal void UpdateVariables(List<string> lists)
+        internal void UpdateVariables(IList<string> lists)
         {
             Variables = lists;
             SetControls();

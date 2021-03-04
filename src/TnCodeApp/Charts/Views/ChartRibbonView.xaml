@@ -3,33 +3,34 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Fluent="urn:fluent-ribbon"
     prism:ViewModelLocator.AutoWireViewModel="True">
-    <Ribbon
+    <Fluent:Ribbon
          x:Name="MainRibbon"
          x:FieldModifier="protected internal">
 
-        <RibbonTab
+        <Fluent:RibbonTabItem
             Header="Home">
 
-            <RibbonGroup
+            <Fluent:RibbonGroupBox
                 Header="Charts">
 
-                <RibbonButton
+                <Fluent:Button
                     AutomationProperties.AutomationId="RbBtnPointChart"
-                    Label="Point"
+                    Header="Scatter"
                     Command="{Binding ChartCommand}"
-                    CommandParameter="Point">
-                </RibbonButton>
+                    CommandParameter="Scatter">
+                </Fluent:Button>
 
-                <RibbonButton
+                <Fluent:Button
                     AutomationProperties.AutomationId="RbBtnLineChart"
-                    Label="Line"
+                    Header="Line"
                     Command="{Binding ChartCommand}"
                     CommandParameter="Line">
-                </RibbonButton>
+                </Fluent:Button>
 
-            </RibbonGroup>
-        </RibbonTab>
+            </Fluent:RibbonGroupBox>
+        </Fluent:RibbonTabItem>
         
-    </Ribbon>
+    </Fluent:Ribbon>
 </UserControl>

@@ -9,6 +9,7 @@ using System.IO;
 using System.Windows;
 using TnCode.Core.R;
 using TnCode.Core.Utilities;
+using TnCode.TnCodeApp.Charts.Views;
 using TnCode.TnCodeApp.Data;
 using TnCode.TnCodeApp.Data.Views;
 using TnCode.TnCodeApp.Logger;
@@ -69,6 +70,7 @@ namespace TnCode.TnCodeApp
 
             regionManager.RegisterViewWithRegion("RibbonRegion", typeof(DataRibbonView));
             regionManager.RegisterViewWithRegion("RibbonRegion", typeof(RRibbonView));
+            regionManager.RegisterViewWithRegion("RibbonRegion", typeof(ChartRibbonView));
 
             regionManager.RegisterViewWithRegion("MainRegion", typeof(DataSetsView));
             regionManager.RegisterViewWithRegion("MainRegion", typeof(LoggerView));
