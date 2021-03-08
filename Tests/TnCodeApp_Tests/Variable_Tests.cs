@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TnCode.TnCodeApp.Data;
 
-namespace Core.Data_Tests
+namespace TnCodeApp_Tests
 {
     [TestClass]
     public class Variable_Tests

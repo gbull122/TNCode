@@ -5,6 +5,9 @@ using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using TnCode.TnCodeApp.Charts.Events;
+using TnCode.TnCodeApp.Charts.Views;
+using TnCode.TnCodeApp.Data;
 using TnCode.TnCodeApp.Data.Events;
 
 namespace TnCode.TnCodeApp.Charts.ViewModels
@@ -13,7 +16,12 @@ namespace TnCode.TnCodeApp.Charts.ViewModels
     {
         private IEventAggregator eventAggregator;
         private IRegionManager regionManager;
+        private IChartService chartService;
+        private IDataSetsManager dataSetsManager;
+
         private bool variablesSelected;
+
+        private IList<object> variables;
 
         public DelegateCommand<string> ChartCommand { get; private set; }
 
@@ -27,42 +35,46 @@ namespace TnCode.TnCodeApp.Charts.ViewModels
             }
         }
 
-        public ChartRibbonViewModel(IEventAggregator eventAggr, IRegionManager regionMgr)
+        public ChartRibbonViewModel(IEventAggregator eventAggr, IRegionManager regionMgr, IChartService chartMgr, IDataSetsManager dataMgr)
         {
             eventAggregator = eventAggr;
             regionManager = regionMgr;
+            chartService = chartMgr;
+            dataSetsManager = dataMgr;
 
             ChartCommand = new DelegateCommand<string>(CreateChart,CanCreatChart);
 
-            eventAggregator.GetEvent<VariablesSelectedEvent>().Subscribe(VariablesSelection);
+            eventAggregator.GetEvent<VariableSelectionChangedEvent>().Subscribe(VariableSelectionChanged);
+            eventAggregator.GetEvent<ChartCreatedEvent>().Subscribe(ChartCreated);
+        }
+
+        private void ChartCreated(string obj)
+        {
+            regionManager.AddToRegion("MainRegion", new ChartView());
         }
 
         private bool CanCreatChart(string chartType)
         {
             switch (chartType)
             {
-                case "Scatter":
+                case "scatter":
                     return true;
-                case "Line":
-                    return false;
+                case "line":
+                    return true;
                 default:
                     return false;
             }
         }
 
-        private void VariablesSelection(Dictionary<string, ICollection<string>> variableList)
+        private void VariableSelectionChanged()
         {
-            if (variableList.Count > 0)
-                VariablesSelected = true;
+            ChartCommand.RaiseCanExecuteChanged();
         }
-
 
         private void CreateChart(string chartType)
         {
-            var navigationParameters = new NavigationParameters();
-
-            regionManager.RequestNavigate("MainRegion",
-                new Uri("ChartView" + navigationParameters.ToString(), UriKind.Relative));
+            var variables = dataSetsManager.SelectedVariables();
+            chartService.Create(chartType, variables);
         }
     }
 }

@@ -19,14 +19,14 @@
                     AutomationProperties.AutomationId="RbBtnPointChart"
                     Header="Scatter"
                     Command="{Binding ChartCommand}"
-                    CommandParameter="Scatter">
+                    CommandParameter="scatter">
                 </Fluent:Button>
 
                 <Fluent:Button
                     AutomationProperties.AutomationId="RbBtnLineChart"
                     Header="Line"
                     Command="{Binding ChartCommand}"
-                    CommandParameter="Line">
+                    CommandParameter="line">
                 </Fluent:Button>
 
             </Fluent:RibbonGroupBox>

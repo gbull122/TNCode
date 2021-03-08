@@ -13,6 +13,7 @@ using System.Windows;
 using TnCode.Core.R;
 using TnCode.Core.R.Charts.Ggplot;
 using TnCode.Core.Utilities;
+using TnCode.TnCodeApp.Charts;
 using TnCode.TnCodeApp.Docking;
 using TnCode.TnCodeApp.Logger;
 using TnCode.TnCodeApp.R;
@@ -61,6 +62,9 @@ namespace TnCode.TnCodeApp
             var eventAgg = (IEventAggregator)containerRegistry.GetContainer().Resolve(typeof(IEventAggregator));
             var rService = new RService(logViewModel, rManager,path, eventAgg);
             containerRegistry.RegisterInstance<IRService>(rService);
+
+            IChartService chartService = new ChartService(eventAgg);
+            containerRegistry.RegisterInstance<IChartService>(chartService);
 
             var XmlConverter = new XmlConverter();
             var xmlService = new XmlService(XmlConverter, rManager);

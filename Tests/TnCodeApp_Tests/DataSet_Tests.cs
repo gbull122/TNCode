@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using TnCode.TnCodeApp.Data;
 
-namespace Core.Data_Tests
+namespace TnCodeApp_Tests
 {
     [TestClass]
     public class DataSet_Tests

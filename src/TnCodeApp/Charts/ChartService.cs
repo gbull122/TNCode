@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using TnCode.TnCodeApp.Charts.Events;
 
 namespace TnCode.TnCodeApp.Charts
 {
@@ -45,7 +46,7 @@ namespace TnCode.TnCodeApp.Charts
                     charts.Add(newChart.Title, newChart);
                     lastChart = newChart.Title;
 
-                    //eventAggregator.GetEvent<ChartCreatedEvent>().Publish(newChart.Title);
+                    eventAggregator.GetEvent<ChartCreatedEvent>().Publish(newChart.Title);
                     return;
                 }
 

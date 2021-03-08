@@ -85,8 +85,7 @@ namespace TnCode.TnCodeApp.Data.ViewModels
 
         private void VariableSelectionChanged()
         {
-
-            //eventAggregator.GetEvent<VariablesSelectedChangedEvent>().Publish();
+            eventAggregator.GetEvent<VariableSelectionChangedEvent>().Publish();
         }
 
         private void DeleteDataSet()

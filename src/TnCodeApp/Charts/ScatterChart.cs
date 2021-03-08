@@ -9,7 +9,7 @@ namespace TnCode.TnCodeApp.Charts
     public class ScatterChart : IChart
     {
         private string title;
-        private IList<object> data;
+        private IList<IVariable> data;
         private PlotModel plotModel;
         //public event PropertyChangedEventHandler PropertyChanged;
 
@@ -20,7 +20,7 @@ namespace TnCode.TnCodeApp.Charts
 
         public string Title { get => title; set => title = value; }
 
-        public IList<object> Data { get => data; set => data = value; }
+        public IList<IVariable> Data { get => data; set => data = value; }
 
         public PlotModel Model
         {
@@ -31,8 +31,8 @@ namespace TnCode.TnCodeApp.Charts
             }
         }
 
-
-        public ScatterChart(IList<object> variableList)
+        public ScatterChart() { }
+        public ScatterChart(IList<IVariable> variableList)
         {
             Data = variableList;
         }

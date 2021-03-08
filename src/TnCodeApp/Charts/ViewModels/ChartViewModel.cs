@@ -6,6 +6,9 @@ namespace TnCode.TnCodeApp.Charts.ViewModels
 {
     public class ChartViewModel : BindableBase, IDockingPanel
     {
+        private IChartService chartService;
+
+        public string Title { get; set; }
 
         private Model plotModel;
 
@@ -19,13 +22,16 @@ namespace TnCode.TnCodeApp.Charts.ViewModels
             }
         }
 
-        public string Title => "Chart";
-
         public DockingMethod Docking => DockingMethod.Document;
 
-        public ChartViewModel()
+        public ChartViewModel(IChartService cService)
         {
+            chartService = cService;
 
+            var chart = cService.GetLastChart();
+            chart.Update();
+            Title = chart.Title;
+            PlotModel = chart.Model;
         }
     }
 }
