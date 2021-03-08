@@ -28,6 +28,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Core\R\R.csproj" />
     <ProjectReference Include="..\Core\Utilities\Utilities.csproj" />
+    <ProjectReference Include="..\Modules\Clustering\Clustering.csproj" />
   </ItemGroup>
 
   <ItemGroup>

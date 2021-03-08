@@ -31,10 +31,6 @@ namespace TnCode.TnCodeApp
         private bool showGui = true;
         protected override void OnStartup(StartupEventArgs e)
         {
-
-            //if (e.Args.Length > 0)
-            //showGui = false;
-
             base.OnStartup(e);
         }
 
@@ -44,10 +40,7 @@ namespace TnCode.TnCodeApp
         }
         protected override Window CreateShell()
         {
-            //if (showGui)
             return Container.Resolve<MainWindow>();
-
-            //return null;
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
