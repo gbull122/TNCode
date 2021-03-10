@@ -29,7 +29,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{A362
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SpectralClustering", "SpectralClustering", "{FA2BC78D-F4DB-41D9-BC68-746501F6C633}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clustering", "src\Modules\Clustering\Clustering.csproj", "{3AC8C167-DD57-4913-812B-07C035956100}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clustering", "src\Modules\Clustering\Clustering.csproj", "{3AC8C167-DD57-4913-812B-07C035956100}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

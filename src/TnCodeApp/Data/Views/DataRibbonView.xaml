@@ -29,8 +29,7 @@
                     AutomationProperties.AutomationId="RbBtnSave"
                     Header="Save"
                     Command="{Binding SaveCommand}"
-                    ToolTip="Save the current data sets"
-                    IsEnabled="False">
+                    ToolTip="Save the current data sets">
                 </Fluent:Button>
 
             </Fluent:RibbonGroupBox>

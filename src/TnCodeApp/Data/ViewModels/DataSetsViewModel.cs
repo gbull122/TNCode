@@ -26,8 +26,9 @@ namespace TnCode.TnCodeApp.Data.ViewModels
 
         public DelegateCommand VariableSelectionChangedCommand { get; private set; }
         public DelegateCommand DatasetSelectionChangedCommand { get; private set; }
-        public DelegateCommand DeleteDataSetCommand { get; private set; }
-        public DelegateCommand CloseCommand { get; private set; }
+
+        public DelegateCommand<IDataSet> DeleteDataSetCommand { get; private set; }
+        public DelegateCommand<IDataSet> CopyDataSetExcelCommand { get; private set; }
 
         public ObservableCollection<IDataSet> DataSets
         {
@@ -70,17 +71,12 @@ namespace TnCode.TnCodeApp.Data.ViewModels
             this.regionManager = regionManager;
 
             DatasetSelectionChangedCommand = new DelegateCommand(DatasetSelectionChanged);
-            DeleteDataSetCommand = new DelegateCommand(DeleteDataSet);
+            DeleteDataSetCommand = new DelegateCommand<IDataSet>(DeleteDataSet);
+            CopyDataSetExcelCommand = new DelegateCommand<IDataSet>(CopyDatSetExcel);
             VariableSelectionChangedCommand = new DelegateCommand(VariableSelectionChanged);
-            CloseCommand = new DelegateCommand(Close);
 
             eventAggregator.GetEvent<DataSetChangedEvent>().Subscribe(AddNewDataset, ThreadOption.UIThread);
 
-        }
-
-        private void Close()
-        {
-            throw new NotImplementedException();
         }
 
         private void VariableSelectionChanged()
@@ -88,9 +84,14 @@ namespace TnCode.TnCodeApp.Data.ViewModels
             eventAggregator.GetEvent<VariableSelectionChangedEvent>().Publish();
         }
 
-        private void DeleteDataSet()
+        private void DeleteDataSet(IDataSet dataSet)
         {
             //DataSets.Remove(selectedDataSet);
+        }
+
+        private void CopyDatSetExcel(IDataSet obj)
+        {
+            throw new NotImplementedException();
         }
 
         private void AddNewDataset(DataSetEventArgs dataSetEventArgs)

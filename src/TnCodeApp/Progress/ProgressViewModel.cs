@@ -3,6 +3,7 @@ using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Threading.Tasks;
+using TnCode.TnCodeApp.Data;
 using Unity;
 
 namespace TnCode.TnCodeApp.Progress
@@ -76,6 +77,21 @@ namespace TnCode.TnCodeApp.Progress
             Message = "Ready";
         }
 
+        public async Task ExecuteAsync(Func<IProgress<string>, IDataSet, Task> task, IDataSet arg)
+        {
+            var progress = new Progress<string>(taskMessage =>
+            {
+                Message = taskMessage;
+            });
+
+            ProgressIndeterminate = true;
+
+            await Task.Run(() => task(progress, arg));
+
+            ProgressIndeterminate = false;
+            Message = "Ready";
+        }
+
         public async Task ExecuteAsync(Func<IProgress<string>, string, string, Task> task, string arg1, string arg2)
         {
             var progress = new Progress<string>(taskMessage =>
@@ -112,6 +128,8 @@ namespace TnCode.TnCodeApp.Progress
             Message = "Ready";
         }
 
+        
+
         //public async Task ExecuteAsync(Task task, string v)
         //{
         //    Message = v;
@@ -135,6 +153,8 @@ namespace TnCode.TnCodeApp.Progress
             Message = "Ready";
 
         }
+
+
 
         //public async Task<T> ContinueAsync<T>(Task<T> task, string v)
         //{

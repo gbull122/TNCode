@@ -59,6 +59,10 @@
                             Header="Delete"
                             Command="{Binding DeleteDataSetCommand}" 
                             CommandParameter="{Binding ElementName=DataSetsTreeView, Path=SelectedItem}"/>
+                    <MenuItem 
+                            Header="Copy Excel"
+                            Command="{Binding CopyDataSetExcelCommand}" 
+                            CommandParameter="{Binding ElementName=DataSetsTreeView, Path=SelectedItem}"/>
                 </ContextMenu>
             </TreeView.ContextMenu>
 

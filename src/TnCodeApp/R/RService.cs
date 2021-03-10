@@ -21,7 +21,7 @@ namespace TnCode.TnCodeApp.R
         event EventHandler RConnected;
         event EventHandler RDisconnected;
         Task<bool> GenerateGgplotAsync(string ggplotCommand);
-        Task<bool> DataSetToRAsDataFrameAsync(IDataSet data);
+        Task DataSetToRAsDataFrameAsync(IProgress<string> progress, IDataSet data);
         Task<string> RHomeFromConnectedRAsync();
         Task<string> RPlatformFromConnectedRAsync();
         Task<string> RVersionFromConnectedRAsync();
@@ -60,13 +60,13 @@ namespace TnCode.TnCodeApp.R
 
         public bool IsRRunning { get => rManager.IsHostRunning(); }
 
-        public async Task<bool> DataSetToRAsDataFrameAsync(IDataSet data)
+        public async Task DataSetToRAsDataFrameAsync(IProgress<string> progress,IDataSet data)
         {
+            progress.Report(string.Format("Copying DataSet {0} to R",data.Name));
+
             DataFrame df = new DataFrame(data.ObservationNames.AsReadOnly(), data.VariableNames(), data.RawData());
 
             await rManager.CreateDataFrameAsync(data.Name, df);
-
-            return true;
         }
 
         public async Task<bool> InitialiseAsync()

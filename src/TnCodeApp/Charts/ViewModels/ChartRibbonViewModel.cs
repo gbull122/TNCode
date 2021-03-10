@@ -19,21 +19,7 @@ namespace TnCode.TnCodeApp.Charts.ViewModels
         private IChartService chartService;
         private IDataSetsManager dataSetsManager;
 
-        private bool variablesSelected;
-
-        private IList<object> variables;
-
         public DelegateCommand<string> ChartCommand { get; private set; }
-
-        public bool VariablesSelected
-        {
-            get => variablesSelected;
-            set
-            {
-                variablesSelected = value;
-                RaisePropertyChanged("VariablesSelected");
-            }
-        }
 
         public ChartRibbonViewModel(IEventAggregator eventAggr, IRegionManager regionMgr, IChartService chartMgr, IDataSetsManager dataMgr)
         {

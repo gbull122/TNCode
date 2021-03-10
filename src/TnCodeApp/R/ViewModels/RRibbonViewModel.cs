@@ -1,21 +1,25 @@
 ﻿using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Events;
+using Prism.Logging;
 using Prism.Mvvm;
 using Prism.Regions;
 using System.Text;
 using System.Windows;
+using TnCode.TnCodeApp.Data;
 using TnCode.TnCodeApp.Progress;
 using TnCode.TnCodeApp.R.Views;
 
 namespace TnCode.TnCodeApp.R.ViewModels
 {
-    public class RRibbonViewModel:BindableBase
+    public class RRibbonViewModel : BindableBase
     {
+        private ILoggerFacade loggerFacade;
         private IEventAggregator eventAggregator;
         private IRegionManager regionManager;
         private IRService rService;
         private IProgressService progressService;
+        private IDataSetsManager dataSetsManager;
 
         public bool IsMainRibbon => false;
 
@@ -41,12 +45,14 @@ namespace TnCode.TnCodeApp.R.ViewModels
             return !isRRunning;
         }
 
-        public RRibbonViewModel(IEventAggregator eventAggr, IRegionManager regionMgr, IProgressService pService, IRService rServ)
+        public RRibbonViewModel(ILoggerFacade logger,IEventAggregator eventAggr, IRegionManager regionMgr, IProgressService pService, IRService rServ, IDataSetsManager dataMgr)
         {
+            loggerFacade = logger;
             eventAggregator = eventAggr;
             regionManager = regionMgr;
             rService = rServ;
             progressService = pService;
+            dataSetsManager = dataMgr;
 
             ChartBuilderCommand = new DelegateCommand(CreateChart).ObservesCanExecute(() => IsRRunning);
             RStartCommand = new DelegateCommand(StartR, IsRNotRunning);
@@ -73,6 +79,18 @@ namespace TnCode.TnCodeApp.R.ViewModels
             await progressService.ExecuteAsync(rService.InitialiseAsync(), "Starting R...");
 
             IsRRunning = rService.IsRRunning;
+
+            if (IsRRunning)
+                LoadExisitingData();
+        }
+
+        private async void LoadExisitingData()
+        {
+            loggerFacade.Log("Loading existing data to R", Category.Info, Priority.Medium);
+            foreach (IDataSet dataSet in dataSetsManager.DataSets)
+            {
+                await progressService.ExecuteAsync(rService.DataSetToRAsDataFrameAsync, dataSet);
+            }
         }
 
         private void CreateChart()
