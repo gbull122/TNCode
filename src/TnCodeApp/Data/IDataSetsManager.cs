@@ -16,5 +16,6 @@ namespace TnCode.TnCodeApp.Data
         bool DatasetNameExists(string name);
         IList<string[]> ReadCsvFileRowWise(string filePath);
         List<string[]> RowWiseToColumnWise(IList<string[]> rowWiseData);
+        void SaveAllDataSetsToCsv(string path);
     }
 }

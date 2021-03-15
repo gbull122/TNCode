@@ -1,7 +1,10 @@
-﻿using System;
+﻿using CsvHelper;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 
 namespace TnCode.TnCodeApp.Data
 {
@@ -92,6 +95,34 @@ namespace TnCode.TnCodeApp.Data
             return false;
         }
 
+        public void SaveAllDataSetsToCsv(string path)
+        {
+            foreach (var dataSet in dataSets)
+            {
+                var destination = Path.Combine(path, dataSet.Name + ".csv");
+                var rowWiseData = ColumnWiseToRowWise(dataSet.RawData());
+                using (var writer = new StreamWriter(destination))
+                using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+                {
+                    object[] varNames = dataSet.VariableNames().ToArray<object>();
+                    rowWiseData.Insert(0, varNames);
+
+                    foreach (var row in rowWiseData)
+                    {
+                        foreach (var value in row)
+                        {
+                            csv.WriteField(value);
+                            
+                        }
+                        csv.NextRecord();
+                    }
+                    writer.Flush();
+
+                }
+            }
+        }
+
+        //TODO use csv helper
         public IList<string[]> ReadCsvFileRowWise(string filePath)
         {
             List<string[]> rawDataRowWise = new List<string[]>();
@@ -127,6 +158,28 @@ namespace TnCode.TnCodeApp.Data
             }
 
             return colWiseData;
+        }
+
+        public List<object[]> ColumnWiseToRowWise(IReadOnlyList<IReadOnlyList<object>> columnWiseData)
+        {
+            var numberOfColumns =  columnWiseData.Count;
+            var numberOfRows = columnWiseData[0].Count;
+
+            List<object[]> rowWiseData = new List<object[]>(numberOfColumns);
+
+
+            for (int index = 0; index < numberOfRows; ++index)
+            {
+                var row = new List<object>();
+                foreach (var col in columnWiseData)
+                {
+                    row.Add(col[index]);
+                }
+
+                rowWiseData.Add(row.ToArray());
+            }
+
+            return rowWiseData;
         }
 
         public bool DataSetAdd(IDataSet dataSet)

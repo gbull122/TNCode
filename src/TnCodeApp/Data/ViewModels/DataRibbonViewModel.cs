@@ -50,6 +50,8 @@ namespace TnCode.TnCodeApp.Data.ViewModels
             if (saveFileDialog.ShowDialog() == true)
             {
                 string destinationPath = Path.GetDirectoryName(saveFileDialog.FileName);
+
+                dataSetsManager.SaveAllDataSetsToCsv(destinationPath);
             }
         }
 

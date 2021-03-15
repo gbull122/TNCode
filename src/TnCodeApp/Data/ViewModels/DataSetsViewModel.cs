@@ -13,10 +13,8 @@ namespace TnCode.TnCodeApp.Data.ViewModels
 {
     public class DataSetsViewModel : BindableBase, IDockingPanel, INavigationAware, IRegionMemberLifetime
     {
-        private IDataSet selectedDataSet;
         private IEventAggregator eventAggregator;
         private IRegionManager regionManager;
-        private IList<object> selectedVariables;
         private IDataSetsManager datasetsManager;
         private IRService rService;
 
@@ -39,26 +37,6 @@ namespace TnCode.TnCodeApp.Data.ViewModels
                 RaisePropertyChanged("DataSets");
             }
         }
-
-        //public IDataSet SelectedDataSet
-        //{
-        //    get { return selectedDataSet; }
-        //    set
-        //    {
-        //        selectedDataSet = value;
-        //        RaisePropertyChanged("SelectedDataSet");
-        //    }
-        //}
-
-        //public IList<object> SelectedVariables
-        //{
-        //    get { return selectedVariables; }
-        //    set
-        //    {
-        //        selectedVariables = value;
-        //        RaisePropertyChanged("SelectedVariable");
-        //    }
-        //}
 
         public bool KeepAlive => true;
 
