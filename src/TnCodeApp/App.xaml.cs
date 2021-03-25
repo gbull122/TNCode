@@ -11,9 +11,10 @@ using Prism.Unity;
 using System.IO;
 using System.Windows;
 using TnCode.Core.R;
-using TnCode.Core.R.Charts.Ggplot;
 using TnCode.Core.Utilities;
 using TnCode.TnCodeApp.Charts;
+using TnCode.TnCodeApp.Dialogs.ViewModels;
+using TnCode.TnCodeApp.Dialogs.Views;
 using TnCode.TnCodeApp.Docking;
 using TnCode.TnCodeApp.Logger;
 using TnCode.TnCodeApp.R;
@@ -65,7 +66,8 @@ namespace TnCode.TnCodeApp
 
             containerRegistry.RegisterForNavigation<GgplotBuilderView>();
 
-            //containerRegistry.RegisterDialog<ConfirmationDialogView, ConfirmationDialogViewModel>();
+            containerRegistry.RegisterDialog<ConfirmationDialogView, ConfirmationDialogViewModel>();
+            containerRegistry.RegisterDialog<NotificationDialogView, NotificationDialogViewModel>();
         }
 
         protected override void ConfigureRegionAdapterMappings(RegionAdapterMappings regionAdapterMappings)

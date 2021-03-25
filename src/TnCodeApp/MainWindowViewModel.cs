@@ -1,13 +1,10 @@
-﻿using CommonServiceLocator;
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Events;
 using Prism.Logging;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
-using System.IO;
 using System.Windows;
-using TnCode.Core.R;
 using TnCode.Core.Utilities;
 using TnCode.TnCodeApp.Charts.Views;
 using TnCode.TnCodeApp.Data;
@@ -24,9 +21,9 @@ namespace TnCode.TnCodeApp
     {
 
         private IRegionManager regionManager;
-        private IEventAggregator eventAggregator;
+        //private IEventAggregator eventAggregator;
         private IUnityContainer container;
-        private IRService rService;
+        //private IRService rService;
 
         private string title = "TNCode";
         private string statusMessage = "Ready";
@@ -54,7 +51,7 @@ namespace TnCode.TnCodeApp
             container = contain;
             regionManager = regManager;
 
-            eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
+            //eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
 
             CloseCommand = new DelegateCommand(Close);
             AboutCommand = new DelegateCommand(About);

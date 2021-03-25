@@ -65,24 +65,18 @@ namespace TnCode.TnCodeApp.Data.ViewModels
 
                 if (dataSetsManager.DatasetNameExists(dataSetName))
                 {
-                    var message = "This is a message that should be shown in the dialog.";
-                    //using the dialog service as-is
-                    dialogService.ShowDialog("ConfirmationDialogView", new DialogParameters($"message={message}"), r =>
+                    var dialogParameters = new DialogParameters()
                     {
+                        { "title", "Duplicate Data" },
+                         { "message", string.Format("There is already a DataSet called {0}. Rename the csv file and try again.",dataSetName) }
+                    };
 
-                        if (r.Result == ButtonResult.None)
-                            return;
-                        //Title = "Result is None";
-                        else if (r.Result == ButtonResult.OK)
-                            return;
-                        //Title = "Result is OK";
-                        else if (r.Result == ButtonResult.Cancel)
-                            return;
-                        //Title = "Result is Cancel";
-                        else
-                            //Title = "I Don't know what you did!?";
-                            return;
-                    });
+                    void Callback(IDialogResult result)
+                    {
+                        
+                    }
+
+                    dialogService.ShowDialog("NotificationDialogView", dialogParameters, Callback);
                     return;
                 }
 

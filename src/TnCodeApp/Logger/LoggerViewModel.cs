@@ -12,7 +12,7 @@ namespace TnCode.TnCodeApp.Logger
 
         public ObservableCollection<LogEntry> LogEntries
         {
-            get { return logEntries; }
+            get { return logEntries; } 
             set
             {
                 logEntries = value;
@@ -38,5 +38,6 @@ namespace TnCode.TnCodeApp.Logger
             };
             LogEntries.Insert(0,newEntry);
         }
+
     }
 }

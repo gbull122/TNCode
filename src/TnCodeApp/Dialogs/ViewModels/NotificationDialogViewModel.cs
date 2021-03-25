@@ -5,7 +5,7 @@ using System;
 
 namespace TnCode.TnCodeApp.Dialogs.ViewModels
 {
-    public class ConfirmationDialogViewModel : BindableBase, IDialogAware
+    public class NotificationDialogViewModel : BindableBase, IDialogAware
     {
 
         private string _title;
@@ -27,8 +27,9 @@ namespace TnCode.TnCodeApp.Dialogs.ViewModels
 
         public event Action<IDialogResult> RequestClose;
 
-        public ConfirmationDialogViewModel()
+        public NotificationDialogViewModel()
         {
+            Title = "Notification";
         }
 
         protected virtual void CloseDialog(string parameter)
@@ -55,7 +56,7 @@ namespace TnCode.TnCodeApp.Dialogs.ViewModels
 
         public void OnDialogClosed()
         {
-            
+
         }
 
         public void OnDialogOpened(IDialogParameters parameters)

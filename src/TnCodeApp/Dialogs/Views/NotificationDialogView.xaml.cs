@@ -3,11 +3,11 @@
 namespace TnCode.TnCodeApp.Dialogs.Views
 {
     /// <summary>
-    /// Interaction logic for ConfirmationDialogView.xaml
+    /// Interaction logic for NotificationDialogView.xaml
     /// </summary>
-    public partial class ConfirmationDialogView : UserControl
+    public partial class NotificationDialogView : UserControl
     {
-        public ConfirmationDialogView()
+        public NotificationDialogView()
         {
             InitializeComponent();
         }
