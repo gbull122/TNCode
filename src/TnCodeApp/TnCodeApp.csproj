@@ -18,6 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="App.config" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CsvHelper" Version="26.0.1" />
     <PackageReference Include="Dirkster.AvalonDock" Version="4.50.1" />
     <PackageReference Include="Fluent.Ribbon" Version="8.0.3" />
@@ -29,7 +33,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Core\R\R.csproj" />
     <ProjectReference Include="..\Core\Utilities\Utilities.csproj" />
-    <ProjectReference Include="..\Modules\Clustering\Clustering.csproj" />
   </ItemGroup>
 
   <ItemGroup>

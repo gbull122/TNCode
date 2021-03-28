@@ -81,7 +81,7 @@ namespace TnCode.TnCodeApp
 
         protected override IModuleCatalog CreateModuleCatalog()
         {
-            return new ConfigurationModuleCatalog();
+            return new DirectoryModuleCatalog() { ModulePath = @".\Modules" };
         }
     }
 }

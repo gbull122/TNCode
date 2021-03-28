@@ -1,0 +1,44 @@
+﻿<UserControl 
+    x:Class="Clustering.Views.RibbonView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:adapter="clr-namespace:TnCode.TnCodeApp.Ribbon"
+    xmlns:Fluent="urn:fluent-ribbon"
+    prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <Fluent:Ribbon
+         x:Name="MainRibbon"
+         x:FieldModifier="protected internal">
+
+        <Fluent:RibbonTabItem
+            Header="Home">
+
+            <Fluent:RibbonGroupBox
+                Header="Clustering">
+
+                <Fluent:RadioButton
+                    Header="K-Means"
+                    Margin="2"
+                    IsChecked="{Binding UseKMeans}"/>
+
+                <Fluent:RadioButton
+                    Header="Spectral"
+                    Margin="2"
+                    IsChecked="{Binding UseSpectral}"/>
+
+                <Fluent:TextBox
+                    />
+
+                <Fluent:Button
+                    Header="Cluster"
+                    Command="{Binding ClusterCommand}"
+                    ToolTip="Perform Clustering"/>
+
+
+            </Fluent:RibbonGroupBox>
+        </Fluent:RibbonTabItem>
+    </Fluent:Ribbon>
+
+
+</UserControl>
