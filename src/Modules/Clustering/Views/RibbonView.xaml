@@ -10,9 +10,10 @@
     <Fluent:Ribbon
          x:Name="MainRibbon"
          x:FieldModifier="protected internal">
-
+        
         <Fluent:RibbonTabItem
             Header="Home">
+
 
             <Fluent:RibbonGroupBox
                 Header="Clustering">
@@ -27,16 +28,18 @@
                     Margin="2"
                     IsChecked="{Binding UseSpectral}"/>
 
-                <Fluent:TextBox
-                    />
+                <Fluent:Spinner
+                    Value="{Binding NumClusters}"
+                    Minimum="2"/>
 
                 <Fluent:Button
                     Header="Cluster"
                     Command="{Binding ClusterCommand}"
                     ToolTip="Perform Clustering"/>
 
-
             </Fluent:RibbonGroupBox>
+            
+            
         </Fluent:RibbonTabItem>
     </Fluent:Ribbon>
 

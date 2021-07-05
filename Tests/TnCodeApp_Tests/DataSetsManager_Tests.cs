@@ -84,5 +84,10 @@ namespace TnCodeApp_Tests
             actualData.Should().BeEquivalentTo(expectedData);
         }
 
+        [TestMethod]
+        public void TwoVariables_AsArray()
+        {
+            double[,] expected = { { 1, 2, 3 }, { 4, 5, 6 } };
+        }
     }
 }

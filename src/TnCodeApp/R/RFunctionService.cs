@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Prism.Logging;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Xml.Schema;
-using TnCode.Core.R;
 using TnCode.Core.R.Functions;
 
 namespace TnCode.TnCodeApp.R
@@ -11,16 +11,18 @@ namespace TnCode.TnCodeApp.R
     public class RFunctionService
     {
 
-        private IRManager _rManager;
-        private List<RFunctionCollection> _loadedFunctions;
+        private IRService rService;
+        private ILoggerFacade logger;
+        private List<RFunctionCollection> loadedFunctions;
         private RFunction _currentFunction = null;
-        private DataSelection _currentSelection;
+        //private DataSelection _currentSelection;
         private RFunctionInput _lastInput;
 
-        public RFunctionService(IRManager rMgr)
+        public RFunctionService(IRService rSer, ILoggerFacade log)
         {
-            _rManager = rMgr;
-            _loadedFunctions = new List<RFunctionCollection>();
+            rService = rSer;
+            logger = log;
+            loadedFunctions = new List<RFunctionCollection>();
             LoadFunctions();
             _lastInput = new RFunctionInput()
             {
@@ -31,7 +33,7 @@ namespace TnCode.TnCodeApp.R
 
         internal List<RFunctionCollection> LoadedFunctions
         {
-            get { return _loadedFunctions; }
+            get { return loadedFunctions; }
         }
 
         internal void DoFunction(string library, string function)
@@ -40,14 +42,14 @@ namespace TnCode.TnCodeApp.R
 
             if (aFunction != null)
             {
-                if (Globals.ThisAddIn.DataUpdateOn)
-                {
-                    RunAutoUpdateFunction(aFunction);
-                }
-                else
-                {
+                //if (Globals.ThisAddIn.DataUpdateOn)
+                //{
+                //    RunAutoUpdateFunction(aFunction);
+                //}
+                //else
+                //{
                     RunFunction(aFunction);
-                }
+                //}
 
 
             }
@@ -66,7 +68,8 @@ namespace TnCode.TnCodeApp.R
                 }
                 else
                 {
-                    Globals.ThisAddIn.ShowErrorMessage("Selected data is not in the right format for the function.");
+                    string message = "Selected data is not in the right format for the function.";
+                    logger.Log(message, Category.Info, Priority.Medium);
                 }
             }
             else
@@ -97,7 +100,7 @@ namespace TnCode.TnCodeApp.R
                         if (IsDataValid(aFunction.Input[0]))
                         {
                             //Get the data into R
-                            _rManager.DoInputs(aFunction, _currentSelection);
+                            rService.DoInputs(aFunction, _currentSelection);
                             BuildFunctionForm(aFunction, _currentSelection.Headers);
                         }
                         else
@@ -178,7 +181,7 @@ namespace TnCode.TnCodeApp.R
                 if (_currentSelection != null)
                 {
                     //Get the new data into r
-                    _rManager.DoInputs(_currentFunction, _currentSelection);
+                    rService.DoInputs(_currentFunction, _currentSelection);
                     UpdateFunctionData();
                 }
                 else
@@ -190,7 +193,7 @@ namespace TnCode.TnCodeApp.R
 
         public RFunction GetFunction(string library, string function)
         {
-            foreach (var funcs in _loadedFunctions)
+            foreach (var funcs in loadedFunctions)
             {
                 if (funcs.Name.Equals(library))
                 {
@@ -208,7 +211,7 @@ namespace TnCode.TnCodeApp.R
 
         private void LoadFunctions()
         {
-            _loadedFunctions.Clear();
+            loadedFunctions.Clear();
 
             if (string.IsNullOrEmpty(Properties.Settings.Default.FunctionFolder))
             {
@@ -274,14 +277,14 @@ namespace TnCode.TnCodeApp.R
                     var newFc = XmlConverter.ToObject<RFunctionCollection>(document.InnerXml);
                     if (newFc != null)
                     {
-                        List<Tuple<string, string, string, bool>> packResults = _rManager.CheckPackages(newFc.Packages);
+                        List<Tuple<string, string, string, bool>> packResults = rService.CheckPackages(newFc.Packages);
 
                         foreach (Tuple<string, string, string, bool> pack in packResults)
                         {
-                            _rManager.InstallPackage(pack.Item1);
+                            rService.InstallPackage(pack.Item1);
 
                         }
-                        _loadedFunctions.Add(newFc);
+                        loadedFunctions.Add(newFc);
 
                     }
                 }

@@ -10,7 +10,6 @@ namespace TnCode.TnCodeApp.Data
     {
         private ObservableCollection<IVariable> variables = new ObservableCollection<IVariable>();
         private List<string> observationNames = new List<string>();
-        private List<IReadOnlyCollection<object>> rawColumns = new List<IReadOnlyCollection<object>>();
         private int rowCount;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -45,7 +44,7 @@ namespace TnCode.TnCodeApp.Data
 
         public DataSet(List<object[,]> rawData, string name)
         {
-            this.Name = name;
+            Name = name;
             observationNames = CreateRowNames(rawData[0].GetLength(0) - 1);
             foreach (object[,] area in rawData)
             {
