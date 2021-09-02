@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "TnCodeApp": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

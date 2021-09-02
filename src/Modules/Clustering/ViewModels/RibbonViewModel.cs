@@ -15,7 +15,7 @@ namespace Clustering.ViewModels
     {
         private bool useKmeans;
         private bool useSpectral;
-        private string numClusters;
+        private double numClusters;
 
         private IEventAggregator eventAggregator;
         private IDataSetsManager dataSetsManager;
@@ -23,7 +23,7 @@ namespace Clustering.ViewModels
 
         public DelegateCommand ClusterCommand { get; private set; }
 
-        public string NumClusters
+        public double NumClusters
         {
             get { return numClusters; }
             set
@@ -33,7 +33,7 @@ namespace Clustering.ViewModels
             }
         }
 
-        public bool UseKmeans
+        public bool UseKMeans
         {
             get { return useKmeans; }
             set
@@ -61,6 +61,9 @@ namespace Clustering.ViewModels
 
             eventAggregator.GetEvent<VariableSelectionChangedEvent>().Subscribe(VariableSelectionChanged);
             ClusterCommand = new DelegateCommand(Cluster, CanCluster);
+
+            NumClusters = 2;
+            UseSpectral = true;
         }
 
         private void VariableSelectionChanged()
@@ -78,34 +81,43 @@ namespace Clustering.ViewModels
             return false;
         }
 
-        private async void Cluster()
+        private void Cluster()
         {
             var selectedVariables = dataSetsManager.SelectedVariables();
 
             var length = selectedVariables[0].Length;
 
-            double[,] dataArray = new double[2, length];
+            double[,] dataArray = new double[length,2];
 
-           for(int idx=0;idx<length;idx++)
+            for (int idx = 0; idx < length; idx++)
             {
-                dataArray[0, idx] = (double)selectedVariables[0].Values.ElementAt(idx);
-                dataArray[1, idx] = (double)selectedVariables[1].Values.ElementAt(idx);
+                dataArray[idx, 0] = (double)selectedVariables[0].Values.ElementAt(idx);
+                dataArray[idx, 1] = (double)selectedVariables[1].Values.ElementAt(idx);
             }
 
-            await progressService.ExecuteAsync(PerformClusteringAsync, dataArray);
+            int maxClusters = 2; //(int)numClusters;
+                                 //var pass = int.TryParse(numClusters, out int maxClusters);
+
+            // progressService.ExecuteAsync(PerformClusteringAsync, dataArray, maxClusters);
+
+            GCHandle handle = GCHandle.Alloc(dataArray, GCHandleType.Pinned);
+            IntPtr pointer = handle.AddrOfPinnedObject();
+
+            Clusters clustering = new Clusters();
+            var clusters = clustering.DoCluster(pointer, 2, length, maxClusters, useSpectral);
         }
 
 
-        private async Task PerformClusteringAsync(IProgress<string> progress,double[,] data)
+        private async Task PerformClusteringAsync(IProgress<string> progress, double[,] data, int numClusters)
         {
             progress.Report("Clustering...");
             Clusters clustering = new Clusters();
-            int.TryParse(numClusters, out int maxClusters);
+
 
             GCHandle handle = GCHandle.Alloc(data, GCHandleType.Pinned);
             IntPtr pointer = handle.AddrOfPinnedObject();
 
-            var clusters = clustering.DoCluster(pointer, 2, data.GetLength(0), maxClusters, useSpectral);
+            var clusters = clustering.DoCluster(pointer, 2, data.GetLength(1), numClusters, useSpectral);
             progress.Report("Done");
         }
     }

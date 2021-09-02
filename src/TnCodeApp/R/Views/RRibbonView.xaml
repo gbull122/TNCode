@@ -41,12 +41,15 @@
                     Command="{Binding ChartBuilderCommand}">
                 </Fluent:Button>
 
-                <Fluent:DropDownButton>
-                    
-                </Fluent:DropDownButton>
             </Fluent:RibbonGroupBox>
 
-
+            <Fluent:RibbonGroupBox
+                Header="Functions">
+                <Fluent:Gallery
+                    ItemsSource="{Binding Functions}">
+                    
+                </Fluent:Gallery>
+            </Fluent:RibbonGroupBox>
         </Fluent:RibbonTabItem>
 
        

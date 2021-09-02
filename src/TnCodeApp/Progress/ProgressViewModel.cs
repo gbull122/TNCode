@@ -107,7 +107,7 @@ namespace TnCode.TnCodeApp.Progress
             Message = "Ready";
         }
 
-        public async Task ExecuteAsync(Func<IProgress<string>, double[,], Task> task, double[,] arg)
+        public async Task ExecuteAsync(Func<IProgress<string>, double[,], int, Task> task, double[,] arg, int arg1)
         {
             var progress = new Progress<string>(taskMessage =>
             {
@@ -116,7 +116,7 @@ namespace TnCode.TnCodeApp.Progress
 
             ProgressIndeterminate = true;
 
-            await Task.Run(() => task(progress, arg));
+            await Task.Run(() => task(progress, arg, arg1));
 
             ProgressIndeterminate = false;
             Message = "Ready";
@@ -143,7 +143,7 @@ namespace TnCode.TnCodeApp.Progress
             Message = "Ready";
         }
 
-        
+
 
         //public async Task ExecuteAsync(Task task, string v)
         //{

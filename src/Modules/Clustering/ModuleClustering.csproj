@@ -6,6 +6,11 @@
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <OutputPath>..\..\..\netcoreapp3.1\Modules</OutputPath>
+  </PropertyGroup>
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="xcopy &quot;$(TargetDir)$(TargetName)*$(TargetExt)&quot; &quot;$(SolutionDir)\bin\netcoreapp3.1\Modules\&quot; /Y /S" />
   </Target>
@@ -22,6 +27,7 @@
   <ItemGroup>
     <Reference Include="Clustering">
       <HintPath>..\..\..\..\SpectralClustering\src\x64\Release\Clustering.dll</HintPath>
+      <Private>true</Private>
     </Reference>
   </ItemGroup>
 
