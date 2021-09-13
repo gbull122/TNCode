@@ -7,6 +7,7 @@ namespace TnCode.TnCodeApp.Data
         IReadOnlyCollection<object> Values { get; }
         int Length { get; }
         string Name { get; }
+        string Id { get; }
         Variable.Format DataFormat { get; }
         bool IsSelected { get; set; }
     }

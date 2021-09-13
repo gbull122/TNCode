@@ -22,7 +22,7 @@ namespace TnCode.TnCodeApp.Data.ViewModels
 
         public DockingMethod Docking { get => DockingMethod.ControlPanel; }
 
-        public DelegateCommand VariableSelectionChangedCommand { get; private set; }
+        public DelegateCommand<string> VariableSelectionChangedCommand { get; private set; }
         public DelegateCommand DatasetSelectionChangedCommand { get; private set; }
 
         public DelegateCommand<IDataSet> DeleteDataSetCommand { get; private set; }
@@ -34,7 +34,7 @@ namespace TnCode.TnCodeApp.Data.ViewModels
             set
             {
                 datasetsManager.DataSets = value;
-                RaisePropertyChanged("DataSets");
+                RaisePropertyChanged(nameof(DataSets));
             }
         }
 
@@ -51,13 +51,13 @@ namespace TnCode.TnCodeApp.Data.ViewModels
             DatasetSelectionChangedCommand = new DelegateCommand(DatasetSelectionChanged);
             DeleteDataSetCommand = new DelegateCommand<IDataSet>(DeleteDataSet);
             CopyDataSetExcelCommand = new DelegateCommand<IDataSet>(CopyDatSetExcel);
-            VariableSelectionChangedCommand = new DelegateCommand(VariableSelectionChanged);
+            VariableSelectionChangedCommand = new DelegateCommand<string>(VariableSelectionChanged);
 
             eventAggregator.GetEvent<DataSetChangedEvent>().Subscribe(AddNewDataset, ThreadOption.UIThread);
 
         }
 
-        private void VariableSelectionChanged()
+        private void VariableSelectionChanged(string name)
         {
             eventAggregator.GetEvent<VariableSelectionChangedEvent>().Publish();
         }

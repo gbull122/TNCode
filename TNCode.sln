@@ -31,6 +31,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SpectralClustering", "Spect
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModuleClustering", "src\Modules\Clustering\ModuleClustering.csproj", "{3AC8C167-DD57-4913-812B-07C035956100}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modules.SpectralClustering.ModuleClusteringTests", "Tests\Modules.SpectralClustering.ModuleClusteringTests\Modules.SpectralClustering.ModuleClusteringTests.csproj", "{F5B1491E-B803-487D-A803-909BC3560049}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -149,6 +151,18 @@ Global
 		{3AC8C167-DD57-4913-812B-07C035956100}.Release|x64.Build.0 = Release|x64
 		{3AC8C167-DD57-4913-812B-07C035956100}.Release|x86.ActiveCfg = Release|Any CPU
 		{3AC8C167-DD57-4913-812B-07C035956100}.Release|x86.Build.0 = Release|Any CPU
+		{F5B1491E-B803-487D-A803-909BC3560049}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5B1491E-B803-487D-A803-909BC3560049}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5B1491E-B803-487D-A803-909BC3560049}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F5B1491E-B803-487D-A803-909BC3560049}.Debug|x64.Build.0 = Debug|Any CPU
+		{F5B1491E-B803-487D-A803-909BC3560049}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F5B1491E-B803-487D-A803-909BC3560049}.Debug|x86.Build.0 = Debug|Any CPU
+		{F5B1491E-B803-487D-A803-909BC3560049}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5B1491E-B803-487D-A803-909BC3560049}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5B1491E-B803-487D-A803-909BC3560049}.Release|x64.ActiveCfg = Release|Any CPU
+		{F5B1491E-B803-487D-A803-909BC3560049}.Release|x64.Build.0 = Release|Any CPU
+		{F5B1491E-B803-487D-A803-909BC3560049}.Release|x86.ActiveCfg = Release|Any CPU
+		{F5B1491E-B803-487D-A803-909BC3560049}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -163,6 +177,7 @@ Global
 		{27BDECC0-7F67-422F-B2DB-A0802C4DEC4A} = {F123B869-EF52-45E0-BECB-ECF06DE78499}
 		{FA2BC78D-F4DB-41D9-BC68-746501F6C633} = {A362DB98-FA92-4289-BCD9-A4B41570CA4D}
 		{3AC8C167-DD57-4913-812B-07C035956100} = {FA2BC78D-F4DB-41D9-BC68-746501F6C633}
+		{F5B1491E-B803-487D-A803-909BC3560049} = {F123B869-EF52-45E0-BECB-ECF06DE78499}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F6830CDF-4D4F-480A-B40E-A0A7F23DC4A9}

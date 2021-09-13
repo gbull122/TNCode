@@ -2,6 +2,7 @@
 using Prism.Events;
 using Prism.Mvvm;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -95,16 +96,10 @@ namespace Clustering.ViewModels
                 dataArray[idx, 1] = (double)selectedVariables[1].Values.ElementAt(idx);
             }
 
-            int maxClusters = 2; //(int)numClusters;
-                                 //var pass = int.TryParse(numClusters, out int maxClusters);
+            int maxClusters = (int)numClusters;
 
-            // progressService.ExecuteAsync(PerformClusteringAsync, dataArray, maxClusters);
+            progressService.ExecuteAsync(PerformClusteringAsync, dataArray, maxClusters);
 
-            GCHandle handle = GCHandle.Alloc(dataArray, GCHandleType.Pinned);
-            IntPtr pointer = handle.AddrOfPinnedObject();
-
-            Clusters clustering = new Clusters();
-            var clusters = clustering.DoCluster(pointer, 2, length, maxClusters, useSpectral);
         }
 
 
@@ -117,8 +112,42 @@ namespace Clustering.ViewModels
             GCHandle handle = GCHandle.Alloc(data, GCHandleType.Pinned);
             IntPtr pointer = handle.AddrOfPinnedObject();
 
-            var clusters = clustering.DoCluster(pointer, 2, data.GetLength(1), numClusters, useSpectral);
+            var clusters = clustering.DoCluster(pointer, 2, data.GetLength(0), numClusters, useSpectral);
+
+            progress.Report("Sorting results...");
+
+            var results = SortResults(clusters);
+
+            var dataSetEventArgs = new DataSetEventArgs();
+            dataSetEventArgs.Modification = DataSetChange.Added;
+            dataSetEventArgs.Data = results;
+            eventAggregator.GetEvent<DataSetChangedEvent>().Publish(dataSetEventArgs);
+
             progress.Report("Done");
+        }
+
+        public IDataSet SortResults(int[][] rawClusters)
+        {
+            var selectedVariables = dataSetsManager.SelectedVariables();
+
+
+            object[] cluster = new object[selectedVariables[0].Length+1];
+            cluster[0] = "Cluster";
+            for (int clust =0;clust<rawClusters.Length;clust++)
+            {
+                foreach(var t in rawClusters[clust])
+                {
+                    cluster[t+1] = clust + 1;
+                }
+            }
+            var var1 = new Variable(selectedVariables[0].Name, selectedVariables[0].Values.ToArray<object>());
+            var var2 = new Variable(selectedVariables[1].Name, selectedVariables[1].Values.ToArray<object>());
+            var clus = new Variable(cluster);
+
+            var variables = new List<IVariable>() { var1, var2, clus };
+
+            var dataSet = new DataSet(variables, "Clusters");
+            return dataSet;
         }
     }
 }

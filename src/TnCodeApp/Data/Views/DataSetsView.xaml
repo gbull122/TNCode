@@ -10,46 +10,47 @@
 
     <Grid>
         <TreeView
-                x:Name="DataSetsTreeView"
-                Margin="2" 
-                ItemsSource="{Binding Path=DataSets}"
-                ScrollViewer.VerticalScrollBarVisibility="Visible"
-                Width="Auto"
-                ToolTip="Use to select a data set.">
+            x:Name="DataSetsTreeView"
+            Margin="2" 
+            ItemsSource="{Binding DataSets}"
+            ScrollViewer.VerticalScrollBarVisibility="Visible"
+            Width="Auto"
+            ToolTip="Use to select a data set.">
 
             <TreeView.Resources>
                 <HierarchicalDataTemplate 
-                        DataType="{x:Type local:DataSet}" 
-                        ItemsSource="{Binding Variables}">
-
-                    <StackPanel 
-                            Orientation="Horizontal">
-                        <CheckBox 
-                                IsChecked="{Binding IsSelected}"
-                                Command="{Binding DataContext.DatasetSelectionChangedCommand,RelativeSource={RelativeSource AncestorType={x:Type views:DataSetsView}}}"/>
-                        <TextBlock 
-                                Text="{Binding Name}"/>
-                    </StackPanel>
-
-                </HierarchicalDataTemplate>
-
-                <HierarchicalDataTemplate
-                        DataType="{x:Type local:Variable}">
+                    DataType="{x:Type local:DataSet}" 
+                    ItemsSource="{Binding Variables}">
 
                     <StackPanel 
                         Orientation="Horizontal">
                         <CheckBox 
-                                IsChecked="{Binding IsSelected}"
-                               Command="{Binding DataContext.VariableSelectionChangedCommand,RelativeSource={RelativeSource AncestorType={x:Type views:DataSetsView}}}"
-                            CommandParameter=""/>
+                            IsChecked="{Binding IsSelected}"
+                            Command="{Binding DataContext.DatasetSelectionChangedCommand,RelativeSource={RelativeSource AncestorType={x:Type views:DataSetsView}}}"/>
                         <TextBlock 
-                                Text="{Binding Name}"/>
+                            Text="{Binding Name}"/>
+                    </StackPanel>
+
+                </HierarchicalDataTemplate>
+
+                <DataTemplate
+                    DataType="{x:Type local:Variable}">
+
+                    <StackPanel 
+                        Orientation="Horizontal">
+                        <CheckBox 
+                            IsChecked="{Binding IsSelected}"
+                            Command="{Binding DataContext.VariableSelectionChangedCommand,RelativeSource={RelativeSource AncestorType={x:Type views:DataSetsView}}}"
+                            CommandParameter="{Binding Name}"/>
+                        <TextBlock 
+                                Text="{Binding Name}"
+                            Tag="{Binding Id}"/>
                         <!--<TextBlock 
                                 Text="{Binding VariableType}"/>
                             <TextBlock 
                                 Text="{Binding Length}"/>-->
                     </StackPanel>
-                </HierarchicalDataTemplate>
+                </DataTemplate>
 
             </TreeView.Resources>
 

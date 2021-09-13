@@ -72,6 +72,16 @@ namespace TnCode.TnCodeApp.Data
             }
         }
 
+        public DataSet(List<IVariable> rawData, string name)
+        {
+            Name = name;
+            observationNames = CreateRowNames(rawData[0].Length);
+            foreach (var col in rawData)
+            {
+                variables.Add(col);
+            }
+        }
+
         public DataSet(IReadOnlyList<IReadOnlyList<object>> data, IReadOnlyList<string> columnNames, string name)
         {
             Name = name;

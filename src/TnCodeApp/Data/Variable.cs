@@ -29,6 +29,7 @@ namespace TnCode.TnCodeApp.Data
 
         public string Name { get; }
 
+        public string Id { get; }
         public IReadOnlyCollection<object> Values { get; }
 
         public Format DataFormat { get; }
@@ -44,12 +45,43 @@ namespace TnCode.TnCodeApp.Data
             }
         }
 
-
         public Variable(object[] rawData)
         {
+            Id = Guid.NewGuid().ToString();
+
             Name = FormatName(rawData[0].ToString());
 
             var conversionResult = CanConvertObjectArrayToDoubleArray(rawData);
+            if (conversionResult.Item1)
+            {
+                Values = conversionResult.Item2;
+                DataFormat = Format.Continuous;
+            }
+            else
+            {
+                DateTime dateResult;
+                if (DateTime.TryParseExact(rawData[1].ToString(), "dd/MM/yyyy hh:mm:ss",
+                    CultureInfo.InvariantCulture, DateTimeStyles.None, out dateResult))
+                {
+                    Values = ConvertDoubleToDateTime(rawData);
+                    DataFormat = Format.DateTime;
+                }
+                else
+                {
+                    Values = ArrayToCollection(rawData, true);
+                    DataFormat = Format.Text;
+                }
+            }
+            Length = Values.Count;
+        }
+
+        public Variable(string name, object[] rawData)
+        {
+            Id = Guid.NewGuid().ToString();
+
+            Name = name;
+
+            var conversionResult = CanConvertObjectArrayToDoubleArray(rawData,false);
             if (conversionResult.Item1)
             {
                 Values = conversionResult.Item2;
@@ -103,13 +135,15 @@ namespace TnCode.TnCodeApp.Data
             }
         }
 
-        public Tuple<bool, IReadOnlyCollection<object>> CanConvertObjectArrayToDoubleArray(object[] testStringArray)
+        public Tuple<bool, IReadOnlyCollection<object>> CanConvertObjectArrayToDoubleArray(object[] testStringArray, bool removeFirst = true)
         {
             IReadOnlyCollection<object> convertedArray = null;
             var didDataConvert = false;
 
             var t = testStringArray.ToList<object>();
-            t.RemoveAt(0);
+
+            if(removeFirst)
+                t.RemoveAt(0);
             try
             {
                 List<double> str = ((IEnumerable)t)
