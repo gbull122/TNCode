@@ -29,7 +29,6 @@ namespace TnCode.TnCodeApp
     /// </summary>
     public partial class App : PrismApplication
     {
-        private bool showGui = true;
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);

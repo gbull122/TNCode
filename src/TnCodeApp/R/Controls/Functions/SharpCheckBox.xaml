@@ -1,0 +1,32 @@
+﻿<UserControl 
+    x:Class="SharpStatistics.EasyERAddIn.Functions.Controls.SharpCheckBox"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" >
+    <Grid 
+        Name="ControlPanel" 
+        MinWidth="150" 
+        MaxHeight="75">
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock 
+            Grid.Row="0" 
+            Margin="2" 
+            Text="{Binding Path=Label}"/>
+
+        <CheckBox 
+            Grid.Row="1" 
+            Margin="2" 
+            IsChecked="{Binding Path=Selected,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+    </Grid>
+</UserControl>

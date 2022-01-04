@@ -1,0 +1,118 @@
+﻿<UserControl 
+    x:Class="SharpStatistics.EasyERAddIn.Functions.Controls.SharpTimeSeriesControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid
+        Name="ControlPanel" 
+        Width="150" 
+        MaxHeight="150">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock 
+            Grid.Row="0" 
+            Margin="2" 
+            Text="{Binding Path=Label}"/>
+
+        <ComboBox 
+            Name="vCombo" 
+            Grid.Row="1"  
+            Margin="2" 
+            MaxDropDownHeight="150"
+            ItemsSource="{Binding Path=Options}" 
+            SelectedItem="{Binding Path=SelectedOption ,UpdateSourceTrigger=PropertyChanged}"
+            SelectedIndex="0"
+            IsSynchronizedWithCurrentItem="True"/>
+
+        <Grid
+            Grid.Row="2">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Text="Start">
+
+            </TextBlock>
+
+            <TextBlock
+                x:Name="startDate"
+                Grid.Row="0"
+                Grid.Column="1">
+                <TextBlock.Triggers>
+                    <EventTrigger RoutedEvent="MouseEnter">
+                        <EventTrigger.Actions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <BooleanAnimationUsingKeyFrames 
+                                        Storyboard.TargetName="Popup" 
+                                        Storyboard.TargetProperty="IsOpen">
+
+                                        <DiscreteBooleanKeyFrame 
+                                            KeyTime="0:0:0" 
+                                            Value="True" />
+
+                                    </BooleanAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger.Actions>
+                    </EventTrigger>
+                </TextBlock.Triggers>
+            </TextBlock>
+            <Popup 
+                x:Name="Popup" 
+                PopupAnimation="Fade" 
+                Placement="Center"
+                PlacementTarget="{Binding ElementName=startDate}"
+                StaysOpen="False"
+                  >
+                <Viewbox
+                     >
+                    <Calendar
+              
+                    
+                    DisplayMode="Decade">
+
+                    </Calendar>
+                </Viewbox>
+            </Popup>
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                Text="End">
+
+            </TextBlock>
+            <Expander
+                 Grid.Row="1"
+                Grid.Column="1">
+                <Calendar
+               
+                DisplayMode="Year">
+                </Calendar>
+            </Expander>
+
+
+        </Grid>
+
+    </Grid>
+</UserControl>

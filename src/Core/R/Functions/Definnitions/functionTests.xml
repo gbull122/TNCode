@@ -1,0 +1,332 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SharpRFunctions Name="Tests">
+  <Packages>
+  </Packages>
+  <Functions>
+    <!--Test Data-->
+    <RFunction Name="Test Data">
+      <Tooltip>Test Data</Tooltip>
+      <Information>
+        <![CDATA[
+        Generates 10 columns of randon data.
+        ]]>
+      </Information>
+      <Inputs>
+        <Input Type="None">
+          <Columns></Columns>
+        </Input>
+      </Inputs>
+      <Variables>
+        <Variable Name="numberPoints" ControlType="Numeric" Label="Number of points" Tooltip="The number of data points to generate in each vector.">
+          <Values>
+            <Value>1000</Value>
+          </Values>
+        </Variable>
+      </Variables>
+      <Outputs>
+        <Output Name="data" Type="DataFrame"/>
+        <Output Name="funcSummary" Type="Text"/>
+      </Outputs>
+      <Code>
+        <![CDATA[
+       df <- data.frame(
+                 variable=c("a", "b", "c","d","e","f","g","h","i","j"), 
+                 mean=c(1, 1, 1,1,1,1,1,1,1,1), 
+                 sd=c(1, 1,1,1,1,1,1,1,1,1))
+        normv <- function( n, mean , sd )
+        {
+          out <- rnorm( n*length(mean) , mean = mean , sd = sd )
+          return( matrix( out , , ncol = n , byrow = FALSE ) )
+        }
+        set.seed(1)
+        data<-as.data.frame(t(normv( numberPoints, df$mean , df$sd )))
+        funcSummary<-print(paste("10 variables generated, total data points ",10*numberPoints))
+        ]]>
+      </Code>
+    </RFunction>
+    <!--Normal-->
+    <RFunction Name="Normal">
+      <Tooltip>Shapiro-Wilk Normality Test</Tooltip>
+      <Information>
+        <![CDATA[
+        Performs Shapiro-Wilk Test on a single variable. Select a single column of values with the first cell containg the variable name.
+        ]]>
+      </Information>
+      <Inputs>
+        <Input Type="Vector">
+          <Columns>
+            <Column>Numeric</Column>
+          </Columns>
+        </Input>
+      </Inputs>
+      <Variables>
+        <Variable Name="chartTitle" ControlType="Text" Label="Chart Title" Tooltip="The text for the chart title.">
+          <Values>
+            <Value>Normal QQ Plot of</Value>
+          </Values>
+        </Variable>
+        <Variable Name="lineThickness" ControlType="Numeric" Label="Line Thickness" Tooltip="Specify the thickness of the fitted line.">
+          <Values>
+            <Value>2</Value>
+          </Values>
+        </Variable>
+        <Variable Name="lineColour" ControlType="Colour" Label="Line Colour" Tooltip="Specify the colour of the fitted line.">
+          <Values>
+            <Value>"red"</Value>
+          </Values>
+        </Variable>
+      </Variables>
+      <Outputs>
+        <Output Name="myResult" Type="Text"/>
+      </Outputs>
+      <Code>
+        <![CDATA[
+            test<-shapiro.test(variable0)
+            myResult<-capture.output(print(test))
+            par(mar=c(4,4,1,1))
+            qqnorm(variable0,main=chartTitle)
+            qqline(variable0,lwd=lineThickness,col=lineColour)
+            box(which = "figure", lty = 1, col = "black")
+            ]]>
+      </Code>
+    </RFunction>
+    <!--Single T Test-->
+    <RFunction Name="Single T">
+      <Tooltip>Simple T Test</Tooltip>
+      <Information>
+        <![CDATA[
+        Performs T Test on a single variable, against a specified value. Select a single column of values with the first cell containg the variable name.
+        ]]>
+      </Information>
+      <Inputs>
+        <Input  Type="Vector">
+          <Columns>
+            <Column>Numeric</Column>
+          </Columns>
+        </Input>
+      </Inputs>
+      <Variables>
+        <Variable Name="average" ControlType="Numeric" Label="Mean" Tooltip="The value to test against.">
+          <Values>
+            <Value>1</Value>
+          </Values>
+        </Variable>
+        <Variable Name="confidence" ControlType="Slider" Label="Confidence" Tooltip="The confidence interval for the test.">
+          <Values>
+            <Value>0.85</Value>
+            <Value>1</Value>
+            <Value>0.05</Value>
+            <Value>0.95</Value>
+          </Values>
+        </Variable>
+        <Variable Name="method" ControlType="Combo" Label="Method" Property="True" Tooltip="The test method.">
+          <Values>
+            <Value>Two Sided,two.sided</Value>
+            <Value>Less,less</Value>
+            <Value>Greater,greater</Value>
+          </Values>
+        </Variable>
+        <Variable Name="chartTitle" ControlType="Text" Label="Chart Title" Tooltip="The text for the chart title.">
+          <Values>
+            <Value>T-Test</Value>
+          </Values>
+        </Variable>
+      </Variables>
+      <Outputs>
+        <Output Name="myResult" Type="Text"/>
+      </Outputs>
+      <Code>
+        <![CDATA[
+        test<-t.test(variable0,mu=average,alternative=method,conf.level=confidence)
+      myResult<-capture.output(print(test))
+      temp<-data.frame(variable0);
+      aHist <- hist(variable0,plot=FALSE)
+      aDensity <- density(variable0)
+      multi <- aHist$counts / aHist$density
+      aDensity$y <- aDensity$y * multi[1]
+      if (max(aDensity$y) > max(aHist$counts)) {
+          plot(aHist, ylim = c(0, max(aDensity$y)),main=chartTitle)
+      } else {
+          plot(aHist, ylim = c(0, max(aHist$counts)),main=chartTitle)
+      }
+      box(which = "figure", lty = 1, col = "black")
+      abline(v = mean(variable0),col="red",lwd=2)
+      abline(v = average,col="green",lwd=2)
+      lines(aDensity, col = "darkblue", lwd = 2)
+      ]]>
+      </Code>
+    </RFunction>
+    <!--Two way T-Test-->
+    <RFunction Name="2 Way T">
+      <Tooltip>2 Way T Test</Tooltip>
+      <Information>
+        <![CDATA[Performs two way T Test on 2 variables,Select 2 columns of values with the first cell in each containg the variable name.]]>
+      </Information>
+      <Inputs>
+        <Input Type="Vector">
+          <Columns>
+            <Column>Numeric</Column>
+            <Column>Numeric</Column>
+          </Columns>
+        </Input>
+      </Inputs>
+      <Variables>
+        <Variable Name="check" ControlType="CheckBox" Label="Paired" Tooltip="Perform a paired test, in which case both variables must be the same length.">
+          <Values>
+            <Value>False</Value>
+          </Values>
+        </Variable>
+        <Variable Name="confidence" ControlType="Numeric" Label="Confidence" Tooltip="The confidence limits for the test.">
+          <Values>
+            <Value>0.95</Value>
+          </Values>
+        </Variable>
+        <Variable Name="method" ControlType="Combo" Label="Method" Tooltip="The test method.">
+          <Values>
+            <Value>Two Sided,two.sided</Value>
+            <Value>Less,less</Value>
+            <Value>Greater,greater</Value>
+          </Values>
+        </Variable>
+        <Variable Name="catergory" ControlType="Text" Label="Catergory Name" Tooltip="The catergory name to display in the results.">
+          <Values>
+            <Value>Catergory</Value>
+          </Values>
+        </Variable>
+        <Variable Name="densityTitle" ControlType="Text" Label="Density Chart Title" Tooltip="The density chart title.">
+          <Values>
+            <Value>Density</Value>
+          </Values>
+        </Variable>
+        <Variable Name="densityXaxis" ControlType="Text" Label="Density X label" Tooltip="The density chart x axis label.">
+          <Values>
+            <Value>Property</Value>
+          </Values>
+        </Variable>
+        <Variable Name="boxTitle" ControlType="Text" Label="BoxPlot Chart Title" Tooltip="The boxplot chart title.">
+          <Values>
+            <Value>Boxplot</Value>
+          </Values>
+        </Variable>
+      </Variables>
+      <Outputs>
+        <Output Name="myResult" Type="Text"/>
+      </Outputs>
+      <Code>
+        <![CDATA[
+        temp<-t.test(variable0,variable1,paired=check,alternative=method,conf.level=confidence)
+      myResult<-capture.output(print(temp))
+      #
+      boxplot(list(variable0,variable1), names = c("variable0", "variable1"),main=boxTitle,xlab=catergory)
+      box(which = "figure", lty = 1, col = "black")
+      grid(lty = 2, nx = NA, ny = NULL, col = "lightgray")
+      #
+      d1 <- list(density(variable0), density(variable1))
+      plot(NA, xlim = range(sapply(d1, "[", "x")), ylim = range(sapply(d1, "[", "y")),main=densityTitle,xlab=densityXaxis,ylab="Density")
+      box(which = "figure", lty = 1, col = "black")
+      grid(lty = 2, col = "lightgray")
+      mapply(lines, d1, lwd=2,col = c("blue","green"))
+      legend("topright", legend = c("variable0","variable1"), fill = c("blue","green"))
+      ]]>
+      </Code>
+    </RFunction>
+    <!--Variance Test-->
+    <RFunction Name="Variance">
+      <Tooltip>Variance test</Tooltip>
+      <Information>
+        <![CDATA[
+        Checks ratio of the variance of 2 variables. Select 2 columns of numeric data as the input, data can be unequal lengths
+        ]]>
+      </Information>
+      <Inputs>
+        <Input Type="Vector">
+          <Columns>
+            <Column>Numeric</Column>
+            <Column>Numeric</Column>
+          </Columns>
+        </Input>
+      </Inputs>
+      <Variables>
+        <Variable Name="chartTitle" ControlType="Text" Label="Chart Title" Tooltip="The text for the chart title.">
+          <Values>
+            <Value>Variance comparison</Value>
+          </Values>
+        </Variable>
+        <Variable Name="method" ControlType="Combo" Label="Method" Property="True" Tooltip="The type of test.">
+          <Values>
+            <Value>Two Sided,two.sided</Value>
+            <Value>Less,less</Value>
+            <Value>Greater,greater</Value>
+          </Values>
+        </Variable>
+        <Variable Name="average" ControlType="Numeric" Label="Variance Ratio" Tooltip="The ratio of variance to test for.">
+          <Values>
+            <Value>1</Value>
+          </Values>
+        </Variable>
+      </Variables>
+      <Outputs>
+        <Output Name="myResult" Type="Text"/>
+      </Outputs>
+      <Code>
+        <![CDATA[
+        temp<-var.test(variable0,variable1,ratio = average,alternative = method)
+      myResult<-capture.output(print(temp))
+      boxplot(list(variable0,variable1), names=c("variable0","variable1"),main=chartTitle)
+      box(which = "figure", lty = 1, col = "black")
+      grid(lty = 2,nx=NA,ny = NULL,col="LightGray")
+      ]]>
+      </Code>
+    </RFunction>
+    <!--Correlation-->
+    <RFunction Name="Correlation">
+      <Tooltip>Correlation test</Tooltip>
+      <Information>
+        <![CDATA[
+        Tests if the correlation between 2 variables is significant. Select 2 columns of numeric data as the input, data must be the same length.
+        ]]>
+      </Information>
+      <Inputs>
+        <Input Type="Vector">
+          <Columns>
+            <Column>Numeric</Column>
+            <Column>Numeric</Column>
+          </Columns>
+        </Input>
+      </Inputs>
+      <Variables>
+        <Variable Name="chartTitle" ControlType="Text" Label="Chart Title" Tooltip="The text for the chart title.">
+          <Values>
+            <Value>Correlation</Value>
+          </Values>
+        </Variable>
+        <Variable Name="hypothesis" ControlType="Combo" Label="Alternative" Property="True" Tooltip="The alternative hypothesis.">
+          <Values>
+            <Value>Two Sided,two.sided</Value>
+            <Value>Less,less</Value>
+            <Value>Greater,greater</Value>
+          </Values>
+        </Variable>
+        <Variable Name="cmethod" ControlType="Combo" Label="Method" Property="True" Tooltip="Correlation coeffifient">
+          <Values>
+            <Value>Pearson,pearson</Value>
+            <Value>Kendall,kendal</Value>
+            <Value>Spearman,spearman</Value>
+          </Values>
+        </Variable>
+      </Variables>
+      <Outputs>
+        <Output Name="myResult" Type="Text"/>
+      </Outputs>
+      <Code>
+        <![CDATA[
+        test<-cor.test(variable0, variable1, method = cmethod, alternative = hypothesis)
+        myResult<-capture.output(print(test))
+        plot(variable0,variable1,main=chartTitle,pch=21)
+      box(which = "figure", lty = 1, col = "black")
+      grid(lty = 2,nx=NA,ny = NULL,col="LightGray")
+        ]]>
+      </Code>
+    </RFunction>
+  </Functions>
+</SharpRFunctions>

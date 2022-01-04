@@ -1,0 +1,420 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SharpRFunctions Name="Charts">
+  <Packages>
+  </Packages>
+  <Functions>
+    <RFunction Name="Histogram (Frequency)" IsChartFunction="true">
+      <Tooltip>Histogram</Tooltip>
+      <Information>
+        <![CDATA[Generates a histogram of the selected variable. Select a single column of data with the variable name in the first cell.]]>
+      </Information>
+      <Inputs>
+        <Input Type="Vector">
+          <Columns>
+            <Column>Numeric</Column>
+          </Columns>
+        </Input>
+      </Inputs>
+      <Variables>
+        <Variable Name="title" ControlType="Text" Label="Chart Title" Tooltip="The title to display.">
+          <Values>
+            <Value>Histogram</Value>
+          </Values>
+        </Variable>
+        <Variable Name="showCurve" ControlType="CheckBox" Label="Show Curve" Tooltip="Add a normal curve to the plot.">
+          <Values>
+            <Value>TRUE</Value>
+          </Values>
+        </Variable>
+        <Variable Name="noBreaks" ControlType="Numeric" Label="Breaks" Tooltip="The number of bins.">
+          <Values>
+            <Value>0</Value>
+          </Values>
+        </Variable>
+      </Variables>
+      <Code>
+        <![CDATA[ 
+          if(noBreaks==0)
+          {
+            h<-hist(variable0,main=title,plot=FALSE)
+          }else{
+            h<-hist(variable0,breaks=noBreaks,main=title,plot=FALSE)
+          }
+          #Density curve
+          xfit<-seq(min(variable0),max(variable0),length=40) 
+          yfit<-dnorm(xfit,mean=mean(variable0),sd=sd(variable0))
+          #Plot
+          if(showCurve)
+          {
+          yfit <- yfit * diff(h$mids[1:2]) * length(variable0)
+            if(noBreaks==0)
+            {
+              hist(variable0,main=title,ylim=c(0,max(h$counts,yfit)))
+            }else{
+              hist(variable0,main=title,breaks=noBreaks,ylim=c(0,max(h$counts,yfit)))
+            }
+            lines(xfit, yfit, col="blue", lwd=2)
+          }else
+          {
+            if(noBreaks==0)
+            {
+              hist(variable0,main=title)
+            }else{
+              hist(variable0,main=title,breaks=noBreaks)
+            }
+          }
+          box(which = "figure", lty = 1, col = "black")]]>
+      </Code>
+    </RFunction>
+    <RFunction Name="Histogram (Density)" IsChartFunction="true">
+      <Tooltip>Histogram</Tooltip>
+      <Information>
+        <![CDATA[Generates a histogram of the selected variable. Select a single column of data with the variable name in the first cell.]]>
+      </Information>
+      <Inputs>
+        <Input Type="Vector">
+          <Columns>
+            <Column>Numeric</Column>
+          </Columns>
+        </Input>
+      </Inputs>
+      <Variables>
+        <Variable Name="title" ControlType="Text" Label="Chart Title" Tooltip="The title to display.">
+          <Values>
+            <Value>Histogram</Value>
+          </Values>
+        </Variable>
+        <Variable Name="showCurve" ControlType="CheckBox" Label="Show Curve" Tooltip="Add a normal curve to the plot.">
+          <Values>
+            <Value>TRUE</Value>
+          </Values>
+        </Variable>
+        <Variable Name="noBreaks" ControlType="Numeric" Label="Breaks" Tooltip="The number of bins.">
+          <Values>
+            <Value>0</Value>
+          </Values>
+        </Variable>
+      </Variables>
+      <Code>
+        <![CDATA[ 
+          if(noBreaks==0)
+          {
+            h<-hist(variable0,main=title,plot=FALSE,freq=FALSE)
+          }else{
+            h<-hist(variable0,breaks=noBreaks,main=title,plot=FALSE,freq=FALSE)
+          }
+          #Density curve
+          yfit<-density(variable0)
+          #Plot
+          if(showCurve)
+          {
+            if(noBreaks==0)
+            {
+              hist(variable0,freq=FALSE,main=title,ylim=c(0,max(h$density,yfit$y)))
+            }else{
+              hist(variable0,freq=FALSE,main=title,breaks=noBreaks,ylim=c(0,max(h$density,yfit$y)))
+            }
+            lines(yfit$x, yfit$y, col="blue", lwd=2)
+          }else
+          {
+            if(noBreaks==0)
+            {
+              hist(variable0,freq=FALSE,main=title)
+            }else{
+              hist(variable0,freq=FALSE,main=title,breaks=noBreaks)
+            }
+          }
+          box(which = "figure", lty = 1, col = "black")]]>
+      </Code>
+    </RFunction>
+    <RFunction Name="Box plot" IsChartFunction="true">
+      <Tooltip>Box plot</Tooltip>
+      <Information>
+        <![CDATA[Generates a box plot of the selected variables. Selected data must be numeric and can be unequal lengths.]]>
+      </Information>
+      <Inputs>
+        <Input Type="List">
+          <Columns></Columns>
+        </Input>
+      </Inputs>
+      <Variables>
+        <Variable Name="varSelection" ControlType="MultiVariable" Label="Dependent" Tooltip="The variables to plot."/>
+        <Variable Name="title" ControlType="Text" Label="Chart Title" Tooltip="The text for the chart title.">
+          <Values>
+            <Value>Box Plot</Value>
+          </Values>
+        </Variable>
+        <Variable Name="showNotch" ControlType="CheckBox" Label="Notch" Tooltip="Show notches on the box plot.">
+          <Values>
+            <Value>FALSE</Value>
+          </Values>
+        </Variable>
+        <Variable Name="bMargin" ControlType="Numeric" Label="Bottom Margin" Tooltip="The width of the bottom margin.">
+          <Values>
+            <Value>4</Value>
+          </Values>
+        </Variable>
+        <Variable Name="lMargin" ControlType="Numeric" Label="Left Margin" Tooltip="The width of the left margin.">
+          <Values>
+            <Value>4</Value>
+          </Values>
+        </Variable>
+        <Variable Name="labelOrientation" ControlType="CheckBox" Label="Label Orientation" Tooltip="Toggle thge orientation of the labels.">
+          <Values>
+            <Value>TRUE</Value>
+          </Values>
+        </Variable>
+      </Variables>
+      <Code>
+        <![CDATA[
+            par(mar=c(bMargin,lMargin,1,1))
+            if(labelOrientation){
+            boxplot(varSelection,main=title,notch=showNotch,las=1,show.names=TRUE)
+            }
+            else {
+            boxplot(varSelection,main=title,notch=showNotch,las=2,show.names=TRUE)
+            }
+            box(which = "figure", lty = 1, col = "black")
+            ]]>
+      </Code>
+    </RFunction>
+    <RFunction Name="Group Box Plot" IsChartFunction="false">
+      <Tooltip>Grouped Box plot</Tooltip>
+      <Information>
+        <![CDATA[Generates a box plot of the selected variables. Selected data must be equal lengths and contain the variable to group the data by.]]>
+      </Information>
+      <Inputs>
+        <Input Type="DataFrame">
+          <Columns></Columns>
+        </Input>
+      </Inputs>
+      <Variables>
+        <Variable Name="varGroup" ControlType="ComboVariable" Label="Group By" Tooltip="The variable to group the data by."/>
+        <Variable Name="varData" ControlType="ComboVariable" Label="Variable" Tooltip="The variable to plot."/>
+        <Variable Name="title" ControlType="Text" Label="Chart Title" Tooltip="The text for the chart title.">
+          <Values>
+            <Value>Group Box Plot</Value>
+          </Values>
+        </Variable>
+        <Variable Name="showNotch" ControlType="CheckBox" Label="Notch" Tooltip="Show notches on the box plot.">
+          <Values>
+            <Value>FALSE</Value>
+          </Values>
+        </Variable>
+      <Variable Name="bMargin" ControlType="Numeric" Label="Bottom Margin" Tooltip="The width of the bottom margin.">
+          <Values>
+            <Value>4</Value>
+          </Values>
+        </Variable>
+        <Variable Name="lMargin" ControlType="Numeric" Label="Left Margin" Tooltip="The width of the left margin.">
+          <Values>
+            <Value>4</Value>
+          </Values>
+        </Variable>
+        <Variable Name="labelOrientation" ControlType="CheckBox" Label="Label Orientation" Tooltip="Toggle thge orientation of the labels.">
+          <Values>
+            <Value>TRUE</Value>
+          </Values>
+        </Variable>
+      </Variables>
+      <Code>
+        <![CDATA[
+        par(mar=c(bMargin,lMargin,1,1))
+            if(labelOrientation)
+            {
+            boxplot(varData~varGroup,data=raddinData,main=title,notch=showNotch,las=1,show.names=TRUE)
+            }else{
+            boxplot(varData~varGroup,data=raddinData,main=title,notch=showNotch,las=2,show.names=TRUE)
+            }
+            box(which = "figure", lty = 1, col = "black")]]>
+      </Code>
+    </RFunction>
+    <!--Kernel Density-->
+    <RFunction Name="Kernel Density" IsChartFunction="true">
+      <Tooltip>Kernel Density</Tooltip>
+      <Information>
+        <![CDATA[Calculate the kernel density of a variable. Select a single column of data with the variable name in the first cell.]]>
+      </Information>
+      <Inputs>
+        <Input Type="List">
+          <Columns></Columns>
+        </Input>
+      </Inputs>
+      <Variables>
+        <Variable Name="varSelection" ControlType="ComboVariable" Label="Dependent" Tooltip="The variable to perform the function on."/>
+        <Variable Name="kType" ControlType="Combo" Label="Kernel" Tooltip="The type of kernel.">
+          <Values>
+            <Value>Gaussian,gaussian</Value>
+            <Value>Rectangular,rectangular</Value>
+            <Value>Triangular,triangular</Value>
+            <Value>Epanechnikov,epanechnikov</Value>
+          </Values>
+        </Variable>
+        <Variable Name="bwMethod" ControlType="Combo" Label="Bw Method" Tooltip="Basis weight calculation method.">
+          <Values>
+            <Value>Silverman,nrd0</Value>
+            <Value>Scott,nrd</Value>
+            <Value>Unbiased Cross Validation,ucv</Value>
+            <Value>Biased Cross Validation,bcv</Value>
+          </Values>
+        </Variable>
+        <Variable Name="bwValue" ControlType="Slider" Label="Bw Value" Tooltip="Specify a basis weight or leave 0 for default value.">
+          <Values>
+            <Value>0</Value>
+            <Value>10</Value>
+            <Value>2</Value>
+            <Value>0</Value>
+          </Values>
+        </Variable>
+        <Variable Name="chartTitle" ControlType="Text" Label="Chart Title" Tooltip="The text for the chart title.">
+          <Values>
+            <Value>Kernel Density</Value>
+          </Values>
+        </Variable>
+      </Variables>
+      <Code>
+        <![CDATA[
+            bWidth<-bwValue
+            if(bWidth==0)
+            {
+              result<-density(raddinData$varSelection,bw=bwMethod,kernel=kType,na.rm=TRUE)
+            }else
+            {
+              result<-density(raddinData$varSelection,bw=bWidth,kernel=kType,na.rm=TRUE)
+            }
+            plot(result,main=chartTitle)
+            rug(raddinData$varSelection)
+            box(which = "figure", lty = 1, col = "black")]]>
+      </Code>
+    </RFunction>
+    <RFunction Name="QQNorm" IsChartFunction="true">
+      <Tooltip>Normal QQ Plot</Tooltip>
+      <Information>
+        <![CDATA[Generates a QQ plot to check a variable against a Normal distibution.]]>
+      </Information>
+      <Inputs>
+        <Input Type="Vector">
+          <Columns>
+            <Column>Numeric</Column>
+          </Columns>
+        </Input>
+      </Inputs>
+      <Variables>
+        <Variable Name="chartTitle" ControlType="Text" Label="Chart Title" Tooltip="The text for the chart title.">
+          <Values>
+            <Value>Normal QQ Plot</Value>
+          </Values>
+        </Variable>
+        <Variable Name="lineThickness" ControlType="Numeric" Label="Line Thickness" Tooltip="Specify the thickness of the fitted line.">
+          <Values>
+            <Value>2</Value>
+          </Values>
+        </Variable>
+        <Variable Name="lineColour" ControlType="Colour" Label="Line Colour" Tooltip="Specify the colour of the fitted line.">
+          <Values>
+            <Value>"red"</Value>
+          </Values>
+        </Variable>
+      </Variables>
+      <Code>
+        <![CDATA[
+            par(mar=c(4,4,1,1))
+            qqnorm(variable0,main=chartTitle)
+            qqline(variable0,lwd=lineThickness,col=lineColour)
+            box(which = "figure", lty = 1, col = "black")]]>
+      </Code>
+    </RFunction>
+    <RFunction Name="Summary" IsChartFunction="true">
+      <Tooltip>Graphical summary</Tooltip>
+      <Information>
+        <![CDATA[Produce a graphical summary of a single variable. Select one column of numeric data, first row will be used for variable name.]]>
+      </Information>
+      <Inputs>
+        <Input Type="Vector">
+          <Columns>
+            <Column>Numeric</Column>
+          </Columns>
+        </Input>
+      </Inputs>
+      <Variables>
+        <Variable Name="title" ControlType="Text" Label="Chart Title" Tooltip="The text for the chart title.">
+          <Values>
+            <Value>Graphical summary</Value>
+          </Values>
+        </Variable>
+        <Variable Name="showNotch" ControlType="CheckBox" Label="BoxPlot Notch" Tooltip="Show a notched boxplot.">
+          <Values>
+            <Value>FALSE</Value>
+          </Values>
+        </Variable>
+        <Variable Name="showFreq" ControlType="CheckBox" Label="Histogram Frequency" Tooltip="Show frequency on the histogram.">
+          <Values>
+            <Value>TRUE</Value>
+          </Values>
+        </Variable>
+      </Variables>
+      <Code>
+        <![CDATA[
+            par(mfrow = c(2, 2), oma = c(0, 0, 2, 0) + + 0.1) 
+            hist(variable0, col = "gray", main = "Histogram", freq = showFreq) 
+            plot(density(variable0), lwd = 1, main = "Kernel density estimation") 
+            rug(variable0) 
+            qqnorm(variable0) 
+            qqline(variable0) 
+            boxplot(variable0, notch = showNotch, col = "gray", ylab = "variable0", main = "Boxplot") 
+            mtext(title, font = 4, outer = TRUE)
+            box(which = "outer", lty = 1, col = "black")]]>
+      </Code>
+    </RFunction>
+    <RFunction Name="Pairs" IsChartFunction="true">
+      <Tooltip>Pairs Plot</Tooltip>
+      <Information>
+        <![CDATA[Generates a scatter plot for each combination of variables. Selected data must be numeric and of equal length.]]>
+      </Information>
+      <Inputs>
+        <Input Type="DataFrame">
+          <Columns>
+          </Columns>
+        </Input>
+      </Inputs>
+      <Variables>
+        <Variable Name="chartTitle" ControlType="Text" Label="Chart Title" Tooltip="The text for the chart title.">
+          <Values>
+            <Value>Pairs Plot</Value>
+          </Values>
+        </Variable>
+      </Variables>
+      <Code>
+        <![CDATA[
+            panel.regression <- function (x, y, col = par("col"), bg = NA, pch = par("pch"), cex = 1, col.regres = "red") 
+            { 
+              points(x, y, pch = pch, col = col, bg = bg, cex = cex) 
+              ok <- is.finite(x) & is.finite(y) 
+              if (any(ok)) 
+                abline(stats::lm(y[ok] ~ x[ok]), col = col.regres) 
+              }    
+            panel.hist <- function(x, ...)
+            {
+              usr <- par("usr"); on.exit(par(usr))
+              par(usr = c(usr[1:2], 0, 1.5) )
+              h <- hist(x, plot = FALSE)
+              breaks <- h$breaks; nB <- length(breaks)
+              y <- h$counts; y <- y/max(y)
+              rect(breaks[-nB], 0, breaks[-1], y, col = "cyan", ...)
+            }
+            panel.cor <- function(x, y, digits = 2, prefix = "", cex.cor, ...)
+            {
+              usr <- par("usr"); on.exit(par(usr))
+              par(usr = c(0, 1, 0, 1))
+              r <- abs(cor(x, y))
+              txt <- format(c(r, 0.123456789), digits = digits)[1]
+              txt <- paste0(prefix, txt)
+              if(missing(cex.cor)) cex.cor <- 0.8/strwidth(txt)
+              text(0.5, 0.5, txt, cex = cex.cor * r)
+            }
+            pairs(raddinData, gap = 0, lower.panel = panel.regression,upper.panel=panel.cor, main=chartTitle)
+            box(which = "figure", lty = 1, col = "black")]]>
+      </Code>
+    </RFunction>
+  </Functions>
+</SharpRFunctions>

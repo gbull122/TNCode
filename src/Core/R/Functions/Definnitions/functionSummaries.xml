@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SharpRFunctions Name="Summarise">
+  <Packages>
+	<RPackage Name="plyr" Version="1.8.4" Comparison=">="/>
+    <RPackage Name="dplyr" Version="0.7.6" Comparison=">="/>
+  </Packages>
+  <Functions>
+    <RFunction Name="Group Summary" IsChartFunction="false">
+      <Tooltip>Group Summary</Tooltip>
+      <Information>
+        <![CDATA[Generates summary statistics of a numeric variable grouped by another]]>
+      </Information>
+      <Inputs>
+        <Input Type="DataFrame">
+          <Columns></Columns>
+        </Input>
+      </Inputs>
+	  <Variables>
+		<Variable Name="variable1" ControlType="ComboVariable" Label="Group by" Tooltip="The group variable."/>
+        <Variable Name="variable0" ControlType="ComboVariable" Label="Variable" Tooltip="The variable to summarise."/>
+	  </Variables>
+      <Outputs> 
+        <Output Name="result" Type="DataFrame"/>
+      </Outputs>
+      <Code>
+        <![CDATA[ 
+          grouped<-group_by(raddinData,variable1)
+		  result<-summarise(grouped,Mean=mean(variable0),Median=median(variable0),Min=min(variable0),Max=max(variable0),
+                Std=sd(variable0),SE=sd(variable0)/sqrt(n()),Count=n())
+		  ]]>
+      </Code>
+    </RFunction>
+  </Functions>
+</SharpRFunctions>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29102.190
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{AEC054BD-B944-4338-A722-BBC5CCD7EE7D}"
 EndProject
@@ -31,7 +31,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SpectralClustering", "Spect
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModuleClustering", "src\Modules\Clustering\ModuleClustering.csproj", "{3AC8C167-DD57-4913-812B-07C035956100}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modules.SpectralClustering.ModuleClusteringTests", "Tests\Modules.SpectralClustering.ModuleClusteringTests\Modules.SpectralClustering.ModuleClusteringTests.csproj", "{F5B1491E-B803-487D-A803-909BC3560049}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Modules.SpectralClustering.ModuleClusteringTests", "Tests\Modules.SpectralClustering.ModuleClusteringTests\Modules.SpectralClustering.ModuleClusteringTests.csproj", "{F5B1491E-B803-487D-A803-909BC3560049}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

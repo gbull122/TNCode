@@ -15,7 +15,6 @@ namespace TnCode.TnCodeApp.R
         private ILoggerFacade logger;
         private List<RFunctionCollection> loadedFunctions;
         private RFunction _currentFunction = null;
-        //private DataSelection _currentSelection;
         private RFunctionInput _lastInput;
 
         public RFunctionService(IRService rSer, ILoggerFacade log)
@@ -48,14 +47,14 @@ namespace TnCode.TnCodeApp.R
                 //}
                 //else
                 //{
-                    RunFunction(aFunction);
+                    //RunFunction(aFunction);
                 //}
 
 
             }
         }
 
-        private void RunFunction(RFunction aFunction)
+        private void RunFunction(RFunction aFunction,List<string> variables)
         {
             if (!aFunction.Input[0].InputType.Equals("None"))
             {
@@ -64,7 +63,7 @@ namespace TnCode.TnCodeApp.R
                 if (aFunction.Input[0].Equals(_lastInput))
                 {
                     _lastInput = aFunction.Input[0];
-                    BuildFunctionForm(aFunction, _currentSelection.Headers);
+                    BuildFunctionForm(aFunction, variables);
                 }
                 else
                 {
@@ -88,30 +87,30 @@ namespace TnCode.TnCodeApp.R
                 if (aFunction.Input[0].Equals(_lastInput))
                 {
                     _lastInput = aFunction.Input[0];
-                    BuildFunctionForm(aFunction, _currentSelection.Headers);
+                    //BuildFunctionForm(aFunction, _currentSelection.Headers);
                 }
                 else
                 {
                     //Get the selected data.
-                    _currentSelection = Globals.ThisAddIn.GetSelectedData();
-                    if (_currentSelection != null)
-                    {
-                        //
-                        if (IsDataValid(aFunction.Input[0]))
-                        {
-                            //Get the data into R
-                            rService.DoInputs(aFunction, _currentSelection);
-                            BuildFunctionForm(aFunction, _currentSelection.Headers);
-                        }
-                        else
-                        {
-                            Globals.ThisAddIn.ShowErrorMessage("Selected data is not in the right format for the function.");
-                        }
-                    }
-                    else
-                    {
-                        Globals.ThisAddIn.ShowErrorMessage("No data is selected.");
-                    }
+                    //_currentSelection = Globals.ThisAddIn.GetSelectedData();
+                    //if (_currentSelection != null)
+                    //{
+                    //    //
+                    //    if (IsDataValid(aFunction.Input[0]))
+                    //    {
+                    //        //Get the data into R
+                    //        rService.DoInputs(aFunction, _currentSelection);
+                    //        BuildFunctionForm(aFunction, _currentSelection.Headers);
+                    //    }
+                    //    else
+                    //    {
+                    //        //Globals.ThisAddIn.ShowErrorMessage("Selected data is not in the right format for the function.");
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    //Globals.ThisAddIn.ShowErrorMessage("No data is selected.");
+                    //}
                 }
             }
             else
@@ -123,72 +122,54 @@ namespace TnCode.TnCodeApp.R
 
         private bool IsDataValid(RFunctionInput fIn)
         {
-            switch (fIn.InputType)
-            {
-                case "Vector":
-                    if (_currentSelection.AllColumns.Count == fIn.Columns.Count)
-                    {
-                        for (int col = 0; col < _currentSelection.AllColumns.Count; col++)
-                        {
-                            var requiredType = fIn.Columns[col];
-                            if (!requiredType.Equals("Any"))
-                            {
-                                var selectedType = _currentSelection.AllColumns[col].ColumnData.ToString();
+            //switch (fIn.InputType)
+            //{
+            //    case "Vector":
+            //        if (_currentSelection.AllColumns.Count == fIn.Columns.Count)
+            //        {
+            //            for (int col = 0; col < _currentSelection.AllColumns.Count; col++)
+            //            {
+            //                var requiredType = fIn.Columns[col];
+            //                if (!requiredType.Equals("Any"))
+            //                {
+            //                    var selectedType = _currentSelection.AllColumns[col].ColumnData.ToString();
 
-                                if (!selectedType.Equals(requiredType))
-                                    return false;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                    break;
+            //                    if (!selectedType.Equals(requiredType))
+            //                        return false;
+            //                }
+            //            }
+            //        }
+            //        else
+            //        {
+            //            return false;
+            //        }
+            //        break;
 
-                case "DataFrame":
-                    if (_currentSelection.AllColumns.Count < 2)
-                        return false;
-                    break;
-            }
+                //case "DataFrame":
+                //    if (_currentSelection.AllColumns.Count < 2)
+                //        return false;
+                //    break;
+            //}
             return true;
         }
 
         private void BuildFunctionForm(RFunction aFunction, List<string> variables)
         {
-            Func<RFunction, string[], FunctionFormUserControl> formCreator = (x, y) => new FunctionFormUserControl();
-            var taskpane = TaskPaneManager.GetTaskPane(aFunction, variables.ToArray(), formCreator);
-            taskpane.Visible = true;
+            //Func<RFunction, string[], FunctionFormUserControl> formCreator = (x, y) => new FunctionFormUserControl();
+            //var taskpane = TaskPaneManager.GetTaskPane(aFunction, variables.ToArray(), formCreator);
+            //taskpane.Visible = true;
         }
 
         private void BuildFunctionForm(RFunction aFunction)
         {
-            Func<RFunction, string[], FunctionFormUserControl> formCreator = (x, y) => new FunctionFormUserControl();
-            var taskpane = TaskPaneManager.GetTaskPane(aFunction, new string[0], formCreator);
-            taskpane.Visible = true;
+            //Func<RFunction, string[], FunctionFormUserControl> formCreator = (x, y) => new FunctionFormUserControl();
+            //var taskpane = TaskPaneManager.GetTaskPane(aFunction, new string[0], formCreator);
+            //taskpane.Visible = true;
         }
 
         private void UpdateFunctionData()
         {
-            TaskPaneManager.UpdatePane(_currentSelection.Headers.ToArray());
-        }
-
-        internal void SelectedRangedChanged()
-        {
-            if (!_currentFunction.Input[0].InputType.Equals("None"))
-            {
-                _currentSelection = Globals.ThisAddIn.GetSelectedData();
-                if (_currentSelection != null)
-                {
-                    //Get the new data into r
-                    rService.DoInputs(_currentFunction, _currentSelection);
-                    UpdateFunctionData();
-                }
-                else
-                {
-                    Globals.ThisAddIn.ShowErrorMessage("Selected data is not in the expected format.");
-                }
-            }
+            //TaskPaneManager.UpdatePane(_currentSelection.Headers.ToArray());
         }
 
         public RFunction GetFunction(string library, string function)
@@ -213,25 +194,25 @@ namespace TnCode.TnCodeApp.R
         {
             loadedFunctions.Clear();
 
-            if (string.IsNullOrEmpty(Properties.Settings.Default.FunctionFolder))
-            {
-                Properties.Settings.Default.FunctionFolder =
-                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "EasyER");
-                Properties.Settings.Default.Save();
-            }
+            //if (string.IsNullOrEmpty(Properties.Settings.Default.FunctionFolder))
+            //{
+            //    Properties.Settings.Default.FunctionFolder =
+            //        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "EasyER");
+            //    Properties.Settings.Default.Save();
+            //}
 
-            if (GetXmlFiles(Properties.Settings.Default.FunctionFolder).Count == 0)
-            {
-                var installFolder = Path.GetDirectoryName(
-                    new Uri(System.Reflection.Assembly.GetExecutingAssembly().CodeBase).LocalPath);
+            //if (GetXmlFiles(Properties.Settings.Default.FunctionFolder).Count == 0)
+            //{
+            //    var installFolder = Path.GetDirectoryName(
+            //        new Uri(System.Reflection.Assembly.GetExecutingAssembly().CodeBase).LocalPath);
 
-                foreach (string f in GetXmlFiles(installFolder))
-                {
-                    if (f.StartsWith("easyer"))
-                        File.Copy(Path.Combine(installFolder, f), Path.Combine(Properties.Settings.Default.FunctionFolder, f));
-                }
-            }
-            LoadFunctions(Properties.Settings.Default.FunctionFolder);
+            //    foreach (string f in GetXmlFiles(installFolder))
+            //    {
+            //        if (f.StartsWith("easyer"))
+            //            File.Copy(Path.Combine(installFolder, f), Path.Combine(Properties.Settings.Default.FunctionFolder, f));
+            //    }
+            //}
+            //LoadFunctions(Properties.Settings.Default.FunctionFolder);
         }
 
         private List<string> GetXmlFiles(string folder)
@@ -267,32 +248,32 @@ namespace TnCode.TnCodeApp.R
             if (File.Exists(path))
             {
                 //validate xml deal with errors
-                XmlSchemaValidator.TestXML(path);
-                if (XmlSchemaValidator.IsValid)
-                {
-                    XmlReader reader = XmlReader.Create(path);
-                    XmlDocument document = new XmlDocument();
-                    document.Load(reader);
-                    reader.Close();
-                    var newFc = XmlConverter.ToObject<RFunctionCollection>(document.InnerXml);
-                    if (newFc != null)
-                    {
-                        List<Tuple<string, string, string, bool>> packResults = rService.CheckPackages(newFc.Packages);
+                //XmlSchemaValidator.TestXML(path);
+                //if (XmlSchemaValidator.IsValid)
+                //{
+                //    XmlReader reader = XmlReader.Create(path);
+                //    XmlDocument document = new XmlDocument();
+                //    document.Load(reader);
+                //    reader.Close();
+                //    var newFc = XmlConverter.ToObject<RFunctionCollection>(document.InnerXml);
+                //    if (newFc != null)
+                //    {
+                //        List<Tuple<string, string, string, bool>> packResults = rService.CheckPackages(newFc.Packages);
 
-                        foreach (Tuple<string, string, string, bool> pack in packResults)
-                        {
-                            rService.InstallPackage(pack.Item1);
+                //        foreach (Tuple<string, string, string, bool> pack in packResults)
+                //        {
+                //            rService.InstallPackage(pack.Item1);
 
-                        }
-                        loadedFunctions.Add(newFc);
+                //        }
+                //        loadedFunctions.Add(newFc);
 
-                    }
-                }
-                else
-                {
-                    //Report xml not valid
-                    System.Windows.Forms.MessageBox.Show("Failed to load the Sharp-R function file " + Path.GetFileName(path) + " as is does not follow the correct XML schema. " + XmlSchemaValidator.Error);
-                }
+                //    }
+                //}
+                //else
+                //{
+                //    //Report xml not valid
+                //    System.Windows.Forms.MessageBox.Show("Failed to load the Sharp-R function file " + Path.GetFileName(path) + " as is does not follow the correct XML schema. " + XmlSchemaValidator.Error);
+                //}
             }
         }
 
@@ -332,13 +313,5 @@ namespace TnCode.TnCodeApp.R
             return result;
         }
 
-        internal bool IsInputDataValid()
-        {
-            if (_currentFunction != null && _currentSelection != null)
-            {
-
-            }
-            return false;
-        }
     }
 }

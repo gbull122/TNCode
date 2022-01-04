@@ -1,0 +1,319 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SharpRFunctions Name="TimeSeries">
+  <Packages>
+    <RPackage Name="xts" Version="0.10.0" Comparison=">="/>
+    <RPackage Name="tseries" Version="0.10.42" Comparison=">="/>
+    <RPackage Name="scales" Version="0.5.0" Comparison=">="/>
+    <RPackage Name="forecast" Version="8.2.0" Comparison=">="/>
+	<RPackage Name="Rssa" Version="1.0.0" Comparison=">="/>
+	<RPackage Name="biwavelet" Version="0.20.0" Comparison=">="/>
+  </Packages>
+  <Functions>
+    <!--Time series plot-->
+    <RFunction Name="TS Plot">
+      <Tooltip>Plot a time series</Tooltip>
+      <Information>
+        <![CDATA[Produces a plot of a time series along with a box plot by cycle. Select 2 columns of data with the first containing the dates and the second the values.]]>
+      </Information>
+      <Inputs>
+        <Input Type="Vector">
+          <Columns>
+            <Column>DateTime</Column>
+            <Column>Numeric</Column>
+          </Columns>
+        </Input>
+      </Inputs>
+      <Variables>
+        <Variable Name="cycleCount" ControlType="Numeric" Label="Frequency" Property="True" Tooltip="The frequency of the data.">
+          <Values>
+            <Value>12</Value>
+          </Values>
+        </Variable>
+        <Variable Name="chartTitle" ControlType="Text" Label="Chart Title" Tooltip="The chart title text.">
+          <Values>
+          <Value>Time Series plots of</Value>
+            </Values>
+        </Variable>
+      </Variables>
+      <Code>
+        <![CDATA[
+        startYear <- as.numeric(strftime(head(variable0, 1), format = "%Y"))
+        startMonth <- as.numeric(strftime(head(variable0, 1), format = "%m"))
+        startDay<- as.numeric(strftime(head(variable0, 1), format = "%d"))
+        ats <- ts(variable1, start = c(startYear, startMonth, startDay), frequency = cycleCount)
+        par(mfcol = c(2, 1), oma = c(0, 0, 3, 0), mar = c(4, 2, 0.5, 0.2),cex=0.9)
+        plot(ats)
+        boxplot(ats~cycle(ats), xlab = "Cycle")
+        mtext(chartTitle, font =3, side=3,outer=TRUE,cex=1.5) 
+        box(which = "outer", lty = 1, col = "black")
+        ]]>
+      </Code>
+    </RFunction>
+    <!--Dickey Fuller-->
+    <RFunction Name="Dickey Fuller">
+      <Tooltip>Perform Dickey Fuller test</Tooltip>
+      <Information>
+        <![CDATA[Test to see if a time series is stationary. Select 2 columns of data with the first containg the dates and the second the values.]]>
+      </Information>
+      <Inputs>
+        <Input Type="Vector">
+          <Columns>
+            <Column>DateTime</Column>
+            <Column>Numeric</Column>
+          </Columns>
+        </Input>
+      </Inputs>
+      <Variables>
+        <Variable Name="cycleCount" ControlType="Numeric" Label="Frequency" Property="True" Tooltip="The frequency of the data.">
+          <Values>
+            <Value>12</Value>
+          </Values>
+        </Variable>
+        <Variable Name="method" ControlType="Combo" Label="Alternative" Tooltip="The alternative hypothesis.">
+          <Values>
+            <Value>Staionary,stationary</Value>
+            <Value>Explosive,explosive</Value>
+          </Values>
+        </Variable>
+        <Variable Name="lag" ControlType="Numeric" Label="Lag" Tooltip="The maximum lag to calculate.">
+          <Values>
+            <Value>10</Value>
+          </Values>
+        </Variable>
+      </Variables>
+      <Outputs>
+        <Output Name="myResult" Type="Text"/>
+      </Outputs>
+      <Code>
+        <![CDATA[
+        startYear <- as.numeric(strftime(head(variable0, 1), format = "%Y"))
+        startMonth <- as.numeric(strftime(head(variable0, 1), format = "%m"))
+        startDay<- as.numeric(strftime(head(variable0, 1), format = "%d"))
+        ats <- ts(variable1, start = c(startYear, startMonth, startDay), frequency = cycleCount)
+        a<-print(adf.test(ats, alternative = method, k = lag))
+        myResult<-capture.output(print(a))
+        ]]>
+      </Code>
+    </RFunction>
+    <!--Decomposition-->
+    <RFunction Name="Decomposition" IsChartFunction="false">
+      <Tooltip>Time series decomposition</Tooltip>
+      <Information>
+        <![CDATA[
+        Test Time series decoposition, extract seasonal and trend of series. Select 2 columns the first containing the dates.
+        ]]>
+      </Information>
+      <Inputs>
+        <Input Type="Vector">
+          <Columns>
+            <Column>DateTime</Column>
+            <Column>Numeric</Column>
+          </Columns>
+        </Input>
+      </Inputs>
+      <Variables>
+        <Variable Name="cycleCount" ControlType="Numeric" Label="Frequency" Property="True" Tooltip="The frequency of the data.">
+          <Values>
+            <Value>12</Value>
+          </Values>
+        </Variable>
+        <Variable Name="model" ControlType="Combo" Label="Method" Tooltip="Type of model structure.">
+          <Values>
+            <Value>Additive,additive</Value>
+            <Value>Multiplicative,multiplicative</Value>
+          </Values>
+        </Variable>
+        <Variable Name="axisFormat" ControlType="Combo" Label="Axis Format" Tooltip="Format of X Axis Labels">
+          <Values>
+            <Value>Year,%Y</Value>
+            <Value>Month,%B</Value>
+          </Values>
+        </Variable>
+      </Variables>
+      <Outputs> 
+        <Output Name="compsData" Type="DataFrame"/>
+      </Outputs>
+      <Code>
+        <![CDATA[ 
+        startYear <- as.numeric(strftime(head(variable0, 1), format = "%Y"))
+        startMonth <- as.numeric(strftime(head(variable0, 1), format = "%m"))
+        startDay <- as.numeric(strftime(head(variable0, 1), format = "%d"))
+        ats <- ts(variable1, start = c(startYear, startMonth, startDay), frequency = cycleCount)
+        tsComps <- stats::decompose(ats,type=model)
+		trendComp<-as.numeric(tsComps$trend)
+		trendComp[is.na(trendComp)]<-0
+		randomComp<-as.numeric(tsComps$random)
+		randomComp[is.na(randomComp)]<-0
+		compsData <- data.frame(as.numeric(tsComps$seasonal),trendComp,randomComp)
+		colnames(compsData) <- c("Seasonal","Trend","Random")
+        par(mfrow = c(2, 1), mar = c(2, 4.1, 1.2, 2.1))
+        plot(as.Date(variable0), variable1, type = "l", xaxt = "n",xlab="",ylab="variable1", main = "Data and trend")
+        points(as.Date(variable0), tsComps$trend, type = "l",col="Blue")
+        plot(as.Date(variable0), tsComps$seasonal, type = "l", xaxt = "n", xlab = "Date", ylab = "variable1", main = "Seasonal and random")
+        points(as.Date(variable0), tsComps$random, type = "l", col = "red")
+        axis.Date(1, variable0, format = axisFormat, las = 1)
+        box(which = "outer", lty = 1, col = "black")]]>
+      </Code>
+    </RFunction>
+    <!--ARIMA-->
+    <RFunction Name="ARIMA" IsChartFunction="false">
+      <Tooltip>Auto fit an ARIMA model</Tooltip>
+      <Information>
+        <![CDATA[Autofit an ARIMA model to a time series. Select 1 columns of data containing the values.]]>
+      </Information>
+      <Inputs>
+        <Input Type="Vector">
+          <Columns>
+            <Column>Numeric</Column>
+          </Columns>
+        </Input>
+      </Inputs>
+      <Variables>
+        <Variable Name="prediction" ControlType="Numeric" Label="Prediction" Tooltip="The period of the prediction.">
+          <Values>
+            <Value>12</Value>
+          </Values>
+        </Variable>
+        <Variable Name="conf" ControlType="Numeric" Label="Confidence" Tooltip="The confidence.">
+          <Values>
+            <Value>95</Value>
+          </Values>
+        </Variable>
+      </Variables>
+      <Outputs>
+        <Output Name="myResult" Type="Text"/>
+        <Output Name="data" Type="DataFrame"/>
+      </Outputs>
+      <Code>
+        <![CDATA[
+        arimaModel<-auto.arima(variable0,approximation=FALSE,trace=FALSE)
+        data<-data.frame(as.numeric(arimaModel$residuals))
+        colnames(data)<-c("Residuals")
+        myResult<-capture.output(print(summary(arimaModel)))
+        defaultPar <- par(no.readonly = T)
+        par(mfcol = c(2, 1), oma = c(0, 0, 3, 0), mar = c(2, 4.1, 0.2, 2.1))
+        acf(residuals(arimaModel), xaxt = NULL, xlab = "", main = "",cex.axis = 0.7, las = 1)
+        pacf(residuals(arimaModel), main = NULL, cex.axis = 0.7, las = 1)
+        mtext("ARIMA Residuals", font = 3, side = 3, outer = TRUE, cex = 1.5)
+        box(which = "outer", lty = 1, col = "black")
+        par(defaultPar)
+        plot(forecast(arimaModel, h = prediction, level = conf))
+        box(which = "outer", lty = 1, col = "black")
+        ]]>
+      </Code>
+    </RFunction>
+    <!--Fourier Transform-->
+    <RFunction Name="FFT" IsChartFunction="true">
+      <Tooltip>Spectrum</Tooltip>
+      <Information>
+        <![CDATA[
+        Generate a FFT of a series of data. Select a single column of data.
+        ]]>
+      </Information>
+      <Inputs>
+        <Input Type="Vector">
+          <Columns>
+            <Column>Numeric</Column>
+          </Columns>
+        </Input>
+      </Inputs>
+      <Variables>
+        <Variable Name="chartTitle" ControlType="Text" Label="Chart Title" Tooltip="The text for the chart title.">
+          <Values>
+            <Value>Spectrum of</Value>
+          </Values>
+        </Variable>
+        <Variable Name="method" ControlType="Combo" Label="Method" Property="True" Tooltip="The method to display the result.">
+          <Values>
+            <Value>Normal,no</Value>
+            <Value>Logarithmic,yes</Value>
+            <Value>Decibels,dB</Value>
+          </Values>
+        </Variable>
+      </Variables>
+      <Code>
+        <![CDATA[  
+        spectrum(as.numeric(variable0),log=method,main=chartTitle)
+        box(which = "figure", lty = 1, col = "black")
+        ]]>
+      </Code>
+    </RFunction>
+    <!--Wavelet-->
+    <RFunction Name="Wavelet" IsChartFunction="true">
+      <Tooltip>Wavelet Transform</Tooltip>
+      <Information>
+        <![CDATA[Perform a wavelet transform on a time series to see if there is any perodic component that varies over time. Select 1 column of data.]]>
+      </Information>
+      <Inputs>
+        <Input Type="Vector">
+          <Columns>
+            <Column>Numeric</Column>
+          </Columns>
+        </Input>
+      </Inputs>
+      <Variables>
+        <Variable Name="chartTitle" ControlType="Text" Label="Chart Title" Tooltip="The text for the chart title.">
+          <Values>
+            <Value>Wavelet analysis of </Value>
+          </Values>
+        </Variable>
+      </Variables>
+      <Code>
+        <![CDATA[
+        z<-seq(1,length(variable0))
+        mat <- matrix(c(z,as.numeric(variable0)),nrow=length(z))
+        par(mar = c(3.5, 3.5, 2.5, 0.4))
+        plot(wt(mat), main = chartTitle, cex.axis = 0.7, mgp = c(2, 1, 0),las=1)
+        box(which = "figure", lty = 1, col = "black")
+     ]]>
+      </Code>
+    </RFunction>
+    <!--SSA-->
+    <RFunction Name="SSA" IsChartFunction="true">
+      <Tooltip>Singular Spectrum Analysis</Tooltip>
+      <Information>
+        <![CDATA[Perform Singular Spectrum analaysis and forecast values. Select 1 column of data.]]>
+      </Information>
+      <Inputs>
+        <Input Type="Vector">
+          <Columns>
+            <Column>Numeric</Column>
+          </Columns>
+        </Input>
+      </Inputs>
+      <Variables>
+        <Variable Name="chartTitle" ControlType="Text" Label="Chart Title" Tooltip="The text for the chart title.">
+          <Values>
+            <Value>SSA of </Value>
+          </Values>
+        </Variable>
+        <Variable Name="maxComponent" ControlType="Numeric" Label="Max Component" Tooltip="The number of components to use for prediction.">
+          <Values>
+            <Value>12</Value>
+          </Values>
+        </Variable>
+		<Variable Name="maxPrediction" ControlType="Numeric" Label="Num Prediction" Tooltip="The number of points to predict.">
+          <Values>
+            <Value>12</Value>
+          </Values>
+        </Variable>
+		<Variable Name="pointsIncluded" ControlType="Numeric" Label="Num Points" Tooltip="The number of points to show before the prediction.">
+          <Values>
+            <Value>50</Value>
+          </Values>
+        </Variable>
+      </Variables>
+      <Code>
+        <![CDATA[
+        s <- ssa(variable0)
+        plot(s, main = chartTitle)
+        r <- reconstruct(s, groups = list(1:maxComponent))
+        plot(r)
+        p <- forecast(s, groups = list(1:maxComponent), method = "vector", len = maxPrediction,interval="prediction")
+        plot(p, include = pointsIncluded, shadecols = "green", type = "l", col = "red")
+        box(which = "outer", lty = 1, col = "black")
+        ]]>
+      </Code>
+    </RFunction>
+  </Functions>
+</SharpRFunctions>

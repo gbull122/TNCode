@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SharpRFunctions Name="Regression">
+  <Packages>
+  </Packages>
+  <Functions>
+    <!--ANOVA-->
+    <RFunction Name="ANOVA*1">
+      <Tooltip>One Way ANOVA</Tooltip>
+      <Information>
+        <![CDATA[Calculates one way ANOVA. Select two columns of data as the input. The first column contains the group identification, the second the values.]]>
+      </Information>
+      <Inputs>
+        <Input Type="Vector">
+          <Columns>
+            <Column>Any</Column>
+            <Column>Numeric</Column>
+          </Columns>
+        </Input>
+      </Inputs>
+      <Variables>
+        <Variable Name="chartTitle" ControlType="Text" Label="Chart Title" Tooltip="The text for the chart title.">
+          <Values>
+            <Value>ANOVA</Value>
+          </Values>
+        </Variable>
+      </Variables>
+      <Outputs>
+        <Output Name="myResult" Type="Text"/>
+      </Outputs>
+      <Code>
+        <![CDATA[fit <- aov(variable1 ~ variable0) 
+            myResult<-capture.output(summary(fit))
+            boxplot(variable1 ~ variable0,main=chartTitle)
+            box(which = "figure", lty = 1, col = "black")]]>
+      </Code>
+    </RFunction>
+    <RFunction Name="ANOVA*2">
+      <Tooltip>Two Way ANOVA</Tooltip>
+      <Information>
+        <![CDATA[Calculates two way ANOVA. Select two columns of data as the input. The first 2 columns contains the group identification, the third the values.]]>
+      </Information>
+      <Inputs>
+        <Input Type="Vector">
+          <Columns>
+            <Column>Any</Column>
+            <Column>Any</Column>
+            <Column>Numeric</Column>
+          </Columns>
+        </Input>
+      </Inputs>
+      <Variables>
+        <Variable Name="chartTitle" ControlType="Text" Label="Chart Title" Tooltip="The text for the chart title.">
+          <Values>
+            <Value>ANOVA</Value>
+          </Values>
+        </Variable>
+      </Variables>
+      <Outputs>
+        <Output Name="myResult" Type="Text"/>
+      </Outputs>
+      <Code>
+        <![CDATA[
+        fit <- aov(variable2~variable0+variable1) 
+            myResult<-capture.output(summary(fit))
+            boxplot(variable2 ~ variable0+variable1,main=chartTitle)
+            box(which = "figure", lty = 1, col = "black")]]>
+      </Code>
+    </RFunction>
+    <!--Regression-->
+    <RFunction Name="Simple Linear">
+      <Tooltip>Simple Linear Regression</Tooltip>
+      <Information>
+        <![CDATA[Perform simple linear regression analysis, select numeric data with 2 columns of the same length.]]>
+      </Information>
+      <Inputs>
+        <Input Type="Vector">
+          <Columns>
+            <Column>Numeric</Column>
+            <Column>Numeric</Column>
+          </Columns>
+        </Input>
+      </Inputs>
+      <Variables>
+        <Variable Name="response" ControlType="ComboVariable" Label="Dependent" Tooltip="The response variable."/>
+        <Variable Name="predictor" ControlType="ComboVariable" Label="Predictor" Tooltip="The predictor variable."/>
+        <Variable Name="chartTitle" ControlType="Text" Label="Chart Title" Tooltip="The text for the chart title.">
+          <Values>
+            <Value>Regression</Value>
+          </Values>
+        </Variable>
+        <Variable Name="confInterval" ControlType="Slider" Label="Confidence" Tooltip="The confidence interval for the regression.">
+          <Values>
+            <Value>0.85</Value>
+            <Value>1</Value>
+            <Value>0.05</Value>
+            <Value>0.95</Value>
+          </Values>
+        </Variable>
+      </Variables>
+      <Outputs>
+        <Output Name="modelResults" Type="DataFrame"/>
+        <Output Name="regressionSummary" Type="Text"/>
+      </Outputs>
+      <Code>
+        <![CDATA[
+        regressionModel <- lm(response~predictor)
+        regressionSummary <- capture.output(summary(regressionModel))
+        confidence <- predict(regressionModel, interval = "confidence", level = confInterval)
+        modelResults <- data.frame(regressionModel$fitted.values, regressionModel$residuals, rstandard(regressionModel), cooks.distance(regressionModel), confidence[, 2], confidence[, 3])
+        colnames(modelResults) <- c("Fitted", "Residuals", "StdResiduals", "Cooks Distance", "lowerCi", "UpperCi")
+        plot(predictor, response, main = chartTitle, pch = 16, col = "green")
+        abline(regressionModel, col = "red", lw = 2)
+        lines(spline(predictor, confidence[, 2]), col = "blue", lty = "dashed")
+        lines(spline(predictor, confidence[, 3]), col = "blue", lty = "dashed")
+        box(which = "figure", lty = 1, col = "black")]]>
+      </Code>
+    </RFunction>
+    <!--Regression-->
+    <RFunction Name="Linear">
+      <Tooltip>Linear Regression</Tooltip>
+      <Information>
+        <![CDATA[Perform linear regression analysis, select numeric data with at least 2 columns of the same length.]]>
+      </Information>
+      <Inputs>
+        <Input Type="DataFrame">
+          <Columns></Columns>
+        </Input>
+      </Inputs>
+      <Variables>
+        <Variable Name="selectedFormula" ControlType="VariableFormula" Label="Regression Model" Tooltip="Use to define the regression model required."/>
+      </Variables>
+      <Outputs>
+        <Output Name="Numbers" Type="DataFrame"/>
+        <Output Name="myResult" Type="Text"/>
+      </Outputs>
+      <Code>
+        <![CDATA[
+        fit<-lm(selectedFormula,data=raddinData)
+        myResult<-capture.output(summary(fit))
+        Numbers<-data.frame(fit$fitted.values,fit$residuals,cooks.distance(fit))
+        colnames(Numbers)<-c("Fitted","Residuals","Cooks Distance")
+        plot(fit)
+        box(which = "figure", lty = 1, col = "black")]]>
+      </Code>
+    </RFunction>
+    <RFunction Name="Simple Logistic">
+      <Tooltip>Logistic Regression</Tooltip>
+      <Information>
+        <![CDATA[Perform simple logistic regression analysis, select numeric data with 2 columns of the same length.]]>
+      </Information>
+      <Inputs>
+        <Input Type="Vector">
+          <Columns>
+            <Column>Numeric</Column>
+            <Column>Numeric</Column>
+          </Columns>
+        </Input>
+      </Inputs>
+      <Variables>
+        <Variable Name="response" ControlType="ComboVariable" Label="Dependent" Tooltip="The response variable."/>
+        <Variable Name="predictor" ControlType="ComboVariable" Label="Predictor" Tooltip="The predictor variable."/>
+      </Variables>
+      <Outputs>
+        <Output Name="Numbers" Type="DataFrame"/>
+        <Output Name="myResult" Type="Text"/>
+      </Outputs>
+      <Code>
+        <![CDATA[
+        logisticModel <- glm(response~predictor, family = binomial(link = "logit"))
+        logisticSummary <- capture.output(summary(logisticModel))
+        modelResults <- data.frame(logisticModel$fitted.values, logisticModel$residuals, rstandard(logisticModel), cooks.distance(logisticModel))
+        colnames(modelResults) <- c("Fitted", "Residuals", "StdResiduals", "Cooks Distance")
+        plot(predictor, response, main = "Logistic Regression Plot", pch = 16, col = "green")
+        lines(spline(predictor, as.numeric(logisticModel$fitted.values)),lwd=2,col="red")
+        box(which = "figure", lty = 1, col = "black")]]>
+      </Code>
+    </RFunction>
+    <RFunction Name="Logistic">
+      <Tooltip>Logistic Regression</Tooltip>
+      <Information>
+        <![CDATA[Perform simple logistic regression analysis, select numeric data with at least 2 columns of the same length.]]>
+      </Information>
+      <Inputs>
+        <Input Type="DataFrame">
+          <Columns>
+
+          </Columns>
+        </Input>
+      </Inputs>
+      <Variables>
+        <Variable Name="selectedFormula" ControlType="VariableFormula" Label="Regression Model" Tooltip="Use to define the regression model required."/>
+      </Variables>
+      <Outputs>
+        <Output Name="Numbers" Type="DataFrame"/>
+        <Output Name="myResult" Type="Text"/>
+      </Outputs>
+      <Code>
+        <![CDATA[
+        fit<-glm(selectedFormula,family=binomial(link="logit"), data=raddinData)
+        myResult<-capture.output(summary(fit))
+        Numbers<-data.frame(fit$fitted.values,fit$residuals,cooks.distance(fit))
+        colnames(Numbers)<-c("Fitted","Residuals","Cooks Distance")
+        plot(fit)
+        box(which = "figure", lty = 1, col = "black")]]>
+      </Code>
+    </RFunction>
+
+  </Functions>
+</SharpRFunctions>
