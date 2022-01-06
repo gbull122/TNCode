@@ -1,6 +1,6 @@
-﻿using Microsoft.R.Host.Client;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.R.Host.Client;
 using Prism.Events;
-using Prism.Logging;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -37,7 +37,7 @@ namespace TnCode.TnCodeApp.R
 
     public class RService: IRService
     {
-        private ILoggerFacade loggerFacade;
+        private ILogger loggerFacade;
         private IRManager rManager;
         private IEventAggregator eventAggregator;
 
@@ -50,7 +50,7 @@ namespace TnCode.TnCodeApp.R
             set;
         }
 
-        public RService(ILoggerFacade loggerFacd, IRManager rMgr ,string path, IEventAggregator eventAgg)
+        public RService(ILogger loggerFacd, IRManager rMgr ,string path, IEventAggregator eventAgg)
         {
             loggerFacade = loggerFacd;
             rManager = rMgr;
@@ -73,7 +73,7 @@ namespace TnCode.TnCodeApp.R
         {
             try
             {
-                loggerFacade.Log("Connecting to R...", Category.Info, Priority.None);
+                loggerFacade.LogInformation("Connecting to R...");
 
                 var rHostSession = rManager.HostSession;
                 rHostSession.Connected += RHostSession_Connected;
@@ -82,9 +82,9 @@ namespace TnCode.TnCodeApp.R
                 await rManager.StartHostAsync();
                 
                 await rManager.ExecuteAsync("library(" + string.Format("\"{0}\"", "R.devices") + ")");
-                loggerFacade.Log("Library R.devices loaded", Category.Info, Priority.None);
+                loggerFacade.LogInformation("Library R.devices loaded");
                 await rManager.ExecuteAsync("library(" + string.Format("\"{0}\"", "ggplot2") + ")");
-                loggerFacade.Log("Library ggplot2 loaded", Category.Info, Priority.None);
+                loggerFacade.LogInformation("Library ggplot2 loaded");
 
                 await rManager.ExecuteAndOutputAsync("setwd(" + ConvertPathToR(WindowsDirectory) + ")");
                 
@@ -92,10 +92,10 @@ namespace TnCode.TnCodeApp.R
             }
             catch (Exception ex)
             {
-                loggerFacade.Log("Failed to connect to R: " + ex.Message + ex.StackTrace, Category.Exception, Priority.High);
+                loggerFacade.LogInformation("Failed to connect to R: " + ex.Message + ex.StackTrace);
                 return false;
             }
-            loggerFacade.Log("Connected to R", Category.Info, Priority.None);
+            loggerFacade.LogInformation("Connected to R");
             return true;
         }
 
@@ -202,7 +202,7 @@ namespace TnCode.TnCodeApp.R
             catch(Exception ex)
             {
                 var errorMessage = "Failed to generate plot " + ex.Message;
-                loggerFacade.Log(errorMessage, Category.Exception, Priority.High);
+                loggerFacade.LogInformation(errorMessage);
                 
                 return false;
             }
@@ -272,7 +272,7 @@ namespace TnCode.TnCodeApp.R
             }
             catch (Exception ex)
             {
-                loggerFacade.Log(ex.Message, Category.Exception, Priority.High);
+                loggerFacade.LogInformation(ex.Message);
             }
             return result;
         }

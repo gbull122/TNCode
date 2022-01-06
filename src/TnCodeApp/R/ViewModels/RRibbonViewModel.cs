@@ -1,7 +1,7 @@
-﻿using Microsoft.Win32;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Events;
-using Prism.Logging;
 using Prism.Mvvm;
 using Prism.Regions;
 using System.Text;
@@ -14,7 +14,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
 {
     public class RRibbonViewModel : BindableBase
     {
-        private ILoggerFacade loggerFacade;
+        private ILogger loggerFacade;
         private IEventAggregator eventAggregator;
         private IRegionManager regionManager;
         private IRService rService;
@@ -45,7 +45,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
             return !isRRunning;
         }
 
-        public RRibbonViewModel(ILoggerFacade logger,IEventAggregator eventAggr, IRegionManager regionMgr, IProgressService pService, IRService rServ, IDataSetsManager dataMgr)
+        public RRibbonViewModel(ILogger logger,IEventAggregator eventAggr, IRegionManager regionMgr, IProgressService pService, IRService rServ, IDataSetsManager dataMgr)
         {
             loggerFacade = logger;
             eventAggregator = eventAggr;
@@ -86,7 +86,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
         private async void LoadExisitingData()
         {
-            loggerFacade.Log("Loading existing data to R", Category.Info, Priority.Medium);
+            loggerFacade.LogInformation("Loading existing data to R");
             foreach (IDataSet dataSet in dataSetsManager.DataSets)
             {
                 await progressService.ExecuteAsync(rService.DataSetToRAsDataFrameAsync, dataSet);

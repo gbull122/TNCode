@@ -1,9 +1,8 @@
-﻿using Prism.Logging;
+﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Xml.Schema;
 using TnCode.Core.R.Functions;
 
 namespace TnCode.TnCodeApp.R
@@ -12,12 +11,12 @@ namespace TnCode.TnCodeApp.R
     {
 
         private IRService rService;
-        private ILoggerFacade logger;
+        private ILogger logger;
         private List<RFunctionCollection> loadedFunctions;
         private RFunction _currentFunction = null;
         private RFunctionInput _lastInput;
 
-        public RFunctionService(IRService rSer, ILoggerFacade log)
+        public RFunctionService(IRService rSer, ILogger log)
         {
             rService = rSer;
             logger = log;
@@ -68,7 +67,7 @@ namespace TnCode.TnCodeApp.R
                 else
                 {
                     string message = "Selected data is not in the right format for the function.";
-                    logger.Log(message, Category.Info, Priority.Medium);
+                    logger.LogInformation(message);
                 }
             }
             else

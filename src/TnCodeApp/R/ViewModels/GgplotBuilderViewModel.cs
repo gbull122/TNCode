@@ -1,7 +1,6 @@
-﻿using Prism.Commands;
+﻿using Microsoft.Extensions.Logging;
+using Prism.Commands;
 using Prism.Events;
-using Prism.Ioc;
-using Prism.Logging;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
@@ -28,7 +27,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
         private readonly IEventAggregator eventAggregator;
         private readonly IRegionManager regionManager;
-        private readonly ILoggerFacade loggerFacade;
+        private readonly ILogger loggerFacade;
 
         private readonly IRService rService;
         private readonly IDataSetsManager dataSetsManager;
@@ -123,7 +122,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
 
         public List<string> Geoms { get; set; }
 
-        public GgplotBuilderViewModel(IEventAggregator eventAggr, IRegionManager regMngr, IRService rSer, IDataSetsManager setsManager, IProgressService progService, IXmlService xml, ILoggerFacade logger)
+        public GgplotBuilderViewModel(IEventAggregator eventAggr, IRegionManager regMngr, IRService rSer, IDataSetsManager setsManager, IProgressService progService, IXmlService xml, ILogger logger)
         {
             rService = rSer;
             eventAggregator = eventAggr;
@@ -308,7 +307,7 @@ namespace TnCode.TnCodeApp.R.ViewModels
         {
             var plotCommand = ggplot.Command();
 
-            loggerFacade.Log(plotCommand, Category.Debug, Priority.None);
+            loggerFacade.LogInformation(plotCommand);
             var isPlotGenerated = await rService.GenerateGgplotAsync(plotCommand);
 
             if (isPlotGenerated)

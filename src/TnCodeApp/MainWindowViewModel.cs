@@ -1,6 +1,5 @@
-﻿using Prism.Commands;
-using Prism.Events;
-using Prism.Logging;
+﻿using Microsoft.Extensions.Logging;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
@@ -11,7 +10,6 @@ using TnCode.TnCodeApp.Data;
 using TnCode.TnCodeApp.Data.Views;
 using TnCode.TnCodeApp.Logger;
 using TnCode.TnCodeApp.Progress;
-using TnCode.TnCodeApp.R;
 using TnCode.TnCodeApp.R.Views;
 using Unity;
 
@@ -46,7 +44,7 @@ namespace TnCode.TnCodeApp
             set { SetProperty(ref statusMessage, value); }
         }
 
-        public MainWindowViewModel(IUnityContainer contain, IRegionManager regManager, ILoggerFacade loggerFacade)
+        public MainWindowViewModel(IUnityContainer contain, IRegionManager regManager, ILogger loggerFacade)
         {
             container = contain;
             regionManager = regManager;

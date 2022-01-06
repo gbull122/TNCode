@@ -1,9 +1,8 @@
 ﻿using AvalonDock;
-using CommonServiceLocator;
+using Microsoft.Extensions.Logging;
 using Microsoft.R.Host.Client;
 using Prism.Events;
 using Prism.Ioc;
-using Prism.Logging;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -46,7 +45,7 @@ namespace TnCode.TnCodeApp
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             var logViewModel = new LoggerViewModel();
-            containerRegistry.RegisterInstance<ILoggerFacade>(logViewModel);
+            containerRegistry.RegisterInstance<ILogger>(logViewModel);
             ViewModelLocationProvider.Register<LoggerView>(() => logViewModel);
 
             var path = Path.GetTempPath();
@@ -71,9 +70,9 @@ namespace TnCode.TnCodeApp
 
         protected override void ConfigureRegionAdapterMappings(RegionAdapterMappings regionAdapterMappings)
         {
-            regionAdapterMappings.RegisterMapping(typeof(DockingManager), new DockingRegionAdapter(ServiceLocator.Current.GetInstance<IRegionBehaviorFactory>()));
+            regionAdapterMappings.RegisterMapping(typeof(DockingManager), Container.Resolve<DockingRegionAdapter>());
 
-            regionAdapterMappings.RegisterMapping(typeof(Fluent.Ribbon), new RibbonRegionAdapter(ServiceLocator.Current.GetInstance<IRegionBehaviorFactory>()));
+            regionAdapterMappings.RegisterMapping(typeof(Fluent.Ribbon), Container.Resolve<RibbonRegionAdapter>());
 
             base.ConfigureRegionAdapterMappings(regionAdapterMappings);
         }
