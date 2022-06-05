@@ -122,10 +122,8 @@ namespace TnCode.TnCodeApp.Data
             t.RemoveAt(0);
             try
             {
-                List<double> str = ((IEnumerable)t)
-                                .Cast<object>()
-                                .Select(x => DateTime.ParseExact(x.ToString(), "dd/MM/yyyy hh:mm:ss", CultureInfo.InvariantCulture).ToOADate())
-                                .ToList();
+                IEnumerable<double> str = (t)
+                                .Select(x => DateTime.ParseExact(x.ToString(), "dd/MM/yyyy hh:mm:ss", CultureInfo.InvariantCulture).ToOADate());
 
                 return (str.Cast<object>().ToList().AsReadOnly());
             }
@@ -140,16 +138,14 @@ namespace TnCode.TnCodeApp.Data
             IReadOnlyCollection<object> convertedArray = null;
             var didDataConvert = false;
 
-            var t = testStringArray.ToList<object>();
+            var testArray = testStringArray.ToList<object>();
 
             if(removeFirst)
-                t.RemoveAt(0);
+                testArray.RemoveAt(0);
             try
             {
-                List<double> str = ((IEnumerable)t)
-                                .Cast<object>()
-                                .Select(x => double.Parse(x.ToString(), CultureInfo.InvariantCulture))
-                                .ToList();
+                IEnumerable<double> str = (testArray)
+                                .Select(x => Convert.ToDouble(x));
 
                 convertedArray = str.Cast<object>().ToList().AsReadOnly();
                 didDataConvert = true;

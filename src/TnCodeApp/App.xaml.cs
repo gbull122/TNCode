@@ -1,15 +1,16 @@
 ﻿using AvalonDock;
 using Microsoft.Extensions.Logging;
 using Microsoft.R.Host.Client;
-using Microsoft.R.Host.Client.Session;
 using Prism.Events;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Unity;
+using System;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using TnCode.Core.R;
 using TnCode.Core.Utilities;
@@ -39,16 +40,33 @@ namespace TnCode.TnCodeApp
         {
             base.OnStartup(e);
         }
-        protected override void InitializeModules()
+
+        protected async override void InitializeModules()
         {
+            splashWindowModel.Status = "Loading modules";
             base.InitializeModules();
+
+           
+
             splashWindowModel.IsEnabled = false;
+        }
+
+        private async Task InitialiseR()
+        {
+            var task = Task.Run(async () =>
+            {
+                return await Container.Resolve<IRService>().InitialiseAsync(new Progress<string>(taskMessage =>
+                {
+                    splashWindowModel.Status = taskMessage;
+                }));
+            });
         }
 
         protected override void InitializeShell(Window shell)
         {
             base.InitializeShell(shell);
         }
+
         protected override Window CreateShell()
         {
             return Container.Resolve<MainWindow>();
@@ -80,6 +98,7 @@ namespace TnCode.TnCodeApp
             var rService = new RService(logViewModel, rManager, path, eventAgg);
             containerRegistry.RegisterInstance<IRService>(rService);
 
+
             IChartService chartService = new ChartService(eventAgg);
             containerRegistry.RegisterInstance<IChartService>(chartService);
 
@@ -91,6 +110,8 @@ namespace TnCode.TnCodeApp
 
             containerRegistry.RegisterDialog<ConfirmationDialogView, ConfirmationDialogViewModel>();
             containerRegistry.RegisterDialog<NotificationDialogView, NotificationDialogViewModel>();
+
+            InitialiseR();
         }
 
         protected override void ConfigureRegionAdapterMappings(RegionAdapterMappings regionAdapterMappings)
@@ -104,7 +125,7 @@ namespace TnCode.TnCodeApp
 
         protected override IModuleCatalog CreateModuleCatalog()
         {
-            return new DirectoryModuleCatalog() { ModulePath = @".\Modules" };
+            return new DirectoryModuleCatalog() { ModulePath = @".\" };
         }
 
         public void ShowSplashScreen()

@@ -38,14 +38,14 @@
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Margin="5"
-            CornerRadius="2">
+            CornerRadius="40">
             <Border.Effect>
                 <DropShadowEffect Opacity="0.7" ShadowDepth="4" />
             </Border.Effect>
             <Border.Background>
-                <LinearGradientBrush>
-                    <GradientStop Offset="0.0" Color="#7be9f6" />
-                    <GradientStop Offset="1" Color="#f083da" />
+                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                    <GradientStop Offset="1"  Color="Blue"/>
+                    <GradientStop Offset="0" Color="LightBlue" />
                 </LinearGradientBrush>
             </Border.Background>
         </Border>
@@ -57,7 +57,6 @@
             Margin="0,30,0,0"
             HorizontalAlignment="Center"
             FontSize="30"
-            FontWeight="Bold"
             Text="{Binding Title}">
             <TextBlock.Effect>
                 <DropShadowEffect Opacity="0.7" ShadowDepth="4" />

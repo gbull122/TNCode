@@ -1,11 +1,4 @@
-﻿using FakeItEasy;
-using Microsoft.R.Host.Client;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using TnCode.Core.R;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Core.R_Tests
 {

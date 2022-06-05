@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <RootNamespace>TnCode.Core.R</RootNamespace>
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
@@ -12,8 +12,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\vscode-r\src\Host\API\Microsoft.R.Host.Client.Api\Microsoft.R.Host.Client.Api.csproj" />
     <ProjectReference Include="..\Utilities\Utilities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.R.Host.API">
+      <HintPath>..\..\..\..\vscode-r\bin\Debug\net6.0-windows\Microsoft.R.Host.API.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

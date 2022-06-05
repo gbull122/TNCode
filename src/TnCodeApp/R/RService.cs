@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.R.Host.Client;
+using OxyPlot;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace TnCode.TnCodeApp.R
 {
     public interface IRService
     {
-        Task<bool> InitialiseAsync();
+        Task<bool> InitialiseAsync(IProgress<string> progress);
         bool IsRRunning { get; }
         event EventHandler RConnected;
         event EventHandler RDisconnected;
@@ -37,7 +38,7 @@ namespace TnCode.TnCodeApp.R
 
     public class RService: IRService
     {
-        private ILogger loggerFacade;
+        private ILogger logger;
         private IRManager rManager;
         private IEventAggregator eventAggregator;
 
@@ -50,9 +51,9 @@ namespace TnCode.TnCodeApp.R
             set;
         }
 
-        public RService(ILogger loggerFacd, IRManager rMgr ,string path, IEventAggregator eventAgg)
+        public RService(ILogger logger, IRManager rMgr ,string path, IEventAggregator eventAgg)
         {
-            loggerFacade = loggerFacd;
+            this.logger = logger;
             rManager = rMgr;
             WindowsDirectory = path;
             eventAggregator = eventAgg;
@@ -69,33 +70,47 @@ namespace TnCode.TnCodeApp.R
             await rManager.CreateDataFrameAsync(data.Name, df);
         }
 
-        public async Task<bool> InitialiseAsync()
+
+        public async Task Initilaise(Func<IProgress<string>, Task> task)
+        {
+            var progress = new Progress<string>(taskMessage =>
+            {
+                logger.LogInformation(taskMessage);
+            });
+
+
+            await Task.Run(() => task(progress));
+
+        }
+
+        public async Task<bool> InitialiseAsync(IProgress<string> progress)
         {
             try
             {
-                loggerFacade.LogInformation("Connecting to R...");
+                progress.Report("Connecting to R...");
 
                 var rHostSession = rManager.HostSession;
                 rHostSession.Connected += RHostSession_Connected;
                 rHostSession.Disconnected += RHostSession_Disconnected;
 
                 await rManager.StartHostAsync();
-                
-                await rManager.ExecuteAsync("library(" + string.Format("\"{0}\"", "R.devices") + ")");
-                loggerFacade.LogInformation("Library R.devices loaded");
-                await rManager.ExecuteAsync("library(" + string.Format("\"{0}\"", "ggplot2") + ")");
-                loggerFacade.LogInformation("Library ggplot2 loaded");
+
+                string rdevices = string.Format("\"{0}\"", "R.devices");
+                var test = $"library {rdevices}";
+                await rManager.ExecuteAsync($"library({rdevices})");
+                progress.Report("Library R.devices loaded");
+                string ggplot2 = string.Format("\"{0}\"", "ggplot2");
+                await rManager.ExecuteAsync($"library({ggplot2})");
+                progress.Report("Library ggplot2 loaded");
 
                 await rManager.ExecuteAndOutputAsync("setwd(" + ConvertPathToR(WindowsDirectory) + ")");
-                
-
             }
             catch (Exception ex)
             {
-                loggerFacade.LogInformation("Failed to connect to R: " + ex.Message + ex.StackTrace);
+                progress.Report("Failed to connect to R: " + ex.Message + ex.StackTrace);
                 return false;
             }
-            loggerFacade.LogInformation("Connected to R");
+            progress.Report("Connected to R");
             return true;
         }
 
@@ -202,7 +217,7 @@ namespace TnCode.TnCodeApp.R
             catch(Exception ex)
             {
                 var errorMessage = "Failed to generate plot " + ex.Message;
-                loggerFacade.LogInformation(errorMessage);
+                logger.LogInformation(errorMessage);
                 
                 return false;
             }
@@ -272,7 +287,7 @@ namespace TnCode.TnCodeApp.R
             }
             catch (Exception ex)
             {
-                loggerFacade.LogInformation(ex.Message);
+                logger.LogInformation(ex.Message);
             }
             return result;
         }

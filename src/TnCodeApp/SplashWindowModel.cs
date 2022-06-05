@@ -1,10 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
-using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Prism.Mvvm;
 using System.Windows;
-using System.Windows.Threading;
 
 namespace TnCode.TnCodeApp
 {
